@@ -10,7 +10,7 @@ export class Piece {
     }
 
     public move(position: Position): void {
-        this.board.
+        this.board.getPiece(position)
     }
 
 

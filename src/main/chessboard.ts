@@ -9,6 +9,6 @@ export class Chessboard {
     }
 
     public getPiece(position: Position): Piece {
-        return new Piece()
+        return new Piece(this)
 }
 }
