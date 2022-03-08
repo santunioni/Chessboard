@@ -34,6 +34,7 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
+    "testRegex": "^.*\\.(test|spec)\\.(t|j)sx?$",
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
