@@ -11,7 +11,7 @@ export class Controller {
     }
 
     private changePlayer(): void {
-        if (this.currentPlayer == this.playerBlack) {
+        if (this.currentPlayer === this.playerBlack) {
             this.currentPlayer = this.playerWhite
         } else {
             this.currentPlayer = this.playerBlack
