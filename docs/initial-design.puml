@@ -1,0 +1,17 @@
+@startuml
+
+class Chessboard{
+
+}
+
+class Piece{
+    - chessboard: Chessboard
+    + move(position: Position)
+}
+
+Chessboard *-- Piece
+
+class Controller {
+
+}
+@enduml
