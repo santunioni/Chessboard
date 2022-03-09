@@ -1,19 +1,9 @@
-
-export class Position {
-
-    public constructor(
-        public row: number,
-        public col: number
-    ) {}
-
+export interface Position {
+  row: number
+  col: number
 }
 
-
-export class Movement {
-
-    public constructor(
-        public from: Position,
-        public to: Position
-    ) {
-    }
+export interface Displacement {
+  from: Position
+  to: Position
 }

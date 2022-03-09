@@ -1,14 +1,10 @@
-import {Position} from "./position";
-import {Piece} from "./piece";
+import { Position } from "./position"
+import { Piece } from "./piece"
 
 export class Chessboard {
+  public constructor() {}
 
-
-    public constructor() {
-
-    }
-
-    public getPiece(position: Position): Piece {
-        return new Piece(this)
-}
+  public getPiece(position: Position): Piece {
+    return new Piece(this)
+  }
 }

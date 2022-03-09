@@ -1,25 +1,14 @@
-import {Player} from "./player";
+import { ChessPlayers, Player, PlayerSwitcher } from "./player"
 
 export class Controller {
-    private currentPlayer: Player
+  private players: PlayerSwitcher<Player>
 
-    public constructor(
-        private playerWhite: Player,
-        private playerBlack: Player
-    ) {
-        this.currentPlayer = playerWhite
-    }
+  public constructor(chessPlayers: ChessPlayers) {
+    this.players = new PlayerSwitcher(chessPlayers.white, chessPlayers.black)
+  }
 
-    private changePlayer(): void {
-        if (this.currentPlayer === this.playerBlack) {
-            this.currentPlayer = this.playerWhite
-        } else {
-            this.currentPlayer = this.playerBlack
-        }
-    }
-
-    public runRound(): void {
-        const movement = this.currentPlayer.getInput()
-        this.changePlayer()
-}
+  public runRound(): void {
+    const displacement = this.players.getCurrentPlayer().getInput()
+    this.players.switch()
+  }
 }
