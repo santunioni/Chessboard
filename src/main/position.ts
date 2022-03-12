@@ -7,3 +7,7 @@ export interface Move {
   from: Position
   to: Position
 }
+
+export const parsePositionAsString = (position: Position) => {
+  return `${position.row}${position.col}`
+}
