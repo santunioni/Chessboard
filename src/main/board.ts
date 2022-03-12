@@ -22,7 +22,6 @@ export class Board {
     this.boardData.delete(JSON.stringify(move.from))
     this.placePiece(piece, move.to)
   }
-
 }
 
 export class EmptyPlaceOnBoard extends Error {
@@ -30,6 +29,3 @@ export class EmptyPlaceOnBoard extends Error {
     super(`There is no piece in this place: ${position} of the board.`)
   }
 }
-
-
-

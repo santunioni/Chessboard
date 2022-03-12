@@ -1,7 +1,7 @@
-import { Player } from "../main/player"
-import { Controller } from "../main/controller"
 import { createMock, DeepMocked } from "@golevelup/ts-jest"
-import { Board } from "../main/board"
+import { Board } from "../../main/board"
+import { Controller } from "../../main/controller"
+import { Player } from "../../main/player"
 
 describe("Game controller should be able to ask players to move pieces around the chessboard.", () => {
   let playerWhite: DeepMocked<Player>

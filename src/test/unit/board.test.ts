@@ -1,6 +1,6 @@
-import { Board, EmptyPlaceOnBoard } from "../main/board"
+import { Board, EmptyPlaceOnBoard } from "../../main/board"
 import { createMock, DeepMocked } from "@golevelup/ts-jest"
-import { Piece } from "../main/piece"
+import { Piece } from "../../main/piece"
 
 describe("Board should be able to move pieces and check whether a move is allowed", () => {
   let board: Board
