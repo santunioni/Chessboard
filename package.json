@@ -45,5 +45,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "dependencies": {
+    "inquirer": "^8.2.1"
   }
 }

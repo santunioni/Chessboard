@@ -1,8 +1,11 @@
-import { Displacement } from "./position"
+import { Move } from "./position"
+import { Input } from "./input.interface"
 
 export class Player {
-  getInput(): Displacement {
-    return { from: { row: 1, col: 1 }, to: { row: 2, col: 2 } }
+  constructor(private input: Input) {}
+
+  getMove(): Move {
+    return this.input.getInput()
   }
 }
 
@@ -26,7 +29,7 @@ export class PlayerSwitcher<T extends Player> {
   }
 }
 
-export interface ChessPlayers {
+export interface Players {
   white: Player
   black: Player
 }

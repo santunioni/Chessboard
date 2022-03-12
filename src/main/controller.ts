@@ -1,14 +1,16 @@
-import { ChessPlayers, Player, PlayerSwitcher } from "./player"
+import { Players, Player, PlayerSwitcher } from "./player"
+import { Board } from "./board"
 
 export class Controller {
   private players: PlayerSwitcher<Player>
 
-  public constructor(chessPlayers: ChessPlayers) {
-    this.players = new PlayerSwitcher(chessPlayers.white, chessPlayers.black)
+  public constructor(players: Players, private board: Board) {
+    this.players = new PlayerSwitcher(players.white, players.black)
   }
 
   public runRound(): void {
-    const displacement = this.players.getCurrentPlayer().getInput()
+    const move = this.players.getCurrentPlayer().getMove()
+    this.board.move(move)
     this.players.switch()
   }
 }

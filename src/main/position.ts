@@ -3,7 +3,7 @@ export interface Position {
   col: number
 }
 
-export interface Displacement {
+export interface Move {
   from: Position
   to: Position
 }
