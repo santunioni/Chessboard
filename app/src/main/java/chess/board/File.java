@@ -1,5 +1,7 @@
 package chess.board;
 
+import java.util.Optional;
+
 /**
  * Represents a file on the chess board. (vertical columns)
  */
@@ -10,7 +12,23 @@ public enum File {
         return File.valueOf(file.toUpperCase());
     }
 
+    private static Optional<File> createFromIndex(int index) {
+        var values = File.values();
+        if (index < 0 || index >= values.length) {
+            return Optional.empty();
+        }
+        return Optional.of(values[index]);
+    }
+
     public String toString() {
         return this.name().toLowerCase();
+    }
+
+    public Optional<File> next() {
+        return createFromIndex(this.ordinal() + 1);
+    }
+
+    public Optional<File> previous() {
+        return createFromIndex(this.ordinal() - 1);
     }
 }

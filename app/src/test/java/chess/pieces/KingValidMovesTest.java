@@ -1,36 +1,102 @@
 package chess.pieces;
 
-import chess.board.*;
+import chess.board.Movement;
+import chess.board.PlayerSide;
+import chess.board.Position;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.ArgumentsProvider;
 
-import java.util.stream.Stream;
+import java.util.HashSet;
+import java.util.Set;
 
-class FileStringRepresentationCases implements ArgumentsProvider {
-    @Override
-    public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
-        return Stream.of(
-                Arguments.of(File.A, "a"),
-                Arguments.of(File.B, "b"),
-                Arguments.of(File.C, "c"),
-                Arguments.of(File.D, "d"),
-                Arguments.of(File.E, "e"),
-                Arguments.of(File.F, "f"),
-                Arguments.of(File.G, "g"),
-                Arguments.of(File.H, "h")
-        );
-    }
-}
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class KingValidMovesTest {
     @Test
     void shouldBeAbleToMoveExactlyOneSquareInAnyDirection() {
-        King king = new King(PlayerSide.BLACK, new Position(File.D, Rank.FOUR));
+        King king = new King(PlayerSide.BLACK, new Position("d4"));
 
-        var validMoves = king.getValidMoves();
+        var expectedValidMoves = new HashSet<>(Set.of(
+                new Movement("d4", "c3"),
+                new Movement("d4", "d3"),
+                new Movement("d4", "e3"),
 
-        assert validMoves.contains(new Movement("d4", "d5"));
+                new Movement("d4", "c4"),
+                new Movement("d4", "e4"),
+
+                new Movement("d4", "c5"),
+                new Movement("d4", "d5"),
+                new Movement("d4", "e5")
+        ));
+
+        assertEquals(expectedValidMoves, king.getValidMoves());
+    }
+
+    @Test
+    void shouldBeBlockedByBoardWalls() {
+        King king = new King(PlayerSide.WHITE, new Position("e1"));
+
+        var expectedValidMoves = new HashSet<>(Set.of(
+                new Movement("e1", "d1"),
+                new Movement("e1", "f1"),
+
+                new Movement("e1", "d2"),
+                new Movement("e1", "e2"),
+                new Movement("e1", "f2")
+        ));
+
+        assertEquals(expectedValidMoves, king.getValidMoves());
+    }
+
+    @Test
+    void shouldBeBlockedByBottomLeftCorner() {
+        King king = new King(PlayerSide.WHITE, new Position("a1"));
+
+        var expectedValidMoves = new HashSet<>(Set.of(
+                new Movement("a1", "b1"),
+                new Movement("a1", "a2"),
+                new Movement("a1", "b2")
+        ));
+
+        assertEquals(expectedValidMoves, king.getValidMoves());
+    }
+
+    @Test
+    void shouldBeBlockedByBottomRightCorner() {
+        King king = new King(PlayerSide.WHITE, new Position("h1"));
+
+        var expectedValidMoves = new HashSet<>(Set.of(
+                new Movement("h1", "g1"),
+                new Movement("h1", "g2"),
+                new Movement("h1", "h2")
+        ));
+
+        assertEquals(expectedValidMoves, king.getValidMoves());
+    }
+
+    @Test
+    void shouldBeBlockedByTopLeftCorner() {
+        King king = new King(PlayerSide.WHITE, new Position("a8"));
+
+        var expectedValidMoves = new HashSet<>(Set.of(
+                new Movement("a8", "a7"),
+                new Movement("a8", "b7"),
+                new Movement("a8", "b8")
+        ));
+
+        assertEquals(expectedValidMoves, king.getValidMoves());
+    }
+
+    @Test
+    void shouldBeBlockedByTopRightCorner() {
+        King king = new King(PlayerSide.WHITE, new Position("h8"));
+
+        var expectedValidMoves = new HashSet<>(Set.of(
+                new Movement("h8", "g7"),
+                new Movement("h8", "h7"),
+                new Movement("h8", "g8")
+        ));
+
+        assertEquals(expectedValidMoves, king.getValidMoves());
     }
 }

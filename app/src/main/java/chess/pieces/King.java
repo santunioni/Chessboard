@@ -2,6 +2,7 @@ package chess.pieces;
 
 import chess.board.*;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,7 +33,7 @@ public class King {
 
     public Set<Movement> getValidMoves() {
         var movements = new HashSet<Movement>();
-        movements.add(new Movement("d4", "d5"));
-        return movements;
+        this.position.getAllAdjacentPositions().forEach(adjacentPosition -> movements.add(new Movement(this.position, adjacentPosition)));
+        return Collections.unmodifiableSet(movements);
     }
 }
