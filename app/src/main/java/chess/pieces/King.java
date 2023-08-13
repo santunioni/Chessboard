@@ -9,6 +9,7 @@ import java.util.Set;
 public class King {
     final PlayerSide playerSide;
     Position position;
+
     King(PlayerSide playerSide) {
         this.playerSide = playerSide;
         this.position = King.getInitialPosition(playerSide);
