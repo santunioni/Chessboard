@@ -13,6 +13,7 @@ jobs:
         with:
           distribution: adopt
           java-version-file: ./java-version
+          cache: gradle
 
       - uses: gradle/gradle-build-action@v2
 
