@@ -1,8 +1,8 @@
 package chess.pieces;
 
-import chess.board.Movement;
-import chess.board.PlayerSide;
-import chess.board.Position;
+import chess.board.Color;
+import chess.board.position.Movement;
+import chess.board.position.Position;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class KingValidMovesTest {
     @Test
     void shouldBeAbleToMoveExactlyOneSquareInAnyDirection() {
-        King king = new King(PlayerSide.BLACK, new Position("d4"));
+        King king = new King(Color.BLACK, new Position("d4"));
 
         var expectedValidMoves = new HashSet<>(Set.of(
                 new Movement("d4", "c3"),
@@ -34,7 +34,7 @@ public class KingValidMovesTest {
 
     @Test
     void shouldBeBlockedByBoardWalls() {
-        King king = new King(PlayerSide.WHITE, new Position("e1"));
+        King king = new King(Color.WHITE, new Position("e1"));
 
         var expectedValidMoves = new HashSet<>(Set.of(
                 new Movement("e1", "d1"),
@@ -50,7 +50,7 @@ public class KingValidMovesTest {
 
     @Test
     void shouldBeBlockedByBottomLeftCorner() {
-        King king = new King(PlayerSide.WHITE, new Position("a1"));
+        King king = new King(Color.WHITE, new Position("a1"));
 
         var expectedValidMoves = new HashSet<>(Set.of(
                 new Movement("a1", "b1"),
@@ -63,7 +63,7 @@ public class KingValidMovesTest {
 
     @Test
     void shouldBeBlockedByBottomRightCorner() {
-        King king = new King(PlayerSide.WHITE, new Position("h1"));
+        King king = new King(Color.WHITE, new Position("h1"));
 
         var expectedValidMoves = new HashSet<>(Set.of(
                 new Movement("h1", "g1"),
@@ -76,7 +76,7 @@ public class KingValidMovesTest {
 
     @Test
     void shouldBeBlockedByTopLeftCorner() {
-        King king = new King(PlayerSide.WHITE, new Position("a8"));
+        King king = new King(Color.WHITE, new Position("a8"));
 
         var expectedValidMoves = new HashSet<>(Set.of(
                 new Movement("a8", "a7"),
@@ -89,7 +89,7 @@ public class KingValidMovesTest {
 
     @Test
     void shouldBeBlockedByTopRightCorner() {
-        King king = new King(PlayerSide.WHITE, new Position("h8"));
+        King king = new King(Color.WHITE, new Position("h8"));
 
         var expectedValidMoves = new HashSet<>(Set.of(
                 new Movement("h8", "g7"),

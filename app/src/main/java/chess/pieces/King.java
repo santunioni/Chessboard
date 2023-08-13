@@ -1,27 +1,31 @@
 package chess.pieces;
 
-import chess.board.*;
+import chess.board.Color;
+import chess.board.position.File;
+import chess.board.position.Movement;
+import chess.board.position.Position;
+import chess.board.position.Rank;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 public class King {
-    final PlayerSide playerSide;
+    final Color color;
     Position position;
 
-    King(PlayerSide playerSide) {
-        this.playerSide = playerSide;
-        this.position = King.getInitialPosition(playerSide);
+    King(Color color) {
+        this.color = color;
+        this.position = King.getInitialPosition(color);
     }
 
-    King(PlayerSide playerSide, Position position) {
-        this.playerSide = playerSide;
+    King(Color color, Position position) {
+        this.color = color;
         this.position = position;
     }
 
-    private static Position getInitialPosition(PlayerSide playerSide) {
-        if (playerSide == PlayerSide.WHITE) {
+    private static Position getInitialPosition(Color color) {
+        if (color == Color.WHITE) {
             return new Position(File.E, Rank.ONE);
         } else {
             return new Position(File.E, Rank.EIGHT);

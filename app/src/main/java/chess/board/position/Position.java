@@ -1,4 +1,4 @@
-package chess.board;
+package chess.board.position;
 
 import java.util.Collections;
 import java.util.HashSet;

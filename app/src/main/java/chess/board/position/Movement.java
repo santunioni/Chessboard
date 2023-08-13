@@ -1,4 +1,4 @@
-package chess.board;
+package chess.board.position;
 
 
 public record Movement(Position from, Position to) {
