@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-class FileStringRepresentationCases implements ArgumentsProvider {
+class FileToStringCases implements ArgumentsProvider {
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
         return Stream.of(
@@ -28,9 +28,9 @@ class FileStringRepresentationCases implements ArgumentsProvider {
 }
 
 
-public class FileStringRepresentationTest {
+public class FileToStringTest {
     @ParameterizedTest
-    @ArgumentsSource(FileStringRepresentationCases.class)
+    @ArgumentsSource(FileToStringCases.class)
     void shouldReturnFileStringRepresentation(File file, String expectedRepresentation) {
         assertEquals(expectedRepresentation, file.toString());
     }

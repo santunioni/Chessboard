@@ -5,15 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
-class PositionStringRepresentationTest {
-    @Test
-    void shouldOutputStringRepresentationAs_a1() {
-        Position position = new Position(File.A, Rank.ONE);
-        assertEquals("a1", position.toString());
-    }
-}
-
-class PositionStringInstatiationTest {
+class PositionFromStringTest {
     @Test
     void shouldInstantiateFromStringRepresentation_a1() {
         assertEquals(new Position(File.A, Rank.ONE), new Position("a1"));

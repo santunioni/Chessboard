@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-class RankStringRepresentationCases implements ArgumentsProvider {
+class RankToStringCases implements ArgumentsProvider {
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
         return Stream.of(
@@ -28,9 +28,9 @@ class RankStringRepresentationCases implements ArgumentsProvider {
 }
 
 
-public class RankStringRepresentationTest {
+public class RankToStringTest {
     @ParameterizedTest
-    @ArgumentsSource(RankStringRepresentationCases.class)
+    @ArgumentsSource(RankToStringCases.class)
     void shouldReturnRankStringRepresentation(Rank rank, String expectedRepresentation) {
         assertEquals(expectedRepresentation, rank.toString());
     }
