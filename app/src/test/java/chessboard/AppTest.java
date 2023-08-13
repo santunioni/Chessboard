@@ -4,10 +4,12 @@
 package chessboard;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class AppTest {
-    @Test void appHasAGreeting() {
+    @Test
+    void appHasAGreeting() {
         App application = new App();
         assertNotNull(application.getGreeting(), "app should have a greeting");
     }
