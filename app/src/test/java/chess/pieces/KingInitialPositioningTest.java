@@ -21,4 +21,3 @@ public class KingInitialPositioningTest {
         assertEquals(new Position(File.E, Rank.EIGHT), king.getPosition());
     }
 }
-

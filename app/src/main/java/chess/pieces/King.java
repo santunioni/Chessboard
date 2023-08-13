@@ -1,21 +1,28 @@
 package chess.pieces;
 
-import chess.board.File;
-import chess.board.PlayerSide;
-import chess.board.Position;
-import chess.board.Rank;
+import chess.board.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class King {
-
     final PlayerSide playerSide;
     Position position;
-
     King(PlayerSide playerSide) {
         this.playerSide = playerSide;
+        this.position = King.getInitialPosition(playerSide);
+    }
+
+    King(PlayerSide playerSide, Position position) {
+        this.playerSide = playerSide;
+        this.position = position;
+    }
+
+    private static Position getInitialPosition(PlayerSide playerSide) {
         if (playerSide == PlayerSide.WHITE) {
-            this.position = new Position(File.E, Rank.ONE);
+            return new Position(File.E, Rank.ONE);
         } else {
-            this.position = new Position(File.E, Rank.EIGHT);
+            return new Position(File.E, Rank.EIGHT);
         }
     }
 
@@ -23,4 +30,9 @@ public class King {
         return this.position;
     }
 
+    public Set<Movement> getValidMoves() {
+        var movements = new HashSet<Movement>();
+        movements.add(new Movement("d4", "d5"));
+        return movements;
+    }
 }
