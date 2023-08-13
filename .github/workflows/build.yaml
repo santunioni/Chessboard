@@ -19,8 +19,6 @@ jobs:
 
       - run: ./gradlew build --no-daemon
 
-      - run: ./gradlew test --no-daemon
-
       - uses: actions/upload-artifact@v2
         with:
           name: build

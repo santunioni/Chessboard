@@ -12,8 +12,4 @@ class AppTest {
         assertNotNull(application.getGreeting(), "app should have a greeting");
     }
 
-    @Test void shouldFail() {
-        App classUnderTest = new App();
-        assertNull(classUnderTest.getGreeting(), "app should say Hello World!");
-    }
 }
