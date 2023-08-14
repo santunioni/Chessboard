@@ -29,9 +29,9 @@ public class Knight implements Piece {
         for (var firstStepSize : List.of(2, 1)) {
             var lastStepSize = 3 - firstStepSize;
             for (var firstStepDirection : List.of(BoardPathOrientation.HORIZONTAL_LEFT, BoardPathOrientation.HORIZONTAL_RIGHT)) {
-                walker.goTo(firstStepSize, firstStepDirection).ifPresent(h -> {
-                    h.goTo(lastStepSize, BoardPathOrientation.VERTICAL_UP).ifPresent(u -> movements.add(new Movement(this.position, u.getPosition())));
-                    h.goTo(lastStepSize, BoardPathOrientation.VERTICAL_DOWN).ifPresent(d -> movements.add(new Movement(this.position, d.getPosition())));
+                walker.walk(firstStepSize, firstStepDirection).ifPresent(h -> {
+                    h.walk(lastStepSize, BoardPathOrientation.VERTICAL_UP).ifPresent(u -> movements.add(new Movement(this.position, u.getPosition())));
+                    h.walk(lastStepSize, BoardPathOrientation.VERTICAL_DOWN).ifPresent(d -> movements.add(new Movement(this.position, d.getPosition())));
                 });
             }
         }
