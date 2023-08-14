@@ -13,7 +13,7 @@ public class Bishop implements Piece {
     final Color color;
     Position position;
 
-    Bishop( Color color,Position position) {
+    Bishop(Color color, Position position) {
         this.position = position;
         this.color = color;
     }

@@ -15,6 +15,7 @@ import java.util.Set;
 public class Queen implements Piece {
     final Color color;
     Position position;
+
     Queen(Color color, Position position) {
         this.position = position;
         this.color = color;

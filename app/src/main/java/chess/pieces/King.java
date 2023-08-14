@@ -15,6 +15,7 @@ import java.util.Set;
 public class King implements Piece {
     final Color color;
     Position position;
+
     King(Color color) {
         this.color = color;
         this.position = King.getInitialPosition(color);
