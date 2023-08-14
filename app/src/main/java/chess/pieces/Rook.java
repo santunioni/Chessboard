@@ -6,7 +6,10 @@ import chess.board.path.BoardPathOrientation;
 import chess.board.position.Movement;
 import chess.board.position.Position;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Rook implements Piece {
     final Color color;
@@ -21,13 +24,11 @@ public class Rook implements Piece {
     public Set<Movement> getValidMoves() {
         var movements = new HashSet<Movement>();
 
-        var orientations = new ArrayList<>(
-                List.of(
-                        BoardPathOrientation.VERTICAL_UP,
-                        BoardPathOrientation.VERTICAL_DOWN,
-                        BoardPathOrientation.HORIZONTAL_LEFT,
-                        BoardPathOrientation.HORIZONTAL_RIGHT
-                )
+        var orientations = List.of(
+                BoardPathOrientation.VERTICAL_UP,
+                BoardPathOrientation.VERTICAL_DOWN,
+                BoardPathOrientation.HORIZONTAL_LEFT,
+                BoardPathOrientation.HORIZONTAL_RIGHT
         );
 
         for (var orientation : orientations) {

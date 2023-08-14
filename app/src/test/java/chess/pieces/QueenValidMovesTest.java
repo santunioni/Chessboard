@@ -5,7 +5,6 @@ import chess.board.position.Movement;
 import chess.board.position.Position;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,7 +14,7 @@ public class QueenValidMovesTest {
     public void shouldBeAbleToMoveHorizontalyVerticallyAndDiagonaly() {
         var queen = new Queen(Color.BLACK, new Position("d4"));
 
-        var expectedValidMoves = new HashSet<>(Set.of(
+        var expectedValidMoves = Set.of(
                 new Movement("d4", "a1"),
                 new Movement("d4", "b2"),
                 new Movement("d4", "c3"),
@@ -46,7 +45,7 @@ public class QueenValidMovesTest {
                 new Movement("d4", "f4"),
                 new Movement("d4", "g4"),
                 new Movement("d4", "h4")
-        ));
+        );
 
         assertEquals(expectedValidMoves, queen.getValidMoves());
     }

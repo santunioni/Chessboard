@@ -6,7 +6,6 @@ import chess.board.path.BoardPathWalker;
 import chess.board.position.Movement;
 import chess.board.position.Position;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
