@@ -13,7 +13,7 @@ class BoardPathTest {
 
     @Test
     void shouldReturnDiagonalUpRightFromA1() {
-        var path = new BoardPath(new Position(File.A, Rank.ONE), BoardPathOrientation.DIAGONAL_UP_RIGHT).toPositionList();
+        var path = new BoardPath(new Position(File.A, Rank.ONE), BoardPathDirection.DIAGONAL_UP_RIGHT).toPositionList();
 
         var expectedPath = List.of(
                 new Position(File.B, Rank.TWO),
@@ -30,7 +30,7 @@ class BoardPathTest {
 
     @Test
     void shouldReturnDiagonalUpLeftFromH2() {
-        var path = new BoardPath(new Position(File.H, Rank.TWO), BoardPathOrientation.DIAGONAL_UP_LEFT).toPositionList();
+        var path = new BoardPath(new Position(File.H, Rank.TWO), BoardPathDirection.DIAGONAL_UP_LEFT).toPositionList();
 
         var expectedPath = List.of(
                 new Position(File.G, Rank.THREE),
@@ -46,7 +46,7 @@ class BoardPathTest {
 
     @Test
     void shouldReturnDiagonalDownLeftFromF8() {
-        var path = new BoardPath(new Position(File.F, Rank.EIGHT), BoardPathOrientation.DIAGONAL_DOWN_LEFT).toPositionList();
+        var path = new BoardPath(new Position(File.F, Rank.EIGHT), BoardPathDirection.DIAGONAL_DOWN_LEFT).toPositionList();
 
         var expectedPath = List.of(
                 new Position(File.E, Rank.SEVEN),
@@ -61,7 +61,7 @@ class BoardPathTest {
 
     @Test
     void shouldReturnDiagonalDownRightFromA5() {
-        var path = new BoardPath(new Position(File.A, Rank.FIVE), BoardPathOrientation.DIAGONAL_DOWN_RIGHT).toPositionList();
+        var path = new BoardPath(new Position(File.A, Rank.FIVE), BoardPathDirection.DIAGONAL_DOWN_RIGHT).toPositionList();
 
         var expectedPath = List.of(
                 new Position(File.B, Rank.FOUR),
@@ -76,7 +76,7 @@ class BoardPathTest {
 
     @Test
     void shouldReturnVerticalUpFromA1() {
-        var path = new BoardPath(new Position(File.A, Rank.ONE), BoardPathOrientation.VERTICAL_UP).toPositionList();
+        var path = new BoardPath(new Position(File.A, Rank.ONE), BoardPathDirection.VERTICAL_UP).toPositionList();
 
         var expectedPath = List.of(
                 new Position(File.A, Rank.TWO),
@@ -93,7 +93,7 @@ class BoardPathTest {
 
     @Test
     void shouldReturnVerticalDownFromB5() {
-        var path = new BoardPath(new Position(File.B, Rank.FIVE), BoardPathOrientation.VERTICAL_DOWN).toPositionList();
+        var path = new BoardPath(new Position(File.B, Rank.FIVE), BoardPathDirection.VERTICAL_DOWN).toPositionList();
 
         var expectedPath = List.of(
                 new Position(File.B, Rank.FOUR),
@@ -107,7 +107,7 @@ class BoardPathTest {
 
     @Test
     void shouldReturnHorizontalRightFromA1() {
-        var path = new BoardPath(new Position(File.A, Rank.ONE), BoardPathOrientation.HORIZONTAL_RIGHT).toPositionList();
+        var path = new BoardPath(new Position(File.A, Rank.ONE), BoardPathDirection.HORIZONTAL_RIGHT).toPositionList();
 
         var expectedPath = List.of(
                 new Position(File.B, Rank.ONE),
@@ -124,7 +124,7 @@ class BoardPathTest {
 
     @Test
     void shouldReturnHorizontalLeftFromE2() {
-        var path = new BoardPath(new Position(File.E, Rank.TWO), BoardPathOrientation.HORIZONTAL_LEFT).toPositionList();
+        var path = new BoardPath(new Position(File.E, Rank.TWO), BoardPathDirection.HORIZONTAL_LEFT).toPositionList();
 
         var expectedPath = List.of(
                 new Position(File.D, Rank.TWO),
@@ -138,7 +138,7 @@ class BoardPathTest {
 
     @Test
     void shouldReturnEmptyPathToLeftOfA1T() {
-        var path = new BoardPath(new Position(File.A, Rank.ONE), BoardPathOrientation.HORIZONTAL_LEFT).toPositionList();
+        var path = new BoardPath(new Position(File.A, Rank.ONE), BoardPathDirection.HORIZONTAL_LEFT).toPositionList();
 
         assertEquals(0, path.size());
     }

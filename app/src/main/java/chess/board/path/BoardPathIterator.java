@@ -9,20 +9,20 @@ import java.util.Optional;
 
 class BoardPathIterator implements Iterator<Position> {
 
-    private final BoardPathOrientation orientation;
+    private final BoardPathDirection direction;
     private Position position;
 
-    BoardPathIterator(Position position, BoardPathOrientation direction) {
+    BoardPathIterator(Position position, BoardPathDirection direction) {
         this.position = position;
-        this.orientation = direction;
+        this.direction = direction;
     }
 
     private Optional<File> nextFile() {
         var currentFile = this.position.file();
-        if (this.orientation.isRight()) {
+        if (this.direction.isRight()) {
             return currentFile.next();
         }
-        if (this.orientation.isLeft()) {
+        if (this.direction.isLeft()) {
             return currentFile.previous();
         }
         return Optional.of(currentFile);
@@ -30,10 +30,10 @@ class BoardPathIterator implements Iterator<Position> {
 
     private Optional<Rank> nextRank() {
         var currentRank = this.position.rank();
-        if (this.orientation.isUp()) {
+        if (this.direction.isUp()) {
             return currentRank.next();
         }
-        if (this.orientation.isDown()) {
+        if (this.direction.isDown()) {
             return currentRank.previous();
         }
         return Optional.of(currentRank);

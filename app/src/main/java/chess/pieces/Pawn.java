@@ -1,7 +1,7 @@
 package chess.pieces;
 
 import chess.board.Color;
-import chess.board.path.BoardPathOrientation;
+import chess.board.path.BoardPathDirection;
 import chess.board.path.BoardPathWalker;
 import chess.board.position.Movement;
 import chess.board.position.Position;
@@ -21,11 +21,11 @@ public class Pawn implements Piece {
         this.position = position;
     }
 
-    private BoardPathOrientation getWalkOrientation() {
+    private BoardPathDirection getWalkDirection() {
         if (this.color == Color.WHITE) {
-            return BoardPathOrientation.VERTICAL_UP;
+            return BoardPathDirection.VERTICAL_UP;
         } else {
-            return BoardPathOrientation.VERTICAL_DOWN;
+            return BoardPathDirection.VERTICAL_DOWN;
         }
     }
 
@@ -43,10 +43,10 @@ public class Pawn implements Piece {
 
         var walker = new BoardPathWalker(this.position);
 
-        walker.walk(1, this.getWalkOrientation()).ifPresent(w1 -> {
+        walker.walk(1, this.getWalkDirection()).ifPresent(w1 -> {
             moviments.add(new Movement(this.position, w1.getPosition()));
             if (!this.hasAlreadyMoved()) {
-                w1.walk(1, this.getWalkOrientation()).ifPresent(w2 -> {
+                w1.walk(1, this.getWalkDirection()).ifPresent(w2 -> {
                     moviments.add(new Movement(this.position, w2.getPosition()));
                 });
             }

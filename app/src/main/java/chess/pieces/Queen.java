@@ -2,7 +2,7 @@ package chess.pieces;
 
 import chess.board.Color;
 import chess.board.path.BoardPath;
-import chess.board.path.BoardPathOrientation;
+import chess.board.path.BoardPathDirection;
 import chess.board.position.File;
 import chess.board.position.Movement;
 import chess.board.position.Position;
@@ -10,9 +10,12 @@ import chess.board.position.Rank;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Queen implements Piece {
+    static final List<BoardPathDirection> pathDirections = List.of(BoardPathDirection.values());
+
     final Color color;
     Position position;
 
@@ -38,10 +41,8 @@ public class Queen implements Piece {
     public Set<Movement> getValidMoves() {
         var movements = new HashSet<Movement>();
 
-        var orientations = BoardPathOrientation.values();
-
-        for (var orientation : orientations) {
-            var path = new BoardPath(this.position, orientation);
+        for (var queenPathDirection : Queen.pathDirections) {
+            var path = new BoardPath(this.position, queenPathDirection);
             for (var position : path) {
                 movements.add(new Movement(this.position, position));
             }

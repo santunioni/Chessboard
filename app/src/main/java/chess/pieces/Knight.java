@@ -1,7 +1,7 @@
 package chess.pieces;
 
 import chess.board.Color;
-import chess.board.path.BoardPathOrientation;
+import chess.board.path.BoardPathDirection;
 import chess.board.path.BoardPathWalker;
 import chess.board.position.Movement;
 import chess.board.position.Position;
@@ -28,10 +28,10 @@ public class Knight implements Piece {
 
         for (var firstStepSize : List.of(2, 1)) {
             var lastStepSize = 3 - firstStepSize;
-            for (var firstStepDirection : List.of(BoardPathOrientation.HORIZONTAL_LEFT, BoardPathOrientation.HORIZONTAL_RIGHT)) {
+            for (var firstStepDirection : List.of(BoardPathDirection.HORIZONTAL_LEFT, BoardPathDirection.HORIZONTAL_RIGHT)) {
                 walker.walk(firstStepSize, firstStepDirection).ifPresent(h -> {
-                    h.walk(lastStepSize, BoardPathOrientation.VERTICAL_UP).ifPresent(u -> movements.add(new Movement(this.position, u.getPosition())));
-                    h.walk(lastStepSize, BoardPathOrientation.VERTICAL_DOWN).ifPresent(d -> movements.add(new Movement(this.position, d.getPosition())));
+                    h.walk(lastStepSize, BoardPathDirection.VERTICAL_UP).ifPresent(u -> movements.add(new Movement(this.position, u.getPosition())));
+                    h.walk(lastStepSize, BoardPathDirection.VERTICAL_DOWN).ifPresent(d -> movements.add(new Movement(this.position, d.getPosition())));
                 });
             }
         }

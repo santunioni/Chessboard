@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 
-public record BoardPath(Position position, BoardPathOrientation orientation) implements Iterable<Position> {
+public record BoardPath(Position position, BoardPathDirection direction) implements Iterable<Position> {
 
 
     public Iterator<Position> iterator() {
-        return new BoardPathIterator(this.position, this.orientation);
+        return new BoardPathIterator(this.position, this.direction);
     }
 
     public Optional<Position> getNextPosition() {
