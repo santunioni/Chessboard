@@ -4,7 +4,7 @@ import chess.board.Color;
 import chess.board.path.BoardPath;
 import chess.board.path.BoardPathDirection;
 import chess.board.position.File;
-import chess.board.position.Movement;
+import chess.plays.Displacement;
 import chess.board.position.Position;
 import chess.board.position.Rank;
 
@@ -37,12 +37,12 @@ public class King implements Piece {
         }
     }
 
-    public Set<Movement> getValidMoves() {
-        var movements = new HashSet<Movement>();
+    public Set<Displacement> getValidMoves() {
+        var movements = new HashSet<Displacement>();
 
         for (var kingPathDirection : King.pathDirections) {
             var path = new BoardPath(this.position, kingPathDirection);
-            path.getNextPosition().ifPresent(position -> movements.add(new Movement(this.position, position)));
+            path.getNextPosition().ifPresent(position -> movements.add(new Displacement(this.position, position)));
         }
 
         return Collections.unmodifiableSet(movements);

@@ -3,7 +3,7 @@ package chess.pieces;
 import chess.board.Color;
 import chess.board.path.BoardPathDirection;
 import chess.board.path.BoardPathWalker;
-import chess.board.position.Movement;
+import chess.plays.Displacement;
 import chess.board.position.Position;
 
 import java.util.HashSet;
@@ -21,8 +21,8 @@ public class Knight implements Piece {
     }
 
     @Override
-    public Set<Movement> getValidMoves() {
-        var movements = new HashSet<Movement>();
+    public Set<Displacement> getValidMoves() {
+        var movements = new HashSet<Displacement>();
 
         var walker = new BoardPathWalker(this.position);
 
@@ -30,8 +30,8 @@ public class Knight implements Piece {
             var lastStepSize = 3 - firstStepSize;
             for (var firstStepDirection : List.of(BoardPathDirection.HORIZONTAL_LEFT, BoardPathDirection.HORIZONTAL_RIGHT)) {
                 walker.walk(firstStepSize, firstStepDirection).ifPresent(h -> {
-                    h.walk(lastStepSize, BoardPathDirection.VERTICAL_UP).ifPresent(u -> movements.add(new Movement(this.position, u.getPosition())));
-                    h.walk(lastStepSize, BoardPathDirection.VERTICAL_DOWN).ifPresent(d -> movements.add(new Movement(this.position, d.getPosition())));
+                    h.walk(lastStepSize, BoardPathDirection.VERTICAL_UP).ifPresent(u -> movements.add(new Displacement(this.position, u.getPosition())));
+                    h.walk(lastStepSize, BoardPathDirection.VERTICAL_DOWN).ifPresent(d -> movements.add(new Displacement(this.position, d.getPosition())));
                 });
             }
         }

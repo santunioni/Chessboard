@@ -3,7 +3,7 @@ package chess.pieces;
 import chess.board.Color;
 import chess.board.path.BoardPath;
 import chess.board.path.BoardPathDirection;
-import chess.board.position.Movement;
+import chess.plays.Displacement;
 import chess.board.position.Position;
 
 import java.util.Collections;
@@ -28,13 +28,13 @@ public class Rook implements Piece {
     }
 
     @Override
-    public Set<Movement> getValidMoves() {
-        var movements = new HashSet<Movement>();
+    public Set<Displacement> getValidMoves() {
+        var movements = new HashSet<Displacement>();
 
         for (var rookPathDirection : Rook.pathDirections) {
             var path = new BoardPath(this.position, rookPathDirection);
             for (var position : path) {
-                movements.add(new Movement(this.position, position));
+                movements.add(new Displacement(this.position, position));
             }
         }
 

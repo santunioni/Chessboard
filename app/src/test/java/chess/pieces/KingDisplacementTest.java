@@ -1,7 +1,7 @@
 package chess.pieces;
 
 import chess.board.Color;
-import chess.board.position.Movement;
+import chess.plays.Displacement;
 import chess.board.position.Position;
 import org.junit.jupiter.api.Test;
 
@@ -10,22 +10,22 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class KingValidMovesTest {
+public class KingDisplacementTest {
     @Test
     void shouldBeAbleToMoveExactlyOneSquareInAnyDirection() {
         King king = new King(Color.BLACK, new Position("d4"));
 
         var expectedValidMoves = Set.of(
-                new Movement("d4", "c3"),
-                new Movement("d4", "d3"),
-                new Movement("d4", "e3"),
+                new Displacement("d4", "c3"),
+                new Displacement("d4", "d3"),
+                new Displacement("d4", "e3"),
 
-                new Movement("d4", "c4"),
-                new Movement("d4", "e4"),
+                new Displacement("d4", "c4"),
+                new Displacement("d4", "e4"),
 
-                new Movement("d4", "c5"),
-                new Movement("d4", "d5"),
-                new Movement("d4", "e5")
+                new Displacement("d4", "c5"),
+                new Displacement("d4", "d5"),
+                new Displacement("d4", "e5")
         );
 
         assertEquals(expectedValidMoves, king.getValidMoves());
@@ -36,12 +36,12 @@ public class KingValidMovesTest {
         King king = new King(Color.WHITE, new Position("e1"));
 
         var expectedValidMoves = Set.of(
-                new Movement("e1", "d1"),
-                new Movement("e1", "f1"),
+                new Displacement("e1", "d1"),
+                new Displacement("e1", "f1"),
 
-                new Movement("e1", "d2"),
-                new Movement("e1", "e2"),
-                new Movement("e1", "f2")
+                new Displacement("e1", "d2"),
+                new Displacement("e1", "e2"),
+                new Displacement("e1", "f2")
         );
 
         assertEquals(expectedValidMoves, king.getValidMoves());
@@ -52,9 +52,9 @@ public class KingValidMovesTest {
         King king = new King(Color.WHITE, new Position("a1"));
 
         var expectedValidMoves = Set.of(
-                new Movement("a1", "b1"),
-                new Movement("a1", "a2"),
-                new Movement("a1", "b2")
+                new Displacement("a1", "b1"),
+                new Displacement("a1", "a2"),
+                new Displacement("a1", "b2")
         );
 
         assertEquals(expectedValidMoves, king.getValidMoves());

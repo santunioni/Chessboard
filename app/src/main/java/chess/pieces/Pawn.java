@@ -3,7 +3,7 @@ package chess.pieces;
 import chess.board.Color;
 import chess.board.path.BoardPathDirection;
 import chess.board.path.BoardPathWalker;
-import chess.board.position.Movement;
+import chess.plays.Displacement;
 import chess.board.position.Position;
 import chess.board.position.Rank;
 
@@ -38,16 +38,16 @@ public class Pawn implements Piece {
     }
 
     @Override
-    public Set<Movement> getValidMoves() {
-        var moviments = new HashSet<Movement>();
+    public Set<Displacement> getValidMoves() {
+        var moviments = new HashSet<Displacement>();
 
         var walker = new BoardPathWalker(this.position);
 
         walker.walk(1, this.getWalkDirection()).ifPresent(w1 -> {
-            moviments.add(new Movement(this.position, w1.getPosition()));
+            moviments.add(new Displacement(this.position, w1.getPosition()));
             if (!this.hasAlreadyMoved()) {
                 w1.walk(1, this.getWalkDirection()).ifPresent(w2 -> {
-                    moviments.add(new Movement(this.position, w2.getPosition()));
+                    moviments.add(new Displacement(this.position, w2.getPosition()));
                 });
             }
         });
