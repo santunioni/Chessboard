@@ -1,11 +1,14 @@
 package chess.pieces;
 
 import chess.board.Color;
+import chess.board.path.BoardPath;
+import chess.board.path.BoardPathOrientation;
 import chess.board.position.File;
 import chess.board.position.Movement;
 import chess.board.position.Position;
 import chess.board.position.Rank;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,7 +41,11 @@ public class King implements Piece {
 
     public Set<Movement> getValidMoves() {
         var movements = new HashSet<Movement>();
-        this.position.getAllAdjacentPositions().forEach(adjacentPosition -> movements.add(new Movement(this.position, adjacentPosition)));
+
+        Arrays.stream(BoardPathOrientation.values()).forEach(orientation -> {
+            new BoardPath(this.position, orientation).getNextPosition().ifPresent(position -> movements.add(new Movement(this.position, position)));
+        });
+
         return Collections.unmodifiableSet(movements);
     }
 }
