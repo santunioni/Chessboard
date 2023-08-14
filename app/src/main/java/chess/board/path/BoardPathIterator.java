@@ -19,10 +19,10 @@ class BoardPathIterator implements Iterator<Position> {
 
     private Optional<File> nextFile() {
         var currentFile = this.position.file();
-        if (orientation == BoardPathOrientation.HORIZONTAL_RIGHT || this.orientation == BoardPathOrientation.DIAGONAL_UP_RIGHT || this.orientation == BoardPathOrientation.DIAGONAL_DOWN_RIGHT) {
+        if (this.orientation.isRight()) {
             return currentFile.next();
         }
-        if (orientation == BoardPathOrientation.HORIZONTAL_LEFT || this.orientation == BoardPathOrientation.DIAGONAL_UP_LEFT || this.orientation == BoardPathOrientation.DIAGONAL_DOWN_LEFT) {
+        if (this.orientation.isLeft()) {
             return currentFile.previous();
         }
         return Optional.of(currentFile);
@@ -30,10 +30,10 @@ class BoardPathIterator implements Iterator<Position> {
 
     private Optional<Rank> nextRank() {
         var currentRank = this.position.rank();
-        if (orientation == BoardPathOrientation.VERTICAL_UP || this.orientation == BoardPathOrientation.DIAGONAL_UP_LEFT || this.orientation == BoardPathOrientation.DIAGONAL_UP_RIGHT) {
+        if (this.orientation.isUp()) {
             return currentRank.next();
         }
-        if (orientation == BoardPathOrientation.VERTICAL_DOWN || this.orientation == BoardPathOrientation.DIAGONAL_DOWN_LEFT || this.orientation == BoardPathOrientation.DIAGONAL_DOWN_RIGHT) {
+        if (this.orientation.isDown()) {
             return currentRank.previous();
         }
         return Optional.of(currentRank);
