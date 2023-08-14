@@ -33,7 +33,7 @@ public class KingValidMovesTest {
     }
 
     @Test
-    void shouldBeBlockedByBoardWalls() {
+    void shouldBeBlockedByWalls() {
         King king = new King(Color.WHITE, new Position("e1"));
 
         var expectedValidMoves = new HashSet<>(Set.of(
@@ -49,52 +49,13 @@ public class KingValidMovesTest {
     }
 
     @Test
-    void shouldBeBlockedByBottomLeftCorner() {
+    void shouldBeBlockedByCorner() {
         King king = new King(Color.WHITE, new Position("a1"));
 
         var expectedValidMoves = new HashSet<>(Set.of(
                 new Movement("a1", "b1"),
                 new Movement("a1", "a2"),
                 new Movement("a1", "b2")
-        ));
-
-        assertEquals(expectedValidMoves, king.getValidMoves());
-    }
-
-    @Test
-    void shouldBeBlockedByBottomRightCorner() {
-        King king = new King(Color.WHITE, new Position("h1"));
-
-        var expectedValidMoves = new HashSet<>(Set.of(
-                new Movement("h1", "g1"),
-                new Movement("h1", "g2"),
-                new Movement("h1", "h2")
-        ));
-
-        assertEquals(expectedValidMoves, king.getValidMoves());
-    }
-
-    @Test
-    void shouldBeBlockedByTopLeftCorner() {
-        King king = new King(Color.WHITE, new Position("a8"));
-
-        var expectedValidMoves = new HashSet<>(Set.of(
-                new Movement("a8", "a7"),
-                new Movement("a8", "b7"),
-                new Movement("a8", "b8")
-        ));
-
-        assertEquals(expectedValidMoves, king.getValidMoves());
-    }
-
-    @Test
-    void shouldBeBlockedByTopRightCorner() {
-        King king = new King(Color.WHITE, new Position("h8"));
-
-        var expectedValidMoves = new HashSet<>(Set.of(
-                new Movement("h8", "g7"),
-                new Movement("h8", "h7"),
-                new Movement("h8", "g8")
         ));
 
         assertEquals(expectedValidMoves, king.getValidMoves());

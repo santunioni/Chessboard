@@ -8,25 +8,26 @@ import chess.board.position.Position;
 
 import java.util.*;
 
-public class Rook implements Piece {
+public class Bishop implements Piece {
+
     final Color color;
     Position position;
 
-    public Rook(Color color, Position position) {
-        this.color = color;
+    Bishop( Color color,Position position) {
         this.position = position;
+        this.color = color;
     }
 
-    @Override
+
     public Set<Movement> getValidMoves() {
         var movements = new HashSet<Movement>();
 
         var orientations = new ArrayList<>(
                 List.of(
-                        BoardPathOrientation.VERTICAL_UP,
-                        BoardPathOrientation.VERTICAL_DOWN,
-                        BoardPathOrientation.HORIZONTAL_LEFT,
-                        BoardPathOrientation.HORIZONTAL_RIGHT
+                        BoardPathOrientation.DIAGONAL_UP_LEFT,
+                        BoardPathOrientation.DIAGONAL_UP_RIGHT,
+                        BoardPathOrientation.DIAGONAL_DOWN_LEFT,
+                        BoardPathOrientation.DIAGONAL_DOWN_RIGHT
                 )
         );
 

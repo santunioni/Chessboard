@@ -8,7 +8,6 @@ import chess.board.position.Movement;
 import chess.board.position.Position;
 import chess.board.position.Rank;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +15,6 @@ import java.util.Set;
 public class King implements Piece {
     final Color color;
     Position position;
-
     King(Color color) {
         this.color = color;
         this.position = King.getInitialPosition(color);
@@ -35,16 +33,15 @@ public class King implements Piece {
         }
     }
 
-    public Position getPosition() {
-        return this.position;
-    }
-
     public Set<Movement> getValidMoves() {
         var movements = new HashSet<Movement>();
 
-        Arrays.stream(BoardPathOrientation.values()).forEach(orientation -> {
-            new BoardPath(this.position, orientation).getNextPosition().ifPresent(position -> movements.add(new Movement(this.position, position)));
-        });
+        var orientations = BoardPathOrientation.values();
+
+        for (var orientation : orientations) {
+            var path = new BoardPath(this.position, orientation);
+            path.getNextPosition().ifPresent(position -> movements.add(new Movement(this.position, position)));
+        }
 
         return Collections.unmodifiableSet(movements);
     }
