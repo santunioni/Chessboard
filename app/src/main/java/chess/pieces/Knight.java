@@ -27,12 +27,12 @@ public class Knight implements Piece {
 
         var walker = new BoardPathWalker(this.position);
 
-        for (var firstStepSize : new ArrayList<>(List.of(2, 1))) {
+        for (var firstStepSize : List.of(2, 1)) {
             var lastStepSize = 3 - firstStepSize;
-            for (var firstStepDirection : new ArrayList<>(List.of(BoardPathOrientation.HORIZONTAL_LEFT, BoardPathOrientation.HORIZONTAL_RIGHT))) {
-                walker.goTo(firstStepSize, firstStepDirection).ifPresent(l -> {
-                    l.goTo(lastStepSize, BoardPathOrientation.VERTICAL_UP).ifPresent(lu -> movements.add(new Movement(this.position, lu.getPosition())));
-                    l.goTo(lastStepSize, BoardPathOrientation.VERTICAL_DOWN).ifPresent(ld -> movements.add(new Movement(this.position, ld.getPosition())));
+            for (var firstStepDirection : List.of(BoardPathOrientation.HORIZONTAL_LEFT, BoardPathOrientation.HORIZONTAL_RIGHT)) {
+                walker.goTo(firstStepSize, firstStepDirection).ifPresent(h -> {
+                    h.goTo(lastStepSize, BoardPathOrientation.VERTICAL_UP).ifPresent(u -> movements.add(new Movement(this.position, u.getPosition())));
+                    h.goTo(lastStepSize, BoardPathOrientation.VERTICAL_DOWN).ifPresent(d -> movements.add(new Movement(this.position, d.getPosition())));
                 });
             }
         }
