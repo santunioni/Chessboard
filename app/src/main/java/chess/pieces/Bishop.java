@@ -25,14 +25,15 @@ public class Bishop extends Piece {
     public Set<Displacement> getValidMoves() {
         var movements = new HashSet<Displacement>();
 
-        for (var bishopPathDirection : Bishop.pathDirections) {
-            var path = new BoardPath(this.board.getMyPosition(), bishopPathDirection);
-            for (var position : path) {
-                var pieceAtPosition = this.board.getPieceAt(position);
-                if (pieceAtPosition.isPresent()) {
+        for (var queenPathDirection : Bishop.pathDirections) {
+            var path = new BoardPath(this.board.getMyPosition(), queenPathDirection);
+            for (var targetPosition : path) {
+                var pieceAtTargetPosition = this.board.getPieceAt(targetPosition);
+                if (pieceAtTargetPosition.isEmpty()) {
+                    movements.add(new Displacement(this.board.getMyPosition(), targetPosition));
+                } else {
                     break;
                 }
-                movements.add(new Displacement(this.board.getMyPosition(), position));
             }
         }
 

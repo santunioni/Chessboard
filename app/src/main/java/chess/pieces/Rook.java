@@ -25,10 +25,15 @@ public class Rook extends Piece {
     public Set<Displacement> getValidMoves() {
         var movements = new HashSet<Displacement>();
 
-        for (var rookPathDirection : Rook.pathDirections) {
-            var path = new BoardPath(this.board.getMyPosition(), rookPathDirection);
-            for (var position : path) {
-                movements.add(new Displacement(this.board.getMyPosition(), position));
+        for (var queenPathDirection : Rook.pathDirections) {
+            var path = new BoardPath(this.board.getMyPosition(), queenPathDirection);
+            for (var targetPosition : path) {
+                var pieceAtTargetPosition = this.board.getPieceAt(targetPosition);
+                if (pieceAtTargetPosition.isEmpty()) {
+                    movements.add(new Displacement(this.board.getMyPosition(), targetPosition));
+                } else {
+                    break;
+                }
             }
         }
 

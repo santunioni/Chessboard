@@ -42,4 +42,19 @@ public class RookDisplacementTest {
 
         assertEquals(expectedValidMoves, rook.getValidMoves());
     }
+
+    @Test
+    void shouldBeBlockedByItsTeamMates() {
+        var rook = new Rook(Color.WHITE);
+        this.board.placePiece("b1", rook);
+        this.board.placePiece("b2", new Pawn(Color.WHITE));
+        this.board.placePiece("d1", new Pawn(Color.WHITE));
+
+        var expectedValidMoves = Set.of(
+                new Displacement("b1", "a1"),
+                new Displacement("b1", "c1")
+        );
+
+        assertEquals(expectedValidMoves, rook.getValidMoves());
+    }
 }

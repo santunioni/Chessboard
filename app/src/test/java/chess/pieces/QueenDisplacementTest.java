@@ -62,10 +62,19 @@ public class QueenDisplacementTest {
     }
 
     @Test
-    void shouldNotAllowBlockedQueenToMove() {
-        this.board = new BoardStateFactory().createFreshBoardState(this.board);
-        var queen = this.board.getPieceAt("d1").orElseThrow();
+    public void shouldBeBlockedByItsTeamMates() {
+        var queen = new Queen(Color.WHITE);
+        this.board.placePiece("a1", queen);
+        this.board.placePiece("e1", new Pawn(Color.WHITE));
+        this.board.placePiece("a2", new Pawn(Color.WHITE));
+        this.board.placePiece("b2", new Pawn(Color.WHITE));
 
-        assertEquals(0, queen.getValidMoves().size());
+        var expectedValidMoves = Set.of(
+                new Displacement("a1", "b1"),
+                new Displacement("a1", "c1"),
+                new Displacement("a1", "d1")
+        );
+
+        assertEquals(expectedValidMoves, queen.getValidMoves());
     }
 }

@@ -46,7 +46,7 @@ public class BishopDisplacementTest {
     }
 
     @Test
-    void shouldBeBlockedBySameColorPieces() {
+    void shouldBeBlockedByItsTeamMates() {
         var bishop = new Bishop(Color.WHITE);
         this.board.placePiece("b1", bishop);
         this.board.placePiece("d3", new Pawn(Color.WHITE));
