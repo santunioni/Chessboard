@@ -1,6 +1,5 @@
 package chess.pieces;
 
-import chess.board.Color;
 import chess.board.InMemoryPositionBoardPlacement;
 import chess.plays.Displacement;
 import org.junit.jupiter.api.Test;

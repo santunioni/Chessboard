@@ -1,7 +1,6 @@
 package chess.pieces;
 
 import chess.board.BoardPlacement;
-import chess.board.Color;
 import chess.board.PlaceableInBoard;
 import chess.board.position.Position;
 import chess.plays.Displacement;

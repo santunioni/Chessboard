@@ -1,8 +1,8 @@
 package chess.plays;
 
 import chess.board.BoardState;
-import chess.board.Color;
 import chess.board.position.Position;
+import chess.pieces.Color;
 import chess.pieces.Pawn;
 import org.junit.jupiter.api.Test;
 

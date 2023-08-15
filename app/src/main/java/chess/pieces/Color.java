@@ -1,4 +1,4 @@
-package chess.board;
+package chess.pieces;
 
 /**
  * Represents the side of the player. (White or Black)

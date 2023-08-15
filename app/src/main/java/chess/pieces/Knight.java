@@ -1,6 +1,5 @@
 package chess.pieces;
 
-import chess.board.Color;
 import chess.board.path.BoardPathDirection;
 import chess.board.path.BoardPathWalker;
 import chess.plays.Displacement;
