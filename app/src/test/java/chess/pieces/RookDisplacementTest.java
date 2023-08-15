@@ -1,7 +1,7 @@
 package chess.pieces;
 
 import chess.board.Color;
-import chess.board.position.Position;
+import chess.board.InMemoryPositionBoardPlacement;
 import chess.plays.Displacement;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class RookDisplacementTest {
     @Test
     void shouldBeAbleToMoveVerticallyAndHorizontally() {
-        Rook rook = new Rook(Color.BLACK, new Position("d4"));
+        var rook = new Rook(Color.BLACK);
+        rook.placeInBoard(new InMemoryPositionBoardPlacement("d4"));
 
         var expectedValidMoves = Set.of(
                 new Displacement("d4", "a4"),

@@ -1,7 +1,7 @@
 package chess.pieces;
 
 import chess.board.Color;
-import chess.board.position.Position;
+import chess.board.InMemoryPositionBoardPlacement;
 import chess.plays.Displacement;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class KingDisplacementTest {
     @Test
     void shouldBeAbleToMoveExactlyOneSquareInAnyDirection() {
-        King king = new King(Color.BLACK, new Position("d4"));
+        var king = new King(Color.BLACK);
+        king.placeInBoard(new InMemoryPositionBoardPlacement("d4"));
 
         var expectedValidMoves = Set.of(
                 new Displacement("d4", "c3"),
@@ -33,7 +34,8 @@ public class KingDisplacementTest {
 
     @Test
     void shouldBeBlockedByWalls() {
-        King king = new King(Color.WHITE, new Position("e1"));
+        var king = new King(Color.WHITE);
+        king.placeInBoard(new InMemoryPositionBoardPlacement("e1"));
 
         var expectedValidMoves = Set.of(
                 new Displacement("e1", "d1"),
@@ -49,7 +51,8 @@ public class KingDisplacementTest {
 
     @Test
     void shouldBeBlockedByCorner() {
-        King king = new King(Color.WHITE, new Position("a1"));
+        var king = new King(Color.WHITE);
+        king.placeInBoard(new InMemoryPositionBoardPlacement("a1"));
 
         var expectedValidMoves = Set.of(
                 new Displacement("a1", "b1"),

@@ -11,13 +11,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class KingInitialPositioningTest {
     @Test
     void shouldPlaceWhiteKingOnE1() {
-        King king = new King(Color.WHITE);
-        assertEquals(new Position(File.E, Rank.ONE), king.position);
+        assertEquals(new Position(File.E, Rank.ONE), King.getInitialPosition(Color.WHITE));
     }
 
     @Test
     void shouldPlaceBlackKingOnE8() {
-        King king = new King(Color.BLACK);
-        assertEquals(new Position(File.E, Rank.EIGHT), king.position);
+        assertEquals(new Position(File.E, Rank.EIGHT), King.getInitialPosition(Color.BLACK));
     }
 }

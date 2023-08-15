@@ -1,24 +1,23 @@
 package chess.board;
 
 import chess.board.position.Position;
-import chess.pieces.LocatedPiece;
 
 import java.util.HashMap;
 import java.util.Optional;
 
 public class BoardState {
-    private final HashMap<Position, LocatedPiece> board = new HashMap<>();
+    private final HashMap<Position, PlaceableInBoard> board = new HashMap<>();
 
-    public Optional<LocatedPiece> getPieceInSquare(Position position) {
+    public Optional<PlaceableInBoard> getPieceInSquare(Position position) {
         return Optional.ofNullable(board.get(position));
     }
 
-    public void putPieceInSquare(Position position, LocatedPiece piece) {
+    public void putPieceInSquare(Position position, PlaceableInBoard piece) {
         board.put(position, piece);
         piece.placeInBoard(new InMemoryPositionBoardPlacement(position));
     }
 
-    public void putPieceInSquare(String position, LocatedPiece piece) {
+    public void putPieceInSquare(String position, PlaceableInBoard piece) {
         this.putPieceInSquare(new Position(position), piece);
     }
 

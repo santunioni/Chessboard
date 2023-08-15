@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PawnDisplacementTest {
     @Test
     void shouldBeAbleToMoveExactlyOneSquareUp() {
-        Pawn pawn = new Pawn(Color.WHITE);
+        var pawn = new Pawn(Color.WHITE);
         pawn.placeInBoard(new InMemoryPositionBoardPlacement("a4"));
 
         var expectedValidMoves = Set.of(
@@ -24,7 +24,7 @@ public class PawnDisplacementTest {
 
     @Test
     void shouldBeAbleToMoveExactlyOneSquareDown() {
-        Pawn pawn = new Pawn(Color.BLACK);
+        var pawn = new Pawn(Color.BLACK);
         pawn.placeInBoard(new InMemoryPositionBoardPlacement("b4"));
 
         var expectedValidMoves = Set.of(
@@ -36,7 +36,7 @@ public class PawnDisplacementTest {
 
     @Test
     void shouldBeAbleToMoveExactlyTwoSquaresUpIfHasNotMovedYet() {
-        Pawn pawn = new Pawn(Color.WHITE);
+        var pawn = new Pawn(Color.WHITE);
         pawn.placeInBoard(new InMemoryPositionBoardPlacement("c2"));
 
         var expectedValidMoves = Set.of(
@@ -49,7 +49,7 @@ public class PawnDisplacementTest {
 
     @Test
     void shouldBeAbleToMoveExactlyTwoSquaresDownIfHasNotMovedYet() {
-        Pawn pawn = new Pawn(Color.BLACK);
+        var pawn = new Pawn(Color.BLACK);
         pawn.placeInBoard(new InMemoryPositionBoardPlacement("d7"));
 
         var expectedValidMoves = Set.of(

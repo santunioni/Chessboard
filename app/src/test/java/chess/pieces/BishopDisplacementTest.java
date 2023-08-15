@@ -1,7 +1,7 @@
 package chess.pieces;
 
 import chess.board.Color;
-import chess.board.position.Position;
+import chess.board.InMemoryPositionBoardPlacement;
 import chess.plays.Displacement;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +13,8 @@ public class BishopDisplacementTest {
 
     @Test
     void shouldBeAbleToMoveDiagonally() {
-        var bishop = new Bishop(Color.BLACK, new Position("d4"));
+        var bishop = new Bishop(Color.BLACK);
+        bishop.placeInBoard(new InMemoryPositionBoardPlacement("d4"));
 
         var expectedValidMoves = Set.of(
                 new Displacement("d4", "c3"),

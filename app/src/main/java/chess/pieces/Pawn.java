@@ -9,17 +9,10 @@ import chess.plays.Displacement;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Pawn implements LocatedPiece {
-
-    private final Color color;
-    private BoardPlacement boardPlacement;
+public class Pawn extends Piece {
 
     public Pawn(Color color) {
-        this.color = color;
-    }
-
-    public void placeInBoard(BoardPlacement boardPlacement) {
-        this.boardPlacement = boardPlacement;
+        super(color);
     }
 
     private BoardPathDirection getWalkDirection() {
@@ -32,9 +25,9 @@ public class Pawn implements LocatedPiece {
 
     private boolean hasAlreadyMoved() {
         if (this.color == Color.WHITE) {
-            return this.boardPlacement.getPositionInBoard().rank() != Rank.TWO;
+            return this.getPosition().rank() != Rank.TWO;
         } else {
-            return this.boardPlacement.getPositionInBoard().rank() != Rank.SEVEN;
+            return this.getPosition().rank() != Rank.SEVEN;
         }
     }
 
@@ -42,13 +35,13 @@ public class Pawn implements LocatedPiece {
     public Set<Displacement> getValidMoves() {
         var moviments = new HashSet<Displacement>();
 
-        var walker = new BoardPathWalker(this.boardPlacement.getPositionInBoard());
+        var walker = new BoardPathWalker(this.getPosition());
 
         walker.walk(1, this.getWalkDirection()).ifPresent(w1 -> {
-            moviments.add(new Displacement(this.boardPlacement.getPositionInBoard(), w1.getPosition()));
+            moviments.add(new Displacement(this.getPosition(), w1.getPosition()));
             if (!this.hasAlreadyMoved()) {
                 w1.walk(1, this.getWalkDirection()).ifPresent(w2 -> {
-                    moviments.add(new Displacement(this.boardPlacement.getPositionInBoard(), w2.getPosition()));
+                    moviments.add(new Displacement(this.getPosition(), w2.getPosition()));
                 });
             }
         });

@@ -1,4 +1,4 @@
-package chess.pieces;
+package chess.board;
 
 import chess.board.position.Position;
 

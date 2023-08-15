@@ -1,7 +1,6 @@
 package chess.board;
 
 import chess.board.position.Position;
-import chess.pieces.BoardPlacement;
 
 public record InMemoryPositionBoardPlacement(Position position) implements BoardPlacement {
 
