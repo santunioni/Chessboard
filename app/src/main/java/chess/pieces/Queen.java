@@ -13,7 +13,7 @@ public class Queen extends Piece {
     private static final List<BoardPathDirection> pathDirections = List.of(BoardPathDirection.values());
 
     public Queen(Color color) {
-        super(color);
+        super(color, Type.QUEEN);
     }
 
 

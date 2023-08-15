@@ -11,11 +11,11 @@ import java.util.Set;
 public class Pawn extends Piece {
 
     public Pawn(Color color) {
-        super(color);
+        super(color, Type.PAWN);
     }
 
     private BoardPathDirection getWalkDirection() {
-        if (this.color == Color.WHITE) {
+        if (this.getColor() == Color.WHITE) {
             return BoardPathDirection.VERTICAL_UP;
         } else {
             return BoardPathDirection.VERTICAL_DOWN;
@@ -23,7 +23,7 @@ public class Pawn extends Piece {
     }
 
     private boolean hasAlreadyMoved() {
-        if (this.color == Color.WHITE) {
+        if (this.getColor() == Color.WHITE) {
             return this.getPosition().rank() != Rank.TWO;
         } else {
             return this.getPosition().rank() != Rank.SEVEN;

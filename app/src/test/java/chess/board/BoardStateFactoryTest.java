@@ -3,29 +3,31 @@ package chess.board;
 import chess.board.position.File;
 import chess.board.position.Position;
 import chess.board.position.Rank;
-import chess.pieces.*;
+import chess.pieces.Color;
+import chess.pieces.Type;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BoardStateFactoryTest {
     @Test
     void shouldPlaceWhiteQueenOnD1() {
         var board = new BoardStateFactory().createFreshBoardState();
-        var piece = (Queen) board.getPieceAt("d1").orElseThrow();
+        var piece = board.getPieceAt("d1").orElseThrow();
 
-        assertInstanceOf(Queen.class, piece);
+        assertEquals(Type.QUEEN, piece.getType());
         assertEquals(Color.WHITE, piece.getColor());
     }
 
     @Test
     void shouldPlaceBlackQueenOnD8() {
         var board = new BoardStateFactory().createFreshBoardState();
-        var piece = (Queen) board.getPieceAt("d8").orElseThrow();
+        var piece = board.getPieceAt("d8").orElseThrow();
 
-        assertInstanceOf(Queen.class, piece);
+        assertEquals(Type.QUEEN, piece.getType());
         assertEquals(Color.BLACK, piece.getColor());
     }
 
@@ -33,18 +35,18 @@ public class BoardStateFactoryTest {
     @Test
     void shouldPlaceWhiteKingOnE1() {
         var board = new BoardStateFactory().createFreshBoardState();
-        var piece = (King) board.getPieceAt("e1").orElseThrow();
+        var piece = board.getPieceAt("e1").orElseThrow();
 
-        assertInstanceOf(King.class, piece);
+        assertEquals(Type.KING, piece.getType());
         assertEquals(Color.WHITE, piece.getColor());
     }
 
     @Test
     void shouldPlaceBlackKingOnE8() {
         var board = new BoardStateFactory().createFreshBoardState();
-        var piece = (King) board.getPieceAt("e8").orElseThrow();
+        var piece = board.getPieceAt("e8").orElseThrow();
 
-        assertInstanceOf(King.class, piece);
+        assertEquals(Type.KING, piece.getType());
         assertEquals(Color.BLACK, piece.getColor());
     }
 
@@ -53,8 +55,9 @@ public class BoardStateFactoryTest {
         var board = new BoardStateFactory().createFreshBoardState();
 
         for (var position : List.of(new Position("a1"), new Position("h1"))) {
-            var piece = (Rook) board.getPieceAt(position).orElseThrow();
-            assertInstanceOf(Rook.class, piece);
+            var piece = board.getPieceAt(position).orElseThrow();
+
+            assertEquals(Type.ROOK, piece.getType());
             assertEquals(Color.WHITE, piece.getColor());
         }
     }
@@ -64,8 +67,9 @@ public class BoardStateFactoryTest {
         var board = new BoardStateFactory().createFreshBoardState();
 
         for (var position : List.of(new Position("a8"), new Position("h8"))) {
-            var piece = (Rook) board.getPieceAt(position).orElseThrow();
-            assertInstanceOf(Rook.class, piece);
+            var piece = board.getPieceAt(position).orElseThrow();
+
+            assertEquals(Type.ROOK, piece.getType());
             assertEquals(Color.BLACK, piece.getColor());
         }
     }
@@ -75,8 +79,9 @@ public class BoardStateFactoryTest {
         var board = new BoardStateFactory().createFreshBoardState();
 
         for (var position : List.of(new Position("b1"), new Position("g1"))) {
-            var piece = (Knight) board.getPieceAt(position).orElseThrow();
-            assertInstanceOf(Knight.class, piece);
+            var piece = board.getPieceAt(position).orElseThrow();
+
+            assertEquals(Type.KNIGHT, piece.getType());
             assertEquals(Color.WHITE, piece.getColor());
         }
     }
@@ -86,8 +91,9 @@ public class BoardStateFactoryTest {
         var board = new BoardStateFactory().createFreshBoardState();
 
         for (var position : List.of(new Position("b8"), new Position("g8"))) {
-            var piece = (Knight) board.getPieceAt(position).orElseThrow();
-            assertInstanceOf(Knight.class, piece);
+            var piece = board.getPieceAt(position).orElseThrow();
+
+            assertEquals(Type.KNIGHT, piece.getType());
             assertEquals(Color.BLACK, piece.getColor());
         }
     }
@@ -97,8 +103,9 @@ public class BoardStateFactoryTest {
         var board = new BoardStateFactory().createFreshBoardState();
 
         for (var position : List.of(new Position("c1"), new Position("f1"))) {
-            var piece = (Bishop) board.getPieceAt(position).orElseThrow();
-            assertInstanceOf(Bishop.class, piece);
+            var piece = board.getPieceAt(position).orElseThrow();
+
+            assertEquals(Type.BISHOP, piece.getType());
             assertEquals(Color.WHITE, piece.getColor());
         }
     }
@@ -108,8 +115,9 @@ public class BoardStateFactoryTest {
         var board = new BoardStateFactory().createFreshBoardState();
 
         for (var position : List.of(new Position("c8"), new Position("f8"))) {
-            var piece = (Bishop) board.getPieceAt(position).orElseThrow();
-            assertInstanceOf(Bishop.class, piece);
+            var piece = board.getPieceAt(position).orElseThrow();
+
+            assertEquals(Type.BISHOP, piece.getType());
             assertEquals(Color.BLACK, piece.getColor());
         }
     }
@@ -120,8 +128,9 @@ public class BoardStateFactoryTest {
 
         for (var file : File.values()) {
             var position = new Position(file, Rank.TWO);
-            var piece = (Pawn) board.getPieceAt(position).orElseThrow();
-            assertInstanceOf(Pawn.class, piece);
+            var piece = board.getPieceAt(position).orElseThrow();
+
+            assertEquals(Type.PAWN, piece.getType());
             assertEquals(Color.WHITE, piece.getColor());
         }
     }
@@ -132,8 +141,9 @@ public class BoardStateFactoryTest {
 
         for (var file : File.values()) {
             var position = new Position(file, Rank.SEVEN);
-            var piece = (Pawn) board.getPieceAt(position).orElseThrow();
-            assertInstanceOf(Pawn.class, piece);
+            var piece = board.getPieceAt(position).orElseThrow();
+
+            assertEquals(Type.PAWN, piece.getType());
             assertEquals(Color.BLACK, piece.getColor());
         }
     }

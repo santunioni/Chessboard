@@ -13,7 +13,7 @@ public class King extends Piece {
     private static final List<BoardPathDirection> pathDirections = List.of(BoardPathDirection.values());
 
     public King(Color color) {
-        super(color);
+        super(color, Type.KING);
     }
 
     public Set<Displacement> getValidMoves() {
