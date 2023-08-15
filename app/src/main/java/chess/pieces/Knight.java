@@ -48,7 +48,7 @@ public class Knight extends Piece {
 
         this.iterateOverPositionsThatKnightCouldReachByMovingInLPattern(targetPosition -> {
             var pieceAtTargetPosition = this.board.getPieceAt(targetPosition);
-            if (pieceAtTargetPosition.isEmpty() || pieceAtTargetPosition.get().getColor() != this.getColor()) {
+            if (pieceAtTargetPosition.isEmpty()) {
                 movements.add(new Displacement(this.board.getMyPosition(), targetPosition));
             }
         });
