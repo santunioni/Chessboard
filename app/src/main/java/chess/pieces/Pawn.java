@@ -34,16 +34,24 @@ public class Pawn extends Piece {
     public Set<Displacement> getValidMoves() {
         var moviments = new HashSet<Displacement>();
 
-        var walker = new BoardPathWalker(this.board.getMyPosition());
+        var positionAfterFirstStep = new BoardPathWalker(this.board.getMyPosition()).walk(1, this.getWalkDirection()).map(BoardPathWalker::getPosition);
+        if(positionAfterFirstStep.isEmpty()) {
+            return moviments;
+        }
 
-        walker.walk(1, this.getWalkDirection()).ifPresent(w1 -> {
-            moviments.add(new Displacement(this.board.getMyPosition(), w1.getPosition()));
-            if (!this.hasAlreadyMoved()) {
-                w1.walk(1, this.getWalkDirection()).ifPresent(w2 -> {
-                    moviments.add(new Displacement(this.board.getMyPosition(), w2.getPosition()));
-                });
-            }
-        });
+        if (this.board.getPieceAt(positionAfterFirstStep.get()).isEmpty()) {
+            moviments.add(new Displacement(this.board.getMyPosition(), positionAfterFirstStep.get()));
+        }
+
+        if(this.hasAlreadyMoved()) {
+            return moviments;
+        }
+
+        var positionAfterSecondStep = new BoardPathWalker(positionAfterFirstStep.get()).walk(1, this.getWalkDirection()).map(BoardPathWalker::getPosition);
+
+        if (positionAfterSecondStep.isPresent() && this.board.getPieceAt(positionAfterSecondStep.get()).isEmpty()) {
+            moviments.add(new Displacement(this.board.getMyPosition(), positionAfterSecondStep.get()));
+        }
 
         return moviments;
     }
