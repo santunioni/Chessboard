@@ -21,9 +21,9 @@ public class Queen extends Piece {
         var movements = new HashSet<Displacement>();
 
         for (var queenPathDirection : Queen.pathDirections) {
-            var path = new BoardPath(this.getPosition(), queenPathDirection);
+            var path = new BoardPath(this.board.getMyPosition(), queenPathDirection);
             for (var position : path) {
-                movements.add(new Displacement(this.getPosition(), position));
+                movements.add(new Displacement(this.board.getMyPosition(), position));
             }
         }
 

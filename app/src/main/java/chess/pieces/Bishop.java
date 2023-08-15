@@ -26,9 +26,9 @@ public class Bishop extends Piece {
         var movements = new HashSet<Displacement>();
 
         for (var bishopPathDirection : Bishop.pathDirections) {
-            var path = new BoardPath(this.getPosition(), bishopPathDirection);
+            var path = new BoardPath(this.board.getMyPosition(), bishopPathDirection);
             for (var position : path) {
-                movements.add(new Displacement(this.getPosition(), position));
+                movements.add(new Displacement(this.board.getMyPosition(), position));
             }
         }
 

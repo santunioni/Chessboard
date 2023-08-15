@@ -20,8 +20,8 @@ public class King extends Piece {
         var movements = new HashSet<Displacement>();
 
         for (var kingPathDirection : King.pathDirections) {
-            var path = new BoardPath(this.getPosition(), kingPathDirection);
-            path.getNextPosition().ifPresent(position -> movements.add(new Displacement(this.getPosition(), position)));
+            var path = new BoardPath(this.board.getMyPosition(), kingPathDirection);
+            path.getNextPosition().ifPresent(position -> movements.add(new Displacement(this.board.getMyPosition(), position)));
         }
 
         return Collections.unmodifiableSet(movements);

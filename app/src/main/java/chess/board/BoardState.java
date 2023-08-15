@@ -6,19 +6,16 @@ import chess.pieces.Piece;
 import java.util.HashMap;
 import java.util.Optional;
 
-public class BoardState {
+public class BoardState implements BoardPieceAtPositionProvider {
     private final HashMap<Position, Piece> board = new HashMap<>();
 
     public Optional<Piece> getPieceAt(Position position) {
         return Optional.ofNullable(board.get(position));
     }
 
-    public Optional<Piece> getPieceAt(String position) {
-        return this.getPieceAt(new Position(position));
-    }
-
     public void placePiece(Position position, Piece piece) {
-        board.put(position, piece);
+        this.removePieceFromSquare(position);
+        this.board.put(position, piece);
         piece.placeInBoard(new InMemoryPositionBoardPlacement(position));
     }
 

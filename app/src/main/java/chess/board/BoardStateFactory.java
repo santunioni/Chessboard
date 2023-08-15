@@ -3,8 +3,13 @@ package chess.board;
 import chess.pieces.*;
 
 public class BoardStateFactory {
+
     public BoardState createFreshBoardState() {
         var state = new BoardState();
+        return this.createFreshBoardState(state);
+    }
+
+    public BoardState createFreshBoardState(BoardState state) {
         this.placeRooks(state);
         this.placeKnights(state);
         this.placeBishops(state);

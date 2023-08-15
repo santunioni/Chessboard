@@ -24,9 +24,9 @@ public class Pawn extends Piece {
 
     private boolean hasAlreadyMoved() {
         if (this.getColor() == Color.WHITE) {
-            return this.getPosition().rank() != Rank.TWO;
+            return this.board.getMyPosition().rank() != Rank.TWO;
         } else {
-            return this.getPosition().rank() != Rank.SEVEN;
+            return this.board.getMyPosition().rank() != Rank.SEVEN;
         }
     }
 
@@ -34,13 +34,13 @@ public class Pawn extends Piece {
     public Set<Displacement> getValidMoves() {
         var moviments = new HashSet<Displacement>();
 
-        var walker = new BoardPathWalker(this.getPosition());
+        var walker = new BoardPathWalker(this.board.getMyPosition());
 
         walker.walk(1, this.getWalkDirection()).ifPresent(w1 -> {
-            moviments.add(new Displacement(this.getPosition(), w1.getPosition()));
+            moviments.add(new Displacement(this.board.getMyPosition(), w1.getPosition()));
             if (!this.hasAlreadyMoved()) {
                 w1.walk(1, this.getWalkDirection()).ifPresent(w2 -> {
-                    moviments.add(new Displacement(this.getPosition(), w2.getPosition()));
+                    moviments.add(new Displacement(this.board.getMyPosition(), w2.getPosition()));
                 });
             }
         });

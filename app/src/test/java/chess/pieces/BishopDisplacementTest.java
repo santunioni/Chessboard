@@ -1,7 +1,9 @@
 package chess.pieces;
 
+import chess.board.BoardState;
 import chess.board.InMemoryPositionBoardPlacement;
 import chess.plays.Displacement;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -32,6 +34,22 @@ public class BishopDisplacementTest {
                 new Displacement("d4", "f6"),
                 new Displacement("d4", "g7"),
                 new Displacement("d4", "h8")
+        );
+
+        assertEquals(expectedValidMoves, bishop.getValidMoves());
+    }
+
+    @Disabled
+    @Test
+    void shouldBeBlockedBySameColorPieces() {
+        var bishop = new Bishop(Color.WHITE);
+        var board = new BoardState();
+        board.placePiece("b2", bishop);
+        board.placePiece("d4", new Pawn(Color.WHITE));
+
+        var expectedValidMoves = Set.of(
+                new Displacement("b2", "a1"),
+                new Displacement("b2", "c3")
         );
 
         assertEquals(expectedValidMoves, bishop.getValidMoves());

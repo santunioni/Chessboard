@@ -26,9 +26,9 @@ public class Rook extends Piece {
         var movements = new HashSet<Displacement>();
 
         for (var rookPathDirection : Rook.pathDirections) {
-            var path = new BoardPath(this.getPosition(), rookPathDirection);
+            var path = new BoardPath(this.board.getMyPosition(), rookPathDirection);
             for (var position : path) {
-                movements.add(new Displacement(this.getPosition(), position));
+                movements.add(new Displacement(this.board.getMyPosition(), position));
             }
         }
 
