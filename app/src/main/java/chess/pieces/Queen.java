@@ -23,6 +23,10 @@ public class Queen extends Piece {
         for (var queenPathDirection : Queen.pathDirections) {
             var path = new BoardPath(this.board.getMyPosition(), queenPathDirection);
             for (var position : path) {
+                var pieceAtPosition = this.board.getPieceAt(position);
+                if (pieceAtPosition.isPresent()) {
+                    break;
+                }
                 movements.add(new Displacement(this.board.getMyPosition(), position));
             }
         }

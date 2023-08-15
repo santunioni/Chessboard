@@ -62,7 +62,6 @@ public class QueenDisplacementTest {
         assertEquals(expectedValidMoves, queen.getValidMoves());
     }
 
-    @Disabled
     @Test
     void shouldNotAllowBlockedQueenToMove() {
         this.board = new BoardStateFactory().createFreshBoardState(this.board);
