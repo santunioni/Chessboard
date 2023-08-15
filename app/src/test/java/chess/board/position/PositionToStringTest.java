@@ -1,8 +1,5 @@
-package chess.board;
+package chess.board.position;
 
-import chess.board.position.File;
-import chess.board.position.Position;
-import chess.board.position.Rank;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
