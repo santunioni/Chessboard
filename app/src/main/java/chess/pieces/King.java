@@ -3,9 +3,6 @@ package chess.pieces;
 import chess.board.Color;
 import chess.board.path.BoardPath;
 import chess.board.path.BoardPathDirection;
-import chess.board.position.File;
-import chess.board.position.Position;
-import chess.board.position.Rank;
 import chess.plays.Displacement;
 
 import java.util.Collections;
@@ -18,14 +15,6 @@ public class King extends Piece {
 
     public King(Color color) {
         super(color);
-    }
-
-    public static Position getInitialPosition(Color color) {
-        if (color == Color.WHITE) {
-            return new Position(File.E, Rank.ONE);
-        } else {
-            return new Position(File.E, Rank.EIGHT);
-        }
     }
 
     public Set<Displacement> getValidMoves() {
