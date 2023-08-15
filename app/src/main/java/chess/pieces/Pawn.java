@@ -3,22 +3,23 @@ package chess.pieces;
 import chess.board.Color;
 import chess.board.path.BoardPathDirection;
 import chess.board.path.BoardPathWalker;
-import chess.plays.Displacement;
-import chess.board.position.Position;
 import chess.board.position.Rank;
+import chess.plays.Displacement;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class Pawn implements Piece {
+public class Pawn implements LocatedPiece {
 
     private final Color color;
-    private final Position position;
+    private BoardPlacement boardPlacement;
 
-
-    public Pawn(Color color, Position position) {
+    public Pawn(Color color) {
         this.color = color;
-        this.position = position;
+    }
+
+    public void placeInBoard(BoardPlacement boardPlacement) {
+        this.boardPlacement = boardPlacement;
     }
 
     private BoardPathDirection getWalkDirection() {
@@ -31,9 +32,9 @@ public class Pawn implements Piece {
 
     private boolean hasAlreadyMoved() {
         if (this.color == Color.WHITE) {
-            return this.position.rank() != Rank.TWO;
+            return this.boardPlacement.getPositionInBoard().rank() != Rank.TWO;
         } else {
-            return this.position.rank() != Rank.SEVEN;
+            return this.boardPlacement.getPositionInBoard().rank() != Rank.SEVEN;
         }
     }
 
@@ -41,17 +42,18 @@ public class Pawn implements Piece {
     public Set<Displacement> getValidMoves() {
         var moviments = new HashSet<Displacement>();
 
-        var walker = new BoardPathWalker(this.position);
+        var walker = new BoardPathWalker(this.boardPlacement.getPositionInBoard());
 
         walker.walk(1, this.getWalkDirection()).ifPresent(w1 -> {
-            moviments.add(new Displacement(this.position, w1.getPosition()));
+            moviments.add(new Displacement(this.boardPlacement.getPositionInBoard(), w1.getPosition()));
             if (!this.hasAlreadyMoved()) {
                 w1.walk(1, this.getWalkDirection()).ifPresent(w2 -> {
-                    moviments.add(new Displacement(this.position, w2.getPosition()));
+                    moviments.add(new Displacement(this.boardPlacement.getPositionInBoard(), w2.getPosition()));
                 });
             }
         });
 
         return moviments;
     }
+
 }

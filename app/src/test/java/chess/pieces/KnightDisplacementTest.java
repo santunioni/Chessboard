@@ -1,8 +1,8 @@
 package chess.pieces;
 
 import chess.board.Color;
-import chess.plays.Displacement;
 import chess.board.position.Position;
+import chess.plays.Displacement;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -16,17 +16,17 @@ public class KnightDisplacementTest {
         var knight = new Knight(Color.WHITE, new Position("d4"));
 
         var expectedValidMoves = Set.of(
-                new Displacement(new Position("d4"), new Position("e6")),
-                new Displacement(new Position("d4"), new Position("c6")),
+                new Displacement("d4", "e6"),
+                new Displacement("d4", "c6"),
 
-                new Displacement(new Position("d4"), new Position("b5")),
-                new Displacement(new Position("d4"), new Position("b3")),
+                new Displacement("d4", "b5"),
+                new Displacement("d4", "b3"),
 
-                new Displacement(new Position("d4"), new Position("c2")),
-                new Displacement(new Position("d4"), new Position("e2")),
+                new Displacement("d4", "c2"),
+                new Displacement("d4", "e2"),
 
-                new Displacement(new Position("d4"), new Position("f3")),
-                new Displacement(new Position("d4"), new Position("f5"))
+                new Displacement("d4", "f3"),
+                new Displacement("d4", "f5")
         );
 
         assertEquals(expectedValidMoves, knight.getValidMoves());

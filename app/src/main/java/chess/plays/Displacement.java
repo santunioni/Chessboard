@@ -12,14 +12,14 @@ public record Displacement(Position from, Position to) implements ChessPlay {
     }
 
     public void actUpon(BoardState boardState) throws IlegalPlay {
-        var piece = boardState.getPiece(from).orElseThrow(() -> new IlegalPlay(this, "No piece at " + from));
+        var piece = boardState.getPieceInSquare(from).orElseThrow(() -> new IlegalPlay(this, "No piece at " + from));
 
-        var targetPositionOccupation = boardState.getPiece(to);
-        if(targetPositionOccupation.isPresent()) {
+        var targetPositionOccupation = boardState.getPieceInSquare(to);
+        if (targetPositionOccupation.isPresent()) {
             throw new IlegalPlay(this, "Cant move to " + to + " because it is ocuppied by " + targetPositionOccupation + ".");
         }
 
-        boardState.removePiece(from);
-        boardState.putPiece(to, piece);
+        boardState.removePieceFromSquare(from);
+        boardState.putPieceInSquare(to, piece);
     }
 }

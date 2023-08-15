@@ -4,9 +4,9 @@ import chess.board.Color;
 import chess.board.path.BoardPath;
 import chess.board.path.BoardPathDirection;
 import chess.board.position.File;
-import chess.plays.Displacement;
 import chess.board.position.Position;
 import chess.board.position.Rank;
+import chess.plays.Displacement;
 
 import java.util.Collections;
 import java.util.HashSet;

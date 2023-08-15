@@ -1,8 +1,8 @@
 package chess.pieces;
 
 import chess.board.Color;
-import chess.plays.Displacement;
 import chess.board.position.Position;
+import chess.plays.Displacement;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;

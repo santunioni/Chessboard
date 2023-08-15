@@ -3,8 +3,8 @@ package chess.pieces;
 import chess.board.Color;
 import chess.board.path.BoardPath;
 import chess.board.path.BoardPathDirection;
-import chess.plays.Displacement;
 import chess.board.position.Position;
+import chess.plays.Displacement;
 
 import java.util.Collections;
 import java.util.HashSet;
