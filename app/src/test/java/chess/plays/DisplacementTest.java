@@ -13,7 +13,7 @@ public class DisplacementTest {
     void shouldMovePieceInBoard() throws IlegalPlay {
         var boardState = new BoardState();
         var pawn = new Pawn(Color.BLACK);
-        boardState.putPieceInSquare("e2", pawn);
+        boardState.placePiece("e2", pawn);
 
         var displacement = new Displacement("e2", "e4");
         displacement.actUpon(boardState);
@@ -34,8 +34,8 @@ public class DisplacementTest {
     @Test
     void shouldNotMoveIfThereIsAPieceInTargetPosition() {
         var boardState = new BoardState();
-        boardState.putPieceInSquare("e2", new Pawn(Color.BLACK));
-        boardState.putPieceInSquare("e4", new Pawn(Color.BLACK));
+        boardState.placePiece("e2", new Pawn(Color.BLACK));
+        boardState.placePiece("e4", new Pawn(Color.BLACK));
 
         var displacement = new Displacement("e2", "e4");
 

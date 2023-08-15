@@ -15,40 +15,40 @@ public class BoardStateFactory {
     }
 
     private void placeRooks(BoardState state) {
-        state.putPieceInSquare("a1", new Rook(Color.WHITE));
-        state.putPieceInSquare("h1", new Rook(Color.WHITE));
-        state.putPieceInSquare("a8", new Rook(Color.BLACK));
-        state.putPieceInSquare("h8", new Rook(Color.BLACK));
+        state.placePiece("a1", new Rook(Color.WHITE));
+        state.placePiece("h1", new Rook(Color.WHITE));
+        state.placePiece("a8", new Rook(Color.BLACK));
+        state.placePiece("h8", new Rook(Color.BLACK));
     }
 
     private void placeKnights(BoardState state) {
-        state.putPieceInSquare("b1", new Knight(Color.WHITE));
-        state.putPieceInSquare("g1", new Knight(Color.WHITE));
-        state.putPieceInSquare("b8", new Knight(Color.BLACK));
-        state.putPieceInSquare("g8", new Knight(Color.BLACK));
+        state.placePiece("b1", new Knight(Color.WHITE));
+        state.placePiece("g1", new Knight(Color.WHITE));
+        state.placePiece("b8", new Knight(Color.BLACK));
+        state.placePiece("g8", new Knight(Color.BLACK));
     }
 
     private void placeBishops(BoardState state) {
-        state.putPieceInSquare("c1", new Bishop(Color.WHITE));
-        state.putPieceInSquare("f1", new Bishop(Color.WHITE));
-        state.putPieceInSquare("c8", new Bishop(Color.BLACK));
-        state.putPieceInSquare("f8", new Bishop(Color.BLACK));
+        state.placePiece("c1", new Bishop(Color.WHITE));
+        state.placePiece("f1", new Bishop(Color.WHITE));
+        state.placePiece("c8", new Bishop(Color.BLACK));
+        state.placePiece("f8", new Bishop(Color.BLACK));
     }
 
     private void placeQueens(BoardState state) {
-        state.putPieceInSquare("d1", new Queen(Color.WHITE));
-        state.putPieceInSquare("d8", new Queen(Color.BLACK));
+        state.placePiece("d1", new Queen(Color.WHITE));
+        state.placePiece("d8", new Queen(Color.BLACK));
     }
 
     private void placeKings(BoardState state) {
-        state.putPieceInSquare("e1", new King(Color.WHITE));
-        state.putPieceInSquare("e8", new King(Color.BLACK));
+        state.placePiece("e1", new King(Color.WHITE));
+        state.placePiece("e8", new King(Color.BLACK));
     }
 
     private void placePawns(BoardState state) {
         for (char column = 'a'; column <= 'h'; column++) {
-            state.putPieceInSquare(column + "2", new Pawn(Color.WHITE));
-            state.putPieceInSquare(column + "7", new Pawn(Color.BLACK));
+            state.placePiece(column + "2", new Pawn(Color.WHITE));
+            state.placePiece(column + "7", new Pawn(Color.BLACK));
         }
     }
 }

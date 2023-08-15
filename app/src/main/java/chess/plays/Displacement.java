@@ -20,6 +20,6 @@ public record Displacement(Position from, Position to) implements ChessPlay {
         }
 
         boardState.removePieceFromSquare(from);
-        boardState.putPieceInSquare(to, piece);
+        boardState.placePiece(to, piece);
     }
 }

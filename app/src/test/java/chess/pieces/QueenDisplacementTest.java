@@ -1,7 +1,9 @@
 package chess.pieces;
 
-import chess.board.InMemoryPositionBoardPlacement;
+import chess.board.BoardState;
+import chess.board.BoardStateFactory;
 import chess.plays.Displacement;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -9,10 +11,19 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class QueenDisplacementTest {
+    private BoardState createEmptyBoard() {
+        return new BoardState();
+    }
+
+    private BoardState createInitializedBoard() {
+        return new BoardStateFactory().createFreshBoardState();
+    }
+
     @Test
     public void shouldBeAbleToMoveHorizontalyVerticallyAndDiagonaly() {
+        var board = this.createEmptyBoard();
         var queen = new Queen(Color.BLACK);
-        queen.placeInBoard(new InMemoryPositionBoardPlacement("d4"));
+        board.placePiece("d4", queen);
 
         var expectedValidMoves = Set.of(
                 new Displacement("d4", "a1"),
@@ -48,5 +59,14 @@ public class QueenDisplacementTest {
         );
 
         assertEquals(expectedValidMoves, queen.getValidMoves());
+    }
+
+    @Disabled
+    @Test
+    void shouldNotAllowBlockedQueenToMove() {
+        var board = this.createInitializedBoard();
+        var queen = board.getPieceAt("d1").orElseThrow();
+
+        assertEquals(0, queen.getValidMoves().size());
     }
 }

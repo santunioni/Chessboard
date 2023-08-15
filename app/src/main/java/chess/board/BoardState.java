@@ -17,13 +17,13 @@ public class BoardState {
         return this.getPieceAt(new Position(position));
     }
 
-    public void putPieceInSquare(Position position, Piece piece) {
+    public void placePiece(Position position, Piece piece) {
         board.put(position, piece);
         piece.placeInBoard(new InMemoryPositionBoardPlacement(position));
     }
 
-    public void putPieceInSquare(String position, Piece piece) {
-        this.putPieceInSquare(new Position(position), piece);
+    public void placePiece(String position, Piece piece) {
+        this.placePiece(new Position(position), piece);
     }
 
     public void removePieceFromSquare(Position position) {
