@@ -69,4 +69,18 @@ public class KingDisplacementTest {
 
         assertEquals(expectedValidMoves, king.getValidMoves());
     }
+
+    @Test
+    public void shouldBeBlockedByItsTeamMates() {
+        var king = new King(Color.WHITE);
+        this.board.placePiece("a1", king);
+        this.board.placePiece("a2", new Pawn(Color.WHITE));
+        this.board.placePiece("b2", new Pawn(Color.WHITE));
+
+        var expectedValidMoves = Set.of(
+                new Displacement("a1", "b1")
+        );
+
+        assertEquals(expectedValidMoves, king.getValidMoves());
+    }
 }

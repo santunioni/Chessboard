@@ -4,7 +4,6 @@ import chess.board.BoardState;
 import chess.board.BoardStateFactory;
 import chess.plays.Displacement;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;

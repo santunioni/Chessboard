@@ -21,7 +21,13 @@ public class King extends Piece {
 
         for (var kingPathDirection : King.pathDirections) {
             var path = new BoardPath(this.board.getMyPosition(), kingPathDirection);
-            path.getNextPosition().ifPresent(position -> movements.add(new Displacement(this.board.getMyPosition(), position)));
+            var targetPosition = path.getNextPosition();
+            if (targetPosition.isPresent()) {
+                var pieceAtTargetPosition = this.board.getPieceAt(targetPosition.get());
+                if (pieceAtTargetPosition.isEmpty()) {
+                    movements.add(new Displacement(this.board.getMyPosition(), targetPosition.get()));
+                }
+            }
         }
 
         return Collections.unmodifiableSet(movements);
