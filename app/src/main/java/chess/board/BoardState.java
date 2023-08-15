@@ -8,8 +8,12 @@ import java.util.Optional;
 public class BoardState {
     private final HashMap<Position, PlaceableInBoard> board = new HashMap<>();
 
-    public Optional<PlaceableInBoard> getPieceInSquare(Position position) {
+    public Optional<PlaceableInBoard> getPieceAt(Position position) {
         return Optional.ofNullable(board.get(position));
+    }
+
+    public Optional<PlaceableInBoard> getPieceAt(String position) {
+        return this.getPieceAt(new Position(position));
     }
 
     public void putPieceInSquare(Position position, PlaceableInBoard piece) {

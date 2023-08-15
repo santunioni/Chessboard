@@ -18,8 +18,8 @@ public class DisplacementTest {
         var displacement = new Displacement("e2", "e4");
         displacement.actUpon(boardState);
 
-        assertNull(boardState.getPieceInSquare(new Position("e2")).orElse(null));
-        assertEquals(pawn, boardState.getPieceInSquare(new Position("e4")).orElseThrow());
+        assertNull(boardState.getPieceAt(new Position("e2")).orElse(null));
+        assertEquals(pawn, boardState.getPieceAt(new Position("e4")).orElseThrow());
     }
 
     @Test

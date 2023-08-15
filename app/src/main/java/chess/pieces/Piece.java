@@ -25,5 +25,9 @@ public abstract class Piece implements PlaceableInBoard {
         return this.boardPlacement.getPositionInBoard();
     }
 
+    public Color getColor() {
+        return this.color;
+    }
+
     abstract public Set<Displacement> getValidMoves();
 }
