@@ -28,5 +28,9 @@ public abstract class Piece {
         return this.type;
     }
 
+    protected boolean isEnemyOf(Piece piece) {
+        return this.getColor() != piece.getColor();
+    }
+
     abstract public Set<Displacement> getValidMoves();
 }
