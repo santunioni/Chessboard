@@ -16,7 +16,7 @@ public class BoardState implements BoardPieceAtPositionProvider {
     public void placePiece(Position position, Piece piece) {
         this.removePieceFromSquare(position);
         this.board.put(position, piece);
-        piece.placeInBoard(new InMemoryPositionBoardPlacement(position));
+        piece.placeInBoard(new InMemoryPositionBoardPlacement(position, this));
     }
 
     public void placePiece(String position, Piece piece) {

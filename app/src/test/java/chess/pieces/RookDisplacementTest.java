@@ -1,7 +1,8 @@
 package chess.pieces;
 
-import chess.board.InMemoryPositionBoardPlacement;
+import chess.board.BoardState;
 import chess.plays.Displacement;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -9,10 +10,17 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RookDisplacementTest {
+    private BoardState board;
+
+    @BeforeEach
+    void setUp() {
+        this.board = new BoardState();
+    }
+
     @Test
     void shouldBeAbleToMoveVerticallyAndHorizontally() {
         var rook = new Rook(Color.BLACK);
-        rook.placeInBoard(new InMemoryPositionBoardPlacement("d4"));
+        this.board.placePiece("d4", rook);
 
         var expectedValidMoves = Set.of(
                 new Displacement("d4", "a4"),

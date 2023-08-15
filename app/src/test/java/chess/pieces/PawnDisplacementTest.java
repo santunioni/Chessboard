@@ -1,7 +1,8 @@
 package chess.pieces;
 
-import chess.board.InMemoryPositionBoardPlacement;
+import chess.board.BoardState;
 import chess.plays.Displacement;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -9,10 +10,18 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PawnDisplacementTest {
+
+    private BoardState board;
+
+    @BeforeEach
+    void setUp() {
+        this.board = new BoardState();
+    }
+
     @Test
     void shouldBeAbleToMoveExactlyOneSquareUp() {
         var pawn = new Pawn(Color.WHITE);
-        pawn.placeInBoard(new InMemoryPositionBoardPlacement("a4"));
+        this.board.placePiece("a4", pawn);
 
         var expectedValidMoves = Set.of(
                 new Displacement("a4", "a5")
@@ -24,7 +33,7 @@ public class PawnDisplacementTest {
     @Test
     void shouldBeAbleToMoveExactlyOneSquareDown() {
         var pawn = new Pawn(Color.BLACK);
-        pawn.placeInBoard(new InMemoryPositionBoardPlacement("b4"));
+        this.board.placePiece("b4", pawn);
 
         var expectedValidMoves = Set.of(
                 new Displacement("b4", "b3")
@@ -36,7 +45,7 @@ public class PawnDisplacementTest {
     @Test
     void shouldBeAbleToMoveExactlyTwoSquaresUpIfHasNotMovedYet() {
         var pawn = new Pawn(Color.WHITE);
-        pawn.placeInBoard(new InMemoryPositionBoardPlacement("c2"));
+        this.board.placePiece("c2", pawn);
 
         var expectedValidMoves = Set.of(
                 new Displacement("c2", "c3"),
@@ -49,7 +58,7 @@ public class PawnDisplacementTest {
     @Test
     void shouldBeAbleToMoveExactlyTwoSquaresDownIfHasNotMovedYet() {
         var pawn = new Pawn(Color.BLACK);
-        pawn.placeInBoard(new InMemoryPositionBoardPlacement("d7"));
+        this.board.placePiece("d7", pawn);
 
         var expectedValidMoves = Set.of(
                 new Displacement("d7", "d6"),

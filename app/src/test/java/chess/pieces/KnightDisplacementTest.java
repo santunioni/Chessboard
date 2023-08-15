@@ -1,7 +1,8 @@
 package chess.pieces;
 
-import chess.board.InMemoryPositionBoardPlacement;
+import chess.board.BoardState;
 import chess.plays.Displacement;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -10,10 +11,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class KnightDisplacementTest {
 
+    private BoardState board;
+
+    @BeforeEach
+    void setUp() {
+        this.board = new BoardState();
+    }
+
     @Test
     public void shouldReturnAllPossibleMovesInL() {
         var knight = new Knight(Color.WHITE);
-        knight.placeInBoard(new InMemoryPositionBoardPlacement("d4"));
+        this.board.placePiece("d4", knight);
 
         var expectedValidMoves = Set.of(
                 new Displacement("d4", "e6"),

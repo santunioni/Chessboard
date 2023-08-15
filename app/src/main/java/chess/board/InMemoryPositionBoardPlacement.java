@@ -5,23 +5,25 @@ import chess.pieces.Piece;
 
 import java.util.Optional;
 
-public class InMemoryPositionBoardPlacement implements BoardPlacement, BoardPieceAtPositionProvider {
+public class InMemoryPositionBoardPlacement implements BoardPlacement {
 
     private final Position position;
-    public InMemoryPositionBoardPlacement(Position position) {
+    private final BoardPieceAtPositionProvider board;
+
+    public InMemoryPositionBoardPlacement(Position position, BoardPieceAtPositionProvider board) {
         this.position = position;
+        this.board = board;
     }
 
-    public InMemoryPositionBoardPlacement(String position) {
-        this(new Position(position));
+    public InMemoryPositionBoardPlacement(String position, BoardPieceAtPositionProvider board) {
+        this(new Position(position), board);
     }
 
     public Position getMyPosition() {
         return this.position;
     }
 
-    @Override
     public Optional<Piece> getPieceAt(Position position) {
-        return Optional.empty();
+        return this.board.getPieceAt(position);
     }
 }

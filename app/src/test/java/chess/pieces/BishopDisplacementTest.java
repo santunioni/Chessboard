@@ -1,9 +1,8 @@
 package chess.pieces;
 
 import chess.board.BoardState;
-import chess.board.InMemoryPositionBoardPlacement;
 import chess.plays.Displacement;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -12,10 +11,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BishopDisplacementTest {
 
+    private BoardState board;
+
+    @BeforeEach
+    void setUp() {
+        this.board = new BoardState();
+    }
+
     @Test
     void shouldBeAbleToMoveDiagonally() {
         var bishop = new Bishop(Color.BLACK);
-        bishop.placeInBoard(new InMemoryPositionBoardPlacement("d4"));
+        this.board.placePiece("d4", bishop);
 
         var expectedValidMoves = Set.of(
                 new Displacement("d4", "c3"),
@@ -39,17 +45,15 @@ public class BishopDisplacementTest {
         assertEquals(expectedValidMoves, bishop.getValidMoves());
     }
 
-    @Disabled
     @Test
     void shouldBeBlockedBySameColorPieces() {
         var bishop = new Bishop(Color.WHITE);
-        var board = new BoardState();
-        board.placePiece("b2", bishop);
-        board.placePiece("d4", new Pawn(Color.WHITE));
+        this.board.placePiece("b1", bishop);
+        this.board.placePiece("d3", new Pawn(Color.WHITE));
 
         var expectedValidMoves = Set.of(
-                new Displacement("b2", "a1"),
-                new Displacement("b2", "c3")
+                new Displacement("b1", "a2"),
+                new Displacement("b1", "c2")
         );
 
         assertEquals(expectedValidMoves, bishop.getValidMoves());
