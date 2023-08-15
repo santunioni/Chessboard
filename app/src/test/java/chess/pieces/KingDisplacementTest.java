@@ -71,7 +71,7 @@ public class KingDisplacementTest {
     }
 
     @Test
-    public void shouldBeBlockedByItsTeamMates() {
+    void shouldBeBlockedByItsTeamMates() {
         var king = new King(Color.WHITE);
         this.board.placePiece("a1", king);
         this.board.placePiece("a2", new Pawn(Color.WHITE));

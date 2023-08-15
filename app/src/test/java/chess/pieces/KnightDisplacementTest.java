@@ -19,7 +19,7 @@ public class KnightDisplacementTest {
     }
 
     @Test
-    public void shouldReturnAllPossibleMovesInL() {
+    void shouldMoveInL() {
         var knight = new Knight(Color.WHITE);
         this.board.placePiece("d4", knight);
 
@@ -35,6 +35,20 @@ public class KnightDisplacementTest {
 
                 new Displacement("d4", "f3"),
                 new Displacement("d4", "f5")
+        );
+
+        assertEquals(expectedValidMoves, knight.getValidMoves());
+    }
+
+    @Test
+    void shouldBeBlockedByItsTeamMates() {
+        var knight = new Knight(Color.WHITE);
+        this.board.placePiece("b1", knight);
+        this.board.placePiece("c3", new Pawn(Color.WHITE));
+
+        var expectedValidMoves = Set.of(
+                new Displacement("b1", "a3"),
+                new Displacement("b1", "d2")
         );
 
         assertEquals(expectedValidMoves, knight.getValidMoves());

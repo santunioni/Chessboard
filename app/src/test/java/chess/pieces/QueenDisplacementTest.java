@@ -1,7 +1,6 @@
 package chess.pieces;
 
 import chess.board.BoardState;
-import chess.board.BoardStateFactory;
 import chess.plays.Displacement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,7 +61,7 @@ public class QueenDisplacementTest {
     }
 
     @Test
-    public void shouldBeBlockedByItsTeamMates() {
+    void shouldBeBlockedByItsTeamMates() {
         var queen = new Queen(Color.WHITE);
         this.board.placePiece("a1", queen);
         this.board.placePiece("e1", new Pawn(Color.WHITE));
