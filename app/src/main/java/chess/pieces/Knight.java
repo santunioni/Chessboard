@@ -27,7 +27,7 @@ public class Knight extends Piece {
      *
      * @param callback A callback that will be called for each possible target position.
      */
-    private void iterateOverPossibleTargetPositions(
+    private void iterateOverPositionsThatKnightCouldReachByMovingInLPattern(
             KnightTargetPositionsIteratorCallback callback
     ) {
         for (var firstStepSize : List.of(2, 1)) {
@@ -46,7 +46,7 @@ public class Knight extends Piece {
     public Set<Displacement> getValidMoves() {
         var movements = new HashSet<Displacement>();
 
-        this.iterateOverPossibleTargetPositions(targetPosition -> {
+        this.iterateOverPositionsThatKnightCouldReachByMovingInLPattern(targetPosition -> {
             var pieceAtTargetPosition = this.board.getPieceAt(targetPosition);
             if (pieceAtTargetPosition.isEmpty() || pieceAtTargetPosition.get().getColor() != this.getColor()) {
                 movements.add(new Displacement(this.board.getMyPosition(), targetPosition));
