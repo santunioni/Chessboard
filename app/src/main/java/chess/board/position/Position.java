@@ -50,6 +50,6 @@ public record Position(File file, Rank rank) {
             return false;
         }
 
-        return Math.abs(fileDisplacement) == 1 || Math.abs(rankDisplacement ) == 1;
+        return Math.abs(fileDisplacement) == 1 || Math.abs(rankDisplacement) == 1;
     }
 }
