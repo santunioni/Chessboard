@@ -37,4 +37,8 @@ public enum Rank {
     public Optional<Rank> previous() {
         return createFromIndex(this.ordinal() - 1);
     }
+
+    public Integer distanceTo(Rank that) {
+        return that.ordinal() - this.ordinal();
+    }
 }

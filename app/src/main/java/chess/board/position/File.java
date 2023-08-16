@@ -31,4 +31,8 @@ public enum File {
     public Optional<File> previous() {
         return createFromIndex(this.ordinal() - 1);
     }
+
+    public Integer distanceTo(File that) {
+        return that.ordinal() - this.ordinal();
+    }
 }

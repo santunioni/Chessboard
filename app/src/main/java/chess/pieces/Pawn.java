@@ -35,7 +35,7 @@ public class Pawn extends Piece {
         var moviments = new HashSet<Displacement>();
 
         var positionAfterFirstStep = new BoardPathWalker(this.board.getMyPosition()).walk(1, this.getWalkDirection()).map(BoardPathWalker::getPosition);
-        if(positionAfterFirstStep.isEmpty()) {
+        if (positionAfterFirstStep.isEmpty()) {
             return moviments;
         }
 
@@ -43,7 +43,7 @@ public class Pawn extends Piece {
             moviments.add(new Displacement(this.board.getMyPosition(), positionAfterFirstStep.get()));
         }
 
-        if(this.hasAlreadyMoved()) {
+        if (this.hasAlreadyMoved()) {
             return moviments;
         }
 

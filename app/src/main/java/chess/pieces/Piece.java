@@ -1,6 +1,7 @@
 package chess.pieces;
 
 import chess.board.BoardPlacement;
+import chess.board.position.Position;
 import chess.plays.Displacement;
 
 import java.util.Set;
@@ -28,8 +29,20 @@ public abstract class Piece {
         return this.type;
     }
 
+    protected boolean isAllyOf(Piece piece) {
+        return this.getColor() == piece.getColor();
+    }
+
     protected boolean isEnemyOf(Piece piece) {
-        return this.getColor() != piece.getColor();
+        return !this.isAllyOf(piece);
+    }
+
+    public boolean threatens(String position) {
+        return this.threatens(new Position(position));
+    }
+
+    public boolean threatens(Position position) {
+        return false;
     }
 
     abstract public Set<Displacement> getValidMoves();
