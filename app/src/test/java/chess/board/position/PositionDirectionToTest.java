@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 
-class DisplacementToDirectionTestCases implements ArgumentsProvider {
+class PositionDirectionToCases implements ArgumentsProvider {
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
         return Stream.of(
@@ -31,9 +31,9 @@ class DisplacementToDirectionTestCases implements ArgumentsProvider {
 }
 
 
-public class DisplacementToDirectionTest {
+public class PositionDirectionToTest {
     @ParameterizedTest
-    @ArgumentsSource(DisplacementToDirectionTestCases.class)
+    @ArgumentsSource(PositionDirectionToCases.class)
     void shouldReturnRankStringRepresentation(String from, String to, BoardPathDirection expectedDirection) {
         assertEquals(expectedDirection, new Position(from).directionTo(new Position(to)).orElseThrow());
     }

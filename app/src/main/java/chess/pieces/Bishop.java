@@ -21,7 +21,6 @@ public class Bishop extends Piece {
         super(color, Type.BISHOP);
     }
 
-    @Override
     public boolean threatens(Position enemyPosition) {
         var direction = this.board.getMyPosition().directionTo(enemyPosition);
 

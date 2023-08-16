@@ -41,4 +41,15 @@ public record Position(File file, Rank rank) {
 
         return Optional.empty();
     }
+
+    public boolean isNeighborTo(Position that) {
+        var fileDisplacement = this.file.distanceTo(that.file);
+        var rankDisplacement = this.rank.distanceTo(that.rank);
+
+        if (rankDisplacement.equals(0) && fileDisplacement.equals(0)) {
+            return false;
+        }
+
+        return Math.abs(fileDisplacement) == 1 || Math.abs(rankDisplacement ) == 1;
+    }
 }

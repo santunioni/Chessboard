@@ -2,6 +2,7 @@ package chess.pieces;
 
 import chess.board.path.BoardPath;
 import chess.board.path.BoardPathDirection;
+import chess.board.position.Position;
 import chess.plays.Displacement;
 
 import java.util.Collections;
@@ -14,6 +15,10 @@ public class King extends Piece {
 
     public King(Color color) {
         super(color, Type.KING);
+    }
+
+    public boolean threatens(Position enemyPosition) {
+        return this.board.getMyPosition().isNeighborTo(enemyPosition);
     }
 
     public Set<Displacement> getValidMoves() {
