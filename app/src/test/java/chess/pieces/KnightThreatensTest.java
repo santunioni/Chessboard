@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class KnightThreatensCases implements ArgumentsProvider {
+class KnightThreatensInLCases implements ArgumentsProvider {
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
         return Stream.of(
@@ -30,7 +30,7 @@ class KnightThreatensCases implements ArgumentsProvider {
     }
 }
 
-class KnightNotThreatensCases implements ArgumentsProvider {
+class KnightNotThreatensNotInLCases implements ArgumentsProvider {
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
         return Stream.of(
@@ -55,16 +55,16 @@ public class KnightThreatensTest {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(KnightThreatensCases.class)
-    void shouldThreatenPosition(String knightPosition, String threatenedPosition) {
+    @ArgumentsSource(KnightThreatensInLCases.class)
+    void shouldThreatenPositionDisplacedInLPattern(String knightPosition, String threatenedPosition) {
         var knight = new Knight(Color.WHITE);
         this.board.placePiece(knightPosition, knight);
         assertTrue(knight.threatens(new Position(threatenedPosition)));
     }
 
     @ParameterizedTest
-    @ArgumentsSource(KnightNotThreatensCases.class)
-    void shouldNotThreatenPosition(String knightPosition, String notThreatenedPosition) {
+    @ArgumentsSource(KnightNotThreatensNotInLCases.class)
+    void shouldNotThreatenPositionNotDisplacedInLPattern(String knightPosition, String notThreatenedPosition) {
         var knight = new Knight(Color.WHITE);
         this.board.placePiece(knightPosition, knight);
         assertFalse(knight.threatens(new Position(notThreatenedPosition)));
