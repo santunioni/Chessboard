@@ -19,6 +19,10 @@ public record Displacement(Position from, Position to) implements ChessPlay {
             throw new IlegalPlay(this, "Cant move to " + to + " because it is ocuppied by " + targetPositionOccupation + ".");
         }
 
+        if (!piece.canMoveTo(to)) {
+            throw new IlegalPlay(this, "Cant move to " + to + " because it is not a valid move.");
+        }
+
         boardState.removePieceFromSquare(from);
         boardState.placePiece(to, piece);
     }

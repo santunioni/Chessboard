@@ -12,7 +12,7 @@ public class DisplacementTest {
     @Test
     void shouldMovePieceInBoard() throws IlegalPlay {
         var boardState = new BoardState();
-        var pawn = new Pawn(Color.BLACK);
+        var pawn = new Pawn(Color.WHITE);
         boardState.placePiece("e2", pawn);
 
         var displacement = new Displacement("e2", "e4");

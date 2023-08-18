@@ -2,9 +2,6 @@ package chess.pieces;
 
 import chess.board.BoardPlacement;
 import chess.board.position.Position;
-import chess.plays.Displacement;
-
-import java.util.Set;
 
 public abstract class Piece {
 
@@ -37,9 +34,12 @@ public abstract class Piece {
         return !this.isAllyOf(piece);
     }
 
+
+    public abstract boolean canMoveTo(Position position);
+
     public boolean threatens(Position position) {
-        return false;
+        return this.canMoveTo(position);
     }
 
-    abstract public Set<Displacement> getValidMoves();
+    ;
 }

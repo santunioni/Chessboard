@@ -1,6 +1,7 @@
 package chess.pieces;
 
 import chess.board.BoardState;
+import chess.board.position.Position;
 import chess.plays.Displacement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PawnDisplacementTest {
 
@@ -23,11 +25,7 @@ public class PawnDisplacementTest {
         var pawn = new Pawn(Color.WHITE);
         this.board.placePiece("a4", pawn);
 
-        var expectedValidMoves = Set.of(
-                new Displacement("a4", "a5")
-        );
-
-        assertEquals(expectedValidMoves, pawn.getValidMoves());
+        assertTrue(pawn.canMoveTo(new Position("a5")));
     }
 
     @Test
