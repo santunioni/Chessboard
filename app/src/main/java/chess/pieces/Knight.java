@@ -49,7 +49,6 @@ public class Knight extends Piece {
         return (horizontalDistance == 1 && verticalDistance == 2) || (horizontalDistance == 2 && verticalDistance == 1);
     }
 
-    @Override
     public boolean threatens(Position position) {
         return this.canMoveTo(position);
     }

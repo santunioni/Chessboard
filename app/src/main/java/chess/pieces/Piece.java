@@ -37,10 +37,6 @@ public abstract class Piece {
         return !this.isAllyOf(piece);
     }
 
-    public boolean threatens(String position) {
-        return this.threatens(new Position(position));
-    }
-
     public boolean threatens(Position position) {
         return false;
     }

@@ -1,6 +1,7 @@
 package chess.pieces;
 
 import chess.board.BoardState;
+import chess.board.position.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +23,7 @@ public class BishopThreatensTest {
         var bishop = new Bishop(Color.BLACK);
         this.board.placePiece("d4", bishop);
 
-        assertTrue(bishop.threatens("f6"));
+        assertTrue(bishop.threatens(new Position("f6")));
     }
 
     @Test
@@ -31,7 +32,7 @@ public class BishopThreatensTest {
         this.board.placePiece("d4", bishop);
         this.board.placePiece("f6", new Pawn(Color.WHITE));
 
-        assertFalse(bishop.threatens("g7"));
+        assertFalse(bishop.threatens(new Position("g7")));
     }
 
     @Test
@@ -40,7 +41,7 @@ public class BishopThreatensTest {
         this.board.placePiece("d4", bishop);
         this.board.placePiece("f6", new Pawn(Color.BLACK));
 
-        assertFalse(bishop.threatens("g7"));
+        assertFalse(bishop.threatens(new Position("g7")));
     }
 
     @Test
@@ -48,7 +49,7 @@ public class BishopThreatensTest {
         var bishop = new Bishop(Color.BLACK);
         this.board.placePiece("d4", bishop);
 
-        assertFalse(bishop.threatens("d5"));
+        assertFalse(bishop.threatens(new Position("d5")));
     }
 
     @Test
@@ -56,6 +57,6 @@ public class BishopThreatensTest {
         var bishop = new Bishop(Color.BLACK);
         this.board.placePiece("d4", bishop);
 
-        assertFalse(bishop.threatens("e4"));
+        assertFalse(bishop.threatens(new Position("e4")));
     }
 }

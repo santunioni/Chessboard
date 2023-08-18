@@ -1,6 +1,7 @@
 package chess.pieces;
 
 import chess.board.BoardState;
+import chess.board.position.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -58,14 +59,14 @@ public class KnightThreatensTest {
     void shouldThreatenPosition(String knightPosition, String threatenedPosition) {
         var knight = new Knight(Color.WHITE);
         this.board.placePiece(knightPosition, knight);
-        assertTrue(knight.threatens(threatenedPosition));
+        assertTrue(knight.threatens(new Position(threatenedPosition)));
     }
 
     @ParameterizedTest
     @ArgumentsSource(KnightNotThreatensCases.class)
-    void shouldNotThreatenPosition(String knightPosition, String threatenedPosition) {
+    void shouldNotThreatenPosition(String knightPosition, String notThreatenedPosition) {
         var knight = new Knight(Color.WHITE);
         this.board.placePiece(knightPosition, knight);
-        assertFalse(knight.threatens(threatenedPosition));
+        assertFalse(knight.threatens(new Position(notThreatenedPosition)));
     }
 }

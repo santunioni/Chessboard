@@ -1,6 +1,7 @@
 package chess.pieces;
 
 import chess.board.BoardState;
+import chess.board.position.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +21,7 @@ public class KingThreatensTest {
         var king = new King(Color.BLACK);
         board.placePiece("d4", king);
 
-        assertTrue(king.threatens("d5"));
+        assertTrue(king.threatens(new Position("d5")));
     }
 
     @Test
@@ -28,7 +29,7 @@ public class KingThreatensTest {
         var king = new King(Color.BLACK);
         board.placePiece("d4", king);
 
-        assertTrue(king.threatens("e4"));
+        assertTrue(king.threatens(new Position("e4")));
     }
 
     @Test
@@ -36,7 +37,7 @@ public class KingThreatensTest {
         var king = new King(Color.BLACK);
         board.placePiece("d4", king);
 
-        assertTrue(king.threatens("e5"));
+        assertTrue(king.threatens(new Position("e5")));
     }
 
     @Test
@@ -44,7 +45,7 @@ public class KingThreatensTest {
         var king = new King(Color.BLACK);
         board.placePiece("d4", king);
 
-        assertFalse(king.threatens("d6"));
+        assertFalse(king.threatens(new Position("d6")));
     }
 
 }
