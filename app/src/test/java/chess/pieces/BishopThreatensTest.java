@@ -45,6 +45,24 @@ public class BishopThreatensTest {
     }
 
     @Test
+    public void shouldThreatenEvenIfPositionIsOccupiedByAlly() {
+        var bishop = new Bishop(Color.BLACK);
+        this.board.placePiece("d4", bishop);
+        this.board.placePiece("f6", new Pawn(Color.BLACK));
+
+        assertTrue(bishop.threatens(new Position("f6")));
+    }
+
+    @Test
+    public void shouldThreatenEvenIfPositionIsOccupiedByEnemy() {
+        var bishop = new Bishop(Color.BLACK);
+        this.board.placePiece("d4", bishop);
+        this.board.placePiece("f6", new Pawn(Color.WHITE));
+
+        assertTrue(bishop.threatens(new Position("f6")));
+    }
+
+    @Test
     public void shouldNotThreatenVertically() {
         var bishop = new Bishop(Color.BLACK);
         this.board.placePiece("d4", bishop);

@@ -21,24 +21,8 @@ public class Bishop extends Piece {
         super(color, Type.BISHOP);
     }
 
-    public boolean threatens(Position enemyPosition) {
-        var direction = this.board.getMyPosition().directionTo(enemyPosition);
-
-        if (direction.isEmpty() || !Bishop.pathDirections.contains(direction.get())) {
-            return false;
-        }
-
-        var path = new BoardPath(this.board.getMyPosition(), direction.get());
-        for (var position : path) {
-            if (position.equals(enemyPosition)) {
-                return true;
-            }
-            if (this.board.getPieceAt(position).isPresent()) {
-                return false;
-            }
-        }
-
-        return false;
+    public boolean threatens(Position threatenedPosition) {
+        return this.canReachPositionByWalkingInOneOfDirections(threatenedPosition, Bishop.pathDirections);
     }
 
     public Set<Displacement> getValidMoves() {

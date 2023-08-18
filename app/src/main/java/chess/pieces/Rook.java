@@ -2,15 +2,15 @@ package chess.pieces;
 
 import chess.board.path.BoardPath;
 import chess.board.path.BoardPathDirection;
+import chess.board.position.Position;
 import chess.plays.Displacement;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Rook extends Piece {
-    private static final List<BoardPathDirection> pathDirections = List.of(
+    private static final Set<BoardPathDirection> pathDirections = Set.of(
             BoardPathDirection.VERTICAL_UP,
             BoardPathDirection.VERTICAL_DOWN,
             BoardPathDirection.HORIZONTAL_LEFT,
@@ -19,6 +19,10 @@ public class Rook extends Piece {
 
     public Rook(Color color) {
         super(color, Type.ROOK);
+    }
+
+    public boolean threatens(Position enemyPosition) {
+        return this.canReachPositionByWalkingInOneOfDirections(enemyPosition, Rook.pathDirections);
     }
 
     @Override
