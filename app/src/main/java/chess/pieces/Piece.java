@@ -1,8 +1,6 @@
 package chess.pieces;
 
 import chess.board.BoardPlacement;
-import chess.board.path.BoardPath;
-import chess.board.path.BoardPathDirection;
 import chess.board.position.Position;
 import chess.plays.Displacement;
 
@@ -37,27 +35,6 @@ public abstract class Piece {
 
     protected boolean isEnemyOf(Piece piece) {
         return !this.isAllyOf(piece);
-    }
-
-    protected boolean canReachPositionByWalkingInOneOfDirections(Position position, Set<BoardPathDirection> directions) {
-        var myPosition = this.board.getMyPosition();
-        var direction = myPosition.directionTo(position);
-
-        if (direction.isEmpty() || !directions.contains(direction.get())) {
-            return false;
-        }
-
-        var path = new BoardPath(myPosition, direction.get());
-        for (var step : path) {
-            if (step.equals(position)) {
-                return true;
-            }
-            if (this.board.getPieceAt(step).isPresent()) {
-                break;
-            }
-        }
-
-        return false;
     }
 
     public boolean threatens(Position position) {

@@ -2,6 +2,7 @@ package chess.pieces;
 
 import chess.board.path.BoardPath;
 import chess.board.path.BoardPathDirection;
+import chess.board.path.BoardPathReachabilityAnalyzer;
 import chess.board.position.Position;
 import chess.plays.Displacement;
 
@@ -10,21 +11,23 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Queen extends Piece {
-    private static final Set<BoardPathDirection> pathDirections = Set.of(BoardPathDirection.values());
-
     public Queen(Color color) {
         super(color, Type.QUEEN);
     }
 
 
     public boolean threatens(Position enemyPosition) {
-        return this.canReachPositionByWalkingInOneOfDirections(enemyPosition, Queen.pathDirections);
+        return new BoardPathReachabilityAnalyzer(this.board).isReachableWalkingInOneOfDirections(
+                this.board.getMyPosition(),
+                BoardPathDirection.allDirections(),
+                enemyPosition
+        );
     }
 
     public Set<Displacement> getValidMoves() {
         var movements = new HashSet<Displacement>();
 
-        for (var queenPathDirection : Queen.pathDirections) {
+        for (var queenPathDirection : BoardPathDirection.allDirections()) {
             var path = new BoardPath(this.board.getMyPosition(), queenPathDirection);
             for (var targetPosition : path) {
                 var pieceAtTargetPosition = this.board.getPieceAt(targetPosition);

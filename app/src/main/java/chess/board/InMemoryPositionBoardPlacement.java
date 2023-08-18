@@ -15,10 +15,6 @@ public class InMemoryPositionBoardPlacement implements BoardPlacement {
         this.board = board;
     }
 
-    public InMemoryPositionBoardPlacement(String position, BoardPieceAtPositionProvider board) {
-        this(new Position(position), board);
-    }
-
     public Position getMyPosition() {
         return this.position;
     }

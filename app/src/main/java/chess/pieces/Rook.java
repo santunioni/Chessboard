@@ -2,6 +2,7 @@ package chess.pieces;
 
 import chess.board.path.BoardPath;
 import chess.board.path.BoardPathDirection;
+import chess.board.path.BoardPathReachabilityAnalyzer;
 import chess.board.position.Position;
 import chess.plays.Displacement;
 
@@ -22,7 +23,11 @@ public class Rook extends Piece {
     }
 
     public boolean threatens(Position enemyPosition) {
-        return this.canReachPositionByWalkingInOneOfDirections(enemyPosition, Rook.pathDirections);
+        return new BoardPathReachabilityAnalyzer(this.board).isReachableWalkingInOneOfDirections(
+                this.board.getMyPosition(),
+                Rook.pathDirections,
+                enemyPosition
+        );
     }
 
     @Override
