@@ -41,5 +41,4 @@ public abstract class Piece {
         return this.canMoveTo(position);
     }
 
-    ;
 }
