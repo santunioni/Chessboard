@@ -8,10 +8,10 @@ import javax.swing.*;
 
 public class Application extends JFrame {
 
-    private final GridUI board = new GridUI();
+    private final GridUI grid = new GridUI();
 
     public Application() {
-        this.add(this.board);
+        this.add(this.grid);
         this.setTitle("Chess");
         this.setSize(800, 800);
         this.setResizable(false);
