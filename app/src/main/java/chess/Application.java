@@ -5,16 +5,20 @@ package chess;
 
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Application extends JFrame {
 
-    private final GridUI grid = new GridUI();
 
     public Application() {
-        this.add(this.grid);
         this.setTitle("Chess");
-        this.setSize(800, 800);
-        this.setResizable(false);
+
+        this.setMinimumSize(new Dimension(PositionRectangle.BOARD_SIZE, PositionRectangle.BOARD_SIZE));
+        this.setSize(800, 825);
+
+        this.add(new GridUI());
+
+        this.setResizable(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
     }
