@@ -8,7 +8,7 @@ import javax.swing.*;
 
 public class Application extends JFrame {
 
-    private final BoardUI board = new BoardUI();
+    private final GridUI board = new GridUI();
 
     public Application() {
         this.add(this.board);

@@ -7,12 +7,9 @@ import chess.board.position.Rank;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
-import java.util.HashMap;
 
-public class BoardUI extends JPanel {
-    private final HashMap<Position, SquareUI> squares = new HashMap<>();
-
-    BoardUI() {
+public class GridUI extends JPanel {
+    GridUI() {
         super(new GridLayout(8, 8));
         for (var rank : Arrays.stream(Rank.values()).sorted((a, b) -> b.ordinal() - a.ordinal()).toList()) {
             for (var file : File.values()) {
@@ -22,14 +19,12 @@ public class BoardUI extends JPanel {
                     this.requestFocusInWindow();
                     this.click(position);
                 });
-                this.squares.put(position, square);
                 this.add(square);
             }
         }
     }
 
     private void click(Position position) {
-        var square = this.squares.get(position);
-        System.out.println("Clicked " + square);
+        System.out.println("Clicked " + position);
     }
 }
