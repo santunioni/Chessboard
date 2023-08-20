@@ -11,8 +11,8 @@ import java.awt.event.MouseEvent;
 
 public class PieceGridUI extends JPanel {
     private final HighlightedPositionAuthority highlightedPositionAuthority;
-    private final SquarePositionUILocationAuthority grid ;
-    private final BoardState boardState ;
+    private final SquarePositionUILocationAuthority grid;
+    private final BoardState boardState;
 
     public PieceGridUI(SquarePositionUILocationAuthority grid, BoardState boardState, HighlightedPositionAuthority highlightedPositionAuthority) {
         super(null); // Null layout for absolute positioning
@@ -37,9 +37,13 @@ public class PieceGridUI extends JPanel {
         }
     }
 
-    private PieceUI createPieceUIAtPosition(Position position, Piece piece) {
-        var pieceUI = new PieceUI(piece.getColor(), piece.getType());
-        pieceUI.setBounds(this.grid.getRectangleForPosition(position, 0.8));
+    private JLabel createPieceUIAtPosition(Position position, Piece piece) {
+        var rectangle = this.grid.getRectangleForPosition(position, 0.8);
+        var pieceIconFactory = new PieceIconFactory(rectangle.width);
+        var pieceUI = new JLabel();
+
+        pieceUI.setIcon(pieceIconFactory.getIcon(piece.getColor(), piece.getType()));
+        pieceUI.setBounds(rectangle);
         pieceUI.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent event) {
                 if (PieceGridUI.this.highlightedPositionAuthority.isHighlighted(position)) {
@@ -49,6 +53,7 @@ public class PieceGridUI extends JPanel {
                 }
             }
         });
+
         return pieceUI;
     }
 }

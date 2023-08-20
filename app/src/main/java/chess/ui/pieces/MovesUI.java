@@ -15,15 +15,15 @@ public class MovesUI extends JPanel implements HighlightedPositionAuthority {
 
     private Runnable onMove = null;
 
-    public void onMove(Runnable onMove) {
-        this.onMove = onMove;
-    }
-
     public MovesUI(SquarePositionUILocationAuthority grid, BoardState boardState) {
         super(null); // Null layout for absolute positioning
         this.boardState = boardState;
         this.grid = grid;
         this.setOpaque(false);
+    }
+
+    public void onMove(Runnable onMove) {
+        this.onMove = onMove;
     }
 
     public boolean isHighlighted(Position position) {
@@ -46,7 +46,6 @@ public class MovesUI extends JPanel implements HighlightedPositionAuthority {
         if (pieceOptional.isEmpty()) {
             return;
         }
-        ;
         var piece = pieceOptional.get();
 
         for (var target : Position.values()) {
