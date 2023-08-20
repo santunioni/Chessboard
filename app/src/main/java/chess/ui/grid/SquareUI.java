@@ -10,6 +10,6 @@ class SquareUI extends JPanel {
     private static final Color darkSquareColor = new Color(181, 136, 99);   // Dark square color
 
     public SquareUI(Position position) {
-        this.setBackground((position.rank().ordinal() + position.file().ordinal()) % 2 == 0 ? SquareUI.darkSquareColor : SquareUI.lightSquareColor);
+        this.setBackground((position.rank().ordinal() + position.file().ordinal()) % 2 == 0 ? SquareUI.lightSquareColor : SquareUI.darkSquareColor);
     }
 }
