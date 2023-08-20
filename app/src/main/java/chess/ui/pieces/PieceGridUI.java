@@ -26,6 +26,10 @@ public class PieceGridUI extends JPanel {
         if (this.grid == null || this.boardState == null) {
             return;
         }
+        this.replacePieces();
+    }
+
+    private void replacePieces() {
         this.removeAll();
         for (var position : Position.values()) {
             var pieceOptional = this.boardState.getPieceAt(position);
