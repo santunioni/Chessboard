@@ -37,7 +37,7 @@ public class SquareGridUI extends JPanel {
         );
     }
 
-    public Point getMiddlePointForPosition(Position position) {
+    private Point getMiddlePointForPosition(Position position) {
         int width = this.getSquareSize();
         int height = this.getSquareSize();
 
