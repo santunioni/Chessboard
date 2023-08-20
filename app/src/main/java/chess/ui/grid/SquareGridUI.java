@@ -8,7 +8,7 @@ import chess.board.position.Rank;
 import javax.swing.*;
 import java.awt.*;
 
-public class SquareGridUI extends JPanel {
+public class SquareGridUI extends JPanel implements SquarePositionUILocationAuthority {
 
     public SquareGridUI() {
         super(new GridLayout(8, 8));
@@ -21,12 +21,41 @@ public class SquareGridUI extends JPanel {
         }
     }
 
-    public SquareGridUI resizeTo(Integer size) {
+
+    public void resizeTo(Integer size) {
         var dimension = new Dimension(size, size);
         this.setMinimumSize(dimension);
         this.setPreferredSize(dimension);
         this.setMaximumSize(dimension);
         this.setBounds(0, 0, size, size);
-        return this;
+    }
+
+    private Integer getBoardSize() {
+        return this.getWidth();
+    }
+
+    private Integer getSquareSize() {
+        return this.getBoardSize() / 8;
+    }
+
+    public Rectangle getRectangleForPosition(Position position, Double ratio) {
+        Point middlePoint = this.getMiddlePointForPosition(position);
+        var size = this.getSquareSize() * ratio;
+        return new Rectangle(
+                (int) Math.round(middlePoint.x - size / 2),
+                (int) Math.round(middlePoint.y - size / 2),
+                (int) Math.round(size),
+                (int) Math.round(size)
+        );
+    }
+
+    public Point getMiddlePointForPosition(Position position) {
+        int width = this.getSquareSize();
+        int height = this.getSquareSize();
+
+        var x = position.file().ordinal() * width + width / 2;
+        var y = this.getBoardSize() - (position.rank().ordinal() * height + height / 2);
+
+        return new Point(x, y);
     }
 }

@@ -1,7 +1,6 @@
 package chess;
 
 
-import chess.ui.grid.PositionLocation;
 import chess.ui.grid.SquareGridUI;
 
 import javax.swing.*;
@@ -13,7 +12,11 @@ public class Application extends JFrame {
     public Application() {
         var layers = new JLayeredPane();
 
-        var grid = new SquareGridUI().resizeTo(PositionLocation.BOARD_SIZE);
+        var BOARD_SIZE = 1024;
+
+        var grid = new SquareGridUI();
+        grid.resizeTo(BOARD_SIZE);
+        grid.setIgnoreRepaint(true);
 
         layers.add(grid, Integer.valueOf(0));
 
@@ -21,7 +24,7 @@ public class Application extends JFrame {
         this.setTitle("Chess");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        this.setMinimumSize(new Dimension(PositionLocation.BOARD_SIZE, PositionLocation.BOARD_SIZE + 25));
+        this.setMinimumSize(new Dimension(BOARD_SIZE, BOARD_SIZE + 25));
         this.setResizable(false);
         this.setLocationRelativeTo(null);
     }
