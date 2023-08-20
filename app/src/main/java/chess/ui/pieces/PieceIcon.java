@@ -1,4 +1,4 @@
-package chess;
+package chess.ui.pieces;
 
 import chess.pieces.Color;
 import chess.pieces.Piece;
