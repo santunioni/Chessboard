@@ -18,7 +18,7 @@ public enum Rank {
         return rankE.get();
     }
 
-    private static Optional<Rank> createFromIndex(int index) {
+    static Optional<Rank> createFromIndex(int index) {
         var values = Rank.values();
         if (index < 0 || index >= values.length) {
             return Optional.empty();

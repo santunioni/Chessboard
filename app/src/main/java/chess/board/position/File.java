@@ -12,7 +12,7 @@ public enum File {
         return File.valueOf(file.toUpperCase());
     }
 
-    private static Optional<File> createFromIndex(int index) {
+    public static Optional<File> createFromIndex(int index) {
         var values = File.values();
         if (index < 0 || index >= values.length) {
             return Optional.empty();

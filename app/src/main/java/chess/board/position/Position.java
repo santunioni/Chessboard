@@ -3,11 +3,40 @@ package chess.board.position;
 
 import chess.board.path.BoardPathDirection;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 public record Position(File file, Rank rank) {
     public Position(String position) {
         this(File.fromString(position.substring(0, 1)), Rank.fromString(position.substring(1, 2)));
+    }
+
+    public static Position fromIndex(int index) {
+        return new Position(File.createFromIndex(index % 8).orElseThrow(), Rank.createFromIndex(index / 8).orElseThrow());
+    }
+
+    public static Iterable<Position> values() {
+        return new Iterable<>() {
+            public Iterator<Position> iterator() {
+                return new Iterator<>() {
+                    private int nextposition = 0;
+
+                    public boolean hasNext() {
+                        return this.nextposition < 64;
+                    }
+
+                    public Position next() {
+                        var position = Position.fromIndex(this.nextposition);
+                        this.nextposition += 1;
+                        return position;
+                    }
+                };
+            }
+        };
+    }
+
+    public int toIndex() {
+        return this.rank.ordinal() * 8 + this.file.ordinal();
     }
 
     @Override
@@ -50,6 +79,6 @@ public record Position(File file, Rank rank) {
             return false;
         }
 
-        return Math.abs(fileDisplacement) == 1 || Math.abs(rankDisplacement) == 1;
+        return Math.abs(fileDisplacement) < 2 && Math.abs(rankDisplacement) < 2;
     }
 }
