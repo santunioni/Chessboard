@@ -2,20 +2,20 @@ package chess.ui.pieces;
 
 import chess.board.BoardState;
 import chess.board.position.Position;
-import chess.ui.grid.SquarePositionUILocationAuthority;
+import chess.ui.grid.SquareGridUI;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class MovesUI extends JPanel implements HighlightedPositionAuthority {
+public class MovesUI extends JPanel {
     private final BoardState boardState;
-    private final SquarePositionUILocationAuthority grid;
+    private final SquareGridUI grid;
     private Position highlighted = null;
 
     private Runnable onMove = null;
 
-    public MovesUI(SquarePositionUILocationAuthority grid, BoardState boardState) {
+    public MovesUI(SquareGridUI grid, BoardState boardState) {
         super(null); // Null layout for absolute positioning
         this.boardState = boardState;
         this.grid = grid;

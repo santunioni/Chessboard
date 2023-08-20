@@ -3,27 +3,27 @@ package chess.ui.pieces;
 import chess.board.BoardState;
 import chess.board.position.Position;
 import chess.pieces.Piece;
-import chess.ui.grid.SquarePositionUILocationAuthority;
+import chess.ui.grid.SquareGridUI;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class PieceGridUI extends JPanel {
-    private final HighlightedPositionAuthority highlightedPositionAuthority;
-    private final SquarePositionUILocationAuthority grid;
-    private final BoardState boardState;
+    private final MovesUI movesUI;
+    private final SquareGridUI grid;
+    private final BoardState board;
 
-    public PieceGridUI(SquarePositionUILocationAuthority grid, BoardState boardState, HighlightedPositionAuthority highlightedPositionAuthority) {
+    public PieceGridUI(SquareGridUI grid, BoardState boardState, MovesUI movesUI) {
         super(null); // Null layout for absolute positioning
         this.grid = grid;
-        this.boardState = boardState;
-        this.highlightedPositionAuthority = highlightedPositionAuthority;
+        this.board = boardState;
+        this.movesUI = movesUI;
         this.setOpaque(false);
     }
 
     public void repaint() {
-        if (this.grid == null || this.boardState == null) {
+        if (this.grid == null || this.board == null) {
             return;
         }
         this.replacePieces();
@@ -32,7 +32,7 @@ public class PieceGridUI extends JPanel {
     private void replacePieces() {
         this.removeAll();
         for (var position : Position.values()) {
-            var pieceOptional = this.boardState.getPieceAt(position);
+            var pieceOptional = this.board.getPieceAt(position);
             pieceOptional.ifPresent(piece -> this.add(this.createPieceUIAtPosition(position, piece)));
         }
     }
@@ -46,10 +46,10 @@ public class PieceGridUI extends JPanel {
         pieceUI.setBounds(rectangle);
         pieceUI.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent event) {
-                if (PieceGridUI.this.highlightedPositionAuthority.isHighlighted(position)) {
-                    PieceGridUI.this.highlightedPositionAuthority.unhighlight(position);
+                if (PieceGridUI.this.movesUI.isHighlighted(position)) {
+                    PieceGridUI.this.movesUI.unhighlight(position);
                 } else {
-                    PieceGridUI.this.highlightedPositionAuthority.highlight(position);
+                    PieceGridUI.this.movesUI.highlight(position);
                 }
             }
         });

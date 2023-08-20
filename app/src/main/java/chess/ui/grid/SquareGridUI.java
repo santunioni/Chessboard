@@ -6,7 +6,7 @@ import chess.board.position.Position;
 import javax.swing.*;
 import java.awt.*;
 
-public class SquareGridUI extends JPanel implements SquarePositionUILocationAuthority {
+public class SquareGridUI extends JPanel {
 
     public SquareGridUI() {
         super(new GridLayout(8, 8));
