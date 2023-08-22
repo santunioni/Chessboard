@@ -2,6 +2,6 @@ package chess.plays;
 
 import chess.board.BoardState;
 
-public interface ChessPlay {
+public interface Play {
     void actUpon(BoardState boardState) throws IlegalPlay;
 }
