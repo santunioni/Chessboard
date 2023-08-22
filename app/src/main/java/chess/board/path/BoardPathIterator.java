@@ -7,12 +7,12 @@ import chess.board.position.Rank;
 import java.util.Iterator;
 import java.util.Optional;
 
-class BoardPathIterator implements Iterator<Position> {
+public class BoardPathIterator implements Iterator<Position> {
 
     private final BoardPathDirection direction;
     private Position position;
 
-    BoardPathIterator(Position position, BoardPathDirection direction) {
+    public BoardPathIterator(Position position, BoardPathDirection direction) {
         this.position = position;
         this.direction = direction;
     }

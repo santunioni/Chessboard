@@ -1,7 +1,7 @@
 package chess.pieces;
 
 import chess.board.path.BoardPathDirection;
-import chess.board.path.BoardPathWalker;
+import chess.board.path.BoardPathIterator;
 import chess.board.position.Position;
 import chess.board.position.Rank;
 import chess.plays.Displacement;
@@ -39,23 +39,25 @@ public class Pawn extends Piece {
     public Set<Displacement> getValidMoves() {
         var moviments = new HashSet<Displacement>();
 
-        var positionAfterFirstStep = new BoardPathWalker(this.board.getMyPosition()).walk(1, this.walkDirection).map(BoardPathWalker::getPosition);
-        if (positionAfterFirstStep.isEmpty()) {
+        var walker = new BoardPathIterator(this.board.getMyPosition(), this.walkDirection);
+        if (!walker.hasNext()) {
+            return moviments;
+        }
+        var positionAfterFirstStep = walker.next();
+
+        if (this.board.getPieceAt(positionAfterFirstStep).isEmpty()) {
+            moviments.add(new Displacement(this.board.getMyPosition(), positionAfterFirstStep));
+        } else {
             return moviments;
         }
 
-        if (this.board.getPieceAt(positionAfterFirstStep.get()).isEmpty()) {
-            moviments.add(new Displacement(this.board.getMyPosition(), positionAfterFirstStep.get()));
-        }
-
-        if (this.hasAlreadyMoved()) {
+        if (this.hasAlreadyMoved() || !walker.hasNext()) {
             return moviments;
         }
+        var positionAfterSecondStep = walker.next();
 
-        var positionAfterSecondStep = new BoardPathWalker(positionAfterFirstStep.get()).walk(1, this.walkDirection).map(BoardPathWalker::getPosition);
-
-        if (positionAfterSecondStep.isPresent() && this.board.getPieceAt(positionAfterSecondStep.get()).isEmpty()) {
-            moviments.add(new Displacement(this.board.getMyPosition(), positionAfterSecondStep.get()));
+        if (this.board.getPieceAt(positionAfterSecondStep).isEmpty()) {
+            moviments.add(new Displacement(this.board.getMyPosition(), positionAfterSecondStep));
         }
 
         return moviments;

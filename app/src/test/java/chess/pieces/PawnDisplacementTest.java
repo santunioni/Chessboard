@@ -78,4 +78,13 @@ public class PawnDisplacementTest {
 
         assertEquals(expectedValidMoves, pawn.getValidMoves());
     }
+
+    @Test
+    void shouldBeBlockedByNeighborPiece() {
+        var pawn = new Pawn(Color.WHITE);
+        this.board.placePiece("e2", pawn);
+        this.board.placePiece("e3", new Pawn(Color.BLACK));
+
+        assertEquals(0, pawn.getValidMoves().size());
+    }
 }

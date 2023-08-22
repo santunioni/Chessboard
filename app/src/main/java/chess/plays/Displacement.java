@@ -10,6 +10,7 @@ import chess.board.position.Position;
  * The implementation is:
  * - Displacements are only valid to an empty position.
  * - Attacks are only valid when moving to a position occupied by the enemy.
+ *
  * @param from
  * @param to
  */
