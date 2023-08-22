@@ -23,7 +23,7 @@ public record Displacement(Position from, Position to) implements Play {
     public void actUpon(BoardState boardState) throws IlegalPlay {
         var piece = boardState.getPieceAt(from).orElseThrow(() -> new IlegalPlay(this, "No piece at " + from));
 
-        if (!piece.canMoveTo(to)) {
+        if (!piece.reaches(to)) {
             throw new IlegalPlay(this, "Cant move to " + to + " because it is not a valid move.");
         }
 

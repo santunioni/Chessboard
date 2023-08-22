@@ -10,7 +10,7 @@ public class Knight extends Piece {
     }
 
 
-    public boolean canMoveTo(Position position) {
+    public boolean reaches(Position position) {
         var myPosition = this.board.getMyPosition();
         var horizontalDistance = Math.abs(myPosition.file().distanceTo(position.file()));
         var verticalDistance = Math.abs(myPosition.rank().distanceTo(position.rank()));

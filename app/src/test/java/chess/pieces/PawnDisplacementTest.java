@@ -25,7 +25,7 @@ public class PawnDisplacementTest {
         var pawn = new Pawn(Color.WHITE);
         this.board.placePiece("a4", pawn);
 
-        assertTrue(pawn.canMoveTo(new Position("a5")));
+        assertTrue(pawn.reaches(new Position("a5")));
     }
 
     @Test

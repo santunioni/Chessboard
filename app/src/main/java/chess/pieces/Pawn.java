@@ -32,7 +32,7 @@ public class Pawn extends Piece {
         return myPosition.rank().distanceTo(enemyPosition.rank()) == (this.walkDirection == BoardPathDirection.VERTICAL_UP ? 1 : -1);
     }
 
-    public boolean canMoveTo(Position position) {
+    public boolean reaches(Position position) {
         return this.getValidMoves().contains(new Displacement(this.board.getMyPosition(), position));
     }
 
