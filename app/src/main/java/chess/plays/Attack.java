@@ -28,8 +28,8 @@ public record Attack(Position from, Position to) implements Play {
         }
         var victim = targetPositionOccupation.get();
 
-        if (victim.getColor() == piece.getColor()) {
-            throw new IlegalPlay(this, "Cant attack pieces of same color.");
+        if (!victim.isEnemyOf(piece)) {
+            throw new IlegalPlay(this, "Cant attack friends.");
         }
 
         boardState.removePieceFromSquare(from);

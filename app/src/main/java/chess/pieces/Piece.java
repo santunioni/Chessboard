@@ -32,4 +32,7 @@ public abstract class Piece {
         return this.couldMoveToIfEmpty(position);
     }
 
+    public boolean isEnemyOf(Piece piece) {
+        return this.color != piece.color;
+    }
 }
