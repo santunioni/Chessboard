@@ -21,8 +21,8 @@ public class PawnThreatensTest {
         var pawn = new Pawn(Color.WHITE);
         this.board.placePiece("c2", pawn);
 
-        assertTrue(pawn.threatens(new Position("d3")));
-        assertTrue(pawn.threatens(new Position("b3")));
+        assertTrue(pawn.couldAttackIfOccupiedByEnemy(new Position("d3")));
+        assertTrue(pawn.couldAttackIfOccupiedByEnemy(new Position("b3")));
     }
 
     @Test
@@ -30,8 +30,8 @@ public class PawnThreatensTest {
         var pawn = new Pawn(Color.BLACK);
         this.board.placePiece("c7", pawn);
 
-        assertTrue(pawn.threatens(new Position("d6")));
-        assertTrue(pawn.threatens(new Position("b6")));
+        assertTrue(pawn.couldAttackIfOccupiedByEnemy(new Position("d6")));
+        assertTrue(pawn.couldAttackIfOccupiedByEnemy(new Position("b6")));
     }
 
     @Test
@@ -39,8 +39,8 @@ public class PawnThreatensTest {
         var pawn = new Pawn(Color.BLACK);
         this.board.placePiece("c2", pawn);
 
-        assertFalse(pawn.threatens(new Position("d3")));
-        assertFalse(pawn.threatens(new Position("b3")));
+        assertFalse(pawn.couldAttackIfOccupiedByEnemy(new Position("d3")));
+        assertFalse(pawn.couldAttackIfOccupiedByEnemy(new Position("b3")));
     }
 
     @Test
@@ -48,8 +48,8 @@ public class PawnThreatensTest {
         var pawn = new Pawn(Color.WHITE);
         this.board.placePiece("c7", pawn);
 
-        assertFalse(pawn.threatens(new Position("d6")));
-        assertFalse(pawn.threatens(new Position("b6")));
+        assertFalse(pawn.couldAttackIfOccupiedByEnemy(new Position("d6")));
+        assertFalse(pawn.couldAttackIfOccupiedByEnemy(new Position("b6")));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class PawnThreatensTest {
         var pawn = new Pawn(Color.WHITE);
         this.board.placePiece("a2", pawn);
 
-        assertFalse(pawn.threatens(new Position("b2")));
+        assertFalse(pawn.couldAttackIfOccupiedByEnemy(new Position("b2")));
     }
 
     @Test
@@ -65,7 +65,7 @@ public class PawnThreatensTest {
         var pawn = new Pawn(Color.WHITE);
         this.board.placePiece("a1", pawn);
 
-        assertFalse(pawn.threatens(new Position("b3")));
+        assertFalse(pawn.couldAttackIfOccupiedByEnemy(new Position("b3")));
     }
 
     @Test
@@ -73,6 +73,6 @@ public class PawnThreatensTest {
         var pawn = new Pawn(Color.WHITE);
         this.board.placePiece("a1", pawn);
 
-        assertFalse(pawn.threatens(new Position("c3")));
+        assertFalse(pawn.couldAttackIfOccupiedByEnemy(new Position("c3")));
     }
 }

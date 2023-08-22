@@ -28,7 +28,7 @@ public abstract class Piece {
 
     public abstract boolean couldMoveToIfEmpty(Position position);
 
-    public boolean threatens(Position position) {
+    public boolean couldAttackIfOccupiedByEnemy(Position position) {
         return this.couldMoveToIfEmpty(position);
     }
 

@@ -18,7 +18,7 @@ public record Attack(Position from, Position to) implements Play {
     public void actUpon(BoardState boardState) throws IlegalPlay {
         var piece = boardState.getPieceAt(from).orElseThrow(() -> new IlegalPlay(this, "No piece at " + from));
 
-        if (!piece.threatens(to)) {
+        if (!piece.couldAttackIfOccupiedByEnemy(to)) {
             throw new IlegalPlay(this, "Cant attack " + to + " because piece doesnt threatens it.");
         }
 

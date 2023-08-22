@@ -21,7 +21,7 @@ public class KingThreatensTest {
         var king = new King(Color.BLACK);
         board.placePiece("d4", king);
 
-        assertTrue(king.threatens(new Position("d5")));
+        assertTrue(king.couldAttackIfOccupiedByEnemy(new Position("d5")));
     }
 
     @Test
@@ -29,7 +29,7 @@ public class KingThreatensTest {
         var king = new King(Color.BLACK);
         board.placePiece("d4", king);
 
-        assertTrue(king.threatens(new Position("e4")));
+        assertTrue(king.couldAttackIfOccupiedByEnemy(new Position("e4")));
     }
 
     @Test
@@ -37,7 +37,7 @@ public class KingThreatensTest {
         var king = new King(Color.BLACK);
         board.placePiece("d4", king);
 
-        assertTrue(king.threatens(new Position("e5")));
+        assertTrue(king.couldAttackIfOccupiedByEnemy(new Position("e5")));
     }
 
     @Test
@@ -45,7 +45,7 @@ public class KingThreatensTest {
         var king = new King(Color.BLACK);
         board.placePiece("d4", king);
 
-        assertFalse(king.threatens(new Position("d6")));
+        assertFalse(king.couldAttackIfOccupiedByEnemy(new Position("d6")));
     }
 
 }

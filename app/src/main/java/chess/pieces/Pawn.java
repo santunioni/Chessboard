@@ -20,7 +20,7 @@ public class Pawn extends Piece {
         return this.walkDirection == BoardPathDirection.VERTICAL_UP ? this.board.getMyPosition().rank() != Rank.TWO : this.board.getMyPosition().rank() != Rank.SEVEN;
     }
 
-    public boolean threatens(Position enemyPosition) {
+    public boolean couldAttackIfOccupiedByEnemy(Position enemyPosition) {
         var myPosition = this.board.getMyPosition();
 
         if (Math.abs(myPosition.rank().distanceTo(enemyPosition.rank())) != 1 || Math.abs(myPosition.file().distanceTo(enemyPosition.file())) != 1) {

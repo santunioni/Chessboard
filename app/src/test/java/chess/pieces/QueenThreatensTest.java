@@ -23,7 +23,7 @@ public class QueenThreatensTest {
         var queen = new Queen(Color.BLACK);
         this.board.placePiece("d4", queen);
 
-        assertTrue(queen.threatens(new Position("f6")));
+        assertTrue(queen.couldAttackIfOccupiedByEnemy(new Position("f6")));
     }
 
     @Test
@@ -31,7 +31,7 @@ public class QueenThreatensTest {
         var queen = new Queen(Color.BLACK);
         this.board.placePiece("d4", queen);
 
-        assertTrue(queen.threatens(new Position("d5")));
+        assertTrue(queen.couldAttackIfOccupiedByEnemy(new Position("d5")));
     }
 
     @Test
@@ -39,7 +39,7 @@ public class QueenThreatensTest {
         var queen = new Queen(Color.BLACK);
         this.board.placePiece("d4", queen);
 
-        assertTrue(queen.threatens(new Position("e4")));
+        assertTrue(queen.couldAttackIfOccupiedByEnemy(new Position("e4")));
     }
 
     @Test
@@ -48,7 +48,7 @@ public class QueenThreatensTest {
         this.board.placePiece("d4", queen);
         this.board.placePiece("f6", new Pawn(Color.WHITE));
 
-        assertFalse(queen.threatens(new Position("g7")));
+        assertFalse(queen.couldAttackIfOccupiedByEnemy(new Position("g7")));
     }
 
     @Test
@@ -57,6 +57,6 @@ public class QueenThreatensTest {
         this.board.placePiece("d4", queen);
         this.board.placePiece("f6", new Pawn(Color.BLACK));
 
-        assertFalse(queen.threatens(new Position("g7")));
+        assertFalse(queen.couldAttackIfOccupiedByEnemy(new Position("g7")));
     }
 }
