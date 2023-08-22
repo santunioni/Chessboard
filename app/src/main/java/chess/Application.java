@@ -2,9 +2,9 @@ package chess;
 
 
 import chess.board.BoardStateFactory;
-import chess.ui.grid.SquareGridUI;
+import chess.ui.grid.SquaresUI;
 import chess.ui.pieces.MovesUI;
-import chess.ui.pieces.PieceGridUI;
+import chess.ui.pieces.PiecesUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,14 +18,14 @@ public class Application extends JFrame {
         this.BOARD_SIZE = BOARD_SIZE;
 
         var boardState = new BoardStateFactory().createFreshBoardState();
-        var squareGrid = new SquareGridUI();
-        var movesUi = new MovesUI(squareGrid, boardState);
-        var pieceGridUI = new PieceGridUI(squareGrid, boardState, movesUi);
-        movesUi.onMove(pieceGridUI::repaint);
+        var squares = new SquaresUI();
+        var moves = new MovesUI(squares, boardState);
+        var pieces = new PiecesUI(squares, boardState, moves);
+        moves.onMovedPiece(pieces::repaint);
 
-        this.addLayer(squareGrid);
-        this.addLayer(pieceGridUI);
-        this.addLayer(movesUi);
+        this.addLayer(squares);
+        this.addLayer(pieces);
+        this.addLayer(moves);
 
         this.configureWindow();
     }

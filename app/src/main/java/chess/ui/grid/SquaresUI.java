@@ -6,9 +6,9 @@ import chess.board.position.Position;
 import javax.swing.*;
 import java.awt.*;
 
-public class SquareGridUI extends JPanel {
+public class SquaresUI extends JPanel {
 
-    public SquareGridUI() {
+    public SquaresUI() {
         super(new GridLayout(8, 8));
         for (var position : Position.values()) {
             var square = new SquareUI(position);

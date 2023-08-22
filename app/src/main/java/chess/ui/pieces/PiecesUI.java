@@ -3,22 +3,22 @@ package chess.ui.pieces;
 import chess.board.BoardState;
 import chess.board.position.Position;
 import chess.pieces.Piece;
-import chess.ui.grid.SquareGridUI;
+import chess.ui.grid.SquaresUI;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class PieceGridUI extends JPanel {
-    private final MovesUI movesUI;
-    private final SquareGridUI grid;
+public class PiecesUI extends JPanel {
+    private final MovesUI moves;
+    private final SquaresUI grid;
     private final BoardState board;
 
-    public PieceGridUI(SquareGridUI grid, BoardState boardState, MovesUI movesUI) {
+    public PiecesUI(SquaresUI grid, BoardState boardState, MovesUI moves) {
         super(null); // Null layout for absolute positioning
         this.grid = grid;
         this.board = boardState;
-        this.movesUI = movesUI;
+        this.moves = moves;
         this.setOpaque(false);
     }
 
@@ -46,10 +46,10 @@ public class PieceGridUI extends JPanel {
         pieceUI.setBounds(rectangle);
         pieceUI.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent event) {
-                if (PieceGridUI.this.movesUI.isHighlighted(position)) {
-                    PieceGridUI.this.movesUI.unhighlight(position);
+                if (PiecesUI.this.moves.isHighlighted(position)) {
+                    PiecesUI.this.moves.unhighlight(position);
                 } else {
-                    PieceGridUI.this.movesUI.highlight(position);
+                    PiecesUI.this.moves.highlight(position);
                 }
             }
         });

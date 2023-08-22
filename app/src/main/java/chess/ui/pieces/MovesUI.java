@@ -2,7 +2,7 @@ package chess.ui.pieces;
 
 import chess.board.BoardState;
 import chess.board.position.Position;
-import chess.ui.grid.SquareGridUI;
+import chess.ui.grid.SquaresUI;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -10,19 +10,19 @@ import java.awt.event.MouseEvent;
 
 public class MovesUI extends JPanel {
     private final BoardState boardState;
-    private final SquareGridUI grid;
+    private final SquaresUI grid;
     private Position highlighted = null;
 
     private Runnable onMove = null;
 
-    public MovesUI(SquareGridUI grid, BoardState boardState) {
+    public MovesUI(SquaresUI grid, BoardState boardState) {
         super(null); // Null layout for absolute positioning
         this.boardState = boardState;
         this.grid = grid;
         this.setOpaque(false);
     }
 
-    public void onMove(Runnable onMove) {
+    public void onMovedPiece(Runnable onMove) {
         this.onMove = onMove;
     }
 
