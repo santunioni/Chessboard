@@ -13,7 +13,16 @@ public class BoardPathReachabilityAnalyzer {
         this.board = board;
     }
 
-    public boolean isReachableWalkingInOneOfDirections(Position from, Set<BoardPathDirection> allowedDirections, Position target) {
+    public boolean isReachableWalkingInOneOfDirections(
+            Position from,
+            Set<BoardPathDirection> allowedDirections,
+            Position target
+    ) {
+        return this.isReachableWalkingInOneOfDirections(from, allowedDirections, target, 8);
+    }
+
+    public boolean isReachableWalkingInOneOfDirections(Position from, Set<BoardPathDirection> allowedDirections, Position target, int maxSteps) {
+        var stepsTaken = 0;
         var direction = from.directionTo(target);
 
         if (direction.isEmpty() || !allowedDirections.contains(direction.get())) {
@@ -26,6 +35,10 @@ public class BoardPathReachabilityAnalyzer {
                 return true;
             }
             if (this.board.getPieceAt(step).isPresent()) {
+                break;
+            }
+            stepsTaken++;
+            if (stepsTaken >= maxSteps) {
                 break;
             }
         }

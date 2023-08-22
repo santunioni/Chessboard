@@ -49,7 +49,7 @@ public class MovesUI extends JPanel {
         var piece = pieceOptional.get();
 
         for (var target : Position.values()) {
-            if (!piece.reaches(target)) {
+            if (!piece.couldMoveToIfEmpty(target)) {
                 continue;
             }
             var moveUI = new JLabel();

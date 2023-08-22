@@ -18,7 +18,7 @@ public class Rook extends Piece {
         super(color, Type.ROOK);
     }
 
-    public boolean reaches(Position enemyPosition) {
+    public boolean couldMoveToIfEmpty(Position enemyPosition) {
         return new BoardPathReachabilityAnalyzer(this.board).isReachableWalkingInOneOfDirections(
                 this.board.getMyPosition(),
                 Rook.pathDirections,

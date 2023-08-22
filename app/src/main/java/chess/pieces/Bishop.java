@@ -11,7 +11,7 @@ public class Bishop extends Piece {
         super(color, Type.BISHOP);
     }
 
-    public boolean reaches(Position position) {
+    public boolean couldMoveToIfEmpty(Position position) {
         return new BoardPathReachabilityAnalyzer(this.board).isReachableWalkingInOneOfDirections(
                 this.board.getMyPosition(),
                 BoardPathDirection.diagonals(),

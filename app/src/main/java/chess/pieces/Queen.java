@@ -10,7 +10,7 @@ public class Queen extends Piece {
     }
 
 
-    public boolean reaches(Position position) {
+    public boolean couldMoveToIfEmpty(Position position) {
         return new BoardPathReachabilityAnalyzer(this.board).isReachableWalkingInOneOfDirections(
                 this.board.getMyPosition(),
                 BoardPathDirection.allDirections(),

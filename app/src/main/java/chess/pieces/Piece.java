@@ -26,10 +26,10 @@ public abstract class Piece {
         return this.type;
     }
 
-    public abstract boolean reaches(Position position);
+    public abstract boolean couldMoveToIfEmpty(Position position);
 
     public boolean threatens(Position position) {
-        return this.reaches(position);
+        return this.couldMoveToIfEmpty(position);
     }
 
 }

@@ -8,7 +8,7 @@ public class King extends Piece {
         super(color, Type.KING);
     }
 
-    public boolean reaches(Position position) {
+    public boolean couldMoveToIfEmpty(Position position) {
         return this.board.getMyPosition().isNeighborTo(position);
     }
 

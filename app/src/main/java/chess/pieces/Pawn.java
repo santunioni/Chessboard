@@ -1,12 +1,10 @@
 package chess.pieces;
 
 import chess.board.path.BoardPathDirection;
-import chess.board.path.BoardPathIterator;
+import chess.board.path.BoardPathReachabilityAnalyzer;
 import chess.board.position.Position;
 import chess.board.position.Rank;
-import chess.plays.Displacement;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class Pawn extends Piece {
@@ -32,31 +30,7 @@ public class Pawn extends Piece {
         return myPosition.rank().distanceTo(enemyPosition.rank()) == (this.walkDirection == BoardPathDirection.VERTICAL_UP ? 1 : -1);
     }
 
-    public boolean reaches(Position position) {
-        return this.getValidMoves().contains(new Displacement(this.board.getMyPosition(), position));
-    }
-
-    private Set<Displacement> getValidMoves() {
-        var moviments = new HashSet<Displacement>();
-
-        var walker = new BoardPathIterator(this.board.getMyPosition(), this.walkDirection);
-
-        var firstPositionIsFree = this.addNextPositionIfFree(moviments, walker);
-        if (firstPositionIsFree && !this.hasAlreadyMoved()) {
-            this.addNextPositionIfFree(moviments, walker);
-        }
-
-        return moviments;
-    }
-
-    private boolean addNextPositionIfFree(Set<Displacement> moviments, BoardPathIterator walker) {
-        if (walker.hasNext()) {
-            var nextPosition = walker.next();
-            if (this.board.getPieceAt(nextPosition).isEmpty()) {
-                moviments.add(new Displacement(this.board.getMyPosition(), nextPosition));
-                return true;
-            }
-        }
-        return false;
+    public boolean couldMoveToIfEmpty(Position position) {
+        return new BoardPathReachabilityAnalyzer(this.board).isReachableWalkingInOneOfDirections(this.board.getMyPosition(), Set.of(this.walkDirection), position, this.hasAlreadyMoved() ? 1 : 2);
     }
 }
