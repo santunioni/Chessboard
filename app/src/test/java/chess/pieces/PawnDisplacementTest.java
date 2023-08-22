@@ -2,13 +2,10 @@ package chess.pieces;
 
 import chess.board.BoardState;
 import chess.board.position.Position;
-import chess.plays.Displacement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PawnDisplacementTest {
@@ -33,11 +30,7 @@ public class PawnDisplacementTest {
         var pawn = new Pawn(Color.BLACK);
         this.board.placePiece("b4", pawn);
 
-        var expectedValidMoves = Set.of(
-                new Displacement("b4", "b3")
-        );
-
-        assertEquals(expectedValidMoves, pawn.getValidMoves());
+        assertTrue(pawn.reaches(new Position("b3")));
     }
 
     @Test
@@ -45,12 +38,8 @@ public class PawnDisplacementTest {
         var pawn = new Pawn(Color.WHITE);
         this.board.placePiece("c2", pawn);
 
-        var expectedValidMoves = Set.of(
-                new Displacement("c2", "c3"),
-                new Displacement("c2", "c4")
-        );
-
-        assertEquals(expectedValidMoves, pawn.getValidMoves());
+        assertTrue(pawn.reaches(new Position("c3")));
+        assertTrue(pawn.reaches(new Position("c4")));
     }
 
     @Test
@@ -58,12 +47,8 @@ public class PawnDisplacementTest {
         var pawn = new Pawn(Color.BLACK);
         this.board.placePiece("d7", pawn);
 
-        var expectedValidMoves = Set.of(
-                new Displacement("d7", "d6"),
-                new Displacement("d7", "d5")
-        );
-
-        assertEquals(expectedValidMoves, pawn.getValidMoves());
+        assertTrue(pawn.reaches(new Position("d6")));
+        assertTrue(pawn.reaches(new Position("d5")));
     }
 
     @Test
@@ -72,11 +57,8 @@ public class PawnDisplacementTest {
         this.board.placePiece("e2", pawn);
         this.board.placePiece("e4", new Pawn(Color.BLACK));
 
-        var expectedValidMoves = Set.of(
-                new Displacement("e2", "e3")
-        );
-
-        assertEquals(expectedValidMoves, pawn.getValidMoves());
+        assertTrue(pawn.reaches(new Position("e3")));
+        assertFalse(pawn.reaches(new Position("e4")));
     }
 
     @Test
@@ -85,6 +67,6 @@ public class PawnDisplacementTest {
         this.board.placePiece("e2", pawn);
         this.board.placePiece("e3", new Pawn(Color.BLACK));
 
-        assertEquals(0, pawn.getValidMoves().size());
+        Position.values().forEach(position -> assertFalse(pawn.reaches(position)));
     }
 }

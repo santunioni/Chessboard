@@ -36,7 +36,7 @@ public class Pawn extends Piece {
         return this.getValidMoves().contains(new Displacement(this.board.getMyPosition(), position));
     }
 
-    public Set<Displacement> getValidMoves() {
+    private Set<Displacement> getValidMoves() {
         var moviments = new HashSet<Displacement>();
 
         var walker = new BoardPathIterator(this.board.getMyPosition(), this.walkDirection);
