@@ -40,27 +40,23 @@ public class Pawn extends Piece {
         var moviments = new HashSet<Displacement>();
 
         var walker = new BoardPathIterator(this.board.getMyPosition(), this.walkDirection);
-        if (!walker.hasNext()) {
-            return moviments;
-        }
-        var positionAfterFirstStep = walker.next();
 
-        if (this.board.getPieceAt(positionAfterFirstStep).isEmpty()) {
-            moviments.add(new Displacement(this.board.getMyPosition(), positionAfterFirstStep));
-        } else {
-            return moviments;
-        }
-
-        if (this.hasAlreadyMoved() || !walker.hasNext()) {
-            return moviments;
-        }
-        var positionAfterSecondStep = walker.next();
-
-        if (this.board.getPieceAt(positionAfterSecondStep).isEmpty()) {
-            moviments.add(new Displacement(this.board.getMyPosition(), positionAfterSecondStep));
+        var firstPositionIsFree = this.addNextPositionIfAvailable(moviments, walker);
+        if (firstPositionIsFree && !this.hasAlreadyMoved()) {
+            this.addNextPositionIfAvailable(moviments, walker);
         }
 
         return moviments;
     }
 
+    private boolean addNextPositionIfAvailable(Set<Displacement> moviments, BoardPathIterator walker) {
+        if (walker.hasNext()) {
+            var nextPosition = walker.next();
+            if (this.board.getPieceAt(nextPosition).isEmpty()) {
+                moviments.add(new Displacement(this.board.getMyPosition(), nextPosition));
+                return true;
+            }
+        }
+        return false;
+    }
 }
