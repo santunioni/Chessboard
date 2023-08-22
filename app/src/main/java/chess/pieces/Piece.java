@@ -26,15 +26,6 @@ public abstract class Piece {
         return this.type;
     }
 
-    protected boolean isAllyOf(Piece piece) {
-        return this.getColor() == piece.getColor();
-    }
-
-    protected boolean isEnemyOf(Piece piece) {
-        return !this.isAllyOf(piece);
-    }
-
-
     public abstract boolean canMoveTo(Position position);
 
     public boolean threatens(Position position) {
