@@ -1,20 +1,21 @@
 package chess.ui.pieces;
 
-import chess.board.BoardController;
-import chess.board.position.Position;
-import chess.pieces.PieceProperties;
+import chess.game.board.BoardController;
+import chess.game.grid.Position;
+import chess.game.pieces.PieceProperties;
 import chess.ui.grid.SquaresUI;
+import chess.ui.plays.PlaysUI;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class PiecesUI extends JPanel {
-    private final MovesUI moves;
+    private final PlaysUI moves;
     private final SquaresUI grid;
     private final BoardController board;
 
-    public PiecesUI(SquaresUI grid, BoardController boardController, MovesUI moves) {
+    public PiecesUI(SquaresUI grid, BoardController boardController, PlaysUI moves) {
         super(null); // Null layout for absolute positioning
         this.grid = grid;
         this.board = boardController;

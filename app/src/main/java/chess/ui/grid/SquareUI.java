@@ -1,6 +1,6 @@
 package chess.ui.grid;
 
-import chess.board.position.Position;
+import chess.game.grid.Position;
 
 import javax.swing.*;
 import java.awt.*;

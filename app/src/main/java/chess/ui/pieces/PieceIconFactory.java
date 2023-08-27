@@ -1,7 +1,7 @@
 package chess.ui.pieces;
 
-import chess.pieces.Color;
-import chess.pieces.Type;
+import chess.game.pieces.Color;
+import chess.game.pieces.Type;
 
 import javax.swing.*;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ public class PieceIconFactory {
     }
 
     public ImageIcon getIcon(Color color, Type type) {
-        var path = "images/" +
+        var path = "chess/ui/pieces/" +
                 color.name().toLowerCase() +
                 "-" +
                 type.name().toLowerCase() +
