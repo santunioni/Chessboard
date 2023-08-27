@@ -1,6 +1,7 @@
 package chess;
 
 
+import chess.board.BoardController;
 import chess.board.BoardStateFactory;
 import chess.ui.grid.SquaresUI;
 import chess.ui.pieces.MovesUI;
@@ -18,9 +19,10 @@ public class Application extends JFrame {
         this.BOARD_SIZE = BOARD_SIZE;
 
         var boardState = new BoardStateFactory().createFreshBoardState();
+        var boardController = new BoardController(boardState);
         var squares = new SquaresUI();
         var moves = new MovesUI(squares, boardState);
-        var pieces = new PiecesUI(squares, boardState, moves);
+        var pieces = new PiecesUI(squares, boardController, moves);
         moves.onMovedPiece(pieces::repaint);
 
         this.addLayer(squares);

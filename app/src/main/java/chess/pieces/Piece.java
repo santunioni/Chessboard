@@ -3,7 +3,7 @@ package chess.pieces;
 import chess.board.BoardPlacement;
 import chess.board.position.Position;
 
-public abstract class Piece {
+public abstract class Piece implements PieceProperties {
 
     private final Color color;
     private final Type type;

@@ -48,6 +48,7 @@ public class MovesUI extends JPanel {
         }
         var piece = pieceOptional.get();
 
+        this.removeAll();
         for (var target : Position.values()) {
             if (!piece.couldMoveToIfEmpty(target)) {
                 continue;
