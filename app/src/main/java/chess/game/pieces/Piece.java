@@ -33,6 +33,18 @@ public abstract class Piece implements PieceProperties {
     }
 
     public boolean isEnemyOf(Piece piece) {
-        return this.color != piece.color;
+        return this.color.opposite() == piece.color;
+    }
+
+    public PieceProperties toProperties() {
+        return new PieceProperties() {
+            public Color getColor() {
+                return Piece.this.getColor();
+            }
+
+            public Type getType() {
+                return Piece.this.getType();
+            }
+        };
     }
 }

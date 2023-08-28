@@ -2,6 +2,8 @@ package chess.game.plays;
 
 import chess.game.board.BoardState;
 import chess.game.grid.Position;
+import chess.game.pieces.Color;
+import chess.game.pieces.Piece;
 
 /**
  * Represents a Capture play.
@@ -14,15 +16,17 @@ public class Capture implements Play {
 
     private final Position from;
     private final Position to;
+    private final Color color;
 
-    public Capture(Position from, Position to) {
+    public Capture(Color color, Position from, Position to) {
         this.from = from;
         this.to = to;
+        this.color = color;
     }
 
     @Override
     public void actUpon(BoardState boardState) throws IlegalPlay {
-        var piece = boardState.getPieceAt(from).orElseThrow(() -> new IlegalPlay(this, "No piece at " + from));
+        var piece = this.getPiece(boardState);
 
         if (!piece.couldAttackIfOccupiedByEnemy(to)) {
             throw new IlegalPlay(this, "Cant attack " + to + " because piece doesnt threatens it.");
@@ -40,6 +44,18 @@ public class Capture implements Play {
 
         boardState.removePieceFromSquare(from);
         boardState.placePiece(to, piece);
+    }
+
+    public Color getPlayerColor() {
+        return this.color;
+    }
+
+    private Piece getPiece(BoardState boardState) throws IlegalPlay {
+        Piece piece = boardState.getPieceAt(from).orElseThrow(() -> new IlegalPlay(this, "No piece at " + from));
+        if (piece.getColor() != this.color) {
+            throw new IlegalPlay(this, "Piece at " + from + " is not " + this.color + ".");
+        }
+        return piece;
     }
 
     public PlayDTO toDTO() {

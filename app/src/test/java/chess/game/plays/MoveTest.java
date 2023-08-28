@@ -23,7 +23,7 @@ public class MoveTest {
         var pawn = new Pawn(Color.WHITE);
         board.placePiece("e2", pawn);
 
-        var displacement = new Move(new Position("e2"), new Position("e4"));
+        var displacement = new Move(Color.WHITE, new Position("e2"), new Position("e4"));
         displacement.actUpon(board);
 
         assertNull(board.getPieceAt(new Position("e2")).orElse(null));
@@ -32,7 +32,7 @@ public class MoveTest {
 
     @Test
     void shouldThrownIfEmptyOriginPosition() {
-        var displacement = new Move(new Position("e2"), new Position("e4"));
+        var displacement = new Move(Color.WHITE, new Position("e2"), new Position("e4"));
 
         assertThrows(IlegalPlay.class, () -> displacement.actUpon(board));
     }
@@ -42,7 +42,7 @@ public class MoveTest {
         board.placePiece("e2", new Queen(Color.BLACK));
         board.placePiece("e4", new Queen(Color.BLACK));
 
-        var displacement = new Move(new Position("e2"), new Position("e4"));
+        var displacement = new Move(Color.BLACK, new Position("e2"), new Position("e4"));
 
         assertThrows(IlegalPlay.class, () -> displacement.actUpon(board));
     }
@@ -52,7 +52,7 @@ public class MoveTest {
         board.placePiece("e2", new Queen(Color.BLACK));
         board.placePiece("e4", new Queen(Color.WHITE));
 
-        var displacement = new Move(new Position("e2"), new Position("e4"));
+        var displacement = new Move(Color.BLACK, new Position("e2"), new Position("e4"));
 
         assertThrows(IlegalPlay.class, () -> displacement.actUpon(board));
     }

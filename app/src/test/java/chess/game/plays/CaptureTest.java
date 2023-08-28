@@ -24,7 +24,7 @@ public class CaptureTest {
         board.placePiece("e2", pawn);
         board.placePiece("d3", new Pawn(Color.BLACK));
 
-        var attack = new Capture(new Position("e2"), new Position("d3"));
+        var attack = new Capture(Color.WHITE, new Position("e2"), new Position("d3"));
         attack.actUpon(board);
 
         assertNull(board.getPieceAt(new Position("e2")).orElse(null));
@@ -37,7 +37,7 @@ public class CaptureTest {
         board.placePiece("e2", pawn);
         board.placePiece("e3", new Pawn(Color.BLACK));
 
-        var attack = new Capture(new Position("e2"), new Position("e3"));
+        var attack = new Capture(Color.WHITE, new Position("e2"), new Position("e3"));
 
         assertThrows(IlegalPlay.class, () -> attack.actUpon(board));
     }
@@ -48,7 +48,7 @@ public class CaptureTest {
         board.placePiece("e2", pawn);
         board.placePiece("d1", new Pawn(Color.BLACK));
 
-        var attack = new Capture(new Position("e2"), new Position("d1"));
+        var attack = new Capture(Color.WHITE, new Position("e2"), new Position("d1"));
 
         assertThrows(IlegalPlay.class, () -> attack.actUpon(board));
     }
@@ -59,7 +59,7 @@ public class CaptureTest {
         board.placePiece("e2", queen);
         board.placePiece("e7", new Pawn(Color.BLACK));
 
-        var attack = new Capture(new Position("e2"), new Position("e7"));
+        var attack = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
         attack.actUpon(board);
 
         assertNull(board.getPieceAt(new Position("e2")).orElse(null));
@@ -72,7 +72,7 @@ public class CaptureTest {
         board.placePiece("e2", queen);
         board.placePiece("e7", new Pawn(Color.WHITE));
 
-        var attack = new Capture(new Position("e2"), new Position("e7"));
+        var attack = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
 
         assertThrows(IlegalPlay.class, () -> attack.actUpon(board));
     }
@@ -81,7 +81,7 @@ public class CaptureTest {
     void shouldNotAttackEmptyPositions() {
         var queen = new Queen(Color.WHITE);
         board.placePiece("e2", queen);
-        var attack = new Capture(new Position("e2"), new Position("e7"));
+        var attack = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
 
         assertThrows(IlegalPlay.class, () -> attack.actUpon(board));
     }

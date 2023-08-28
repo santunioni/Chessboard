@@ -56,6 +56,8 @@ public class PlaysUI extends JPanel {
                     }
                 } catch (IlegalPlay e) {
                     System.out.println("Ilegal play");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
             });
             this.add(playUI);
