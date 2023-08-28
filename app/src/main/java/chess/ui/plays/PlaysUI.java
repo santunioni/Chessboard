@@ -7,27 +7,24 @@ import chess.game.plays.PlayDTO;
 import chess.ui.grid.SquaresUI;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlaysUI extends JPanel {
     private final BoardController board;
-    private final SquaresUI grid;
+    private final List<Runnable> onMovedPieceCallbacks = new ArrayList<>();
+    private final PlayUIFactory playUIFactory;
     private Position highlighted = null;
-
-    private Runnable onMovedPieceCallback = () -> {
-    };
 
     public PlaysUI(SquaresUI grid, BoardController board) {
         super(null); // Null layout for absolute positioning
         this.board = board;
-        this.grid = grid;
+        this.playUIFactory = new PlayUIFactory(grid);
         this.setOpaque(false);
     }
 
-    public void setOnMovedPieceCallback(Runnable onMovedPieceCallback) {
-        this.onMovedPieceCallback = onMovedPieceCallback;
+    public void addCallbackForMovedPiece(Runnable onMovedPieceCallback) {
+        this.onMovedPieceCallbacks.add(onMovedPieceCallback);
     }
 
     public boolean isHighlighted(Position position) {
@@ -41,31 +38,27 @@ public class PlaysUI extends JPanel {
 
         System.out.println("Highlighting " + position);
         this.highlighted = position;
-        this.paintMovesFor(position);
+        this.paintPlaysForPosition(position);
         this.repaint();
     }
 
-    private void paintMovesFor(Position position) {
+    private void paintPlaysForPosition(Position position) {
         this.removeAll();
         List<PlayDTO> plays = this.board.getPlaysFor(position);
 
         for (var play : plays) {
-            var moveUI = new JLabel();
-            var target = play.getTo();
-            moveUI.setBounds(this.grid.getRectangleForPosition(target, 0.8));
-            moveUI.setOpaque(true);
-            moveUI.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent event) {
-                    try {
-                        board.makePlay(play);
-                        unhighlight();
-                        onMovedPieceCallback.run();
-                    } catch (IlegalPlay e) {
-                        System.out.println("Ilegal play");
+            JLabel playUI = this.playUIFactory.createJLabelForPlay(play, () -> {
+                try {
+                    board.makePlay(play);
+                    unhighlight();
+                    for (var callback : onMovedPieceCallbacks) {
+                        callback.run();
                     }
+                } catch (IlegalPlay e) {
+                    System.out.println("Ilegal play");
                 }
             });
-            this.add(moveUI);
+            this.add(playUI);
         }
     }
 
