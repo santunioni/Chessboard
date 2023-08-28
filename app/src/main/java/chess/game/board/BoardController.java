@@ -65,7 +65,7 @@ public class BoardController {
         return plays;
     }
 
-    public void makePlay(PlayDTO playDTO) throws IlegalPlay, Exception {
+    public void makePlay(PlayDTO playDTO) throws IlegalPlay {
         Play play = new PlayDTOToPlayMapper(this.boardState).createPlayFromDTO(playDTO);
         if (play.getPlayerColor() != this.boardHistory.nextTurnPlayerColor()) {
             throw new IlegalPlay(play, "Not your turn");
