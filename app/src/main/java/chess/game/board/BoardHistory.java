@@ -25,7 +25,7 @@ public class BoardHistory {
         return copy;
     }
 
-    public Optional<Play> getLastPlay() {
+    private Optional<Play> getLastPlay() {
         if (!this.stack.isEmpty()) {
             return Optional.of(this.stack.get(this.stack.size() - 1));
         }
@@ -33,9 +33,10 @@ public class BoardHistory {
     }
 
     public Color nextTurnPlayerColor() {
-        if (this.stack.isEmpty()) {
+        Optional<Play> lastPlay = this.getLastPlay();
+        if (lastPlay.isEmpty()) {
             return Color.WHITE;
         }
-        return this.stack.get(this.stack.size() - 1).getPlayerColor().opposite();
+        return lastPlay.get().getPlayerColor().opposite();
     }
 }

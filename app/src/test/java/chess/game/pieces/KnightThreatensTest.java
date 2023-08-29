@@ -59,7 +59,7 @@ public class KnightThreatensTest {
     void shouldThreatenPositionDisplacedInLPattern(String knightPosition, String threatenedPosition) {
         var knight = new Knight(Color.WHITE);
         this.board.placePiece(knightPosition, knight);
-        assertTrue(knight.couldAttackIfOccupiedByEnemy(new Position(threatenedPosition)));
+        assertTrue(knight.couldCaptureEnemyAt(new Position(threatenedPosition)));
     }
 
     @ParameterizedTest
@@ -67,6 +67,6 @@ public class KnightThreatensTest {
     void shouldNotThreatenPositionNotDisplacedInLPattern(String knightPosition, String notThreatenedPosition) {
         var knight = new Knight(Color.WHITE);
         this.board.placePiece(knightPosition, knight);
-        assertFalse(knight.couldAttackIfOccupiedByEnemy(new Position(notThreatenedPosition)));
+        assertFalse(knight.couldCaptureEnemyAt(new Position(notThreatenedPosition)));
     }
 }

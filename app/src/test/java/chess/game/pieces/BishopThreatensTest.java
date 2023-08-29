@@ -23,7 +23,7 @@ public class BishopThreatensTest {
         var bishop = new Bishop(Color.BLACK);
         this.board.placePiece("d4", bishop);
 
-        assertTrue(bishop.couldAttackIfOccupiedByEnemy(new Position("f6")));
+        assertTrue(bishop.couldCaptureEnemyAt(new Position("f6")));
     }
 
     @Test
@@ -32,7 +32,7 @@ public class BishopThreatensTest {
         this.board.placePiece("d4", bishop);
         this.board.placePiece("f6", new Pawn(Color.WHITE));
 
-        assertFalse(bishop.couldAttackIfOccupiedByEnemy(new Position("g7")));
+        assertFalse(bishop.couldCaptureEnemyAt(new Position("g7")));
     }
 
     @Test
@@ -41,7 +41,7 @@ public class BishopThreatensTest {
         this.board.placePiece("d4", bishop);
         this.board.placePiece("f6", new Pawn(Color.BLACK));
 
-        assertFalse(bishop.couldAttackIfOccupiedByEnemy(new Position("g7")));
+        assertFalse(bishop.couldCaptureEnemyAt(new Position("g7")));
     }
 
     @Test
@@ -50,7 +50,7 @@ public class BishopThreatensTest {
         this.board.placePiece("d4", bishop);
         this.board.placePiece("f6", new Pawn(Color.BLACK));
 
-        assertTrue(bishop.couldAttackIfOccupiedByEnemy(new Position("f6")));
+        assertTrue(bishop.couldCaptureEnemyAt(new Position("f6")));
     }
 
     @Test
@@ -59,7 +59,7 @@ public class BishopThreatensTest {
         this.board.placePiece("d4", bishop);
         this.board.placePiece("f6", new Pawn(Color.WHITE));
 
-        assertTrue(bishop.couldAttackIfOccupiedByEnemy(new Position("f6")));
+        assertTrue(bishop.couldCaptureEnemyAt(new Position("f6")));
     }
 
     @Test
@@ -67,7 +67,7 @@ public class BishopThreatensTest {
         var bishop = new Bishop(Color.BLACK);
         this.board.placePiece("d4", bishop);
 
-        assertFalse(bishop.couldAttackIfOccupiedByEnemy(new Position("d5")));
+        assertFalse(bishop.couldCaptureEnemyAt(new Position("d5")));
     }
 
     @Test
@@ -75,6 +75,6 @@ public class BishopThreatensTest {
         var bishop = new Bishop(Color.BLACK);
         this.board.placePiece("d4", bishop);
 
-        assertFalse(bishop.couldAttackIfOccupiedByEnemy(new Position("e4")));
+        assertFalse(bishop.couldCaptureEnemyAt(new Position("e4")));
     }
 }

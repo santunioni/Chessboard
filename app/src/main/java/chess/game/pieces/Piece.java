@@ -28,7 +28,7 @@ public abstract class Piece implements PieceProperties {
 
     public abstract boolean couldMoveToIfEmpty(Position position);
 
-    public boolean couldAttackIfOccupiedByEnemy(Position position) {
+    public boolean couldCaptureEnemyAt(Position position) {
         return this.couldMoveToIfEmpty(position);
     }
 

@@ -4,7 +4,8 @@ package chess.game.plays;
 import chess.game.board.BoardState;
 import chess.game.grid.Position;
 import chess.game.pieces.Color;
-import chess.game.pieces.Piece;
+
+import static chess.game.plays.PlayFunctions.getPieceFromBoard;
 
 /**
  * Represents a Displacement play.
@@ -17,16 +18,16 @@ public class Move implements Play {
 
     private final Position from;
     private final Position to;
-    private final Color playerColor;
+    private final Color color;
 
-    public Move(Color playerColor, Position from, Position to) {
-        this.playerColor = playerColor;
+    public Move(Color color, Position from, Position to) {
+        this.color = color;
         this.from = from;
         this.to = to;
     }
 
-    public void actUpon(BoardState boardState) throws IlegalPlay {
-        var piece = this.getPiece(boardState);
+    private Runnable validatePlay(BoardState boardState) throws IlegalPlay {
+        var piece = getPieceFromBoard(color, from, this, boardState);
 
         if (!piece.couldMoveToIfEmpty(to)) {
             throw new IlegalPlay(this, "Cant move to " + to + " because it is not a valid move.");
@@ -36,22 +37,31 @@ public class Move implements Play {
         if (targetPositionOccupation.isPresent()) {
             throw new IlegalPlay(this, "Cant move to " + to + " because it is ocuppied by " + targetPositionOccupation + ".");
         }
+        
+        return () -> {
+            boardState.removePieceFromSquare(from);
+            boardState.placePiece(to, piece);
+        };
+    }
 
-        boardState.removePieceFromSquare(from);
-        boardState.placePiece(to, piece);
+    public boolean isLegal(BoardState boardState) {
+        try {
+            this.validatePlay(boardState);
+            return true;
+        } catch (IlegalPlay e) {
+            return false;
+        }
+    }
+
+    public void actUpon(BoardState boardState) throws IlegalPlay {
+        var action = this.validatePlay(boardState);
+        action.run();
     }
 
     public Color getPlayerColor() {
-        return this.playerColor;
+        return this.color;
     }
 
-    private Piece getPiece(BoardState boardState) throws IlegalPlay {
-        Piece piece = boardState.getPieceAt(from).orElseThrow(() -> new IlegalPlay(this, "No piece at " + from));
-        if (piece.getColor() != this.playerColor) {
-            throw new IlegalPlay(this, "Piece at " + from + " is not " + this.playerColor + ".");
-        }
-        return piece;
-    }
 
     public PlayDTO toDTO() {
         return new PlayDTO() {

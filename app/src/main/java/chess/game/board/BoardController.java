@@ -21,10 +21,6 @@ public class BoardController {
         this.boardHistory = boardHistory;
     }
 
-    public BoardController() {
-        this(new BoardStateFactory().createFreshBoardState(), new BoardHistory());
-    }
-
     public Optional<PieceProperties> getPieceAt(Position position) {
         Optional<Piece> pieceOptional = this.boardState.getPieceAt(position);
         if (pieceOptional.isPresent()) {
@@ -56,7 +52,7 @@ public class BoardController {
                 }
             } else {
                 var targetPiece = targetPieceOptional.get();
-                if (playingPiece.couldAttackIfOccupiedByEnemy(target) && targetPiece.isEnemyOf(playingPiece)) {
+                if (playingPiece.couldCaptureEnemyAt(target) && targetPiece.isEnemyOf(playingPiece)) {
                     plays.add(new Capture(playingPiece.getColor(), position, target).toDTO());
                 }
             }

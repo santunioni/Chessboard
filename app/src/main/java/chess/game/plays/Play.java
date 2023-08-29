@@ -6,6 +6,8 @@ import chess.game.pieces.Color;
 public interface Play {
     void actUpon(BoardState boardState) throws IlegalPlay;
 
+    boolean isLegal(BoardState boardState);
+
     Color getPlayerColor();
 
     PlayDTO toDTO();

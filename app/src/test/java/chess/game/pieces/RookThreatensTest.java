@@ -21,7 +21,7 @@ public class RookThreatensTest {
         var rook = new Rook(Color.BLACK);
         board.placePiece("d4", rook);
 
-        assertTrue(rook.couldAttackIfOccupiedByEnemy(new Position("d5")));
+        assertTrue(rook.couldCaptureEnemyAt(new Position("d5")));
     }
 
     @Test
@@ -29,7 +29,7 @@ public class RookThreatensTest {
         var rook = new Rook(Color.BLACK);
         board.placePiece("d4", rook);
 
-        assertTrue(rook.couldAttackIfOccupiedByEnemy(new Position("e4")));
+        assertTrue(rook.couldCaptureEnemyAt(new Position("e4")));
     }
 
     @Test
@@ -38,7 +38,7 @@ public class RookThreatensTest {
         board.placePiece("d4", rook);
         board.placePiece("d5", new Pawn(Color.BLACK));
 
-        assertFalse(rook.couldAttackIfOccupiedByEnemy(new Position("d6")));
+        assertFalse(rook.couldCaptureEnemyAt(new Position("d6")));
     }
 
     @Test
@@ -47,6 +47,6 @@ public class RookThreatensTest {
         board.placePiece("d4", rook);
         board.placePiece("d5", new Pawn(Color.BLACK));
 
-        assertTrue(rook.couldAttackIfOccupiedByEnemy(new Position("d5")));
+        assertTrue(rook.couldCaptureEnemyAt(new Position("d5")));
     }
 }
