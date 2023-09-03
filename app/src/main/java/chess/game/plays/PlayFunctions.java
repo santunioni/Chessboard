@@ -22,4 +22,13 @@ public class PlayFunctions {
 
         return piece;
     }
+
+    public static boolean isPositionThreatenedBy(BoardState state, Position position, Color color) {
+        for (var piece : state.getPlayerPieces(color)) {
+            if (piece.couldCaptureEnemyAt(position)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

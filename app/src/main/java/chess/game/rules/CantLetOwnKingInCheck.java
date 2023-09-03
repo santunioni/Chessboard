@@ -10,6 +10,8 @@ import chess.game.rules.validation.IlegalPlay;
 
 import java.util.Optional;
 
+import static chess.game.plays.PlayFunctions.isPositionThreatenedBy;
+
 
 public class CantLetOwnKingInCheck {
 
@@ -41,11 +43,8 @@ public class CantLetOwnKingInCheck {
         }
         Position ownKingPosition = possiblePositionsForKing.get();
 
-        var enemyPieces = state.getPlayerPieces(play.getPlayerColor().opposite());
-        for (var enemyPiece : enemyPieces) {
-            if (enemyPiece.couldCaptureEnemyAt(ownKingPosition)) {
-                throw new chess.game.rules.validation.CantLetOwnKingInCheck(play.getPlayerColor(), ownKingPosition, enemyPiece);
-            }
+        if (isPositionThreatenedBy(state, ownKingPosition, play.getPlayerColor().opposite())) {
+            throw new chess.game.rules.validation.CantLetOwnKingInCheck(play.getPlayerColor(), ownKingPosition);
         }
     }
 }

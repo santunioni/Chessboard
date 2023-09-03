@@ -1,5 +1,6 @@
 package chess.game.plays;
 
+import chess.game.board.BoardHistory;
 import chess.game.board.BoardState;
 import chess.game.grid.Position;
 import chess.game.pieces.Color;
@@ -15,10 +16,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MoveTest {
     private BoardState board;
+    private BoardHistory history;
 
     @BeforeEach
     void setUp() {
         this.board = new BoardState();
+        this.history = new BoardHistory();
     }
 
     @Test
@@ -27,7 +30,7 @@ public class MoveTest {
         board.placePiece("e2", pawn);
 
         var move = new Move(Color.WHITE, new Position("e2"), new Position("e4"));
-        move.actOn(board);
+        move.actOn(board, history);
 
         assertNull(board.getPieceAt(new Position("e2")).orElse(null));
         assertEquals(pawn, board.getPieceAt(new Position("e4")).orElseThrow());
@@ -37,7 +40,7 @@ public class MoveTest {
     void shouldThrownIfEmptyOriginPosition() {
         var move = new Move(Color.WHITE, new Position("e2"), new Position("e4"));
 
-        assertThrows(NoPieceAtPositionValidationError.class, () -> move.actOn(board));
+        assertThrows(NoPieceAtPositionValidationError.class, () -> move.actOn(board, history));
     }
 
     @Test
@@ -47,7 +50,7 @@ public class MoveTest {
 
         var move = new Move(Color.BLACK, new Position("e2"), new Position("e4"));
 
-        assertThrows(SquareAlreadyOccupiedValidationError.class, () -> move.actOn(board));
+        assertThrows(SquareAlreadyOccupiedValidationError.class, () -> move.actOn(board, history));
     }
 
     @Test
@@ -57,6 +60,6 @@ public class MoveTest {
 
         var move = new Move(Color.BLACK, new Position("e2"), new Position("e4"));
 
-        assertThrows(SquareAlreadyOccupiedValidationError.class, () -> move.actOn(board));
+        assertThrows(SquareAlreadyOccupiedValidationError.class, () -> move.actOn(board, history));
     }
 }

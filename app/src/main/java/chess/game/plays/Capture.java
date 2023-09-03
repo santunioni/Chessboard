@@ -1,5 +1,6 @@
 package chess.game.plays;
 
+import chess.game.board.BoardHistory;
 import chess.game.board.BoardState;
 import chess.game.grid.Position;
 import chess.game.pieces.Color;
@@ -29,7 +30,7 @@ public class Capture implements Play {
         this.color = color;
     }
 
-    private Runnable validatePlay(BoardState boardState) throws PlayValidationError {
+    private Runnable validatePlay(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError {
         var piece = getPieceFromBoard(color, from, boardState);
 
         if (!piece.couldCaptureEnemyAt(to)) {
@@ -49,20 +50,21 @@ public class Capture implements Play {
         return () -> {
             boardState.removePieceFromSquare(from);
             boardState.placePiece(to, piece);
+            boardHistory.push(this);
         };
     }
 
-    public boolean isValid(BoardState boardState) {
+    public boolean isValid(BoardState boardState, BoardHistory boardHistory) {
         try {
-            this.validatePlay(boardState);
+            this.validatePlay(boardState, boardHistory);
             return true;
         } catch (PlayValidationError e) {
             return false;
         }
     }
 
-    public void actOn(BoardState boardState) throws PlayValidationError {
-        var action = this.validatePlay(boardState);
+    public void actOn(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError {
+        var action = this.validatePlay(boardState, boardHistory);
         action.run();
     }
 

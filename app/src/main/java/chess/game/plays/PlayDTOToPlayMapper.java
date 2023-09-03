@@ -18,6 +18,7 @@ public class PlayDTOToPlayMapper {
         return switch (playName) {
             case MOVE -> new Move(piece.map(Piece::getColor).orElseThrow(), playDTO.getFrom(), playDTO.getTo());
             case CAPTURE -> new Capture(piece.map(Piece::getColor).orElseThrow(), playDTO.getFrom(), playDTO.getTo());
+            case CASTLE -> new Castle(piece.map(Piece::getColor).orElseThrow(), playDTO.getTo());
             default -> throw new PlayValidationError("PlayName not found");
         };
     }

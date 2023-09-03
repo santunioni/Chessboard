@@ -65,11 +65,11 @@ public class BoardController {
     }
 
     public void makePlay(PlayDTO playDTO) throws PlayValidationError, IlegalPlay {
-        Play play = new PlayDTOToPlayMapper(this.boardState).createPlayFromDTO(playDTO);
+        this.makePlay(new PlayDTOToPlayMapper(this.boardState).createPlayFromDTO(playDTO));
+    }
 
+    public void makePlay(Play play) throws PlayValidationError, IlegalPlay {
         PlayValidatorAgainstAllChessRules.validateNextPlay(this.boardState.copy(), this.boardHistory.copy(), play);
-
-        play.actOn(this.boardState);
-        this.boardHistory.push(play);
+        play.actOn(this.boardState, this.boardHistory);
     }
 }

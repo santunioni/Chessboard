@@ -11,7 +11,8 @@ public class PlayValidatorAgainstAllChessRules {
         CantPlayWhenNotYourTurn.validateHistoryBeforePlay(history, play);
 
         var stateCopy = state.copy();
-        play.actOn(stateCopy);
+        var historyCopy = history.copy();
+        play.actOn(stateCopy, historyCopy);
 
         CantLetOwnKingInCheck.validateStateAfterPlay(stateCopy, play);
     }
