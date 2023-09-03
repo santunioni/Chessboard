@@ -3,15 +3,12 @@ package chess.game.plays;
 import chess.game.board.BoardHistory;
 import chess.game.board.BoardState;
 import chess.game.grid.Position;
-import chess.game.pieces.Bishop;
-import chess.game.pieces.Color;
-import chess.game.pieces.King;
-import chess.game.pieces.Rook;
+import chess.game.pieces.*;
 import chess.game.plays.validation.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CastleRulesTest {
     private BoardState board;
@@ -22,7 +19,6 @@ public class CastleRulesTest {
         this.board = new BoardState();
         this.history = new BoardHistory();
         board.placePiece("e1", new King(Color.WHITE));
-        board.placePiece("a1", new Rook(Color.WHITE));
         board.placePiece("h1", new Rook(Color.WHITE));
     }
 
@@ -86,5 +82,26 @@ public class CastleRulesTest {
 
         // Then
         assertThrows(CantCastleWhilePassingThroughCheck.class, () -> castle.actOn(board, history));
+    }
+
+    @Test
+    void shouldMoveKingTwoSpacesRightAndPutRookOnItsLeft() throws PlayValidationError {
+        // Given
+        var castle = new Castle(Color.WHITE, new Position("h1"));
+
+        // When
+        castle.actOn(board, history);
+
+        // Then
+        assertTrue(board.getPieceAt(King.initialPosition(Color.WHITE)).isEmpty());
+        assertTrue(board.getPieceAt("h1").isEmpty());
+
+        var king = board.getPieceAt(new Position("g1")).orElseThrow();
+        assertEquals(king.getType(), Type.KING);
+        assertEquals(king.getColor(), Color.WHITE);
+
+        var rook = board.getPieceAt(new Position("f1")).orElseThrow();
+        assertEquals(rook.getType(), Type.ROOK);
+        assertEquals(rook.getColor(), Color.WHITE);
     }
 }

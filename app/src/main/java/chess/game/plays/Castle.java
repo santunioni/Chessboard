@@ -6,6 +6,7 @@ import chess.game.grid.BoardPath;
 import chess.game.grid.BoardPathReachabilityAnalyzer;
 import chess.game.grid.Position;
 import chess.game.pieces.Color;
+import chess.game.pieces.King;
 import chess.game.pieces.Type;
 import chess.game.plays.validation.*;
 
@@ -24,7 +25,7 @@ public class Castle implements Play {
     }
 
     private Position getKingPosition(BoardState state) throws CantCastleOnKingThatAlreadyMoved {
-        var kingPosition = new Position(this.getPlayerColor() == Color.WHITE ? "e1" : "e8");
+        var kingPosition = King.initialPosition(this.color);
         var kingOptional = state.getPieceAt(kingPosition);
         if (kingOptional.isEmpty() || kingOptional.get().getType() != Type.KING || kingOptional.get().getColor() != this.color) {
             throw new CantCastleOnKingThatAlreadyMoved(this.color);
@@ -74,6 +75,15 @@ public class Castle implements Play {
             }
         }
 
+        var king = boardState.getPieceAt(kingPosition).orElseThrow();
+        var rook = boardState.getPieceAt(rookPosition).orElseThrow();
+        var iterator = new BoardPath(kingPosition, direction, 2).iterator();
+
+        boardState.removePieceFromSquare(kingPosition);
+        boardState.removePieceFromSquare(rookPosition);
+        boardState.placePiece(iterator.next(), rook);
+        boardState.placePiece(iterator.next(), king);
+        boardHistory.push(this);
     }
 
     public Color getPlayerColor() {
@@ -87,7 +97,7 @@ public class Castle implements Play {
             }
 
             public Position getFrom() {
-                return new Position(Castle.this.color == Color.WHITE ? "e1" : "e8");
+                return King.initialPosition(Castle.this.color);
             }
 
             public Position getTo() {

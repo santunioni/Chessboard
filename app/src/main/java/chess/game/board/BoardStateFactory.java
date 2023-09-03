@@ -41,13 +41,13 @@ public class BoardStateFactory {
     }
 
     private void placeQueens(BoardState state) {
-        state.placePiece("d1", new Queen(Color.WHITE));
-        state.placePiece("d8", new Queen(Color.BLACK));
+        state.placePiece(Queen.initialPosition(Color.WHITE), new Queen(Color.WHITE));
+        state.placePiece(Queen.initialPosition(Color.BLACK), new Queen(Color.BLACK));
     }
 
     private void placeKings(BoardState state) {
-        state.placePiece("e1", new King(Color.WHITE));
-        state.placePiece("e8", new King(Color.BLACK));
+        state.placePiece(King.initialPosition(Color.WHITE), new King(Color.WHITE));
+        state.placePiece(King.initialPosition(Color.BLACK), new King(Color.BLACK));
     }
 
     private void placePawns(BoardState state) {

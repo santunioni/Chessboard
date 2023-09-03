@@ -5,10 +5,14 @@ import chess.game.grid.BoardPathReachabilityAnalyzer;
 import chess.game.grid.Position;
 
 public class Queen extends Piece {
+
     public Queen(Color color) {
         super(color, Type.QUEEN);
     }
 
+    public static Position initialPosition(Color color) {
+        return new Position(color == Color.WHITE ? "d1" : "d8");
+    }
 
     public boolean couldMoveToIfEmpty(Position position) {
         return new BoardPathReachabilityAnalyzer(this.board).isReachableWalkingInOneOfDirections(
