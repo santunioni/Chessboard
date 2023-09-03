@@ -29,7 +29,7 @@ public class CaptureTest {
         board.placePiece("d3", new Pawn(Color.BLACK));
 
         var attack = new Capture(Color.WHITE, new Position("e2"), new Position("d3"));
-        attack.actUpon(board);
+        attack.actOn(board);
 
         assertNull(board.getPieceAt(new Position("e2")).orElse(null));
         assertEquals(pawn, board.getPieceAt(new Position("d3")).orElseThrow());
@@ -43,7 +43,7 @@ public class CaptureTest {
 
         var attack = new Capture(Color.WHITE, new Position("e2"), new Position("e3"));
 
-        assertThrows(CapturePatternNotAllowedValidationError.class, () -> attack.actUpon(board));
+        assertThrows(CapturePatternNotAllowedValidationError.class, () -> attack.actOn(board));
     }
 
     @Test
@@ -54,7 +54,7 @@ public class CaptureTest {
 
         var attack = new Capture(Color.WHITE, new Position("e2"), new Position("d1"));
 
-        assertThrows(CapturePatternNotAllowedValidationError.class, () -> attack.actUpon(board));
+        assertThrows(CapturePatternNotAllowedValidationError.class, () -> attack.actOn(board));
     }
 
     @Test
@@ -64,7 +64,7 @@ public class CaptureTest {
         board.placePiece("e7", new Pawn(Color.BLACK));
 
         var attack = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
-        attack.actUpon(board);
+        attack.actOn(board);
 
         assertNull(board.getPieceAt(new Position("e2")).orElse(null));
         assertEquals(queen, board.getPieceAt(new Position("e7")).orElseThrow());
@@ -78,7 +78,7 @@ public class CaptureTest {
 
         var attack = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
 
-        assertThrows(PieceAtPositionIsOfUnexpectedColorValidationError.class, () -> attack.actUpon(board));
+        assertThrows(PieceAtPositionIsOfUnexpectedColorValidationError.class, () -> attack.actOn(board));
     }
 
     @Test
@@ -87,6 +87,6 @@ public class CaptureTest {
         board.placePiece("e2", queen);
         var attack = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
 
-        assertThrows(NoPieceAtPositionValidationError.class, () -> attack.actUpon(board));
+        assertThrows(NoPieceAtPositionValidationError.class, () -> attack.actOn(board));
     }
 }

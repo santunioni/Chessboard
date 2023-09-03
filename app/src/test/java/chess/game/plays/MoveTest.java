@@ -27,7 +27,7 @@ public class MoveTest {
         board.placePiece("e2", pawn);
 
         var move = new Move(Color.WHITE, new Position("e2"), new Position("e4"));
-        move.actUpon(board);
+        move.actOn(board);
 
         assertNull(board.getPieceAt(new Position("e2")).orElse(null));
         assertEquals(pawn, board.getPieceAt(new Position("e4")).orElseThrow());
@@ -37,7 +37,7 @@ public class MoveTest {
     void shouldThrownIfEmptyOriginPosition() {
         var move = new Move(Color.WHITE, new Position("e2"), new Position("e4"));
 
-        assertThrows(NoPieceAtPositionValidationError.class, () -> move.actUpon(board));
+        assertThrows(NoPieceAtPositionValidationError.class, () -> move.actOn(board));
     }
 
     @Test
@@ -47,7 +47,7 @@ public class MoveTest {
 
         var move = new Move(Color.BLACK, new Position("e2"), new Position("e4"));
 
-        assertThrows(SquareAlreadyOccupiedValidationError.class, () -> move.actUpon(board));
+        assertThrows(SquareAlreadyOccupiedValidationError.class, () -> move.actOn(board));
     }
 
     @Test
@@ -57,6 +57,6 @@ public class MoveTest {
 
         var move = new Move(Color.BLACK, new Position("e2"), new Position("e4"));
 
-        assertThrows(SquareAlreadyOccupiedValidationError.class, () -> move.actUpon(board));
+        assertThrows(SquareAlreadyOccupiedValidationError.class, () -> move.actOn(board));
     }
 }

@@ -16,24 +16,23 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PlayValidatorAgainstAllChessRulesTest {
 
-    private BoardState boardState;
-    private PlayValidatorAgainstAllChessRules chessRulesPlayValidator;
+    private BoardState state;
+    private BoardHistory history;
 
     @BeforeEach
     void setUp() {
-        this.boardState = new BoardState();
-        BoardHistory boardHistory = new BoardHistory();
-        this.chessRulesPlayValidator = new PlayValidatorAgainstAllChessRules(this.boardState, boardHistory);
+        this.state = new BoardState();
+        this.history = new BoardHistory();
     }
 
     @Test
     void shouldNotAllowPlayerToPutItsOwnKingInCheck() {
         // Given
-        this.boardState.placePiece("e1", new King(Color.WHITE));
-        this.boardState.placePiece("f1", new Bishop(Color.WHITE));
-        this.boardState.placePiece("h1", new Rook(Color.BLACK));
+        this.state.placePiece("e1", new King(Color.WHITE));
+        this.state.placePiece("f1", new Bishop(Color.WHITE));
+        this.state.placePiece("h1", new Rook(Color.BLACK));
 
         // Then
-        assertThrows(CantLetOwnKingInCheck.class, () -> this.chessRulesPlayValidator.validatePlayAgainstChessRules(new Move(Color.WHITE, new Position("f1"), new Position("e2"))));
+        assertThrows(CantLetOwnKingInCheck.class, () -> PlayValidatorAgainstAllChessRules.validateNextPlay(this.state, this.history, new Move(Color.WHITE, new Position("f1"), new Position("e2"))));
     }
 }

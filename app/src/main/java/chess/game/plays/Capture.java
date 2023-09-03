@@ -61,7 +61,7 @@ public class Capture implements Play {
         }
     }
 
-    public void actUpon(BoardState boardState) throws PlayValidationError {
+    public void actOn(BoardState boardState) throws PlayValidationError {
         var action = this.validatePlay(boardState);
         action.run();
     }

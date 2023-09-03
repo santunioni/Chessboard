@@ -5,7 +5,7 @@ import chess.game.pieces.Color;
 import chess.game.plays.validation.PlayValidationError;
 
 public interface Play {
-    void actUpon(BoardState boardState) throws PlayValidationError;
+    void actOn(BoardState boardState) throws PlayValidationError;
 
     boolean isValid(BoardState boardState);
 
