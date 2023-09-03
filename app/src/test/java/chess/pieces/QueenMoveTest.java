@@ -26,9 +26,14 @@ public class QueenMoveTest {
         this.history = new BoardHistory();
     }
 
+    private void forwardToBlackTurn() {
+        this.history.push(new Move(Color.WHITE, new Position("h7"), new Position("h8")));
+    }
+
 
     @Test
     public void shouldBeAbleToMoveHorizontalyVerticallyAndDiagonaly() {
+        forwardToBlackTurn();
         var queen = new Queen(Color.BLACK);
         this.board.placePiece("d4", queen);
 

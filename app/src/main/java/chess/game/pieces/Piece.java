@@ -5,9 +5,12 @@ import chess.game.board.BoardPlacement;
 import chess.game.board.BoardState;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
+import chess.game.plays.validation.PlayValidationError;
+import chess.game.rules.PlayValidatorAgainstAllChessRules;
+import chess.game.rules.validation.IlegalPlay;
 
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public abstract class Piece implements PieceProperties {
 
@@ -59,6 +62,14 @@ public abstract class Piece implements PieceProperties {
     protected abstract Set<Play> getPossiblePlays();
 
     public Set<Play> getPlays(BoardState state, BoardHistory history) {
-        return this.getPossiblePlays().stream().filter(p -> p.passesValidation(state, history)).collect(Collectors.toSet());
+        var plays = new HashSet<Play>();
+        for (var play : this.getPossiblePlays()) {
+            try {
+                PlayValidatorAgainstAllChessRules.validateNextPlay(state.copy(), history.copy(), play);
+                plays.add(play);
+            } catch (IlegalPlay | PlayValidationError ignored) {
+            }
+        }
+        return plays;
     }
 }

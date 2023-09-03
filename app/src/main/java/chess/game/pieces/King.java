@@ -1,15 +1,14 @@
 package chess.game.pieces;
 
-import chess.game.grid.BoardPath;
 import chess.game.grid.BoardPathDirection;
 import chess.game.grid.Position;
-import chess.game.plays.Capture;
 import chess.game.plays.Castle;
-import chess.game.plays.Move;
 import chess.game.plays.Play;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import static chess.game.plays.PlayFunctions.collectDirectionalPlays;
 
 public class King extends Piece {
 
@@ -32,13 +31,7 @@ public class King extends Piece {
 
     protected Set<Play> getPossiblePlays() {
         var plays = new HashSet<Play>();
-
-        for (var direction : BoardPathDirection.allDirections()) {
-            for (var position : new BoardPath(this.board.getMyPosition(), direction, 1)) {
-                plays.add(new Move(this.getColor(), this.board.getMyPosition(), position));
-                plays.add(new Capture(this.getColor(), this.board.getMyPosition(), position));
-            }
-        }
+        collectDirectionalPlays(this, this.board, BoardPathDirection.allDirections(), plays::add, 1);
 
         if (this.getColor() == Color.WHITE) {
             plays.add(new Castle(this.getColor(), new Position("a1")));

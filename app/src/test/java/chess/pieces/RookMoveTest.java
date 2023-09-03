@@ -26,8 +26,13 @@ public class RookMoveTest {
         this.history = new BoardHistory();
     }
 
+    private void forwardToBlackTurn() {
+        this.history.push(new Move(Color.WHITE, new Position("h7"), new Position("h8")));
+    }
+
     @Test
     void shouldBeAbleToMoveVerticallyAndHorizontally() {
+        forwardToBlackTurn();
         var rook = new Rook(Color.BLACK);
         this.board.placePiece("d4", rook);
 

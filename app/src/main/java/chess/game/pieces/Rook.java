@@ -1,15 +1,14 @@
 package chess.game.pieces;
 
-import chess.game.grid.BoardPath;
 import chess.game.grid.BoardPathDirection;
 import chess.game.grid.BoardPathReachabilityAnalyzer;
 import chess.game.grid.Position;
-import chess.game.plays.Capture;
-import chess.game.plays.Move;
 import chess.game.plays.Play;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import static chess.game.plays.PlayFunctions.collectDirectionalPlays;
 
 public class Rook extends Piece {
     private static final Set<BoardPathDirection> pathDirections = Set.of(
@@ -38,17 +37,7 @@ public class Rook extends Piece {
 
     protected Set<Play> getPossiblePlays() {
         var plays = new HashSet<Play>();
-
-        for (var direction : Rook.pathDirections) {
-            for (var position : new BoardPath(this.board.getMyPosition(), direction)) {
-                plays.add(new Move(this.getColor(), this.board.getMyPosition(), position));
-                plays.add(new Capture(this.getColor(), this.board.getMyPosition(), position));
-                if (this.board.getPieceAt(position).isPresent()) {
-                    break;
-                }
-            }
-        }
-
+        collectDirectionalPlays(this, this.board, Rook.pathDirections, plays::add);
         return plays;
     }
 }

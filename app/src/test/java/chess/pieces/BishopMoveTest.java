@@ -26,8 +26,13 @@ public class BishopMoveTest {
         this.history = new BoardHistory();
     }
 
+    private void forwardToBlackTurn() {
+        this.history.push(new Move(Color.WHITE, new Position("h7"), new Position("h8")));
+    }
+
     @Test
     void shouldBeAbleToMoveDiagonally() {
+        forwardToBlackTurn();
         var bishop = new Bishop(Color.BLACK);
         this.board.placePiece("d4", bishop);
 

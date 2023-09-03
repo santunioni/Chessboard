@@ -27,8 +27,13 @@ public class KingMoveTest {
         this.history = new BoardHistory();
     }
 
+    private void forwardToBlackTurn() {
+        this.history.push(new Move(Color.WHITE, new Position("h7"), new Position("h8")));
+    }
+
     @Test
     void shouldBeAbleToMoveExactlyOneSquareInAnyDirection() {
+        forwardToBlackTurn();
         var king = new King(Color.BLACK);
         this.board.placePiece("d4", king);
 

@@ -10,9 +10,10 @@ import chess.game.plays.validation.PlayValidationError;
 import chess.game.rules.PlayValidatorAgainstAllChessRules;
 import chess.game.rules.validation.IlegalPlay;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * The only way that ui should interact with the chess game.
@@ -36,23 +37,8 @@ public class BoardController {
     }
 
     public List<PlayDTO> getPlaysFor(Position position) {
-        List<PlayDTO> plays = new ArrayList<>();
-
         var playingPieceOptional = this.boardState.getPieceAt(position);
-        if (playingPieceOptional.isEmpty()) {
-            return plays;
-        }
-        var playingPiece = playingPieceOptional.get();
-
-        for (var play : playingPiece.getPlays(this.boardState, this.boardHistory)) {
-            try {
-                PlayValidatorAgainstAllChessRules.validateNextPlay(this.boardState.copy(), this.boardHistory.copy(), play);
-                plays.add(play.toDTO());
-            } catch (IlegalPlay | PlayValidationError ignored) {
-            }
-        }
-
-        return plays;
+        return playingPieceOptional.map(piece -> piece.getPlays(this.boardState, this.boardHistory)).orElse(new HashSet<>()).stream().map(Play::toDTO).collect(Collectors.toList());
     }
 
     public void makePlay(PlayDTO playDTO) throws PlayValidationError, IlegalPlay {
