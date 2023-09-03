@@ -7,11 +7,11 @@ import chess.game.plays.Play;
 
 import java.util.List;
 
-public class BoardValidator {
+public class ChessRulesPlayValidator {
     private final BoardState boardState;
     private final BoardHistory boardHistory;
 
-    public BoardValidator(BoardState boardState, BoardHistory boardHistory) {
+    public ChessRulesPlayValidator(BoardState boardState, BoardHistory boardHistory) {
         this.boardState = boardState;
         this.boardHistory = boardHistory;
     }

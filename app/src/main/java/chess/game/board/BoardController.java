@@ -4,7 +4,7 @@ import chess.game.grid.Position;
 import chess.game.pieces.Piece;
 import chess.game.pieces.PieceProperties;
 import chess.game.plays.*;
-import chess.game.rules.BoardValidator;
+import chess.game.rules.ChessRulesPlayValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +68,7 @@ public class BoardController {
             throw new IlegalPlay(play, "Not your turn");
         }
 
-        new BoardValidator(this.boardState, this.boardHistory).validatePlayAgainstChessRules(play);
+        new ChessRulesPlayValidator(this.boardState, this.boardHistory).validatePlayAgainstChessRules(play);
 
         play.actUpon(this.boardState);
         this.boardHistory.push(play);
