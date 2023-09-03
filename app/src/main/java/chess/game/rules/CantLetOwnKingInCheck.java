@@ -6,13 +6,12 @@ import chess.game.pieces.Color;
 import chess.game.pieces.PieceProperties;
 import chess.game.pieces.Type;
 import chess.game.plays.Play;
-import chess.game.rules.validation.CantLetOwnKingInCheck;
 import chess.game.rules.validation.IlegalPlay;
 
 import java.util.Optional;
 
 
-public class CantPutOwnKingInCheck {
+public class CantLetOwnKingInCheck {
 
 
     private static Optional<Position> findKing(BoardState state, Color color) {
@@ -45,7 +44,7 @@ public class CantPutOwnKingInCheck {
         var enemyPieces = state.getPlayerPieces(play.getPlayerColor().opposite());
         for (var enemyPiece : enemyPieces) {
             if (enemyPiece.couldCaptureEnemyAt(ownKingPosition)) {
-                throw new CantLetOwnKingInCheck(play.getPlayerColor(), ownKingPosition, enemyPiece);
+                throw new chess.game.rules.validation.CantLetOwnKingInCheck(play.getPlayerColor(), ownKingPosition, enemyPiece);
             }
         }
     }

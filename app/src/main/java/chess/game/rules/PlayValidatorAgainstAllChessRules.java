@@ -10,9 +10,9 @@ public class PlayValidatorAgainstAllChessRules {
     public static void validateNextPlay(BoardState state, BoardHistory history, Play play) throws PlayValidationError, IlegalPlay {
         CantPlayWhenNotYourTurn.validateHistoryBeforePlay(history, play);
 
-        play.actOn(state);
-        history.push(play);
+        var stateCopy = state.copy();
+        play.actOn(stateCopy);
 
-        CantPutOwnKingInCheck.validateStateAfterPlay(state, play);
+        CantLetOwnKingInCheck.validateStateAfterPlay(stateCopy, play);
     }
 }
