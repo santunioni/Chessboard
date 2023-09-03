@@ -8,8 +8,6 @@ import chess.game.plays.validation.PlayValidationError;
 public interface Play {
     void actOn(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError;
 
-    boolean isValid(BoardState boardState, BoardHistory boardHistory);
-
     Color getPlayerColor();
 
     PlayDTO toDTO();

@@ -31,8 +31,8 @@ public class CaptureTest {
         board.placePiece("e2", pawn);
         board.placePiece("d3", new Pawn(Color.BLACK));
 
-        var attack = new Capture(Color.WHITE, new Position("e2"), new Position("d3"));
-        attack.actOn(board, history);
+        var capture = new Capture(Color.WHITE, new Position("e2"), new Position("d3"));
+        capture.actOn(board, history);
 
         assertNull(board.getPieceAt(new Position("e2")).orElse(null));
         assertEquals(pawn, board.getPieceAt(new Position("d3")).orElseThrow());
@@ -44,9 +44,9 @@ public class CaptureTest {
         board.placePiece("e2", pawn);
         board.placePiece("e3", new Pawn(Color.BLACK));
 
-        var attack = new Capture(Color.WHITE, new Position("e2"), new Position("e3"));
+        var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e3"));
 
-        assertThrows(CapturePatternNotAllowedValidationError.class, () -> attack.actOn(board, history));
+        assertThrows(CapturePatternNotAllowedValidationError.class, () -> capture.actOn(board, history));
     }
 
     @Test
@@ -55,9 +55,9 @@ public class CaptureTest {
         board.placePiece("e2", pawn);
         board.placePiece("d1", new Pawn(Color.BLACK));
 
-        var attack = new Capture(Color.WHITE, new Position("e2"), new Position("d1"));
+        var capture = new Capture(Color.WHITE, new Position("e2"), new Position("d1"));
 
-        assertThrows(CapturePatternNotAllowedValidationError.class, () -> attack.actOn(board, history));
+        assertThrows(CapturePatternNotAllowedValidationError.class, () -> capture.actOn(board, history));
     }
 
     @Test
@@ -66,8 +66,8 @@ public class CaptureTest {
         board.placePiece("e2", queen);
         board.placePiece("e7", new Pawn(Color.BLACK));
 
-        var attack = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
-        attack.actOn(board, history);
+        var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
+        capture.actOn(board, history);
 
         assertNull(board.getPieceAt(new Position("e2")).orElse(null));
         assertEquals(queen, board.getPieceAt(new Position("e7")).orElseThrow());
@@ -79,17 +79,17 @@ public class CaptureTest {
         board.placePiece("e2", queen);
         board.placePiece("e7", new Pawn(Color.WHITE));
 
-        var attack = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
+        var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
 
-        assertThrows(PieceAtPositionIsOfUnexpectedColorValidationError.class, () -> attack.actOn(board, history));
+        assertThrows(PieceAtPositionIsOfUnexpectedColorValidationError.class, () -> capture.actOn(board, history));
     }
 
     @Test
     void shouldNotAttackEmptyPositions() {
         var queen = new Queen(Color.WHITE);
         board.placePiece("e2", queen);
-        var attack = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
+        var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
 
-        assertThrows(NoPieceAtPositionValidationError.class, () -> attack.actOn(board, history));
+        assertThrows(NoPieceAtPositionValidationError.class, () -> capture.actOn(board, history));
     }
 }

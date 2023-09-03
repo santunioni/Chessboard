@@ -30,7 +30,8 @@ public class Capture implements Play {
         this.color = color;
     }
 
-    private Runnable validatePlay(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError {
+
+    public void actOn(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError {
         var piece = getPieceFromBoard(color, from, boardState);
 
         if (!piece.couldCaptureEnemyAt(to)) {
@@ -47,25 +48,9 @@ public class Capture implements Play {
             throw new PieceAtPositionIsOfUnexpectedColorValidationError(to, piece.getColor().opposite());
         }
 
-        return () -> {
-            boardState.removePieceFromSquare(from);
-            boardState.placePiece(to, piece);
-            boardHistory.push(this);
-        };
-    }
-
-    public boolean isValid(BoardState boardState, BoardHistory boardHistory) {
-        try {
-            this.validatePlay(boardState, boardHistory);
-            return true;
-        } catch (PlayValidationError e) {
-            return false;
-        }
-    }
-
-    public void actOn(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError {
-        var action = this.validatePlay(boardState, boardHistory);
-        action.run();
+        boardState.removePieceFromSquare(from);
+        boardState.placePiece(to, piece);
+        boardHistory.push(this);
     }
 
     public Color getPlayerColor() {
