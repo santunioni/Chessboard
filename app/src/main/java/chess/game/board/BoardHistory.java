@@ -4,10 +4,11 @@ import chess.game.pieces.Color;
 import chess.game.plays.Play;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-public class BoardHistory {
+public class BoardHistory implements Iterable<Play> {
 
     private final List<Play> stack = new ArrayList<>();
 
@@ -38,5 +39,9 @@ public class BoardHistory {
             return Color.WHITE;
         }
         return lastPlay.get().getPlayerColor().opposite();
+    }
+
+    public Iterator<Play> iterator() {
+        return this.stack.iterator();
     }
 }
