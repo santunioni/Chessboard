@@ -21,7 +21,7 @@ import static chess.game.plays.PlayFunctions.getPieceFromBoard;
 public record Capture(Color color, Position from, Position to) implements Play {
 
 
-    public Runnable validateAndGetRunnable(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError {
+    public void actOn(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError {
         var piece = getPieceFromBoard(color, from, boardState);
 
         if (!piece.couldCaptureEnemyAt(to)) {
@@ -38,11 +38,9 @@ public record Capture(Color color, Position from, Position to) implements Play {
             throw new PieceAtPositionIsOfUnexpectedColorValidationError(to, piece.getColor().opposite());
         }
 
-        return () -> {
-            boardState.removePieceFromSquare(from);
-            boardState.placePiece(to, piece);
-            boardHistory.push(this);
-        };
+        boardState.removePieceFromSquare(from);
+        boardState.placePiece(to, piece);
+        boardHistory.push(this);
     }
 
     public Color getPlayerColor() {
