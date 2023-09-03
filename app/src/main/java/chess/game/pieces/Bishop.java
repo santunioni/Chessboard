@@ -18,4 +18,9 @@ public class Bishop extends Piece {
                 position
         );
     }
+
+
+    public Bishop copy() {
+        return new Bishop(this.getColor());
+    }
 }

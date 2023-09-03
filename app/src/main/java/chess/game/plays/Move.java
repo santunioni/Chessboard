@@ -37,7 +37,7 @@ public class Move implements Play {
         if (targetPositionOccupation.isPresent()) {
             throw new IlegalPlay(this, "Cant move to " + to + " because it is ocuppied by " + targetPositionOccupation + ".");
         }
-        
+
         return () -> {
             boardState.removePieceFromSquare(from);
             boardState.placePiece(to, piece);

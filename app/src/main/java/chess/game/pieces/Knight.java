@@ -16,4 +16,9 @@ public class Knight extends Piece {
         var verticalDistance = Math.abs(myPosition.rank().distanceTo(position.rank()));
         return (horizontalDistance == 1 && verticalDistance == 2) || (horizontalDistance == 2 && verticalDistance == 1);
     }
+
+
+    public Knight copy() {
+        return new Knight(this.getColor());
+    }
 }

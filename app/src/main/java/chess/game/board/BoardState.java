@@ -1,9 +1,13 @@
 package chess.game.board;
 
 import chess.game.grid.Position;
+import chess.game.pieces.Color;
 import chess.game.pieces.Piece;
+import chess.game.pieces.PieceProperties;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 public class BoardState implements BoardPieceAtPositionProvider {
@@ -37,5 +41,33 @@ public class BoardState implements BoardPieceAtPositionProvider {
             this.board.remove(position);
             piece.placeInBoard(null);
         }
+    }
+
+    public BoardState copy() {
+        var newState = new BoardState();
+        this.board.forEach(((position, piece) -> {
+            newState.placePiece(position, piece.copy());
+        }));
+        return newState;
+    }
+
+    public List<Position> findPositionsWithPiece(PieceProperties piece) {
+        var positions = new ArrayList<Position>();
+        for (var entry : this.board.entrySet()) {
+            if (entry.getValue().isSameTypeAndColor(piece)) {
+                positions.add(entry.getKey());
+            }
+        }
+        return positions;
+    }
+
+    public List<Piece> getPlayerPieces(Color player) {
+        List<Piece> pieces = new ArrayList<>();
+        for (var entry : this.board.entrySet()) {
+            if (entry.getValue().getColor().equals(player)) {
+                pieces.add(entry.getValue());
+            }
+        }
+        return pieces;
     }
 }

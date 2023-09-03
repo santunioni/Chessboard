@@ -29,7 +29,7 @@ public class Capture implements Play {
         var piece = getPieceFromBoard(color, from, this, boardState);
 
         if (!piece.couldCaptureEnemyAt(to)) {
-            throw new IlegalPlay(this, "Cant capture " + to + " because piece doesnt threatens it.");
+            throw new IlegalPlay(this, "Cant capture " + to + " because piece doesn't threat it.");
         }
 
         var targetPositionOccupation = boardState.getPieceAt(to);

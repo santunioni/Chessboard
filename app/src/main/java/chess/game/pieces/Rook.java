@@ -25,4 +25,9 @@ public class Rook extends Piece {
                 enemyPosition
         );
     }
+
+
+    public Rook copy() {
+        return new Rook(this.getColor());
+    }
 }

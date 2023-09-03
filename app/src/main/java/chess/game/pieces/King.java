@@ -12,4 +12,9 @@ public class King extends Piece {
         return this.board.getMyPosition().isNeighborTo(position);
     }
 
+
+    public King copy() {
+        return new King(this.getColor());
+    }
+
 }

@@ -18,6 +18,8 @@ public abstract class Piece implements PieceProperties {
         this.board = boardPlacement;
     }
 
+    public abstract Piece copy();
+
     public Color getColor() {
         return this.color;
     }

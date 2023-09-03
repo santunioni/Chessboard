@@ -1,10 +1,7 @@
 package chess.game.board;
 
 import chess.game.grid.Position;
-import chess.game.pieces.Color;
-import chess.game.pieces.Piece;
-import chess.game.pieces.Rook;
-import chess.game.pieces.Type;
+import chess.game.pieces.*;
 import chess.game.plays.Capture;
 import chess.game.plays.IlegalPlay;
 import chess.game.plays.Move;
@@ -17,16 +14,18 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class BoardControllerTest {
 
     private BoardState boardState;
+    private BoardHistory boardHistory;
     private BoardController boardController;
 
     @BeforeEach
     void setUp() {
         this.boardState = new BoardState();
-        this.boardController = new BoardController(this.boardState, new BoardHistory());
+        this.boardHistory = new BoardHistory();
+        this.boardController = new BoardController(this.boardState, this.boardHistory);
     }
 
     @Test
-    void shouldAllowWhiteToMoveOnItsTurn() throws IlegalPlay, Exception {
+    void shouldAllowWhiteToMoveOnItsTurn() throws IlegalPlay {
         // Given
         this.boardState.placePiece("a2", new Rook(Color.BLACK));
         this.boardState.placePiece("b1", new Rook(Color.WHITE));
@@ -57,11 +56,11 @@ public class BoardControllerTest {
     }
 
     @Test
-    void shoudAllowBlackToCaptureWhiteOnItsTurn() throws IlegalPlay, Exception {
+    void shoudAllowBlackToCaptureWhiteOnItsTurn() throws IlegalPlay {
         // Given
+        this.boardHistory.push(new Move(Color.WHITE, new Position("b1"), new Position("a1")));
+        this.boardState.placePiece("a1", new Rook(Color.WHITE));
         this.boardState.placePiece("a2", new Rook(Color.BLACK));
-        this.boardState.placePiece("b1", new Rook(Color.WHITE));
-        this.boardController.makePlay(new Move(Color.WHITE, new Position("b1"), new Position("a1")).toDTO());
 
         // When
         var capture = new Capture(Color.BLACK, new Position("a2"), new Position("a1"));
@@ -72,5 +71,20 @@ public class BoardControllerTest {
         Piece pieceAtA1 = this.boardState.getPieceAt(new Position("a1")).orElseThrow();
         assertEquals(Color.BLACK, pieceAtA1.getColor());
         assertEquals(Type.ROOK, pieceAtA1.getType());
+    }
+
+    @Test
+    void shouldNotAllowPlayerToPutItsOwnKingInCheck() {
+        // Given
+        this.boardState.placePiece("e1", new King(Color.WHITE));
+        this.boardState.placePiece("f1", new Bishop(Color.WHITE));
+        this.boardState.placePiece("h1", new Rook(Color.BLACK));
+
+        // When
+        var move = new Move(Color.WHITE, new Position("f1"), new Position("e2"));
+        var moveDTO = move.toDTO();
+
+        // Then
+        assertThrows(IlegalPlay.class, () -> this.boardController.makePlay(moveDTO));
     }
 }

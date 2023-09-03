@@ -4,6 +4,7 @@ import chess.game.grid.Position;
 import chess.game.pieces.Piece;
 import chess.game.pieces.PieceProperties;
 import chess.game.plays.*;
+import chess.game.rules.BoardValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,9 @@ public class BoardController {
         if (play.getPlayerColor() != this.boardHistory.nextTurnPlayerColor()) {
             throw new IlegalPlay(play, "Not your turn");
         }
+
+        new BoardValidator(this.boardState, this.boardHistory).validatePlayAgainstChessRules(play);
+
         play.actUpon(this.boardState);
         this.boardHistory.push(play);
     }

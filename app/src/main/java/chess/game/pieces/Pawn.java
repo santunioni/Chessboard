@@ -33,4 +33,9 @@ public class Pawn extends Piece {
     public boolean couldMoveToIfEmpty(Position position) {
         return new BoardPathReachabilityAnalyzer(this.board).isReachableWalkingInOneOfDirections(this.board.getMyPosition(), Set.of(this.walkDirection), position, this.hasAlreadyMoved() ? 1 : 2);
     }
+
+
+    public Pawn copy() {
+        return new Pawn(this.getColor());
+    }
 }
