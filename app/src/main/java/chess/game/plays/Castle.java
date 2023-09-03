@@ -2,6 +2,7 @@ package chess.game.plays;
 
 import chess.game.board.BoardHistory;
 import chess.game.board.BoardState;
+import chess.game.grid.BoardPath;
 import chess.game.grid.BoardPathReachabilityAnalyzer;
 import chess.game.grid.Position;
 import chess.game.pieces.Color;
@@ -47,8 +48,9 @@ public class Castle implements Play {
     public void actOn(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError {
         var rookPosition = this.getRookPosition(boardState);
         var kingPosition = this.getKingPosition(boardState);
+        var direction = kingPosition.directionTo(rookPosition).orElseThrow();
 
-        if (!new BoardPathReachabilityAnalyzer(boardState).isReachableWalkingInOneOfDirections(kingPosition, Set.of(kingPosition.directionTo(rookPosition).orElseThrow()), rookPosition)) {
+        if (!new BoardPathReachabilityAnalyzer(boardState).isReachableWalkingInOneOfDirections(kingPosition, Set.of(direction), rookPosition)) {
             throw new CantCastleOverOccupiedSquares(this.color, this.to);
         }
 
@@ -56,15 +58,22 @@ public class Castle implements Play {
             throw new CantCastleWhileInCheck(this.color);
         }
 
-        for (var play : boardHistory) {
-            PlayDTO playDTO = play.toDTO();
-            if (playDTO.getFrom().equals(kingPosition)) {
+        for (var kingWalkingPosition : new BoardPath(kingPosition, direction, 1)) {
+            if (isPositionThreatenedBy(boardState, kingWalkingPosition, this.color.opposite())) {
+                throw new CantCastleWhilePassingThroughCheck(this.color, this.to);
+            }
+        }
+
+        for (var oldPlay : boardHistory) {
+            PlayDTO oldPlayDTO = oldPlay.toDTO();
+            if (oldPlayDTO.getFrom().equals(kingPosition)) {
                 throw new CantCastleOnKingThatAlreadyMoved(this.color);
             }
-            if (playDTO.getFrom().equals(rookPosition)) {
+            if (oldPlayDTO.getFrom().equals(rookPosition)) {
                 throw new CantCastleOnRookThatAlreadyMoved(this.color, rookPosition);
             }
         }
+
     }
 
     public Color getPlayerColor() {

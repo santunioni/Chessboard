@@ -76,4 +76,15 @@ public class CastleRulesTest {
         assertThrows(CantCastleOverOccupiedSquares.class, () -> castle.actOn(board, history));
     }
 
+    @Test
+    void shouldFailIfKingsPathIsThreatened() {
+        // Given
+        board.placePiece("f2", new Rook(Color.BLACK));
+
+        // When
+        var castle = new Castle(Color.WHITE, new Position("h1"));
+
+        // Then
+        assertThrows(CantCastleWhilePassingThroughCheck.class, () -> castle.actOn(board, history));
+    }
 }

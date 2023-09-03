@@ -7,10 +7,12 @@ public class BoardPathIterator implements Iterator<Position> {
 
     private final BoardPathDirection direction;
     private Position position;
+    private int stepsLeft;
 
-    public BoardPathIterator(Position position, BoardPathDirection direction) {
+    public BoardPathIterator(Position position, BoardPathDirection direction, int maxSteps) {
         this.position = position;
         this.direction = direction;
+        this.stepsLeft = maxSteps;
     }
 
     private Optional<File> nextFile() {
@@ -36,11 +38,12 @@ public class BoardPathIterator implements Iterator<Position> {
     }
 
     public boolean hasNext() {
-        return this.nextFile().isPresent() && this.nextRank().isPresent();
+        return this.nextFile().isPresent() && this.nextRank().isPresent() && this.stepsLeft > 0;
     }
 
     public Position next() {
         this.position = new Position(this.nextFile().orElseThrow(), this.nextRank().orElseThrow());
+        this.stepsLeft--;
         return this.position;
     }
 }
