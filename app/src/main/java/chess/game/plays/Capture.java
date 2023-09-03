@@ -3,6 +3,10 @@ package chess.game.plays;
 import chess.game.board.BoardState;
 import chess.game.grid.Position;
 import chess.game.pieces.Color;
+import chess.game.plays.validation.CapturePatternNotAllowedValidationError;
+import chess.game.plays.validation.NoPieceAtPositionValidationError;
+import chess.game.plays.validation.PieceAtPositionIsOfUnexpectedColorValidationError;
+import chess.game.plays.validation.PlayValidationError;
 
 import static chess.game.plays.PlayFunctions.getPieceFromBoard;
 
@@ -25,21 +29,21 @@ public class Capture implements Play {
         this.color = color;
     }
 
-    private Runnable validatePlay(BoardState boardState) throws IlegalPlay {
-        var piece = getPieceFromBoard(color, from, this, boardState);
+    private Runnable validatePlay(BoardState boardState) throws PlayValidationError {
+        var piece = getPieceFromBoard(color, from, boardState);
 
         if (!piece.couldCaptureEnemyAt(to)) {
-            throw new IlegalPlay(this, "Cant capture " + to + " because piece doesn't threat it.");
+            throw new CapturePatternNotAllowedValidationError(piece, from, to);
         }
 
         var targetPositionOccupation = boardState.getPieceAt(to);
         if (targetPositionOccupation.isEmpty()) {
-            throw new IlegalPlay(this, "Cant capture " + to + " because it is not ocuppied.");
+            throw new NoPieceAtPositionValidationError(to);
         }
 
         var victim = targetPositionOccupation.get();
         if (!victim.isEnemyOf(piece)) {
-            throw new IlegalPlay(this, "Cant capture friends.");
+            throw new PieceAtPositionIsOfUnexpectedColorValidationError(to, piece.getColor().opposite());
         }
 
         return () -> {
@@ -48,16 +52,16 @@ public class Capture implements Play {
         };
     }
 
-    public boolean isLegal(BoardState boardState) {
+    public boolean isValid(BoardState boardState) {
         try {
             this.validatePlay(boardState);
             return true;
-        } catch (IlegalPlay e) {
+        } catch (PlayValidationError e) {
             return false;
         }
     }
 
-    public void actUpon(BoardState boardState) throws IlegalPlay {
+    public void actUpon(BoardState boardState) throws PlayValidationError {
         var action = this.validatePlay(boardState);
         action.run();
     }

@@ -4,7 +4,10 @@ import chess.game.grid.Position;
 import chess.game.pieces.Piece;
 import chess.game.pieces.PieceProperties;
 import chess.game.plays.*;
+import chess.game.plays.validation.NotYourTurnValidationError;
+import chess.game.plays.validation.PlayValidationError;
 import chess.game.rules.ChessRulesPlayValidator;
+import chess.game.rules.validation.IlegalBoardStateError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,10 +65,10 @@ public class BoardController {
         return plays;
     }
 
-    public void makePlay(PlayDTO playDTO) throws IlegalPlay {
+    public void makePlay(PlayDTO playDTO) throws PlayValidationError, IlegalBoardStateError {
         Play play = new PlayDTOToPlayMapper(this.boardState).createPlayFromDTO(playDTO);
         if (play.getPlayerColor() != this.boardHistory.nextTurnPlayerColor()) {
-            throw new IlegalPlay(play, "Not your turn");
+            throw new NotYourTurnValidationError(play);
         }
 
         new ChessRulesPlayValidator(this.boardState, this.boardHistory).validatePlayAgainstChessRules(play);

@@ -4,6 +4,9 @@ package chess.game.plays;
 import chess.game.board.BoardState;
 import chess.game.grid.Position;
 import chess.game.pieces.Color;
+import chess.game.plays.validation.MovePatternNotAllowedValidationError;
+import chess.game.plays.validation.PlayValidationError;
+import chess.game.plays.validation.SquareAlreadyOccupiedValidationError;
 
 import static chess.game.plays.PlayFunctions.getPieceFromBoard;
 
@@ -26,16 +29,16 @@ public class Move implements Play {
         this.to = to;
     }
 
-    private Runnable validatePlay(BoardState boardState) throws IlegalPlay {
-        var piece = getPieceFromBoard(color, from, this, boardState);
+    private Runnable validatePlay(BoardState boardState) throws PlayValidationError {
+        var piece = getPieceFromBoard(color, from, boardState);
 
         if (!piece.couldMoveToIfEmpty(to)) {
-            throw new IlegalPlay(this, "Cant move to " + to + " because it is not a valid move.");
+            throw new MovePatternNotAllowedValidationError(piece, from, to);
         }
 
         var targetPositionOccupation = boardState.getPieceAt(to);
         if (targetPositionOccupation.isPresent()) {
-            throw new IlegalPlay(this, "Cant move to " + to + " because it is ocuppied by " + targetPositionOccupation + ".");
+            throw new SquareAlreadyOccupiedValidationError(to, targetPositionOccupation.get());
         }
 
         return () -> {
@@ -44,16 +47,16 @@ public class Move implements Play {
         };
     }
 
-    public boolean isLegal(BoardState boardState) {
+    public boolean isValid(BoardState boardState) {
         try {
             this.validatePlay(boardState);
             return true;
-        } catch (IlegalPlay e) {
+        } catch (PlayValidationError e) {
             return false;
         }
     }
 
-    public void actUpon(BoardState boardState) throws IlegalPlay {
+    public void actUpon(BoardState boardState) throws PlayValidationError {
         var action = this.validatePlay(boardState);
         action.run();
     }

@@ -5,6 +5,10 @@ import chess.game.grid.Position;
 import chess.game.pieces.Color;
 import chess.game.pieces.Pawn;
 import chess.game.pieces.Queen;
+import chess.game.plays.validation.CapturePatternNotAllowedValidationError;
+import chess.game.plays.validation.NoPieceAtPositionValidationError;
+import chess.game.plays.validation.PieceAtPositionIsOfUnexpectedColorValidationError;
+import chess.game.plays.validation.PlayValidationError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +23,7 @@ public class CaptureTest {
     }
 
     @Test
-    void shouldAllowWhitePawnDiagonalUpLeftAttack() throws IlegalPlay {
+    void shouldAllowWhitePawnDiagonalUpLeftAttack() throws PlayValidationError {
         var pawn = new Pawn(Color.WHITE);
         board.placePiece("e2", pawn);
         board.placePiece("d3", new Pawn(Color.BLACK));
@@ -39,7 +43,7 @@ public class CaptureTest {
 
         var attack = new Capture(Color.WHITE, new Position("e2"), new Position("e3"));
 
-        assertThrows(IlegalPlay.class, () -> attack.actUpon(board));
+        assertThrows(CapturePatternNotAllowedValidationError.class, () -> attack.actUpon(board));
     }
 
     @Test
@@ -50,11 +54,11 @@ public class CaptureTest {
 
         var attack = new Capture(Color.WHITE, new Position("e2"), new Position("d1"));
 
-        assertThrows(IlegalPlay.class, () -> attack.actUpon(board));
+        assertThrows(CapturePatternNotAllowedValidationError.class, () -> attack.actUpon(board));
     }
 
     @Test
-    void shouldAllowQueenVerticalAttack() throws IlegalPlay {
+    void shouldAllowQueenVerticalAttack() throws PlayValidationError {
         var queen = new Queen(Color.WHITE);
         board.placePiece("e2", queen);
         board.placePiece("e7", new Pawn(Color.BLACK));
@@ -67,14 +71,14 @@ public class CaptureTest {
     }
 
     @Test
-    void shouldNowAttackAlly() throws IlegalPlay {
+    void shouldNotAttackAlly() {
         var queen = new Queen(Color.WHITE);
         board.placePiece("e2", queen);
         board.placePiece("e7", new Pawn(Color.WHITE));
 
         var attack = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
 
-        assertThrows(IlegalPlay.class, () -> attack.actUpon(board));
+        assertThrows(PieceAtPositionIsOfUnexpectedColorValidationError.class, () -> attack.actUpon(board));
     }
 
     @Test
@@ -83,6 +87,6 @@ public class CaptureTest {
         board.placePiece("e2", queen);
         var attack = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
 
-        assertThrows(IlegalPlay.class, () -> attack.actUpon(board));
+        assertThrows(NoPieceAtPositionValidationError.class, () -> attack.actUpon(board));
     }
 }

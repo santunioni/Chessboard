@@ -2,8 +2,9 @@ package chess.ui.plays;
 
 import chess.game.board.BoardController;
 import chess.game.grid.Position;
-import chess.game.plays.IlegalPlay;
 import chess.game.plays.PlayDTO;
+import chess.game.plays.validation.PlayValidationError;
+import chess.game.rules.validation.IlegalBoardStateError;
 import chess.ui.grid.SquaresUI;
 
 import javax.swing.*;
@@ -54,8 +55,8 @@ public class PlaysUI extends JPanel {
                     for (var callback : onMovedPieceCallbacks) {
                         callback.run();
                     }
-                } catch (IlegalPlay e) {
-                    System.out.println("Ilegal play");
+                } catch (PlayValidationError | IlegalBoardStateError e) {
+                    System.out.println(e);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }

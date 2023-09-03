@@ -3,8 +3,11 @@ package chess.game.board;
 import chess.game.grid.Position;
 import chess.game.pieces.*;
 import chess.game.plays.Capture;
-import chess.game.plays.IlegalPlay;
 import chess.game.plays.Move;
+import chess.game.plays.validation.NotYourTurnValidationError;
+import chess.game.plays.validation.PlayValidationError;
+import chess.game.rules.validation.CantLetOwnKingInCheckIlegalBoardStateError;
+import chess.game.rules.validation.IlegalBoardStateError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +28,7 @@ public class BoardControllerTest {
     }
 
     @Test
-    void shouldAllowWhiteToMoveOnItsTurn() throws IlegalPlay {
+    void shouldAllowWhiteToMoveOnItsTurn() throws PlayValidationError, IlegalBoardStateError {
         // Given
         this.boardState.placePiece("a2", new Rook(Color.BLACK));
         this.boardState.placePiece("b1", new Rook(Color.WHITE));
@@ -52,11 +55,11 @@ public class BoardControllerTest {
         var captureDTO = capture.toDTO();
 
         // Then
-        assertThrows(IlegalPlay.class, () -> this.boardController.makePlay(captureDTO));
+        assertThrows(NotYourTurnValidationError.class, () -> this.boardController.makePlay(captureDTO));
     }
 
     @Test
-    void shoudAllowBlackToCaptureWhiteOnItsTurn() throws IlegalPlay {
+    void shoudAllowBlackToCaptureWhiteOnItsTurn() throws PlayValidationError, IlegalBoardStateError {
         // Given
         this.boardHistory.push(new Move(Color.WHITE, new Position("b1"), new Position("a1")));
         this.boardState.placePiece("a1", new Rook(Color.WHITE));
@@ -85,6 +88,6 @@ public class BoardControllerTest {
         var moveDTO = move.toDTO();
 
         // Then
-        assertThrows(IlegalPlay.class, () -> this.boardController.makePlay(moveDTO));
+        assertThrows(CantLetOwnKingInCheckIlegalBoardStateError.class, () -> this.boardController.makePlay(moveDTO));
     }
 }

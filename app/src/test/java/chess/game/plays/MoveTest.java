@@ -5,6 +5,9 @@ import chess.game.grid.Position;
 import chess.game.pieces.Color;
 import chess.game.pieces.Pawn;
 import chess.game.pieces.Queen;
+import chess.game.plays.validation.NoPieceAtPositionValidationError;
+import chess.game.plays.validation.PlayValidationError;
+import chess.game.plays.validation.SquareAlreadyOccupiedValidationError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,12 +22,12 @@ public class MoveTest {
     }
 
     @Test
-    void shouldMovePieceInBoard() throws IlegalPlay {
+    void shouldMovePieceInBoard() throws PlayValidationError {
         var pawn = new Pawn(Color.WHITE);
         board.placePiece("e2", pawn);
 
-        var displacement = new Move(Color.WHITE, new Position("e2"), new Position("e4"));
-        displacement.actUpon(board);
+        var move = new Move(Color.WHITE, new Position("e2"), new Position("e4"));
+        move.actUpon(board);
 
         assertNull(board.getPieceAt(new Position("e2")).orElse(null));
         assertEquals(pawn, board.getPieceAt(new Position("e4")).orElseThrow());
@@ -32,9 +35,9 @@ public class MoveTest {
 
     @Test
     void shouldThrownIfEmptyOriginPosition() {
-        var displacement = new Move(Color.WHITE, new Position("e2"), new Position("e4"));
+        var move = new Move(Color.WHITE, new Position("e2"), new Position("e4"));
 
-        assertThrows(IlegalPlay.class, () -> displacement.actUpon(board));
+        assertThrows(NoPieceAtPositionValidationError.class, () -> move.actUpon(board));
     }
 
     @Test
@@ -42,9 +45,9 @@ public class MoveTest {
         board.placePiece("e2", new Queen(Color.BLACK));
         board.placePiece("e4", new Queen(Color.BLACK));
 
-        var displacement = new Move(Color.BLACK, new Position("e2"), new Position("e4"));
+        var move = new Move(Color.BLACK, new Position("e2"), new Position("e4"));
 
-        assertThrows(IlegalPlay.class, () -> displacement.actUpon(board));
+        assertThrows(SquareAlreadyOccupiedValidationError.class, () -> move.actUpon(board));
     }
 
     @Test
@@ -52,8 +55,8 @@ public class MoveTest {
         board.placePiece("e2", new Queen(Color.BLACK));
         board.placePiece("e4", new Queen(Color.WHITE));
 
-        var displacement = new Move(Color.BLACK, new Position("e2"), new Position("e4"));
+        var move = new Move(Color.BLACK, new Position("e2"), new Position("e4"));
 
-        assertThrows(IlegalPlay.class, () -> displacement.actUpon(board));
+        assertThrows(SquareAlreadyOccupiedValidationError.class, () -> move.actUpon(board));
     }
 }

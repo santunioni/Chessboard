@@ -2,11 +2,12 @@ package chess.game.plays;
 
 import chess.game.board.BoardState;
 import chess.game.pieces.Color;
+import chess.game.plays.validation.PlayValidationError;
 
 public interface Play {
-    void actUpon(BoardState boardState) throws IlegalPlay;
+    void actUpon(BoardState boardState) throws PlayValidationError;
 
-    boolean isLegal(BoardState boardState);
+    boolean isValid(BoardState boardState);
 
     Color getPlayerColor();
 

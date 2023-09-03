@@ -45,9 +45,7 @@ public class BoardState implements BoardPieceAtPositionProvider {
 
     public BoardState copy() {
         var newState = new BoardState();
-        this.board.forEach(((position, piece) -> {
-            newState.placePiece(position, piece.copy());
-        }));
+        this.board.forEach(((position, piece) -> newState.placePiece(position, piece.copy())));
         return newState;
     }
 
