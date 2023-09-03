@@ -8,16 +8,21 @@ import chess.game.pieces.Type;
 import chess.game.plays.IlegalPlay;
 import chess.game.plays.Play;
 
+import java.util.Optional;
+
 
 public class CantPutOwnKingInCheckValidation {
 
-    public void validateStateAfterPlay(
-            BoardState state,
-            Play play
-    ) throws IlegalPlay {
+    private final BoardState state;
+
+    CantPutOwnKingInCheckValidation(BoardState state) {
+        this.state = state;
+    }
+
+    private Optional<Position> findKing(Color color) {
         var possiblePositionsForKing = state.findPositionsWithPiece(new PieceProperties() {
             public Color getColor() {
-                return play.getPlayerColor();
+                return color;
             }
 
             public Type getType() {
@@ -25,9 +30,20 @@ public class CantPutOwnKingInCheckValidation {
             }
         });
         if (possiblePositionsForKing.size() != 1) {
-            return;
+            return Optional.empty();
         }
         Position ownKingPosition = possiblePositionsForKing.get(0);
+        return Optional.of(ownKingPosition);
+    }
+
+    public void validateStateAfterPlay(
+            Play play
+    ) throws IlegalPlay {
+        var possiblePositionsForKing = this.findKing(play.getPlayerColor());
+        if (possiblePositionsForKing.isEmpty()) {
+            return;
+        }
+        Position ownKingPosition = possiblePositionsForKing.get();
 
         var enemyPieces = state.getPlayerPieces(play.getPlayerColor().opposite());
         for (var enemyPiece : enemyPieces) {

@@ -22,10 +22,10 @@ public class BoardValidator {
         play.actUpon(newState);
         newHistory.push(play);
 
-        var rules = List.of(new CantPutOwnKingInCheckValidation());
+        var rules = List.of(new CantPutOwnKingInCheckValidation(newState));
 
         for (var rule : rules) {
-            rule.validateStateAfterPlay(newState, play);
+            rule.validateStateAfterPlay(play);
         }
     }
 }
