@@ -14,15 +14,7 @@ import java.util.Set;
 
 import static chess.game.plays.PlayFunctions.isPositionThreatenedBy;
 
-public class Castle implements Play {
-
-    private final Color color;
-    private final Position to;
-
-    public Castle(Color color, Position to) {
-        this.color = color;
-        this.to = to;
-    }
+public record Castle(Color color, Position to) implements Play {
 
     private Position getKingPosition(BoardState state) throws CantCastleOnKingThatAlreadyMoved {
         var kingPosition = King.initialPosition(this.color);

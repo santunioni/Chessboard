@@ -41,7 +41,7 @@ public class Pawn extends Piece {
         return new Pawn(this.getColor());
     }
 
-    public Set<Play> getPossiblePlays() {
+    protected Set<Play> getPossiblePlays() {
         var plays = new HashSet<Play>();
 
         var from = this.board.getMyPosition();

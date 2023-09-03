@@ -24,13 +24,13 @@ public class Knight extends Piece {
         return (horizontalDistance == 1 && verticalDistance == 2) || (horizontalDistance == 2 && verticalDistance == 1);
     }
 
-    public Set<Play> getPossiblePlays() {
+    protected Set<Play> getPossiblePlays() {
         var plays = new HashSet<Play>();
 
         for (var horizontalJump : List.of(-2, -1, 1, 2)) {
             for (var verticalJump : List.of(-2, -1, 1, 2)) {
                 var targetPositionIndex = this.board.getMyPosition().toIndex() + horizontalJump + 8 * verticalJump;
-                if (targetPositionIndex <= 63) {
+                if (0 <= targetPositionIndex && targetPositionIndex <= 63) {
                     var targetPosition = Position.fromIndex(targetPositionIndex);
                     if (this.couldMoveToIfEmpty(targetPosition)) {
                         plays.add(new Move(this.getColor(), this.board.getMyPosition(), targetPosition));

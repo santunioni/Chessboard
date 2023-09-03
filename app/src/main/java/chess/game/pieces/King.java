@@ -30,7 +30,7 @@ public class King extends Piece {
         return new King(this.getColor());
     }
 
-    public Set<Play> getPossiblePlays() {
+    protected Set<Play> getPossiblePlays() {
         var plays = new HashSet<Play>();
 
         for (var direction : BoardPathDirection.allDirections()) {

@@ -44,7 +44,7 @@ public class BoardController {
         }
         var playingPiece = playingPieceOptional.get();
 
-        for (var play : playingPiece.getPossiblePlays()) {
+        for (var play : playingPiece.getPlays(this.boardState, this.boardHistory)) {
             try {
                 PlayValidatorAgainstAllChessRules.validateNextPlay(this.boardState.copy(), this.boardHistory.copy(), play);
                 plays.add(play.toDTO());

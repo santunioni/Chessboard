@@ -1,10 +1,13 @@
 package chess.game.pieces;
 
+import chess.game.board.BoardHistory;
 import chess.game.board.BoardPlacement;
+import chess.game.board.BoardState;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public abstract class Piece implements PieceProperties {
 
@@ -53,5 +56,9 @@ public abstract class Piece implements PieceProperties {
         };
     }
 
-    public abstract Set<Play> getPossiblePlays();
+    protected abstract Set<Play> getPossiblePlays();
+
+    public Set<Play> getPlays(BoardState state, BoardHistory history) {
+        return this.getPossiblePlays().stream().filter(p -> p.passesValidation(state, history)).collect(Collectors.toSet());
+    }
 }

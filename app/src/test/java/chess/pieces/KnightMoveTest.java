@@ -1,5 +1,6 @@
 package chess.pieces;
 
+import chess.game.board.BoardHistory;
 import chess.game.board.BoardState;
 import chess.game.grid.Position;
 import chess.game.pieces.Color;
@@ -16,10 +17,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class KnightMoveTest {
 
     private BoardState board;
+    private BoardHistory history;
+
 
     @BeforeEach
     void setUp() {
         this.board = new BoardState();
+        this.history = new BoardHistory();
     }
 
     @Test
@@ -28,20 +32,20 @@ public class KnightMoveTest {
         this.board.placePiece("d4", knight);
 
         var expectedValidMoves = Set.of(
-                new Move(Color.BLACK, new Position("d4"), new Position("e6")),
-                new Move(Color.BLACK, new Position("d4"), new Position("c6")),
+                new Move(Color.WHITE, new Position("d4"), new Position("e6")),
+                new Move(Color.WHITE, new Position("d4"), new Position("c6")),
 
-                new Move(Color.BLACK, new Position("d4"), new Position("b5")),
-                new Move(Color.BLACK, new Position("d4"), new Position("b3")),
+                new Move(Color.WHITE, new Position("d4"), new Position("b5")),
+                new Move(Color.WHITE, new Position("d4"), new Position("b3")),
 
-                new Move(Color.BLACK, new Position("d4"), new Position("c2")),
-                new Move(Color.BLACK, new Position("d4"), new Position("e2")),
+                new Move(Color.WHITE, new Position("d4"), new Position("c2")),
+                new Move(Color.WHITE, new Position("d4"), new Position("e2")),
 
-                new Move(Color.BLACK, new Position("d4"), new Position("f3")),
-                new Move(Color.BLACK, new Position("d4"), new Position("f5"))
+                new Move(Color.WHITE, new Position("d4"), new Position("f3")),
+                new Move(Color.WHITE, new Position("d4"), new Position("f5"))
         );
 
-        assertEquals(expectedValidMoves, knight.getPossiblePlays());
+        assertEquals(expectedValidMoves, knight.getPlays(board, history));
     }
 
     @Test
@@ -51,10 +55,10 @@ public class KnightMoveTest {
         this.board.placePiece("c3", new Pawn(Color.WHITE));
 
         var expectedValidMoves = Set.of(
-                new Move(Color.BLACK, new Position("b1"), new Position("a3")),
-                new Move(Color.BLACK, new Position("b1"), new Position("d2"))
+                new Move(Color.WHITE, new Position("b1"), new Position("a3")),
+                new Move(Color.WHITE, new Position("b1"), new Position("d2"))
         );
 
-        assertEquals(expectedValidMoves, knight.getPossiblePlays());
+        assertEquals(expectedValidMoves, knight.getPlays(board, history));
     }
 }

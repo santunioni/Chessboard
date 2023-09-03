@@ -18,18 +18,7 @@ import static chess.game.plays.PlayFunctions.getPieceFromBoard;
  * - Displacements are only valid to an empty position.
  * - Attacks are only valid when moving to a position occupied by the enemy.
  */
-public class Move implements Play {
-
-    private final Position from;
-    private final Position to;
-    private final Color color;
-
-    public Move(Color color, Position from, Position to) {
-        this.color = color;
-        this.from = from;
-        this.to = to;
-    }
-
+public record Move(Color color, Position from, Position to) implements Play {
 
     public Runnable validateAndGetRunnable(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError {
         var piece = getPieceFromBoard(color, from, boardState);

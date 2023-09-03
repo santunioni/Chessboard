@@ -33,7 +33,7 @@ public class Queen extends Piece {
         return new Queen(this.getColor());
     }
 
-    public Set<Play> getPossiblePlays() {
+    protected Set<Play> getPossiblePlays() {
         var plays = new HashSet<Play>();
 
         for (var direction : BoardPathDirection.allDirections()) {

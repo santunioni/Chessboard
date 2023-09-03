@@ -1,5 +1,6 @@
 package chess.pieces;
 
+import chess.game.board.BoardHistory;
 import chess.game.board.BoardState;
 import chess.game.grid.Position;
 import chess.game.pieces.Bishop;
@@ -16,10 +17,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class BishopMoveTest {
 
     private BoardState board;
+    private BoardHistory history;
+
 
     @BeforeEach
     void setUp() {
         this.board = new BoardState();
+        this.history = new BoardHistory();
     }
 
     @Test
@@ -43,7 +47,7 @@ public class BishopMoveTest {
                 new Move(Color.BLACK, new Position("d4"), new Position("h8"))
         );
 
-        assertEquals(expectedValidMoves, bishop.getPossiblePlays());
+        assertEquals(expectedValidMoves, bishop.getPlays(board, history));
     }
 
     @Test
@@ -57,6 +61,6 @@ public class BishopMoveTest {
                 new Move(Color.WHITE, new Position("b1"), new Position("c2"))
         );
 
-        assertEquals(expectedValidMoves, bishop.getPossiblePlays());
+        assertEquals(expectedValidMoves, bishop.getPlays(board, history));
     }
 }

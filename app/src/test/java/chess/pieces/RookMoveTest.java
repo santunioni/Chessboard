@@ -1,5 +1,6 @@
 package chess.pieces;
 
+import chess.game.board.BoardHistory;
 import chess.game.board.BoardState;
 import chess.game.grid.Position;
 import chess.game.pieces.Color;
@@ -14,11 +15,15 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RookMoveTest {
+
     private BoardState board;
+    private BoardHistory history;
+
 
     @BeforeEach
     void setUp() {
         this.board = new BoardState();
+        this.history = new BoardHistory();
     }
 
     @Test
@@ -44,7 +49,7 @@ public class RookMoveTest {
                 new Move(Color.BLACK, new Position("d4"), new Position("d8"))
         );
 
-        assertEquals(expectedValidMoves, rook.getPossiblePlays());
+        assertEquals(expectedValidMoves, rook.getPlays(board, history));
     }
 
     @Test
@@ -59,6 +64,6 @@ public class RookMoveTest {
                 new Move(Color.WHITE, new Position("b1"), new Position("c1"))
         );
 
-        assertEquals(expectedValidMoves, rook.getPossiblePlays());
+        assertEquals(expectedValidMoves, rook.getPlays(board, history));
     }
 }
