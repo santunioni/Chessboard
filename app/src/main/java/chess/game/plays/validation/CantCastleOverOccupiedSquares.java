@@ -5,7 +5,7 @@ import chess.game.pieces.Color;
 
 public class CantCastleOverOccupiedSquares extends PlayValidationError {
 
-    CantCastleOverOccupiedSquares(Color color, Position rook) {
+    public CantCastleOverOccupiedSquares(Color color, Position rook) {
         super(color + " can't castle to " + rook + " over occupied squares.");
     }
 }

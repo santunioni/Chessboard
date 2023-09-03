@@ -3,13 +3,11 @@ package chess.game.plays;
 import chess.game.board.BoardHistory;
 import chess.game.board.BoardState;
 import chess.game.grid.Position;
+import chess.game.pieces.Bishop;
 import chess.game.pieces.Color;
 import chess.game.pieces.King;
 import chess.game.pieces.Rook;
-import chess.game.plays.validation.CantCastleOnKingThatAlreadyMoved;
-import chess.game.plays.validation.CantCastleOnRookThatAlreadyMoved;
-import chess.game.plays.validation.CantCastleWhileInCheck;
-import chess.game.plays.validation.PlayValidationError;
+import chess.game.plays.validation.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -64,6 +62,18 @@ public class CastleRulesTest {
 
         // Then
         assertThrows(CantCastleWhileInCheck.class, () -> castle.actOn(board, history));
+    }
+
+    @Test
+    void shouldFailIfPathBetweenKingAndRookIsBlocked() {
+        // Given
+        board.placePiece("f1", new Bishop(Color.WHITE));
+
+        // When
+        var castle = new Castle(Color.WHITE, new Position("h1"));
+
+        // Then
+        assertThrows(CantCastleOverOccupiedSquares.class, () -> castle.actOn(board, history));
     }
 
 }

@@ -2,10 +2,13 @@ package chess.game.plays;
 
 import chess.game.board.BoardHistory;
 import chess.game.board.BoardState;
+import chess.game.grid.BoardPathReachabilityAnalyzer;
 import chess.game.grid.Position;
 import chess.game.pieces.Color;
 import chess.game.pieces.Type;
 import chess.game.plays.validation.*;
+
+import java.util.Set;
 
 import static chess.game.plays.PlayFunctions.isPositionThreatenedBy;
 
@@ -45,6 +48,14 @@ public class Castle implements Play {
         var rookPosition = this.getRookPosition(boardState);
         var kingPosition = this.getKingPosition(boardState);
 
+        if (!new BoardPathReachabilityAnalyzer(boardState).isReachableWalkingInOneOfDirections(kingPosition, Set.of(kingPosition.directionTo(rookPosition).orElseThrow()), rookPosition)) {
+            throw new CantCastleOverOccupiedSquares(this.color, this.to);
+        }
+
+        if (isPositionThreatenedBy(boardState, kingPosition, this.color.opposite())) {
+            throw new CantCastleWhileInCheck(this.color);
+        }
+
         for (var play : boardHistory) {
             PlayDTO playDTO = play.toDTO();
             if (playDTO.getFrom().equals(kingPosition)) {
@@ -53,10 +64,6 @@ public class Castle implements Play {
             if (playDTO.getFrom().equals(rookPosition)) {
                 throw new CantCastleOnRookThatAlreadyMoved(this.color, rookPosition);
             }
-        }
-
-        if (isPositionThreatenedBy(boardState, kingPosition, this.color.opposite())) {
-            throw new CantCastleWhileInCheck(this.color);
         }
     }
 
