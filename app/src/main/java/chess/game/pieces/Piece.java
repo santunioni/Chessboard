@@ -4,7 +4,7 @@ import chess.game.board.BoardPlacement;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
 
-import java.util.List;
+import java.util.Set;
 
 public abstract class Piece implements PieceProperties {
 
@@ -53,5 +53,5 @@ public abstract class Piece implements PieceProperties {
         };
     }
 
-    public abstract List<Play> getPossiblePlays();
+    public abstract Set<Play> getPossiblePlays();
 }

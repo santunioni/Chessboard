@@ -31,7 +31,7 @@ public class Move implements Play {
     }
 
 
-    public void actOn(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError {
+    public Runnable validateAndGetRunnable(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError {
         var piece = getPieceFromBoard(color, from, boardState);
 
         if (!piece.couldMoveToIfEmpty(to)) {
@@ -43,9 +43,11 @@ public class Move implements Play {
             throw new SquareAlreadyOccupiedValidationError(to, targetPositionOccupation.get());
         }
 
-        boardState.removePieceFromSquare(from);
-        boardState.placePiece(to, piece);
-        boardHistory.push(this);
+        return () -> {
+            boardState.removePieceFromSquare(from);
+            boardState.placePiece(to, piece);
+            boardHistory.push(this);
+        };
     }
 
     public Color getPlayerColor() {

@@ -9,7 +9,7 @@ import chess.game.plays.Move;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -27,7 +27,7 @@ public class BishopMoveTest {
         var bishop = new Bishop(Color.BLACK);
         this.board.placePiece("d4", bishop);
 
-        var expectedValidMoves = List.of(
+        var expectedValidMoves = Set.of(
                 new Move(Color.BLACK, new Position("d4"), new Position("c3")),
                 new Move(Color.BLACK, new Position("d4"), new Position("b2")),
                 new Move(Color.BLACK, new Position("d4"), new Position("a1")),
@@ -52,7 +52,7 @@ public class BishopMoveTest {
         this.board.placePiece("b1", bishop);
         this.board.placePiece("d3", new Pawn(Color.WHITE));
 
-        var expectedValidMoves = List.of(
+        var expectedValidMoves = Set.of(
                 new Move(Color.WHITE, new Position("b1"), new Position("a2")),
                 new Move(Color.WHITE, new Position("b1"), new Position("c2"))
         );

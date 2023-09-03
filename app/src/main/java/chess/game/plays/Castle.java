@@ -46,7 +46,7 @@ public class Castle implements Play {
         return this.to;
     }
 
-    public void actOn(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError {
+    public Runnable validateAndGetRunnable(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError {
         var rookPosition = this.getRookPosition(boardState);
         var kingPosition = this.getKingPosition(boardState);
         var direction = kingPosition.directionTo(rookPosition).orElseThrow();
@@ -79,11 +79,13 @@ public class Castle implements Play {
         var rook = boardState.getPieceAt(rookPosition).orElseThrow();
         var iterator = new BoardPath(kingPosition, direction, 2).iterator();
 
-        boardState.removePieceFromSquare(kingPosition);
-        boardState.removePieceFromSquare(rookPosition);
-        boardState.placePiece(iterator.next(), rook);
-        boardState.placePiece(iterator.next(), king);
-        boardHistory.push(this);
+        return () -> {
+            boardState.removePieceFromSquare(kingPosition);
+            boardState.removePieceFromSquare(rookPosition);
+            boardState.placePiece(iterator.next(), rook);
+            boardState.placePiece(iterator.next(), king);
+            boardHistory.push(this);
+        };
     }
 
     public Color getPlayerColor() {

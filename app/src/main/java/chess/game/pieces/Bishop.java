@@ -8,8 +8,8 @@ import chess.game.plays.Capture;
 import chess.game.plays.Move;
 import chess.game.plays.Play;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Bishop extends Piece {
 
@@ -31,8 +31,8 @@ public class Bishop extends Piece {
         return new Bishop(this.getColor());
     }
 
-    public List<Play> getPossiblePlays() {
-        var plays = new ArrayList<Play>();
+    public Set<Play> getPossiblePlays() {
+        var plays = new HashSet<Play>();
 
         for (var direction : BoardPathDirection.diagonals()) {
             for (var position : new BoardPath(this.board.getMyPosition(), direction)) {

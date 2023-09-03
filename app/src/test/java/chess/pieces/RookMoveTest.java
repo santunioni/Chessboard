@@ -9,7 +9,7 @@ import chess.game.plays.Move;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -26,7 +26,7 @@ public class RookMoveTest {
         var rook = new Rook(Color.BLACK);
         this.board.placePiece("d4", rook);
 
-        var expectedValidMoves = List.of(
+        var expectedValidMoves = Set.of(
                 new Move(Color.BLACK, new Position("d4"), new Position("a4")),
                 new Move(Color.BLACK, new Position("d4"), new Position("b4")),
                 new Move(Color.BLACK, new Position("d4"), new Position("c4")),
@@ -54,7 +54,7 @@ public class RookMoveTest {
         this.board.placePiece("b2", new Pawn(Color.WHITE));
         this.board.placePiece("d1", new Pawn(Color.WHITE));
 
-        var expectedValidMoves = List.of(
+        var expectedValidMoves = Set.of(
                 new Move(Color.WHITE, new Position("b1"), new Position("a1")),
                 new Move(Color.WHITE, new Position("b1"), new Position("c1"))
         );

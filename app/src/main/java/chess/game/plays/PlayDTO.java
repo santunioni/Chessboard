@@ -9,4 +9,10 @@ public interface PlayDTO {
     Position getFrom();
 
     Position getTo();
+
+
+    default boolean equals(PlayDTO that) {
+        return this.getName() == that.getName() && this.getFrom() == that.getFrom() && this.getTo() == that.getTo();
+    }
+
 }

@@ -8,8 +8,8 @@ import chess.game.plays.Castle;
 import chess.game.plays.Move;
 import chess.game.plays.Play;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class King extends Piece {
 
@@ -30,8 +30,8 @@ public class King extends Piece {
         return new King(this.getColor());
     }
 
-    public List<Play> getPossiblePlays() {
-        var plays = new ArrayList<Play>();
+    public Set<Play> getPossiblePlays() {
+        var plays = new HashSet<Play>();
 
         for (var direction : BoardPathDirection.allDirections()) {
             for (var position : new BoardPath(this.board.getMyPosition(), direction, 1)) {

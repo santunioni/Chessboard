@@ -9,7 +9,7 @@ import chess.game.plays.Move;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -27,7 +27,7 @@ public class KingMoveTest {
         var king = new King(Color.BLACK);
         this.board.placePiece("d4", king);
 
-        var expectedValidMoves = List.of(
+        var expectedValidMoves = Set.of(
                 new Move(Color.BLACK, new Position("d4"), new Position("c3")),
                 new Move(Color.BLACK, new Position("d4"), new Position("d3")),
                 new Move(Color.BLACK, new Position("d4"), new Position("e3")),
@@ -48,7 +48,7 @@ public class KingMoveTest {
         var king = new King(Color.WHITE);
         this.board.placePiece("e1", king);
 
-        var expectedValidMoves = List.of(
+        var expectedValidMoves = Set.of(
                 new Move(Color.BLACK, new Position("e1"), new Position("d1")),
                 new Move(Color.BLACK, new Position("e1"), new Position("f1")),
 
@@ -65,7 +65,7 @@ public class KingMoveTest {
         var king = new King(Color.WHITE);
         this.board.placePiece("a1", king);
 
-        var expectedValidMoves = List.of(
+        var expectedValidMoves = Set.of(
                 new Move(Color.WHITE, new Position("a1"), new Position("b1")),
                 new Move(Color.WHITE, new Position("a1"), new Position("a2")),
                 new Move(Color.WHITE, new Position("a1"), new Position("b2"))
@@ -81,7 +81,7 @@ public class KingMoveTest {
         this.board.placePiece("a2", new Pawn(Color.WHITE));
         this.board.placePiece("b2", new Pawn(Color.WHITE));
 
-        var expectedValidMoves = List.of(
+        var expectedValidMoves = Set.of(
                 new Move(Color.WHITE, new Position("a1"), new Position("b1"))
         );
 

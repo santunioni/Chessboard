@@ -5,7 +5,7 @@ import chess.game.plays.Capture;
 import chess.game.plays.Move;
 import chess.game.plays.Play;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -41,8 +41,8 @@ public class Pawn extends Piece {
         return new Pawn(this.getColor());
     }
 
-    public List<Play> getPossiblePlays() {
-        var plays = new ArrayList<Play>();
+    public Set<Play> getPossiblePlays() {
+        var plays = new HashSet<Play>();
 
         var from = this.board.getMyPosition();
         for (var verticalDisplacedPosition : new BoardPath(from, this.walkDirection, 2)) {
