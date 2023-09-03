@@ -4,10 +4,9 @@ import chess.game.grid.Position;
 import chess.game.pieces.Piece;
 import chess.game.pieces.PieceProperties;
 import chess.game.plays.*;
-import chess.game.plays.validation.NotYourTurnValidationError;
 import chess.game.plays.validation.PlayValidationError;
-import chess.game.rules.ChessRulesPlayValidator;
-import chess.game.rules.validation.IlegalBoardStateError;
+import chess.game.rules.PlayValidatorAgainstAllChessRules;
+import chess.game.rules.validation.IlegalPlay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,13 +64,10 @@ public class BoardController {
         return plays;
     }
 
-    public void makePlay(PlayDTO playDTO) throws PlayValidationError, IlegalBoardStateError {
+    public void makePlay(PlayDTO playDTO) throws PlayValidationError, IlegalPlay {
         Play play = new PlayDTOToPlayMapper(this.boardState).createPlayFromDTO(playDTO);
-        if (play.getPlayerColor() != this.boardHistory.nextTurnPlayerColor()) {
-            throw new NotYourTurnValidationError(play);
-        }
 
-        new ChessRulesPlayValidator(this.boardState, this.boardHistory).validatePlayAgainstChessRules(play);
+        new PlayValidatorAgainstAllChessRules(this.boardState.copy(), this.boardHistory.copy()).validatePlayAgainstChessRules(play);
 
         play.actUpon(this.boardState);
         this.boardHistory.push(play);

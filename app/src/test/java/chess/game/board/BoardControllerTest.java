@@ -4,10 +4,10 @@ import chess.game.grid.Position;
 import chess.game.pieces.*;
 import chess.game.plays.Capture;
 import chess.game.plays.Move;
-import chess.game.plays.validation.NotYourTurnValidationError;
 import chess.game.plays.validation.PlayValidationError;
-import chess.game.rules.validation.CantLetOwnKingInCheckIlegalBoardStateError;
-import chess.game.rules.validation.IlegalBoardStateError;
+import chess.game.rules.validation.CantLetOwnKingInCheck;
+import chess.game.rules.validation.IlegalPlay;
+import chess.game.rules.validation.NotYourTurn;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +28,7 @@ public class BoardControllerTest {
     }
 
     @Test
-    void shouldAllowWhiteToMoveOnItsTurn() throws PlayValidationError, IlegalBoardStateError {
+    void shouldAllowWhiteToMoveOnItsTurn() throws PlayValidationError, IlegalPlay {
         // Given
         this.boardState.placePiece("a2", new Rook(Color.BLACK));
         this.boardState.placePiece("b1", new Rook(Color.WHITE));
@@ -55,11 +55,11 @@ public class BoardControllerTest {
         var captureDTO = capture.toDTO();
 
         // Then
-        assertThrows(NotYourTurnValidationError.class, () -> this.boardController.makePlay(captureDTO));
+        assertThrows(NotYourTurn.class, () -> this.boardController.makePlay(captureDTO));
     }
 
     @Test
-    void shoudAllowBlackToCaptureWhiteOnItsTurn() throws PlayValidationError, IlegalBoardStateError {
+    void shoudAllowBlackToCaptureWhiteOnItsTurn() throws PlayValidationError, IlegalPlay {
         // Given
         this.boardHistory.push(new Move(Color.WHITE, new Position("b1"), new Position("a1")));
         this.boardState.placePiece("a1", new Rook(Color.WHITE));
@@ -88,6 +88,6 @@ public class BoardControllerTest {
         var moveDTO = move.toDTO();
 
         // Then
-        assertThrows(CantLetOwnKingInCheckIlegalBoardStateError.class, () -> this.boardController.makePlay(moveDTO));
+        assertThrows(CantLetOwnKingInCheck.class, () -> this.boardController.makePlay(moveDTO));
     }
 }

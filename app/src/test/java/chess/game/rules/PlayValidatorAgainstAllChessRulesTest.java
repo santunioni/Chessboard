@@ -8,22 +8,22 @@ import chess.game.pieces.Color;
 import chess.game.pieces.King;
 import chess.game.pieces.Rook;
 import chess.game.plays.Move;
-import chess.game.rules.validation.CantLetOwnKingInCheckIlegalBoardStateError;
+import chess.game.rules.validation.CantLetOwnKingInCheck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class ChessRulesPlayValidatorTest {
+public class PlayValidatorAgainstAllChessRulesTest {
 
     private BoardState boardState;
-    private ChessRulesPlayValidator chessRulesPlayValidator;
+    private PlayValidatorAgainstAllChessRules chessRulesPlayValidator;
 
     @BeforeEach
     void setUp() {
         this.boardState = new BoardState();
         BoardHistory boardHistory = new BoardHistory();
-        this.chessRulesPlayValidator = new ChessRulesPlayValidator(this.boardState, boardHistory);
+        this.chessRulesPlayValidator = new PlayValidatorAgainstAllChessRules(this.boardState, boardHistory);
     }
 
     @Test
@@ -34,6 +34,6 @@ public class ChessRulesPlayValidatorTest {
         this.boardState.placePiece("h1", new Rook(Color.BLACK));
 
         // Then
-        assertThrows(CantLetOwnKingInCheckIlegalBoardStateError.class, () -> this.chessRulesPlayValidator.validatePlayAgainstChessRules(new Move(Color.WHITE, new Position("f1"), new Position("e2"))));
+        assertThrows(CantLetOwnKingInCheck.class, () -> this.chessRulesPlayValidator.validatePlayAgainstChessRules(new Move(Color.WHITE, new Position("f1"), new Position("e2"))));
     }
 }

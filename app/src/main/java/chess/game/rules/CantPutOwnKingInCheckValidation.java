@@ -6,13 +6,13 @@ import chess.game.pieces.Color;
 import chess.game.pieces.PieceProperties;
 import chess.game.pieces.Type;
 import chess.game.plays.Play;
-import chess.game.rules.validation.CantLetOwnKingInCheckIlegalBoardStateError;
-import chess.game.rules.validation.IlegalBoardStateError;
+import chess.game.rules.validation.CantLetOwnKingInCheck;
+import chess.game.rules.validation.IlegalPlay;
 
 import java.util.Optional;
 
 
-public class CantPutOwnKingInCheckValidation {
+public class CantPutOwnKingInCheckValidation implements ChessRulesPlayValidator {
 
     private final BoardState state;
 
@@ -37,9 +37,9 @@ public class CantPutOwnKingInCheckValidation {
         return Optional.of(ownKingPosition);
     }
 
-    public void validateStateAfterPlay(
+    public void validatePlayAgainstChessRules(
             Play play
-    ) throws IlegalBoardStateError {
+    ) throws IlegalPlay {
         var possiblePositionsForKing = this.findKing(play.getPlayerColor());
         if (possiblePositionsForKing.isEmpty()) {
             return;
@@ -49,7 +49,7 @@ public class CantPutOwnKingInCheckValidation {
         var enemyPieces = this.state.getPlayerPieces(play.getPlayerColor().opposite());
         for (var enemyPiece : enemyPieces) {
             if (enemyPiece.couldCaptureEnemyAt(ownKingPosition)) {
-                throw new CantLetOwnKingInCheckIlegalBoardStateError(play.getPlayerColor(), ownKingPosition, enemyPiece);
+                throw new CantLetOwnKingInCheck(play.getPlayerColor(), ownKingPosition, enemyPiece);
             }
         }
     }
