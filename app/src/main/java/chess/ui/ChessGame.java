@@ -12,7 +12,7 @@ import java.awt.*;
 public class ChessGame extends JFrame {
     private final int BOARD_SIZE;
     private final JLayeredPane layers = new JLayeredPane();
-    private int nextLayerZIndex = 0;
+    private int nextLayerZIndex;
 
     public ChessGame(int BOARD_SIZE, BoardController boardController) {
         this.BOARD_SIZE = BOARD_SIZE;

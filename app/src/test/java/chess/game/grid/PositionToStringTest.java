@@ -11,4 +11,3 @@ class PositionToStringTest {
         assertEquals("a1", position.toString());
     }
 }
-

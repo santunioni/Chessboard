@@ -15,7 +15,7 @@ public class PlaysUI extends JPanel {
     private final BoardController board;
     private final List<Runnable> onMovedPieceCallbacks = new ArrayList<>();
     private final PlayUIFactory playUIFactory;
-    private Position highlighted = null;
+    private Position highlighted;
 
     public PlaysUI(SquaresUI grid, BoardController board) {
         super(null); // Null layout for absolute positioning

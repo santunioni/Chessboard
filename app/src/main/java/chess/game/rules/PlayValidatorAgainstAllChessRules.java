@@ -7,6 +7,9 @@ import chess.game.plays.validation.PlayValidationError;
 import chess.game.rules.validation.IlegalPlay;
 
 public class PlayValidatorAgainstAllChessRules {
+    private PlayValidatorAgainstAllChessRules() {
+    }
+
     public static void validateNextPlay(BoardState state, BoardHistory history, Play play) throws PlayValidationError, IlegalPlay {
         CantPlayWhenNotYourTurn.validateHistoryBeforePlay(history, play);
 

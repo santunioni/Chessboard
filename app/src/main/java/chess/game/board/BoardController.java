@@ -3,7 +3,9 @@ package chess.game.board;
 import chess.game.grid.Position;
 import chess.game.pieces.Piece;
 import chess.game.pieces.PieceProperties;
-import chess.game.plays.*;
+import chess.game.plays.Play;
+import chess.game.plays.PlayDTO;
+import chess.game.plays.PlayDTOToPlayMapper;
 import chess.game.plays.validation.PlayValidationError;
 import chess.game.rules.PlayValidatorAgainstAllChessRules;
 import chess.game.rules.validation.IlegalPlay;
@@ -40,24 +42,13 @@ public class BoardController {
         if (playingPieceOptional.isEmpty()) {
             return plays;
         }
-
         var playingPiece = playingPieceOptional.get();
 
-        if (playingPiece.getColor() != this.boardHistory.nextTurnPlayerColor()) {
-            return plays;
-        }
-
-        for (var target : Position.values()) {
-            var targetPieceOptional = this.boardState.getPieceAt(target);
-            if (targetPieceOptional.isEmpty()) {
-                if (playingPiece.couldMoveToIfEmpty(target)) {
-                    plays.add(new Move(playingPiece.getColor(), position, target).toDTO());
-                }
-            } else {
-                var targetPiece = targetPieceOptional.get();
-                if (playingPiece.couldCaptureEnemyAt(target) && targetPiece.isEnemyOf(playingPiece)) {
-                    plays.add(new Capture(playingPiece.getColor(), position, target).toDTO());
-                }
+        for (var play : playingPiece.getPossiblePlays()) {
+            try {
+                PlayValidatorAgainstAllChessRules.validateNextPlay(this.boardState.copy(), this.boardHistory.copy(), play);
+                plays.add(play.toDTO());
+            } catch (IlegalPlay | PlayValidationError ignored) {
             }
         }
 

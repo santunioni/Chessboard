@@ -2,6 +2,9 @@ package chess.game.pieces;
 
 import chess.game.board.BoardPlacement;
 import chess.game.grid.Position;
+import chess.game.plays.Play;
+
+import java.util.List;
 
 public abstract class Piece implements PieceProperties {
 
@@ -49,4 +52,6 @@ public abstract class Piece implements PieceProperties {
             }
         };
     }
+
+    public abstract List<Play> getPossiblePlays();
 }

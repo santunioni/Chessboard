@@ -1,6 +1,12 @@
 package chess.game.pieces;
 
 import chess.game.grid.Position;
+import chess.game.plays.Capture;
+import chess.game.plays.Move;
+import chess.game.plays.Play;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Knight extends Piece {
@@ -17,6 +23,24 @@ public class Knight extends Piece {
         return (horizontalDistance == 1 && verticalDistance == 2) || (horizontalDistance == 2 && verticalDistance == 1);
     }
 
+    public List<Play> getPossiblePlays() {
+        var plays = new ArrayList<Play>();
+
+        for (var horizontalJump : List.of(-2, -1, 1, 2)) {
+            for (var verticalJump : List.of(-2, -1, 1, 2)) {
+                var targetPositionIndex = this.board.getMyPosition().toIndex() + horizontalJump + 8 * verticalJump;
+                if (targetPositionIndex <= 63) {
+                    var targetPosition = Position.fromIndex(targetPositionIndex);
+                    if (this.couldMoveToIfEmpty(targetPosition)) {
+                        plays.add(new Move(this.getColor(), this.board.getMyPosition(), targetPosition));
+                        plays.add(new Capture(this.getColor(), this.board.getMyPosition(), targetPosition));
+                    }
+                }
+            }
+        }
+
+        return plays;
+    }
 
     public Knight copy() {
         return new Knight(this.getColor());

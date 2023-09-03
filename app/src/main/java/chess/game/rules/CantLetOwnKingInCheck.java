@@ -16,6 +16,9 @@ import static chess.game.plays.PlayFunctions.isPositionThreatenedBy;
 public class CantLetOwnKingInCheck {
 
 
+    private CantLetOwnKingInCheck() {
+    }
+
     private static Optional<Position> findKing(BoardState state, Color color) {
         var possiblePositionsForKing = state.findPositionsWithPiece(new PieceProperties() {
             public Color getColor() {

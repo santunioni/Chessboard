@@ -9,6 +9,9 @@ import chess.game.plays.validation.PieceAtPositionIsOfUnexpectedColorValidationE
 import chess.game.plays.validation.PlayValidationError;
 
 public class PlayFunctions {
+    private PlayFunctions() {
+    }
+
     public static Piece getPieceFromBoard(Color expectedColor, Position from, BoardState boardState) throws PlayValidationError {
         var pieceOptional = boardState.getPieceAt(from);
         if (pieceOptional.isEmpty()) {
