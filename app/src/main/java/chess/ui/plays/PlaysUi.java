@@ -56,9 +56,7 @@ public class PlaysUi extends JPanel {
             callback.run();
           }
         } catch (PlayValidationError | IlegalPlay e) {
-          System.out.println(e);
-        } catch (Exception e) {
-          throw new RuntimeException(e);
+          System.out.println(e.getMessage());
         }
       });
       this.add(playUi);
