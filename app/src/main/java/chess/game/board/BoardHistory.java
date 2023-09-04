@@ -33,11 +33,7 @@ public class BoardHistory implements Iterable<Play> {
   }
 
   public Color nextTurnPlayerColor() {
-    Optional<Play> lastPlay = this.getLastPlay();
-    if (lastPlay.isEmpty()) {
-      return Color.WHITE;
-    }
-    return lastPlay.get().getPlayerColor().opposite();
+    return this.stack.size() % 2 == 0 ? Color.WHITE : Color.BLACK;
   }
 
   public Iterator<Play> iterator() {
