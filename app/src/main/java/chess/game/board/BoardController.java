@@ -42,10 +42,7 @@ public class BoardController {
   }
 
   public void makePlay(PlayDto playDto) throws PlayValidationError, IlegalPlay {
-    this.makePlay(new PlayDtoToPlayMapper(this.boardState).createPlayFromDto(playDto));
-  }
-
-  public void makePlay(Play play) throws PlayValidationError, IlegalPlay {
+    var play = new PlayDtoToPlayMapper(this.boardState).createPlayFromDto(playDto);
     PlayValidatorAgainstAllChessRules.validateNextPlay(this.boardState.copy(),
         this.boardHistory.copy(), play);
     play.actOn(this.boardState, this.boardHistory);
