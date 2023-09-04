@@ -66,7 +66,8 @@ public abstract class Piece implements PieceProperties {
       try {
         PlayValidatorAgainstAllChessRules.validateNextPlay(state.copy(), history.copy(), play);
         plays.add(play);
-      } catch (IlegalPlay | PlayValidationError ignored) {
+      } catch (IlegalPlay | PlayValidationError e) {
+        System.out.println(e.getMessage());
       }
     }
     return plays;
