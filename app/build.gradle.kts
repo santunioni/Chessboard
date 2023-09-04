@@ -35,7 +35,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass.set("chessboard.App")
+    mainClass.set("chess.ui.Application")
 }
 
 tasks.named<Test>("test") {
