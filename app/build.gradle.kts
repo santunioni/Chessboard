@@ -9,6 +9,7 @@ plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
     checkstyle
+    java
 }
 
 repositories {
@@ -33,10 +34,22 @@ java {
     }
 }
 
+tasks.jar {
+    manifest {
+        attributes(
+                "Implementation-Title" to "Gradle",
+                "Implementation-Version" to archiveVersion,
+                "Main-Module" to "chess.ui",
+                "Main-Class" to "chess.ui.Application",
+        )
+    }
+}
+
 application {
     // Define the main class for the application.
     mainClass.set("chess.ui.Application")
 }
+
 
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
