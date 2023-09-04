@@ -5,10 +5,12 @@ import static chess.game.plays.PlayFunctions.isPositionThreatenedBy;
 import chess.game.board.BoardHistory;
 import chess.game.board.BoardState;
 import chess.game.grid.BoardPath;
+import chess.game.grid.BoardPathDirection;
 import chess.game.grid.BoardPathReachabilityAnalyzer;
 import chess.game.grid.Position;
 import chess.game.pieces.Color;
 import chess.game.pieces.King;
+import chess.game.pieces.Piece;
 import chess.game.pieces.Type;
 import chess.game.plays.validation.CantCastleOnKingThatAlreadyMoved;
 import chess.game.plays.validation.CantCastleOnRookThatAlreadyMoved;
@@ -17,6 +19,7 @@ import chess.game.plays.validation.CantCastleToInvalidPosition;
 import chess.game.plays.validation.CantCastleWhileInCheck;
 import chess.game.plays.validation.CantCastleWhilePassingThroughCheck;
 import chess.game.plays.validation.PlayValidationError;
+import java.util.Iterator;
 import java.util.Set;
 
 public record Castle(Color color, Position to) implements Play {
@@ -54,9 +57,16 @@ public record Castle(Color color, Position to) implements Play {
 
   public Runnable validateAndGetAction(BoardState boardState, BoardHistory boardHistory)
       throws PlayValidationError {
-    var rookPosition = this.getRookPosition(boardState);
-    var kingPosition = this.getKingPosition(boardState);
-    var direction = kingPosition.directionTo(rookPosition).orElseThrow();
+    final Position rookPosition = this.getRookPosition(boardState);
+    final Position kingPosition = this.getKingPosition(boardState);
+    final BoardPathDirection direction = kingPosition.directionTo(rookPosition).orElseThrow();
+
+    final Iterator<Position> kingPathIterator = new BoardPath(kingPosition, direction).iterator();
+    final Position kingFirstStep = kingPathIterator.next();
+    final Position kingSecondStep = kingPathIterator.next();
+
+    final Piece king = boardState.getPieceAt(kingPosition).orElseThrow();
+    final Piece rook = boardState.getPieceAt(rookPosition).orElseThrow();
 
     if (!new BoardPathReachabilityAnalyzer(boardState).isReachableWalkingInOneOfDirections(
         kingPosition, Set.of(direction), rookPosition)) {
@@ -67,13 +77,11 @@ public record Castle(Color color, Position to) implements Play {
       throw new CantCastleWhileInCheck(this.color);
     }
 
-    for (var kingWalkingPosition : new BoardPath(kingPosition, direction, 1)) {
-      if (isPositionThreatenedBy(boardState, kingWalkingPosition, this.color.opposite())) {
-        throw new CantCastleWhilePassingThroughCheck(this.color, this.to);
-      }
+    if (isPositionThreatenedBy(boardState, kingFirstStep, this.color.opposite())) {
+      throw new CantCastleWhilePassingThroughCheck(this.color, this.to);
     }
 
-    for (var oldPlay : boardHistory) {
+    for (Play oldPlay : boardHistory) {
       PlayDto oldPlayDto = oldPlay.toDto();
       if (oldPlayDto.getFrom().equals(kingPosition)) {
         throw new CantCastleOnKingThatAlreadyMoved(this.color);
@@ -83,15 +91,11 @@ public record Castle(Color color, Position to) implements Play {
       }
     }
 
-    var king = boardState.getPieceAt(kingPosition).orElseThrow();
-    var rook = boardState.getPieceAt(rookPosition).orElseThrow();
-    var iterator = new BoardPath(kingPosition, direction, 2).iterator();
-
     return () -> {
       boardState.removePieceFromSquare(kingPosition);
       boardState.removePieceFromSquare(rookPosition);
-      boardState.placePiece(iterator.next(), rook);
-      boardState.placePiece(iterator.next(), king);
+      boardState.placePiece(kingFirstStep, rook);
+      boardState.placePiece(kingSecondStep, king);
       boardHistory.push(this);
     };
   }
