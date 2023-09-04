@@ -7,12 +7,12 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import javax.swing.JPanel;
 
-public class SquaresUI extends JPanel {
+public class SquaresUi extends JPanel {
 
-  public SquaresUI() {
+  public SquaresUi() {
     super(new GridLayout(8, 8));
     for (var position : Position.values()) {
-      var square = new SquareUI(position);
+      var square = new SquareUi(position);
       this.add(square);
     }
     this.setIgnoreRepaint(true);

@@ -42,8 +42,8 @@ public record Move(Color color, Position from, Position to) implements Play {
   }
 
 
-  public PlayDTO toDTO() {
-    return new PlayDTO() {
+  public PlayDto toDto() {
+    return new PlayDto() {
       public PlayName getName() {
         return PlayName.MOVE;
       }

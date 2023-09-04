@@ -72,8 +72,8 @@ public record EnPassant(Color color, Position from, Position to) implements Play
     return this.color;
   }
 
-  public PlayDTO toDTO() {
-    return new PlayDTO() {
+  public PlayDto toDto() {
+    return new PlayDto() {
       public PlayName getName() {
         return PlayName.EN_PASSANT;
       }

@@ -11,5 +11,5 @@ public interface Play {
 
   Color getPlayerColor();
 
-  PlayDTO toDTO();
+  PlayDto toDto();
 }

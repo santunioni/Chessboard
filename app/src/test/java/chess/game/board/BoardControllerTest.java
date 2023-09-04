@@ -40,8 +40,8 @@ public class BoardControllerTest {
 
     // When
     var move = new Move(Color.WHITE, new Position("b1"), new Position("a1"));
-    var moveDTO = move.toDTO();
-    this.boardController.makePlay(moveDTO);
+    var moveDto = move.toDto();
+    this.boardController.makePlay(moveDto);
 
     // Then
     Piece pieceAtA1 = this.boardState.getPieceAt(new Position("a1")).orElseThrow();
@@ -57,10 +57,10 @@ public class BoardControllerTest {
 
     // When
     var capture = new Capture(Color.BLACK, new Position("a2"), new Position("a1"));
-    var captureDTO = capture.toDTO();
+    var captureDto = capture.toDto();
 
     // Then
-    assertThrows(NotYourTurn.class, () -> this.boardController.makePlay(captureDTO));
+    assertThrows(NotYourTurn.class, () -> this.boardController.makePlay(captureDto));
   }
 
   @Test
@@ -72,8 +72,8 @@ public class BoardControllerTest {
 
     // When
     var capture = new Capture(Color.BLACK, new Position("a2"), new Position("a1"));
-    var captureDTO = capture.toDTO();
-    this.boardController.makePlay(captureDTO);
+    var captureDto = capture.toDto();
+    this.boardController.makePlay(captureDto);
 
     // Then
     Piece pieceAtA1 = this.boardState.getPieceAt(new Position("a1")).orElseThrow();
@@ -90,9 +90,9 @@ public class BoardControllerTest {
 
     // When
     var move = new Move(Color.WHITE, new Position("f1"), new Position("e2"));
-    var moveDTO = move.toDTO();
+    var moveDto = move.toDto();
 
     // Then
-    assertThrows(CantLetOwnKingInCheck.class, () -> this.boardController.makePlay(moveDTO));
+    assertThrows(CantLetOwnKingInCheck.class, () -> this.boardController.makePlay(moveDto));
   }
 }

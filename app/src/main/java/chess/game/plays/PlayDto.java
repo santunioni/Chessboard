@@ -2,7 +2,7 @@ package chess.game.plays;
 
 import chess.game.grid.Position;
 
-public interface PlayDTO {
+public interface PlayDto {
 
   PlayName getName();
 

@@ -24,8 +24,9 @@ public record Castle(Color color, Position to) implements Play {
   private Position getKingPosition(BoardState state) throws CantCastleOnKingThatAlreadyMoved {
     var kingPosition = King.initialPosition(this.color);
     var kingOptional = state.getPieceAt(kingPosition);
-    if (kingOptional.isEmpty() || kingOptional.get().getType() != Type.KING ||
-        kingOptional.get().getColor() != this.color) {
+    if (kingOptional.isEmpty()
+        || kingOptional.get().getType() != Type.KING
+        || kingOptional.get().getColor() != this.color) {
       throw new CantCastleOnKingThatAlreadyMoved(this.color);
     }
     return kingPosition;
@@ -33,16 +34,18 @@ public record Castle(Color color, Position to) implements Play {
 
   private Position getRookPosition(BoardState state)
       throws CantCastleToInvalidPosition, CantCastleOnRookThatAlreadyMoved {
-    if ((this.color == Color.WHITE && !this.to.equals(new Position("a1")) &&
-        !new Position("h1").equals(this.to)) ||
-        (this.color == Color.BLACK && !this.to.equals(new Position("a8")) &&
-            !new Position("h8").equals(this.to))) {
+    if ((this.color == Color.WHITE
+        && !this.to.equals(new Position("a1"))
+        && !new Position("h1").equals(this.to))
+        || (this.color == Color.BLACK
+        && !this.to.equals(new Position("a8"))
+        && !new Position("h8").equals(this.to))) {
       throw new CantCastleToInvalidPosition(color, this.to);
     }
 
     var rookOptional = state.getPieceAt(this.to);
-    if (rookOptional.isEmpty() || rookOptional.get().getType() != Type.ROOK ||
-        rookOptional.get().getColor() != this.color) {
+    if (rookOptional.isEmpty() || rookOptional.get().getType() != Type.ROOK
+        || rookOptional.get().getColor() != this.color) {
       throw new CantCastleOnRookThatAlreadyMoved(this.color, this.to);
     }
 
@@ -70,11 +73,11 @@ public record Castle(Color color, Position to) implements Play {
     }
 
     for (var oldPlay : boardHistory) {
-      PlayDTO oldPlayDTO = oldPlay.toDTO();
-      if (oldPlayDTO.getFrom().equals(kingPosition)) {
+      PlayDto oldPlayDto = oldPlay.toDto();
+      if (oldPlayDto.getFrom().equals(kingPosition)) {
         throw new CantCastleOnKingThatAlreadyMoved(this.color);
       }
-      if (oldPlayDTO.getFrom().equals(rookPosition)) {
+      if (oldPlayDto.getFrom().equals(rookPosition)) {
         throw new CantCastleOnRookThatAlreadyMoved(this.color, rookPosition);
       }
     }
@@ -94,8 +97,8 @@ public record Castle(Color color, Position to) implements Play {
     return this.color;
   }
 
-  public PlayDTO toDTO() {
-    return new PlayDTO() {
+  public PlayDto toDto() {
+    return new PlayDto() {
       public PlayName getName() {
         return PlayName.CASTLE;
       }

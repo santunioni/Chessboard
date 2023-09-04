@@ -12,23 +12,6 @@ import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 
-class PositionDirectionToCases implements ArgumentsProvider {
-  @Override
-  public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
-    return Stream.of(
-        Arguments.of("d4", "d5", BoardPathDirection.VERTICAL_UP),
-        Arguments.of("d4", "d3", BoardPathDirection.VERTICAL_DOWN),
-        Arguments.of("d4", "e4", BoardPathDirection.HORIZONTAL_RIGHT),
-        Arguments.of("d4", "c4", BoardPathDirection.HORIZONTAL_LEFT),
-        Arguments.of("d4", "e5", BoardPathDirection.DIAGONAL_UP_RIGHT),
-        Arguments.of("d4", "e3", BoardPathDirection.DIAGONAL_DOWN_RIGHT),
-        Arguments.of("d4", "c3", BoardPathDirection.DIAGONAL_DOWN_LEFT),
-        Arguments.of("d4", "c5", BoardPathDirection.DIAGONAL_UP_LEFT)
-    );
-  }
-}
-
-
 public class PositionDirectionToTest {
   @ParameterizedTest
   @ArgumentsSource(PositionDirectionToCases.class)
@@ -45,5 +28,21 @@ public class PositionDirectionToTest {
   @Test
   void shouldReturnNullWhenPositionsAreSame() {
     assertNull(new Position("d4").directionTo(new Position("d4")).orElse(null));
+  }
+
+  static class PositionDirectionToCases implements ArgumentsProvider {
+    @Override
+    public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
+      return Stream.of(
+          Arguments.of("d4", "d5", BoardPathDirection.VERTICAL_UP),
+          Arguments.of("d4", "d3", BoardPathDirection.VERTICAL_DOWN),
+          Arguments.of("d4", "e4", BoardPathDirection.HORIZONTAL_RIGHT),
+          Arguments.of("d4", "c4", BoardPathDirection.HORIZONTAL_LEFT),
+          Arguments.of("d4", "e5", BoardPathDirection.DIAGONAL_UP_RIGHT),
+          Arguments.of("d4", "e3", BoardPathDirection.DIAGONAL_DOWN_RIGHT),
+          Arguments.of("d4", "c3", BoardPathDirection.DIAGONAL_DOWN_LEFT),
+          Arguments.of("d4", "c5", BoardPathDirection.DIAGONAL_UP_LEFT)
+      );
+    }
   }
 }

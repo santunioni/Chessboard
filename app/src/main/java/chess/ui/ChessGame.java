@@ -2,25 +2,25 @@ package chess.ui;
 
 
 import chess.game.board.BoardController;
-import chess.ui.grid.SquaresUI;
-import chess.ui.pieces.PiecesUI;
-import chess.ui.plays.PlaysUI;
+import chess.ui.grid.SquaresUi;
+import chess.ui.pieces.PiecesUi;
+import chess.ui.plays.PlaysUi;
 import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 
 public class ChessGame extends JFrame {
-  private final int BOARD_SIZE;
+  private final int boardSize;
   private final JLayeredPane layers = new JLayeredPane();
-  private int nextLayerZIndex;
+  private int nextLayerZindex;
 
-  public ChessGame(int BOARD_SIZE, BoardController boardController) {
-    this.BOARD_SIZE = BOARD_SIZE;
+  public ChessGame(int boardSize, BoardController boardController) {
+    this.boardSize = boardSize;
 
-    var squares = new SquaresUI();
-    var moves = new PlaysUI(squares, boardController);
-    var pieces = new PiecesUI(squares, boardController, moves);
+    var squares = new SquaresUi();
+    var moves = new PlaysUi(squares, boardController);
+    var pieces = new PiecesUi(squares, boardController, moves);
     moves.addCallbackForMovedPiece(pieces::repaint);
 
     this.addLayer(squares);
@@ -31,17 +31,17 @@ public class ChessGame extends JFrame {
   }
 
   private void addLayer(Component component) {
-    var dimension = new Dimension(this.BOARD_SIZE, this.BOARD_SIZE);
+    var dimension = new Dimension(this.boardSize, this.boardSize);
     component.setMinimumSize(dimension);
     component.setPreferredSize(dimension);
     component.setMaximumSize(dimension);
-    component.setBounds(0, 0, this.BOARD_SIZE, this.BOARD_SIZE);
-    this.layers.add(component, Integer.valueOf(this.nextLayerZIndex++));
+    component.setBounds(0, 0, this.boardSize, this.boardSize);
+    this.layers.add(component, Integer.valueOf(this.nextLayerZindex++));
   }
 
   private void configureWindow() {
     this.add(layers);
-    this.setMinimumSize(new Dimension(this.BOARD_SIZE, this.BOARD_SIZE + 25));
+    this.setMinimumSize(new Dimension(this.boardSize, this.boardSize + 25));
     this.setResizable(false);
     this.setLocationRelativeTo(null);
   }

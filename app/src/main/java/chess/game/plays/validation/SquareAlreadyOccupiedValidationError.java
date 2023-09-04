@@ -5,7 +5,10 @@ import chess.game.pieces.Piece;
 
 public class SquareAlreadyOccupiedValidationError extends PlayValidationError {
   public SquareAlreadyOccupiedValidationError(Position position, Piece piece) {
-    super("Cant move to " + position.toString() + " because it is ocuppied by " + piece.toString() +
-        ".");
+    super("Cant move to "
+        + position.toString()
+        + " because it is ocuppied by "
+        + piece.toString()
+        + ".");
   }
 }

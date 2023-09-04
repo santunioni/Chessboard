@@ -13,37 +13,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-class KnightThreatensInLCases implements ArgumentsProvider {
-  @Override
-  public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
-    return Stream.of(
-        Arguments.of("d4", "e6"),
-        Arguments.of("d4", "c6"),
-        Arguments.of("d4", "b5"),
-        Arguments.of("d4", "b3"),
-        Arguments.of("d4", "c2"),
-        Arguments.of("d4", "e2"),
-        Arguments.of("d4", "f3"),
-        Arguments.of("d4", "f5")
-    );
-  }
-}
-
-class KnightNotThreatensNotInLCases implements ArgumentsProvider {
-  @Override
-  public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
-    return Stream.of(
-        Arguments.of("d4", "d5"),
-        Arguments.of("d4", "d3"),
-        Arguments.of("d4", "e4"),
-        Arguments.of("d4", "c4"),
-        Arguments.of("d4", "e5"),
-        Arguments.of("d4", "e3"),
-        Arguments.of("d4", "c3"),
-        Arguments.of("d4", "c5")
-    );
-  }
-}
 
 public class KnightThreatensTest {
   private BoardState board;
@@ -54,19 +23,51 @@ public class KnightThreatensTest {
   }
 
   @ParameterizedTest
-  @ArgumentsSource(KnightThreatensInLCases.class)
-  void shouldThreatenPositionDisplacedInLPattern(String knightPosition, String threatenedPosition) {
+  @ArgumentsSource(KnightThreatensInLcases.class)
+  void shouldThreatenPositionDisplacedInLpattern(String knightPosition, String threatenedPosition) {
     var knight = new Knight(Color.WHITE);
     this.board.placePiece(knightPosition, knight);
     assertTrue(knight.couldCaptureEnemyAt(new Position(threatenedPosition)));
   }
 
   @ParameterizedTest
-  @ArgumentsSource(KnightNotThreatensNotInLCases.class)
-  void shouldNotThreatenPositionNotDisplacedInLPattern(String knightPosition,
+  @ArgumentsSource(KnightNotThreatensNotInLcases.class)
+  void shouldNotThreatenPositionNotDisplacedInLpattern(String knightPosition,
                                                        String notThreatenedPosition) {
     var knight = new Knight(Color.WHITE);
     this.board.placePiece(knightPosition, knight);
     assertFalse(knight.couldCaptureEnemyAt(new Position(notThreatenedPosition)));
+  }
+
+  static class KnightThreatensInLcases implements ArgumentsProvider {
+    @Override
+    public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
+      return Stream.of(
+          Arguments.of("d4", "e6"),
+          Arguments.of("d4", "c6"),
+          Arguments.of("d4", "b5"),
+          Arguments.of("d4", "b3"),
+          Arguments.of("d4", "c2"),
+          Arguments.of("d4", "e2"),
+          Arguments.of("d4", "f3"),
+          Arguments.of("d4", "f5")
+      );
+    }
+  }
+
+  static class KnightNotThreatensNotInLcases implements ArgumentsProvider {
+    @Override
+    public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
+      return Stream.of(
+          Arguments.of("d4", "d5"),
+          Arguments.of("d4", "d3"),
+          Arguments.of("d4", "e4"),
+          Arguments.of("d4", "c4"),
+          Arguments.of("d4", "e5"),
+          Arguments.of("d4", "e3"),
+          Arguments.of("d4", "c3"),
+          Arguments.of("d4", "c5")
+      );
+    }
   }
 }

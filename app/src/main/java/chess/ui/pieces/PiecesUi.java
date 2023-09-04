@@ -3,19 +3,19 @@ package chess.ui.pieces;
 import chess.game.board.BoardController;
 import chess.game.grid.Position;
 import chess.game.pieces.PieceProperties;
-import chess.ui.grid.SquaresUI;
-import chess.ui.plays.PlaysUI;
+import chess.ui.grid.SquaresUi;
+import chess.ui.plays.PlaysUi;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class PiecesUI extends JPanel {
-  private final PlaysUI moves;
-  private final SquaresUI grid;
+public class PiecesUi extends JPanel {
+  private final PlaysUi moves;
+  private final SquaresUi grid;
   private final BoardController board;
 
-  public PiecesUI(SquaresUI grid, BoardController boardController, PlaysUI moves) {
+  public PiecesUi(SquaresUi grid, BoardController boardController, PlaysUi moves) {
     super(null); // Null layout for absolute positioning
     this.grid = grid;
     this.board = boardController;
@@ -34,27 +34,27 @@ public class PiecesUI extends JPanel {
     this.removeAll();
     for (var position : Position.values()) {
       var pieceOptional = this.board.getPieceAt(position);
-      pieceOptional.ifPresent(piece -> this.add(this.createPieceUIAtPosition(position, piece)));
+      pieceOptional.ifPresent(piece -> this.add(this.createPieceUiAtPosition(position, piece)));
     }
   }
 
-  private JLabel createPieceUIAtPosition(Position position, PieceProperties piece) {
+  private JLabel createPieceUiAtPosition(Position position, PieceProperties piece) {
     var rectangle = this.grid.getRectangleForPosition(position, 0.8);
     var pieceIconFactory = new PieceIconFactory(rectangle.width);
-    var pieceUI = new JLabel();
+    var pieceUi = new JLabel();
 
-    pieceUI.setIcon(pieceIconFactory.getIcon(piece.getColor(), piece.getType()));
-    pieceUI.setBounds(rectangle);
-    pieceUI.addMouseListener(new MouseAdapter() {
+    pieceUi.setIcon(pieceIconFactory.getIcon(piece.getColor(), piece.getType()));
+    pieceUi.setBounds(rectangle);
+    pieceUi.addMouseListener(new MouseAdapter() {
       public void mouseClicked(MouseEvent event) {
-        if (PiecesUI.this.moves.isHighlighted(position)) {
-          PiecesUI.this.moves.unhighlight(position);
+        if (PiecesUi.this.moves.isHighlighted(position)) {
+          PiecesUi.this.moves.unhighlight(position);
         } else {
-          PiecesUI.this.moves.highlight(position);
+          PiecesUi.this.moves.highlight(position);
         }
       }
     });
 
-    return pieceUI;
+    return pieceUi;
   }
 }

@@ -4,12 +4,11 @@ import chess.game.grid.Position;
 import chess.game.pieces.Piece;
 import chess.game.pieces.PieceProperties;
 import chess.game.plays.Play;
-import chess.game.plays.PlayDTO;
-import chess.game.plays.PlayDTOToPlayMapper;
+import chess.game.plays.PlayDto;
+import chess.game.plays.PlayDtoToPlayMapper;
 import chess.game.plays.validation.PlayValidationError;
 import chess.game.rules.PlayValidatorAgainstAllChessRules;
 import chess.game.rules.validation.IlegalPlay;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -36,13 +35,13 @@ public class BoardController {
         return Optional.empty();
     }
 
-    public List<PlayDTO> getPlaysFor(Position position) {
+    public List<PlayDto> getPlaysFor(Position position) {
         var playingPieceOptional = this.boardState.getPieceAt(position);
-        return playingPieceOptional.map(piece -> piece.getPlays(this.boardState, this.boardHistory)).orElse(new HashSet<>()).stream().map(Play::toDTO).collect(Collectors.toList());
+        return playingPieceOptional.map(piece -> piece.getPlays(this.boardState, this.boardHistory)).orElse(new HashSet<>()).stream().map(Play::toDto).collect(Collectors.toList());
     }
 
-    public void makePlay(PlayDTO playDTO) throws PlayValidationError, IlegalPlay {
-        this.makePlay(new PlayDTOToPlayMapper(this.boardState).createPlayFromDTO(playDTO));
+    public void makePlay(PlayDto playDto) throws PlayValidationError, IlegalPlay {
+        this.makePlay(new PlayDtoToPlayMapper(this.boardState).createPlayFromDto(playDto));
     }
 
     public void makePlay(Play play) throws PlayValidationError, IlegalPlay {

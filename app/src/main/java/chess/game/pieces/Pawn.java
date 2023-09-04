@@ -39,13 +39,13 @@ public class Pawn extends Piece {
   public boolean couldCaptureEnemyAt(Position enemyPosition) {
     var myPosition = this.board.getMyPosition();
 
-    if (Math.abs(myPosition.rank().distanceTo(enemyPosition.rank())) != 1 ||
-        Math.abs(myPosition.file().distanceTo(enemyPosition.file())) != 1) {
+    if (Math.abs(myPosition.rank().distanceTo(enemyPosition.rank())) != 1
+        || Math.abs(myPosition.file().distanceTo(enemyPosition.file())) != 1) {
       return false;
     }
 
-    return myPosition.rank().distanceTo(enemyPosition.rank()) ==
-        (this.walkDirection == BoardPathDirection.VERTICAL_UP ? 1 : -1);
+    return myPosition.rank().distanceTo(enemyPosition.rank())
+        == (this.walkDirection == BoardPathDirection.VERTICAL_UP ? 1 : -1);
   }
 
   public boolean couldMoveToIfEmpty(Position position) {

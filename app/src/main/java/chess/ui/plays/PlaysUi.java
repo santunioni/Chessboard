@@ -2,25 +2,25 @@ package chess.ui.plays;
 
 import chess.game.board.BoardController;
 import chess.game.grid.Position;
-import chess.game.plays.PlayDTO;
+import chess.game.plays.PlayDto;
 import chess.game.plays.validation.PlayValidationError;
 import chess.game.rules.validation.IlegalPlay;
-import chess.ui.grid.SquaresUI;
+import chess.ui.grid.SquaresUi;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class PlaysUI extends JPanel {
+public class PlaysUi extends JPanel {
   private final BoardController board;
   private final List<Runnable> onMovedPieceCallbacks = new ArrayList<>();
-  private final PlayUIFactory playUIFactory;
+  private final PlayUiFactory playUiFactory;
   private Position highlighted;
 
-  public PlaysUI(SquaresUI grid, BoardController board) {
+  public PlaysUi(SquaresUi grid, BoardController board) {
     super(null); // Null layout for absolute positioning
     this.board = board;
-    this.playUIFactory = new PlayUIFactory(grid);
+    this.playUiFactory = new PlayUiFactory(grid);
     this.setOpaque(false);
   }
 
@@ -45,10 +45,10 @@ public class PlaysUI extends JPanel {
 
   private void paintPlaysForPosition(Position position) {
     this.removeAll();
-    List<PlayDTO> plays = this.board.getPlaysFor(position);
+    List<PlayDto> plays = this.board.getPlaysFor(position);
 
     for (var play : plays) {
-      JLabel playUI = this.playUIFactory.createJLabelForPlay(play, () -> {
+      JLabel playUi = this.playUiFactory.createJlabelForPlay(play, () -> {
         try {
           board.makePlay(play);
           unhighlight();
@@ -61,7 +61,7 @@ public class PlaysUI extends JPanel {
           throw new RuntimeException(e);
         }
       });
-      this.add(playUI);
+      this.add(playUi);
     }
   }
 
