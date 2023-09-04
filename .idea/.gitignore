@@ -1,0 +1,9 @@
+# Default ignored files
+**/*
+
+!compiler.xml
+!gradle.xml
+!jarRepositories.xml
+!misc.xml
+!uiDesigner.xml
+!vcs.xml
