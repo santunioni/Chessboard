@@ -20,7 +20,8 @@ import chess.game.plays.validation.SquareAlreadyOccupiedValidationError;
  */
 public record Move(Color color, Position from, Position to) implements Play {
 
-  public void actOn(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError {
+  public Runnable validateAndGetAction(BoardState boardState, BoardHistory boardHistory)
+      throws PlayValidationError {
     var piece = getPieceFromBoard(color, from, boardState);
 
     if (!piece.couldMoveToIfEmpty(to)) {
@@ -32,15 +33,17 @@ public record Move(Color color, Position from, Position to) implements Play {
       throw new SquareAlreadyOccupiedValidationError(to, targetPositionOccupation.get());
     }
 
-    boardState.removePieceFromSquare(from);
-    boardState.placePiece(to, piece);
-    boardHistory.push(this);
+    return () -> {
+      boardState.removePieceFromSquare(from);
+      boardState.placePiece(to, piece);
+      boardHistory.push(this);
+    };
   }
+
 
   public Color getPlayerColor() {
     return this.color;
   }
-
 
   public PlayDto toDto() {
     return new PlayDto() {

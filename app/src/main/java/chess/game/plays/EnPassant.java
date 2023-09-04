@@ -38,15 +38,16 @@ public record EnPassant(Color color, Position from, Position to) implements Play
     var victim = this.getPawn(boardState, this.color.opposite(), victimPosition);
     var lastPlay = boardHistory.getLastPlay()
         .orElseThrow(() -> new PlayValidationError("En Passant cant be the first play."));
-    var expectedLastPlay = new Move(
+    var pawnJumpingTwoSquares = new Move(
         this.color.opposite(),
         new Position(victimPosition.file(), Pawn.getStartRank(victim.getColor())),
         victimPosition
     );
-    return lastPlay.equals(expectedLastPlay);
+    return lastPlay.equals(pawnJumpingTwoSquares);
   }
 
-  public void actOn(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError {
+  public Runnable validateAndGetAction(BoardState boardState, BoardHistory boardHistory)
+      throws PlayValidationError {
     if (Pawn.getEnPassantRank(color) != from.rank()) {
       throw new CantEnPassantOnInvalidRank(color);
     }
@@ -62,10 +63,12 @@ public record EnPassant(Color color, Position from, Position to) implements Play
       throw new CantEnPassantPawnThatDidntJumpLastRound();
     }
 
-    boardState.removePieceFromSquare(victimPosition);
-    boardState.removePieceFromSquare(this.from);
-    boardState.placePiece(this.to, attacker);
-    boardHistory.push(this);
+    return () -> {
+      boardState.removePieceFromSquare(victimPosition);
+      boardState.removePieceFromSquare(this.from);
+      boardState.placePiece(this.to, attacker);
+      boardHistory.push(this);
+    };
   }
 
   public Color getPlayerColor() {

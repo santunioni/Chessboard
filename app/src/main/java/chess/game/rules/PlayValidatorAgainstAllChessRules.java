@@ -12,6 +12,7 @@ public class PlayValidatorAgainstAllChessRules {
 
   public static void validateNextPlay(BoardState state, BoardHistory history, Play play)
       throws PlayValidationError, IlegalPlay {
+    play.validateAndGetAction(state, history);
     CantPlayWhenNotYourTurn.validateHistoryBeforePlay(history, play);
 
     var stateCopy = state.copy();

@@ -21,7 +21,8 @@ import chess.game.plays.validation.PlayValidationError;
 public record Capture(Color color, Position from, Position to) implements Play {
 
 
-  public void actOn(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError {
+  public Runnable validateAndGetAction(BoardState boardState, BoardHistory boardHistory)
+      throws PlayValidationError {
     var piece = getPieceFromBoard(color, from, boardState);
 
     if (!piece.couldCaptureEnemyAt(to)) {
@@ -38,9 +39,11 @@ public record Capture(Color color, Position from, Position to) implements Play {
       throw new PieceAtPositionIsOfUnexpectedColorValidationError(to, piece.getColor().opposite());
     }
 
-    boardState.removePieceFromSquare(from);
-    boardState.placePiece(to, piece);
-    boardHistory.push(this);
+    return () -> {
+      boardState.removePieceFromSquare(from);
+      boardState.placePiece(to, piece);
+      boardHistory.push(this);
+    };
   }
 
   public Color getPlayerColor() {

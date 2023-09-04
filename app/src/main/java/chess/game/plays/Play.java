@@ -7,7 +7,13 @@ import chess.game.plays.validation.PlayValidationError;
 
 public interface Play {
 
-  void actOn(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError;
+  Runnable validateAndGetAction(BoardState boardState, BoardHistory boardHistory)
+      throws PlayValidationError;
+
+  default void actOn(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError {
+    var action = this.validateAndGetAction(boardState, boardHistory);
+    action.run();
+  }
 
   Color getPlayerColor();
 
