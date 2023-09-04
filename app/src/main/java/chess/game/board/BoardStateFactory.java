@@ -2,6 +2,8 @@ package chess.game.board;
 
 import chess.game.pieces.*;
 
+import static chess.game.pieces.Pawn.getStartRank;
+
 public class BoardStateFactory {
 
     public BoardState createFreshBoardState() {
@@ -52,8 +54,8 @@ public class BoardStateFactory {
 
     private void placePawns(BoardState state) {
         for (char column = 'a'; column <= 'h'; column++) {
-            state.placePiece(column + "2", new Pawn(Color.WHITE));
-            state.placePiece(column + "7", new Pawn(Color.BLACK));
+            state.placePiece(column + getStartRank(Color.WHITE).toString(), new Pawn(Color.WHITE));
+            state.placePiece(column + getStartRank(Color.BLACK).toString(), new Pawn(Color.BLACK));
         }
     }
 }

@@ -2,6 +2,7 @@ package chess.game.pieces;
 
 import chess.game.grid.*;
 import chess.game.plays.Capture;
+import chess.game.plays.EnPassant;
 import chess.game.plays.Move;
 import chess.game.plays.Play;
 
@@ -18,8 +19,16 @@ public class Pawn extends Piece {
         this.walkDirection = color == Color.WHITE ? BoardPathDirection.VERTICAL_UP : BoardPathDirection.VERTICAL_DOWN;
     }
 
+    public static Rank getEnPassantRank(Color color) {
+        return color == Color.WHITE ? Rank.FIVE : Rank.FOUR;
+    }
+
+    public static Rank getStartRank(Color color) {
+        return color == Color.WHITE ? Rank.TWO : Rank.SEVEN;
+    }
+
     private boolean hasAlreadyMoved() {
-        return this.walkDirection == BoardPathDirection.VERTICAL_UP ? this.board.getMyPosition().rank() != Rank.TWO : this.board.getMyPosition().rank() != Rank.SEVEN;
+        return this.board.getMyPosition().rank() != getStartRank(this.getColor());
     }
 
     public boolean couldCaptureEnemyAt(Position enemyPosition) {
@@ -60,6 +69,9 @@ public class Pawn extends Piece {
 
                 if (this.couldCaptureEnemyAt(target)) {
                     plays.add(new Capture(this.getColor(), from, target));
+                    if (from.rank() == getEnPassantRank(this.getColor())) {
+                        plays.add(new EnPassant(this.getColor(), from, target));
+                    }
                 }
             }
         }

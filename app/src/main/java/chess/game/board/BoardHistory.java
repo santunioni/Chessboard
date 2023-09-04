@@ -26,7 +26,7 @@ public class BoardHistory implements Iterable<Play> {
         return copy;
     }
 
-    private Optional<Play> getLastPlay() {
+    public Optional<Play> getLastPlay() {
         if (!this.stack.isEmpty()) {
             return Optional.of(this.stack.get(this.stack.size() - 1));
         }

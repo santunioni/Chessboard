@@ -23,6 +23,27 @@ public class CastleRulesTest {
     }
 
     @Test
+    void shouldMoveKingTwoSpacesRightAndPutRookOnItsLeft() throws PlayValidationError {
+        // Given
+        var castle = new Castle(Color.WHITE, new Position("h1"));
+
+        // When
+        castle.actOn(board, history);
+
+        // Then
+        assertTrue(board.getPieceAt(King.initialPosition(Color.WHITE)).isEmpty());
+        assertTrue(board.getPieceAt("h1").isEmpty());
+
+        var king = board.getPieceAt(new Position("g1")).orElseThrow();
+        assertEquals(king.getType(), Type.KING);
+        assertEquals(king.getColor(), Color.WHITE);
+
+        var rook = board.getPieceAt(new Position("f1")).orElseThrow();
+        assertEquals(rook.getType(), Type.ROOK);
+        assertEquals(rook.getColor(), Color.WHITE);
+    }
+
+    @Test
     void shouldFailWhenKingAlreadyMoved() throws PlayValidationError {
         // Given
         new Move(Color.WHITE, new Position("e1"), new Position("e2")).actOn(board, history);
@@ -82,26 +103,5 @@ public class CastleRulesTest {
 
         // Then
         assertThrows(CantCastleWhilePassingThroughCheck.class, () -> castle.actOn(board, history));
-    }
-
-    @Test
-    void shouldMoveKingTwoSpacesRightAndPutRookOnItsLeft() throws PlayValidationError {
-        // Given
-        var castle = new Castle(Color.WHITE, new Position("h1"));
-
-        // When
-        castle.actOn(board, history);
-
-        // Then
-        assertTrue(board.getPieceAt(King.initialPosition(Color.WHITE)).isEmpty());
-        assertTrue(board.getPieceAt("h1").isEmpty());
-
-        var king = board.getPieceAt(new Position("g1")).orElseThrow();
-        assertEquals(king.getType(), Type.KING);
-        assertEquals(king.getColor(), Color.WHITE);
-
-        var rook = board.getPieceAt(new Position("f1")).orElseThrow();
-        assertEquals(rook.getType(), Type.ROOK);
-        assertEquals(rook.getColor(), Color.WHITE);
     }
 }
