@@ -1,80 +1,80 @@
 package chess.game.pieces;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import chess.game.board.BoardState;
 import chess.game.grid.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 public class BishopThreatensTest {
 
-    private BoardState board;
+  private BoardState board;
 
-    @BeforeEach
-    void setUp() {
-        this.board = new BoardState();
-    }
+  @BeforeEach
+  void setUp() {
+    this.board = new BoardState();
+  }
 
 
-    @Test
-    public void shouldThreatenDiagonally() {
-        var bishop = new Bishop(Color.BLACK);
-        this.board.placePiece("d4", bishop);
+  @Test
+  public void shouldThreatenDiagonally() {
+    var bishop = new Bishop(Color.BLACK);
+    this.board.placePiece("d4", bishop);
 
-        assertTrue(bishop.couldCaptureEnemyAt(new Position("f6")));
-    }
+    assertTrue(bishop.couldCaptureEnemyAt(new Position("f6")));
+  }
 
-    @Test
-    public void shouldNotThreatenIfEnemyIsBetween() {
-        var bishop = new Bishop(Color.BLACK);
-        this.board.placePiece("d4", bishop);
-        this.board.placePiece("f6", new Pawn(Color.WHITE));
+  @Test
+  public void shouldNotThreatenIfEnemyIsBetween() {
+    var bishop = new Bishop(Color.BLACK);
+    this.board.placePiece("d4", bishop);
+    this.board.placePiece("f6", new Pawn(Color.WHITE));
 
-        assertFalse(bishop.couldCaptureEnemyAt(new Position("g7")));
-    }
+    assertFalse(bishop.couldCaptureEnemyAt(new Position("g7")));
+  }
 
-    @Test
-    public void shouldNotThreatenIfAllyIsBetween() {
-        var bishop = new Bishop(Color.BLACK);
-        this.board.placePiece("d4", bishop);
-        this.board.placePiece("f6", new Pawn(Color.BLACK));
+  @Test
+  public void shouldNotThreatenIfAllyIsBetween() {
+    var bishop = new Bishop(Color.BLACK);
+    this.board.placePiece("d4", bishop);
+    this.board.placePiece("f6", new Pawn(Color.BLACK));
 
-        assertFalse(bishop.couldCaptureEnemyAt(new Position("g7")));
-    }
+    assertFalse(bishop.couldCaptureEnemyAt(new Position("g7")));
+  }
 
-    @Test
-    public void shouldThreatenEvenIfPositionIsOccupiedByAlly() {
-        var bishop = new Bishop(Color.BLACK);
-        this.board.placePiece("d4", bishop);
-        this.board.placePiece("f6", new Pawn(Color.BLACK));
+  @Test
+  public void shouldThreatenEvenIfPositionIsOccupiedByAlly() {
+    var bishop = new Bishop(Color.BLACK);
+    this.board.placePiece("d4", bishop);
+    this.board.placePiece("f6", new Pawn(Color.BLACK));
 
-        assertTrue(bishop.couldCaptureEnemyAt(new Position("f6")));
-    }
+    assertTrue(bishop.couldCaptureEnemyAt(new Position("f6")));
+  }
 
-    @Test
-    public void shouldThreatenEvenIfPositionIsOccupiedByEnemy() {
-        var bishop = new Bishop(Color.BLACK);
-        this.board.placePiece("d4", bishop);
-        this.board.placePiece("f6", new Pawn(Color.WHITE));
+  @Test
+  public void shouldThreatenEvenIfPositionIsOccupiedByEnemy() {
+    var bishop = new Bishop(Color.BLACK);
+    this.board.placePiece("d4", bishop);
+    this.board.placePiece("f6", new Pawn(Color.WHITE));
 
-        assertTrue(bishop.couldCaptureEnemyAt(new Position("f6")));
-    }
+    assertTrue(bishop.couldCaptureEnemyAt(new Position("f6")));
+  }
 
-    @Test
-    public void shouldNotThreatenVertically() {
-        var bishop = new Bishop(Color.BLACK);
-        this.board.placePiece("d4", bishop);
+  @Test
+  public void shouldNotThreatenVertically() {
+    var bishop = new Bishop(Color.BLACK);
+    this.board.placePiece("d4", bishop);
 
-        assertFalse(bishop.couldCaptureEnemyAt(new Position("d5")));
-    }
+    assertFalse(bishop.couldCaptureEnemyAt(new Position("d5")));
+  }
 
-    @Test
-    public void shouldNotThreatenHorizontally() {
-        var bishop = new Bishop(Color.BLACK);
-        this.board.placePiece("d4", bishop);
+  @Test
+  public void shouldNotThreatenHorizontally() {
+    var bishop = new Bishop(Color.BLACK);
+    this.board.placePiece("d4", bishop);
 
-        assertFalse(bishop.couldCaptureEnemyAt(new Position("e4")));
-    }
+    assertFalse(bishop.couldCaptureEnemyAt(new Position("e4")));
+  }
 }

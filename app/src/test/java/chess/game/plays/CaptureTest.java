@@ -1,5 +1,9 @@
 package chess.game.plays;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import chess.game.board.BoardHistory;
 import chess.game.board.BoardState;
 import chess.game.grid.Position;
@@ -13,83 +17,84 @@ import chess.game.plays.validation.PlayValidationError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 public class CaptureTest {
-    private BoardState board;
-    private BoardHistory history;
+  private BoardState board;
+  private BoardHistory history;
 
-    @BeforeEach
-    void setUp() {
-        this.board = new BoardState();
-        this.history = new BoardHistory();
-    }
+  @BeforeEach
+  void setUp() {
+    this.board = new BoardState();
+    this.history = new BoardHistory();
+  }
 
-    @Test
-    void shouldAllowWhitePawnDiagonalUpLeftAttack() throws PlayValidationError {
-        var pawn = new Pawn(Color.WHITE);
-        board.placePiece("e2", pawn);
-        board.placePiece("d3", new Pawn(Color.BLACK));
+  @Test
+  void shouldAllowWhitePawnDiagonalUpLeftAttack() throws PlayValidationError {
+    var pawn = new Pawn(Color.WHITE);
+    board.placePiece("e2", pawn);
+    board.placePiece("d3", new Pawn(Color.BLACK));
 
-        var capture = new Capture(Color.WHITE, new Position("e2"), new Position("d3"));
-        capture.actOn(board, history);
+    var capture = new Capture(Color.WHITE, new Position("e2"), new Position("d3"));
+    capture.actOn(board, history);
 
-        assertNull(board.getPieceAt(new Position("e2")).orElse(null));
-        assertEquals(pawn, board.getPieceAt(new Position("d3")).orElseThrow());
-    }
+    assertNull(board.getPieceAt(new Position("e2")).orElse(null));
+    assertEquals(pawn, board.getPieceAt(new Position("d3")).orElseThrow());
+  }
 
-    @Test
-    void shouldNotAllowWhitePawnVerticalAttack() {
-        var pawn = new Pawn(Color.WHITE);
-        board.placePiece("e2", pawn);
-        board.placePiece("e3", new Pawn(Color.BLACK));
+  @Test
+  void shouldNotAllowWhitePawnVerticalAttack() {
+    var pawn = new Pawn(Color.WHITE);
+    board.placePiece("e2", pawn);
+    board.placePiece("e3", new Pawn(Color.BLACK));
 
-        var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e3"));
+    var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e3"));
 
-        assertThrows(CapturePatternNotAllowedValidationError.class, () -> capture.actOn(board, history));
-    }
+    assertThrows(CapturePatternNotAllowedValidationError.class,
+        () -> capture.actOn(board, history));
+  }
 
-    @Test
-    void shouldNotAllowWhitePawnDiagonalDownLeftAttack() {
-        var pawn = new Pawn(Color.WHITE);
-        board.placePiece("e2", pawn);
-        board.placePiece("d1", new Pawn(Color.BLACK));
+  @Test
+  void shouldNotAllowWhitePawnDiagonalDownLeftAttack() {
+    var pawn = new Pawn(Color.WHITE);
+    board.placePiece("e2", pawn);
+    board.placePiece("d1", new Pawn(Color.BLACK));
 
-        var capture = new Capture(Color.WHITE, new Position("e2"), new Position("d1"));
+    var capture = new Capture(Color.WHITE, new Position("e2"), new Position("d1"));
 
-        assertThrows(CapturePatternNotAllowedValidationError.class, () -> capture.actOn(board, history));
-    }
+    assertThrows(CapturePatternNotAllowedValidationError.class,
+        () -> capture.actOn(board, history));
+  }
 
-    @Test
-    void shouldAllowQueenVerticalAttack() throws PlayValidationError {
-        var queen = new Queen(Color.WHITE);
-        board.placePiece("e2", queen);
-        board.placePiece("e7", new Pawn(Color.BLACK));
+  @Test
+  void shouldAllowQueenVerticalAttack() throws PlayValidationError {
+    var queen = new Queen(Color.WHITE);
+    board.placePiece("e2", queen);
+    board.placePiece("e7", new Pawn(Color.BLACK));
 
-        var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
-        capture.actOn(board, history);
+    var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
+    capture.actOn(board, history);
 
-        assertNull(board.getPieceAt(new Position("e2")).orElse(null));
-        assertEquals(queen, board.getPieceAt(new Position("e7")).orElseThrow());
-    }
+    assertNull(board.getPieceAt(new Position("e2")).orElse(null));
+    assertEquals(queen, board.getPieceAt(new Position("e7")).orElseThrow());
+  }
 
-    @Test
-    void shouldNotAttackAlly() {
-        var queen = new Queen(Color.WHITE);
-        board.placePiece("e2", queen);
-        board.placePiece("e7", new Pawn(Color.WHITE));
+  @Test
+  void shouldNotAttackAlly() {
+    var queen = new Queen(Color.WHITE);
+    board.placePiece("e2", queen);
+    board.placePiece("e7", new Pawn(Color.WHITE));
 
-        var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
+    var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
 
-        assertThrows(PieceAtPositionIsOfUnexpectedColorValidationError.class, () -> capture.actOn(board, history));
-    }
+    assertThrows(PieceAtPositionIsOfUnexpectedColorValidationError.class,
+        () -> capture.actOn(board, history));
+  }
 
-    @Test
-    void shouldNotAttackEmptyPositions() {
-        var queen = new Queen(Color.WHITE);
-        board.placePiece("e2", queen);
-        var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
+  @Test
+  void shouldNotAttackEmptyPositions() {
+    var queen = new Queen(Color.WHITE);
+    board.placePiece("e2", queen);
+    var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
 
-        assertThrows(NoPieceAtPositionValidationError.class, () -> capture.actOn(board, history));
-    }
+    assertThrows(NoPieceAtPositionValidationError.class, () -> capture.actOn(board, history));
+  }
 }

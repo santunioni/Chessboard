@@ -5,12 +5,12 @@ import chess.game.plays.Play;
 import chess.game.rules.validation.NotYourTurn;
 
 public class CantPlayWhenNotYourTurn {
-    private CantPlayWhenNotYourTurn() {
-    }
+  private CantPlayWhenNotYourTurn() {
+  }
 
-    public static void validateHistoryBeforePlay(BoardHistory history, Play play) throws NotYourTurn {
-        if (play.getPlayerColor() != history.nextTurnPlayerColor()) {
-            throw new NotYourTurn(play);
-        }
+  public static void validateHistoryBeforePlay(BoardHistory history, Play play) throws NotYourTurn {
+    if (play.getPlayerColor() != history.nextTurnPlayerColor()) {
+      throw new NotYourTurn(play);
     }
+  }
 }

@@ -9,8 +9,6 @@ plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
     checkstyle
-    id("org.openrewrite.rewrite") version ("6.2.4")
-
 }
 
 repositories {
@@ -26,9 +24,6 @@ dependencies {
 
     // This dependency is used by the application.
     implementation("com.google.guava:guava:31.1-jre")
-
-    // Rewrite the code with checkstyle
-    rewrite("org.openrewrite.recipe:rewrite-static-analysis:1.0.6")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -54,15 +49,9 @@ checkstyle {
     isIgnoreFailures = false
 }
 
-
 tasks.withType<Checkstyle>().configureEach {
-    dependsOn(tasks.named("rewriteRun"))
     reports {
         xml.required.set(true)
         html.required.set(true)
     }
-}
-
-rewrite {
-    activeRecipe("org.openrewrite.staticanalysis.CodeCleanup")
 }

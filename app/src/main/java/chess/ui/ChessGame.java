@@ -5,43 +5,44 @@ import chess.game.board.BoardController;
 import chess.ui.grid.SquaresUI;
 import chess.ui.pieces.PiecesUI;
 import chess.ui.plays.PlaysUI;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 
 public class ChessGame extends JFrame {
-    private final int BOARD_SIZE;
-    private final JLayeredPane layers = new JLayeredPane();
-    private int nextLayerZIndex;
+  private final int BOARD_SIZE;
+  private final JLayeredPane layers = new JLayeredPane();
+  private int nextLayerZIndex;
 
-    public ChessGame(int BOARD_SIZE, BoardController boardController) {
-        this.BOARD_SIZE = BOARD_SIZE;
+  public ChessGame(int BOARD_SIZE, BoardController boardController) {
+    this.BOARD_SIZE = BOARD_SIZE;
 
-        var squares = new SquaresUI();
-        var moves = new PlaysUI(squares, boardController);
-        var pieces = new PiecesUI(squares, boardController, moves);
-        moves.addCallbackForMovedPiece(pieces::repaint);
+    var squares = new SquaresUI();
+    var moves = new PlaysUI(squares, boardController);
+    var pieces = new PiecesUI(squares, boardController, moves);
+    moves.addCallbackForMovedPiece(pieces::repaint);
 
-        this.addLayer(squares);
-        this.addLayer(pieces);
-        this.addLayer(moves);
+    this.addLayer(squares);
+    this.addLayer(pieces);
+    this.addLayer(moves);
 
-        this.configureWindow();
-    }
+    this.configureWindow();
+  }
 
-    private void addLayer(Component component) {
-        var dimension = new Dimension(this.BOARD_SIZE, this.BOARD_SIZE);
-        component.setMinimumSize(dimension);
-        component.setPreferredSize(dimension);
-        component.setMaximumSize(dimension);
-        component.setBounds(0, 0, this.BOARD_SIZE, this.BOARD_SIZE);
-        this.layers.add(component, Integer.valueOf(this.nextLayerZIndex++));
-    }
+  private void addLayer(Component component) {
+    var dimension = new Dimension(this.BOARD_SIZE, this.BOARD_SIZE);
+    component.setMinimumSize(dimension);
+    component.setPreferredSize(dimension);
+    component.setMaximumSize(dimension);
+    component.setBounds(0, 0, this.BOARD_SIZE, this.BOARD_SIZE);
+    this.layers.add(component, Integer.valueOf(this.nextLayerZIndex++));
+  }
 
-    private void configureWindow() {
-        this.add(layers);
-        this.setMinimumSize(new Dimension(this.BOARD_SIZE, this.BOARD_SIZE + 25));
-        this.setResizable(false);
-        this.setLocationRelativeTo(null);
-    }
+  private void configureWindow() {
+    this.add(layers);
+    this.setMinimumSize(new Dimension(this.BOARD_SIZE, this.BOARD_SIZE + 25));
+    this.setResizable(false);
+    this.setLocationRelativeTo(null);
+  }
 }

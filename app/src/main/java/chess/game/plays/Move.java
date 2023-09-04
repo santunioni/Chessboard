@@ -1,6 +1,8 @@
 package chess.game.plays;
 
 
+import static chess.game.plays.PlayFunctions.getPieceFromBoard;
+
 import chess.game.board.BoardHistory;
 import chess.game.board.BoardState;
 import chess.game.grid.Position;
@@ -8,8 +10,6 @@ import chess.game.pieces.Color;
 import chess.game.plays.validation.MovePatternNotAllowedValidationError;
 import chess.game.plays.validation.PlayValidationError;
 import chess.game.plays.validation.SquareAlreadyOccupiedValidationError;
-
-import static chess.game.plays.PlayFunctions.getPieceFromBoard;
 
 /**
  * Represents a Displacement play.
@@ -20,41 +20,41 @@ import static chess.game.plays.PlayFunctions.getPieceFromBoard;
  */
 public record Move(Color color, Position from, Position to) implements Play {
 
-    public void actOn(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError {
-        var piece = getPieceFromBoard(color, from, boardState);
+  public void actOn(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError {
+    var piece = getPieceFromBoard(color, from, boardState);
 
-        if (!piece.couldMoveToIfEmpty(to)) {
-            throw new MovePatternNotAllowedValidationError(piece, from, to);
-        }
-
-        var targetPositionOccupation = boardState.getPieceAt(to);
-        if (targetPositionOccupation.isPresent()) {
-            throw new SquareAlreadyOccupiedValidationError(to, targetPositionOccupation.get());
-        }
-
-        boardState.removePieceFromSquare(from);
-        boardState.placePiece(to, piece);
-        boardHistory.push(this);
+    if (!piece.couldMoveToIfEmpty(to)) {
+      throw new MovePatternNotAllowedValidationError(piece, from, to);
     }
 
-    public Color getPlayerColor() {
-        return this.color;
+    var targetPositionOccupation = boardState.getPieceAt(to);
+    if (targetPositionOccupation.isPresent()) {
+      throw new SquareAlreadyOccupiedValidationError(to, targetPositionOccupation.get());
     }
 
+    boardState.removePieceFromSquare(from);
+    boardState.placePiece(to, piece);
+    boardHistory.push(this);
+  }
 
-    public PlayDTO toDTO() {
-        return new PlayDTO() {
-            public PlayName getName() {
-                return PlayName.MOVE;
-            }
+  public Color getPlayerColor() {
+    return this.color;
+  }
 
-            public Position getFrom() {
-                return Move.this.from;
-            }
 
-            public Position getTo() {
-                return Move.this.to;
-            }
-        };
-    }
+  public PlayDTO toDTO() {
+    return new PlayDTO() {
+      public PlayName getName() {
+        return PlayName.MOVE;
+      }
+
+      public Position getFrom() {
+        return Move.this.from;
+      }
+
+      public Position getTo() {
+        return Move.this.to;
+      }
+    };
+  }
 }

@@ -1,12 +1,12 @@
 package chess.game.pieces;
 
 public interface PieceProperties {
-    Color getColor();
+  Color getColor();
 
-    Type getType();
+  Type getType();
 
-    default boolean isSameTypeAndColor(PieceProperties that) {
-        return this.getColor() == that.getColor() && this.getType() == that.getType();
-    }
+  default boolean isSameTypeAndColor(PieceProperties that) {
+    return this.getColor() == that.getColor() && this.getType() == that.getType();
+  }
 
 }

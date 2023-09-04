@@ -4,9 +4,9 @@ import chess.game.grid.Position;
 
 public interface PlayDTO {
 
-    PlayName getName();
+  PlayName getName();
 
-    Position getFrom();
+  Position getFrom();
 
-    Position getTo();
+  Position getTo();
 }

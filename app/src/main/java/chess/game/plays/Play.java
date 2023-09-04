@@ -7,9 +7,9 @@ import chess.game.plays.validation.PlayValidationError;
 
 public interface Play {
 
-    void actOn(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError;
+  void actOn(BoardState boardState, BoardHistory boardHistory) throws PlayValidationError;
 
-    Color getPlayerColor();
+  Color getPlayerColor();
 
-    PlayDTO toDTO();
+  PlayDTO toDTO();
 }

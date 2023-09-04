@@ -7,16 +7,17 @@ import chess.game.plays.validation.PlayValidationError;
 import chess.game.rules.validation.IlegalPlay;
 
 public class PlayValidatorAgainstAllChessRules {
-    private PlayValidatorAgainstAllChessRules() {
-    }
+  private PlayValidatorAgainstAllChessRules() {
+  }
 
-    public static void validateNextPlay(BoardState state, BoardHistory history, Play play) throws PlayValidationError, IlegalPlay {
-        CantPlayWhenNotYourTurn.validateHistoryBeforePlay(history, play);
+  public static void validateNextPlay(BoardState state, BoardHistory history, Play play)
+      throws PlayValidationError, IlegalPlay {
+    CantPlayWhenNotYourTurn.validateHistoryBeforePlay(history, play);
 
-        var stateCopy = state.copy();
-        var historyCopy = history.copy();
-        play.actOn(stateCopy, historyCopy);
+    var stateCopy = state.copy();
+    var historyCopy = history.copy();
+    play.actOn(stateCopy, historyCopy);
 
-        CantLetOwnKingInCheck.validateStateAfterPlay(stateCopy, play);
-    }
+    CantLetOwnKingInCheck.validateStateAfterPlay(stateCopy, play);
+  }
 }
