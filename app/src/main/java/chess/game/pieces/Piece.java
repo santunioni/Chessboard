@@ -60,14 +60,14 @@ public abstract class Piece implements PieceProperties {
 
   protected abstract Set<Play> getPossiblePlays();
 
+  @SuppressWarnings("checkstyle:EmptyCatchBlock")
   public Set<Play> getPlays(BoardState state, BoardHistory history) {
     var plays = new HashSet<Play>();
     for (var play : this.getPossiblePlays()) {
       try {
         PlayValidatorAgainstAllChessRules.validateNextPlay(state.copy(), history.copy(), play);
         plays.add(play);
-      } catch (IlegalPlay | PlayValidationError e) {
-        System.out.println(e.getMessage());
+      } catch (IlegalPlay | PlayValidationError ignored) {
       }
     }
     return plays;

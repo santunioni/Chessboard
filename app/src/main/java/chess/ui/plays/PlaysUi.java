@@ -37,7 +37,6 @@ public class PlaysUi extends JPanel {
       return;
     }
 
-    System.out.println("Highlighting " + position);
     this.highlighted = position;
     this.paintPlaysForPosition(position);
     this.repaint();
@@ -65,7 +64,6 @@ public class PlaysUi extends JPanel {
 
   public void unhighlight(Position position) {
     if (this.isHighlighted(position)) {
-      System.out.println("Unhighlighting " + position);
       this.unhighlight();
     }
   }
