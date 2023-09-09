@@ -3,8 +3,8 @@ package chess.game.plays;
 
 import static chess.game.plays.PlayFunctions.getPieceFromBoard;
 
-import chess.game.board.BoardHistory;
-import chess.game.board.BoardState;
+import chess.game.board.Board;
+import chess.game.board.PlayHistory;
 import chess.game.grid.Position;
 import chess.game.pieces.Color;
 import chess.game.plays.validation.MovePatternNotAllowedValidationError;
@@ -20,23 +20,23 @@ import chess.game.plays.validation.SquareAlreadyOccupiedValidationError;
  */
 public record Move(Color color, Position from, Position to) implements Play {
 
-  public Runnable validateAndGetAction(BoardState boardState, BoardHistory boardHistory)
+  public Runnable validateAndGetAction(Board board, PlayHistory playHistory)
       throws PlayValidationError {
-    var piece = getPieceFromBoard(color, from, boardState);
+    var piece = getPieceFromBoard(color, from, board);
 
     if (!piece.couldMoveToIfEmpty(to)) {
       throw new MovePatternNotAllowedValidationError(piece, from, to);
     }
 
-    var targetPositionOccupation = boardState.getPieceAt(to);
+    var targetPositionOccupation = board.getPieceAt(to);
     if (targetPositionOccupation.isPresent()) {
       throw new SquareAlreadyOccupiedValidationError(to, targetPositionOccupation.get());
     }
 
     return () -> {
-      boardState.removePieceFromSquare(from);
-      boardState.placePiece(to, piece);
-      boardHistory.push(this);
+      board.removePieceFromSquare(from);
+      board.placePiece(to, piece);
+      playHistory.push(this);
     };
   }
 

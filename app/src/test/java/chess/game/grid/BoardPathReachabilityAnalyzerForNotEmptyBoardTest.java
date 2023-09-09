@@ -3,19 +3,19 @@ package chess.game.grid;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import chess.game.board.BoardState;
+import chess.game.board.Board;
 import chess.game.pieces.Color;
 import chess.game.pieces.Pawn;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class BoardPathReachabilityAnalyzerForNotEmptyBoardTest {
-  private BoardState board;
+  private Board board;
   private BoardPathReachabilityAnalyzer boardPathReachabilityAnalyzer;
 
   @BeforeEach
   void setUp() {
-    this.board = new BoardState();
+    this.board = new Board();
     this.boardPathReachabilityAnalyzer = new BoardPathReachabilityAnalyzer(this.board);
   }
 

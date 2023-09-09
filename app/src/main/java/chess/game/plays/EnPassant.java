@@ -1,7 +1,7 @@
 package chess.game.plays;
 
-import chess.game.board.BoardHistory;
-import chess.game.board.BoardState;
+import chess.game.board.Board;
+import chess.game.board.PlayHistory;
 import chess.game.grid.Position;
 import chess.game.pieces.Color;
 import chess.game.pieces.Pawn;
@@ -15,9 +15,9 @@ import chess.game.plays.validation.PlayValidationError;
 
 public record EnPassant(Color color, Position from, Position to) implements Play {
 
-  private Piece getPawn(BoardState boardState, Color expectedColor, Position position)
+  private Piece getPawn(Board board, Color expectedColor, Position position)
       throws PlayValidationError {
-    var piece = boardState.getPieceAt(position)
+    var piece = board.getPieceAt(position)
         .orElseThrow(() -> new NoPieceAtPositionValidationError(position));
 
     if (piece.getType() != Type.PAWN) {
@@ -31,12 +31,12 @@ public record EnPassant(Color color, Position from, Position to) implements Play
     return piece;
   }
 
-  private boolean hasVictimJumpedTwoSquaresLastRound(BoardState boardState,
-                                                     BoardHistory boardHistory,
+  private boolean hasVictimJumpedTwoSquaresLastRound(Board board,
+                                                     PlayHistory playHistory,
                                                      Position victimPosition)
       throws PlayValidationError {
-    var victim = this.getPawn(boardState, this.color.opposite(), victimPosition);
-    var lastPlay = boardHistory.getLastPlay()
+    var victim = this.getPawn(board, this.color.opposite(), victimPosition);
+    var lastPlay = playHistory.getLastPlay()
         .orElseThrow(() -> new PlayValidationError("En Passant cant be the first play."));
     var pawnJumpingTwoSquares = new Move(
         this.color.opposite(),
@@ -46,28 +46,28 @@ public record EnPassant(Color color, Position from, Position to) implements Play
     return lastPlay.equals(pawnJumpingTwoSquares);
   }
 
-  public Runnable validateAndGetAction(BoardState boardState, BoardHistory boardHistory)
+  public Runnable validateAndGetAction(Board board, PlayHistory playHistory)
       throws PlayValidationError {
     if (Pawn.getEnPassantRank(color) != from.rank()) {
       throw new CantEnPassantOnInvalidRank(color);
     }
 
-    var attacker = this.getPawn(boardState, this.color, this.from);
+    var attacker = this.getPawn(board, this.color, this.from);
 
     if (!attacker.couldCaptureEnemyAt(to)) {
       throw new CapturePatternNotAllowedValidationError(attacker, from, to);
     }
 
     var victimPosition = new Position(this.to.file(), Pawn.getEnPassantRank(color));
-    if (!this.hasVictimJumpedTwoSquaresLastRound(boardState, boardHistory, victimPosition)) {
+    if (!this.hasVictimJumpedTwoSquaresLastRound(board, playHistory, victimPosition)) {
       throw new CantEnPassantPawnThatDidntJumpLastRound();
     }
 
     return () -> {
-      boardState.removePieceFromSquare(victimPosition);
-      boardState.removePieceFromSquare(this.from);
-      boardState.placePiece(this.to, attacker);
-      boardHistory.push(this);
+      board.removePieceFromSquare(victimPosition);
+      board.removePieceFromSquare(this.from);
+      board.placePiece(this.to, attacker);
+      playHistory.push(this);
     };
   }
 

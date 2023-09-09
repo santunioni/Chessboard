@@ -1,6 +1,6 @@
 package chess.ui.pieces;
 
-import chess.game.board.BoardController;
+import chess.game.board.GameController;
 import chess.game.grid.Position;
 import chess.game.pieces.PieceProperties;
 import chess.ui.grid.SquaresUi;
@@ -13,18 +13,18 @@ import javax.swing.JPanel;
 public class PiecesUi extends JPanel {
   private final PlaysUi moves;
   private final SquaresUi grid;
-  private final BoardController board;
+  private final GameController controller;
 
-  public PiecesUi(SquaresUi grid, BoardController boardController, PlaysUi moves) {
+  public PiecesUi(SquaresUi grid, GameController gameController, PlaysUi moves) {
     super(null); // Null layout for absolute positioning
     this.grid = grid;
-    this.board = boardController;
+    this.controller = gameController;
     this.moves = moves;
     this.setOpaque(false);
   }
 
   public void repaint() {
-    if (this.grid == null || this.board == null) {
+    if (this.grid == null || this.controller == null) {
       return;
     }
     this.replacePieces();
@@ -33,7 +33,7 @@ public class PiecesUi extends JPanel {
   private void replacePieces() {
     this.removeAll();
     for (var position : Position.values()) {
-      var pieceOptional = this.board.getPieceAt(position);
+      var pieceOptional = this.controller.getPieceAt(position);
       pieceOptional.ifPresent(piece -> this.add(this.createPieceUiAtPosition(position, piece)));
     }
   }

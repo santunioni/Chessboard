@@ -7,11 +7,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-public class BoardHistory implements Iterable<Play> {
+public class PlayHistory implements Iterable<Play> {
 
   private final List<Play> stack = new ArrayList<>();
 
-  public BoardHistory() {
+  public PlayHistory() {
 
   }
 
@@ -19,8 +19,8 @@ public class BoardHistory implements Iterable<Play> {
     this.stack.add(play);
   }
 
-  public BoardHistory copy() {
-    var copy = new BoardHistory();
+  public PlayHistory copy() {
+    var copy = new PlayHistory();
     copy.stack.addAll(this.stack);
     return copy;
   }
@@ -33,7 +33,7 @@ public class BoardHistory implements Iterable<Play> {
   }
 
   public Color nextTurnPlayerColor() {
-    return this.stack.size() % 2 == 0 ? Color.WHITE : Color.BLACK;
+    return this.getLastPlay().map(play -> play.getPlayerColor().opposite()).orElse(Color.WHITE);
   }
 
   public Iterator<Play> iterator() {

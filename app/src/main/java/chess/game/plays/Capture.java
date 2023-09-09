@@ -2,8 +2,8 @@ package chess.game.plays;
 
 import static chess.game.plays.PlayFunctions.getPieceFromBoard;
 
-import chess.game.board.BoardHistory;
-import chess.game.board.BoardState;
+import chess.game.board.Board;
+import chess.game.board.PlayHistory;
 import chess.game.grid.Position;
 import chess.game.pieces.Color;
 import chess.game.plays.validation.CapturePatternNotAllowedValidationError;
@@ -21,15 +21,15 @@ import chess.game.plays.validation.PlayValidationError;
 public record Capture(Color color, Position from, Position to) implements Play {
 
 
-  public Runnable validateAndGetAction(BoardState boardState, BoardHistory boardHistory)
+  public Runnable validateAndGetAction(Board board, PlayHistory playHistory)
       throws PlayValidationError {
-    var piece = getPieceFromBoard(color, from, boardState);
+    var piece = getPieceFromBoard(color, from, board);
 
     if (!piece.couldCaptureEnemyAt(to)) {
       throw new CapturePatternNotAllowedValidationError(piece, from, to);
     }
 
-    var targetPositionOccupation = boardState.getPieceAt(to);
+    var targetPositionOccupation = board.getPieceAt(to);
     if (targetPositionOccupation.isEmpty()) {
       throw new NoPieceAtPositionValidationError(to);
     }
@@ -40,9 +40,9 @@ public record Capture(Color color, Position from, Position to) implements Play {
     }
 
     return () -> {
-      boardState.removePieceFromSquare(from);
-      boardState.placePiece(to, piece);
-      boardHistory.push(this);
+      board.removePieceFromSquare(from);
+      board.placePiece(to, piece);
+      playHistory.push(this);
     };
   }
 

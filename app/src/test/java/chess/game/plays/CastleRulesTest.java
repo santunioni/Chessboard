@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import chess.game.board.BoardHistory;
-import chess.game.board.BoardState;
+import chess.game.board.Board;
+import chess.game.board.PlayHistory;
 import chess.game.grid.Position;
 import chess.game.pieces.Bishop;
 import chess.game.pieces.Color;
@@ -22,13 +22,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class CastleRulesTest {
-  private BoardState board;
-  private BoardHistory history;
+  private Board board;
+  private PlayHistory history;
 
   @BeforeEach
   void setUp() {
-    this.board = new BoardState();
-    this.history = new BoardHistory();
+    this.board = new Board();
+    this.history = new PlayHistory();
     board.placePiece("e1", new King(Color.WHITE));
     board.placePiece("h1", new Rook(Color.WHITE));
   }

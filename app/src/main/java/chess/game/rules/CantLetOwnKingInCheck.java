@@ -2,7 +2,7 @@ package chess.game.rules;
 
 import static chess.game.plays.PlayFunctions.isPositionThreatenedBy;
 
-import chess.game.board.BoardState;
+import chess.game.board.Board;
 import chess.game.grid.Position;
 import chess.game.pieces.Color;
 import chess.game.pieces.PieceProperties;
@@ -18,7 +18,7 @@ public class CantLetOwnKingInCheck {
   private CantLetOwnKingInCheck() {
   }
 
-  private static Optional<Position> findKing(BoardState state, Color color) {
+  private static Optional<Position> findKing(Board state, Color color) {
     var possiblePositionsForKing = state.findPositionsWithPiece(new PieceProperties() {
       public Color getColor() {
         return color;
@@ -36,7 +36,7 @@ public class CantLetOwnKingInCheck {
   }
 
   public static void validateStateAfterPlay(
-      BoardState state,
+      Board state,
       Play play
   ) throws IlegalPlay {
     var possiblePositionsForKing = findKing(state, play.getPlayerColor());

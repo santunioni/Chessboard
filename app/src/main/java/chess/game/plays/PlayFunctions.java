@@ -1,7 +1,7 @@
 package chess.game.plays;
 
+import chess.game.board.Board;
 import chess.game.board.BoardPlacement;
-import chess.game.board.BoardState;
 import chess.game.grid.BoardPath;
 import chess.game.grid.BoardPathDirection;
 import chess.game.grid.Position;
@@ -17,9 +17,9 @@ public class PlayFunctions {
   private PlayFunctions() {
   }
 
-  public static Piece getPieceFromBoard(Color expectedColor, Position from, BoardState boardState)
+  public static Piece getPieceFromBoard(Color expectedColor, Position from, Board board)
       throws PlayValidationError {
-    var pieceOptional = boardState.getPieceAt(from);
+    var pieceOptional = board.getPieceAt(from);
     if (pieceOptional.isEmpty()) {
       throw new NoPieceAtPositionValidationError(from);
     }
@@ -32,7 +32,7 @@ public class PlayFunctions {
     return piece;
   }
 
-  public static boolean isPositionThreatenedBy(BoardState state, Position position, Color color) {
+  public static boolean isPositionThreatenedBy(Board state, Position position, Color color) {
     for (var piece : state.getPlayerPieces(color)) {
       if (piece.couldCaptureEnemyAt(position)) {
         return true;

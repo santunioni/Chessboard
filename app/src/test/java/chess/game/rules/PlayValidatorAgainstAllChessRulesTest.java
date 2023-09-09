@@ -2,8 +2,8 @@ package chess.game.rules;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import chess.game.board.BoardHistory;
-import chess.game.board.BoardState;
+import chess.game.board.Board;
+import chess.game.board.PlayHistory;
 import chess.game.grid.Position;
 import chess.game.pieces.Bishop;
 import chess.game.pieces.Color;
@@ -16,13 +16,13 @@ import org.junit.jupiter.api.Test;
 
 public class PlayValidatorAgainstAllChessRulesTest {
 
-  private BoardState state;
-  private BoardHistory history;
+  private Board state;
+  private PlayHistory history;
 
   @BeforeEach
   void setUp() {
-    this.state = new BoardState();
-    this.history = new BoardHistory();
+    this.state = new Board();
+    this.history = new PlayHistory();
   }
 
   @Test

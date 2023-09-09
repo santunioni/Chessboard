@@ -19,32 +19,32 @@ import chess.game.rules.validation.NotYourTurn;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class BoardControllerTest {
+public class GameControllerTest {
 
-  private BoardState boardState;
-  private BoardHistory boardHistory;
-  private BoardController boardController;
+  private Board board;
+  private PlayHistory history;
+  private GameController controller;
 
   @BeforeEach
   void setUp() {
-    this.boardState = new BoardState();
-    this.boardHistory = new BoardHistory();
-    this.boardController = new BoardController(this.boardState, this.boardHistory);
+    this.board = new Board();
+    this.history = new PlayHistory();
+    this.controller = new GameController(this.board, this.history);
   }
 
   @Test
   void shouldAllowWhiteToMoveOnItsTurn() throws PlayValidationError, IlegalPlay {
     // Given
-    this.boardState.placePiece("a2", new Rook(Color.BLACK));
-    this.boardState.placePiece("b1", new Rook(Color.WHITE));
+    this.board.placePiece("a2", new Rook(Color.BLACK));
+    this.board.placePiece("b1", new Rook(Color.WHITE));
 
     // When
     var move = new Move(Color.WHITE, new Position("b1"), new Position("a1"));
     var moveDto = move.toDto();
-    this.boardController.makePlay(moveDto);
+    this.controller.makePlay(moveDto);
 
     // Then
-    Piece pieceAtA1 = this.boardState.getPieceAt(new Position("a1")).orElseThrow();
+    Piece pieceAtA1 = this.board.getPieceAt(new Position("a1")).orElseThrow();
     assertEquals(Color.WHITE, pieceAtA1.getColor());
     assertEquals(Type.ROOK, pieceAtA1.getType());
   }
@@ -52,31 +52,31 @@ public class BoardControllerTest {
   @Test
   void shouldNotAllowBlackToCaptureWhiteIfItIsNotItsTurn() {
     // Given
-    this.boardState.placePiece("a2", new Rook(Color.BLACK));
-    this.boardState.placePiece("a1", new Rook(Color.WHITE));
+    this.board.placePiece("a2", new Rook(Color.BLACK));
+    this.board.placePiece("a1", new Rook(Color.WHITE));
 
     // When
     var capture = new Capture(Color.BLACK, new Position("a2"), new Position("a1"));
     var captureDto = capture.toDto();
 
     // Then
-    assertThrows(NotYourTurn.class, () -> this.boardController.makePlay(captureDto));
+    assertThrows(NotYourTurn.class, () -> this.controller.makePlay(captureDto));
   }
 
   @Test
   void shoudAllowBlackToCaptureWhiteOnItsTurn() throws PlayValidationError, IlegalPlay {
     // Given
-    this.boardHistory.push(new Move(Color.WHITE, new Position("b1"), new Position("a1")));
-    this.boardState.placePiece("a1", new Rook(Color.WHITE));
-    this.boardState.placePiece("a2", new Rook(Color.BLACK));
+    this.history.push(new Move(Color.WHITE, new Position("b1"), new Position("a1")));
+    this.board.placePiece("a1", new Rook(Color.WHITE));
+    this.board.placePiece("a2", new Rook(Color.BLACK));
 
     // When
     var capture = new Capture(Color.BLACK, new Position("a2"), new Position("a1"));
     var captureDto = capture.toDto();
-    this.boardController.makePlay(captureDto);
+    this.controller.makePlay(captureDto);
 
     // Then
-    Piece pieceAtA1 = this.boardState.getPieceAt(new Position("a1")).orElseThrow();
+    Piece pieceAtA1 = this.board.getPieceAt(new Position("a1")).orElseThrow();
     assertEquals(Color.BLACK, pieceAtA1.getColor());
     assertEquals(Type.ROOK, pieceAtA1.getType());
   }
@@ -84,15 +84,15 @@ public class BoardControllerTest {
   @Test
   void shouldNotAllowPlayerToPutItsOwnKingInCheck() {
     // Given
-    this.boardState.placePiece("e1", new King(Color.WHITE));
-    this.boardState.placePiece("f1", new Bishop(Color.WHITE));
-    this.boardState.placePiece("h1", new Rook(Color.BLACK));
+    this.board.placePiece("e1", new King(Color.WHITE));
+    this.board.placePiece("f1", new Bishop(Color.WHITE));
+    this.board.placePiece("h1", new Rook(Color.BLACK));
 
     // When
     var move = new Move(Color.WHITE, new Position("f1"), new Position("e2"));
     var moveDto = move.toDto();
 
     // Then
-    assertThrows(CantLetOwnKingInCheck.class, () -> this.boardController.makePlay(moveDto));
+    assertThrows(CantLetOwnKingInCheck.class, () -> this.controller.makePlay(moveDto));
   }
 }

@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-public class BoardState implements BoardPieceAtPositionProvider {
+public class Board implements BoardPieceAtPositionProvider {
   private final HashMap<Position, Piece> board = new HashMap<>();
 
   public Optional<Piece> getPieceAt(Position position) {
@@ -25,7 +25,7 @@ public class BoardState implements BoardPieceAtPositionProvider {
       }
 
       public Optional<Piece> getPieceAt(Position position) {
-        return BoardState.this.getPieceAt(position);
+        return Board.this.getPieceAt(position);
       }
     });
   }
@@ -42,8 +42,8 @@ public class BoardState implements BoardPieceAtPositionProvider {
     }
   }
 
-  public BoardState copy() {
-    var newState = new BoardState();
+  public Board copy() {
+    var newState = new Board();
     this.board.forEach(((position, piece) -> newState.placePiece(position, piece.copy())));
     return newState;
   }

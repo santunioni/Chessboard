@@ -2,8 +2,8 @@ package chess.game.plays;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import chess.game.board.BoardHistory;
-import chess.game.board.BoardState;
+import chess.game.board.Board;
+import chess.game.board.PlayHistory;
 import chess.game.grid.Position;
 import chess.game.pieces.Color;
 import chess.game.pieces.King;
@@ -15,13 +15,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class CastleValidationTest {
-  private BoardState board;
-  private BoardHistory history;
+  private Board board;
+  private PlayHistory history;
 
   @BeforeEach
   void setUp() {
-    this.board = new BoardState();
-    this.history = new BoardHistory();
+    this.board = new Board();
+    this.history = new PlayHistory();
   }
 
   @Test

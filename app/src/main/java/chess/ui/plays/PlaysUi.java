@@ -1,6 +1,6 @@
 package chess.ui.plays;
 
-import chess.game.board.BoardController;
+import chess.game.board.GameController;
 import chess.game.grid.Position;
 import chess.game.plays.PlayDto;
 import chess.game.plays.validation.PlayValidationError;
@@ -12,14 +12,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class PlaysUi extends JPanel {
-  private final BoardController board;
+  private final GameController controller;
   private final List<Runnable> onMovedPieceCallbacks = new ArrayList<>();
   private final PlayUiFactory playUiFactory;
   private Position highlighted;
 
-  public PlaysUi(SquaresUi grid, BoardController board) {
+  public PlaysUi(SquaresUi grid, GameController controller) {
     super(null); // Null layout for absolute positioning
-    this.board = board;
+    this.controller = controller;
     this.playUiFactory = new PlayUiFactory(grid);
     this.setOpaque(false);
   }
@@ -44,12 +44,12 @@ public class PlaysUi extends JPanel {
 
   private void paintPlaysForPosition(Position position) {
     this.removeAll();
-    List<PlayDto> plays = this.board.getPlaysFor(position);
+    List<PlayDto> plays = this.controller.getPlaysFor(position);
 
     for (var play : plays) {
       JLabel playUi = this.playUiFactory.createJlabelForPlay(play, () -> {
         try {
-          board.makePlay(play);
+          controller.makePlay(play);
           unhighlight();
           for (var callback : onMovedPieceCallbacks) {
             callback.run();

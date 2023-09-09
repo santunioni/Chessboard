@@ -1,8 +1,8 @@
 package chess.game.pieces;
 
-import chess.game.board.BoardHistory;
+import chess.game.board.Board;
 import chess.game.board.BoardPlacement;
-import chess.game.board.BoardState;
+import chess.game.board.PlayHistory;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
 import chess.game.plays.validation.PlayValidationError;
@@ -60,7 +60,7 @@ public abstract class Piece implements PieceProperties {
 
   protected abstract Set<Play> getPossiblePlays();
 
-  public Set<Play> getPlays(BoardState state, BoardHistory history) {
+  public Set<Play> getPlays(Board state, PlayHistory history) {
     return this.getPossiblePlays().stream()
         .filter(play -> {
           try {

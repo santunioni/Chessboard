@@ -3,7 +3,7 @@ package chess.game.grid;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import chess.game.board.BoardState;
+import chess.game.board.Board;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ public class BoardPathReachabilityAnalyzerForEmptyBoardTest {
 
   @BeforeEach
   void setUp() {
-    this.boardPathReachabilityAnalyzer = new BoardPathReachabilityAnalyzer(new BoardState());
+    this.boardPathReachabilityAnalyzer = new BoardPathReachabilityAnalyzer(new Board());
   }
 
   @Test

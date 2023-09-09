@@ -3,17 +3,17 @@ package chess.game.pieces;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import chess.game.board.BoardState;
+import chess.game.board.Board;
 import chess.game.grid.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class KingThreatensTest {
-  private BoardState board;
+  private Board board;
 
   @BeforeEach
   void setUp() {
-    this.board = new BoardState();
+    this.board = new Board();
   }
 
   @Test

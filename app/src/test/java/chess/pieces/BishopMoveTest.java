@@ -2,8 +2,8 @@ package chess.pieces;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import chess.game.board.BoardHistory;
-import chess.game.board.BoardState;
+import chess.game.board.Board;
+import chess.game.board.PlayHistory;
 import chess.game.grid.Position;
 import chess.game.pieces.Bishop;
 import chess.game.pieces.Color;
@@ -15,14 +15,14 @@ import org.junit.jupiter.api.Test;
 
 public class BishopMoveTest {
 
-  private BoardState board;
-  private BoardHistory history;
+  private Board board;
+  private PlayHistory history;
 
 
   @BeforeEach
   void setUp() {
-    this.board = new BoardState();
-    this.history = new BoardHistory();
+    this.board = new Board();
+    this.history = new PlayHistory();
   }
 
   private void forwardToBlackTurn() {

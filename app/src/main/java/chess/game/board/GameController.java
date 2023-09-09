@@ -17,17 +17,17 @@ import java.util.stream.Collectors;
 /**
  * The only way that ui should interact with the chess game.
  */
-public class BoardController {
-  private final BoardState boardState;
-  private final BoardHistory boardHistory;
+public class GameController {
+  private final Board board;
+  private final PlayHistory history;
 
-  public BoardController(BoardState boardState, BoardHistory boardHistory) {
-    this.boardState = boardState;
-    this.boardHistory = boardHistory;
+  public GameController(Board board, PlayHistory history) {
+    this.board = board;
+    this.history = history;
   }
 
   public Optional<PieceProperties> getPieceAt(Position position) {
-    Optional<Piece> pieceOptional = this.boardState.getPieceAt(position);
+    Optional<Piece> pieceOptional = this.board.getPieceAt(position);
     if (pieceOptional.isPresent()) {
       var piece = pieceOptional.get();
       return Optional.of(piece.toProperties());
@@ -36,15 +36,15 @@ public class BoardController {
   }
 
   public List<PlayDto> getPlaysFor(Position position) {
-    var playingPieceOptional = this.boardState.getPieceAt(position);
-    return playingPieceOptional.map(piece -> piece.getPlays(this.boardState, this.boardHistory))
+    var playingPieceOptional = this.board.getPieceAt(position);
+    return playingPieceOptional.map(piece -> piece.getPlays(this.board, this.history))
         .orElse(new HashSet<>()).stream().map(Play::toDto).collect(Collectors.toList());
   }
 
   public void makePlay(PlayDto playDto) throws PlayValidationError, IlegalPlay {
-    var play = new PlayDtoToPlayMapper(this.boardState).createPlayFromDto(playDto);
-    PlayValidatorAgainstAllChessRules.validateNextPlay(this.boardState.copy(),
-        this.boardHistory.copy(), play);
-    play.actOn(this.boardState, this.boardHistory);
+    var play = new PlayDtoToPlayMapper(this.board).createPlayFromDto(playDto);
+    PlayValidatorAgainstAllChessRules.validateNextPlay(this.board,
+        this.history, play);
+    play.actOn(this.board, this.history);
   }
 }

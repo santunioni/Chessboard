@@ -1,7 +1,7 @@
 package chess.ui;
 
 
-import chess.game.board.BoardController;
+import chess.game.board.GameController;
 import chess.ui.grid.SquaresUi;
 import chess.ui.pieces.PiecesUi;
 import chess.ui.plays.PlaysUi;
@@ -15,12 +15,12 @@ public class ChessGame extends JFrame {
   private final JLayeredPane layers = new JLayeredPane();
   private int nextLayerZindex;
 
-  public ChessGame(int boardSize, BoardController boardController) {
+  public ChessGame(int boardSize, GameController controller) {
     this.boardSize = boardSize;
 
     var squares = new SquaresUi();
-    var moves = new PlaysUi(squares, boardController);
-    var pieces = new PiecesUi(squares, boardController, moves);
+    var moves = new PlaysUi(squares, controller);
+    var pieces = new PiecesUi(squares, controller, moves);
     moves.addCallbackForMovedPiece(pieces::repaint);
 
     this.addLayer(squares);

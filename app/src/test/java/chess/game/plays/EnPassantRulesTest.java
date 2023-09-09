@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import chess.game.board.BoardHistory;
-import chess.game.board.BoardState;
-import chess.game.board.BoardStateInitializer;
+import chess.game.board.Board;
+import chess.game.board.BoardInitializer;
+import chess.game.board.PlayHistory;
 import chess.game.grid.Position;
 import chess.game.pieces.Color;
 import chess.game.pieces.Type;
@@ -16,13 +16,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class EnPassantRulesTest {
-  private BoardState board;
-  private BoardHistory history;
+  private Board board;
+  private PlayHistory history;
 
   @BeforeEach
   void setUp() {
-    this.board = new BoardStateInitializer().placeAll().getBoardState();
-    this.history = new BoardHistory();
+    this.board = new BoardInitializer().placeAll().getBoard();
+    this.history = new PlayHistory();
   }
 
   @Test
