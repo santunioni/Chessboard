@@ -1,41 +1,24 @@
 package chess.game.plays;
 
+import static chess.game.plays.PlayFunctions.getPawnOrThrown;
+
 import chess.game.board.Board;
 import chess.game.board.PlayHistory;
 import chess.game.grid.Position;
 import chess.game.pieces.Color;
 import chess.game.pieces.Pawn;
-import chess.game.pieces.Piece;
-import chess.game.pieces.Type;
 import chess.game.plays.validation.CantEnPassantOnInvalidRank;
 import chess.game.plays.validation.CantEnPassantPawnThatDidntJumpLastRound;
 import chess.game.plays.validation.CapturePatternNotAllowedValidationError;
-import chess.game.plays.validation.NoPieceAtPositionValidationError;
 import chess.game.plays.validation.PlayValidationError;
 
 public record EnPassant(Color color, Position from, Position to) implements Play {
-
-  private Piece getPawn(Board board, Color expectedColor, Position position)
-      throws PlayValidationError {
-    var piece = board.getPieceAt(position)
-        .orElseThrow(() -> new NoPieceAtPositionValidationError(position));
-
-    if (piece.getType() != Type.PAWN) {
-      throw new PlayValidationError("Only pawns can participate on En Passant");
-    }
-
-    if (piece.getColor() != expectedColor) {
-      throw new PlayValidationError("Unexpected Color");
-    }
-
-    return piece;
-  }
 
   private boolean hasVictimJumpedTwoSquaresLastRound(Board board,
                                                      PlayHistory playHistory,
                                                      Position victimPosition)
       throws PlayValidationError {
-    var victim = this.getPawn(board, this.color.opposite(), victimPosition);
+    var victim = getPawnOrThrown(board, this.color.opposite(), victimPosition);
     var lastPlay = playHistory.getLastPlay()
         .orElseThrow(() -> new PlayValidationError("En Passant cant be the first play."));
     var pawnJumpingTwoSquares = new Move(
@@ -52,7 +35,7 @@ public record EnPassant(Color color, Position from, Position to) implements Play
       throw new CantEnPassantOnInvalidRank(color);
     }
 
-    var attacker = this.getPawn(board, this.color, this.from);
+    var attacker = getPawnOrThrown(board, this.color, this.from);
 
     if (!attacker.couldCaptureEnemyAt(to)) {
       throw new CapturePatternNotAllowedValidationError(attacker, from, to);

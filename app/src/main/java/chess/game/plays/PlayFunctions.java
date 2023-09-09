@@ -7,6 +7,7 @@ import chess.game.grid.BoardPathDirection;
 import chess.game.grid.Position;
 import chess.game.pieces.Color;
 import chess.game.pieces.Piece;
+import chess.game.pieces.Type;
 import chess.game.plays.validation.NoPieceAtPositionValidationError;
 import chess.game.plays.validation.PieceAtPositionIsOfUnexpectedColorValidationError;
 import chess.game.plays.validation.PlayValidationError;
@@ -27,6 +28,17 @@ public class PlayFunctions {
     var piece = pieceOptional.get();
     if (piece.getColor() != expectedColor) {
       throw new PieceAtPositionIsOfUnexpectedColorValidationError(from, expectedColor);
+    }
+
+    return piece;
+  }
+
+  public static Piece getPawnOrThrown(Board board, Color expectedColor, Position position)
+      throws PlayValidationError {
+    var piece = getPieceFromBoard(expectedColor, position, board);
+
+    if (piece.getType() != Type.PAWN) {
+      throw new PlayValidationError("Piece is not a pawn");
     }
 
     return piece;
