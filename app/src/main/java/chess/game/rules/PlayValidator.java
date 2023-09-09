@@ -20,10 +20,11 @@ public class PlayValidator {
     play.validateAndGetAction(this.board, this.history);
     CantPlayWhenNotYourTurn.validateHistoryBeforePlay(this.history, play);
 
-    var stateCopy = this.board.copy();
+    var boardCopy = this.board.copy();
     var historyCopy = this.history.copy();
-    play.actOn(stateCopy, historyCopy);
+    play.actOn(boardCopy, historyCopy);
 
-    CantLetOwnKingInCheck.validateStateAfterPlay(stateCopy, play);
+    CantLetKingInCheck.validateStateAfterPlay(boardCopy, play);
+    PawnShouldBePromoted.validateStateAfterPlay(boardCopy, play);
   }
 }

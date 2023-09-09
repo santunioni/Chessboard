@@ -6,11 +6,13 @@ import chess.game.grid.Position;
 import chess.game.pieces.Bishop;
 import chess.game.pieces.Color;
 import chess.game.pieces.King;
+import chess.game.pieces.Pawn;
 import chess.game.pieces.Rook;
 import chess.game.plays.Capture;
 import chess.game.plays.Move;
+import chess.game.plays.validation.PawnShouldBePromotedValidationError;
 import chess.game.rules.PlayValidator;
-import chess.game.rules.validation.CantLetOwnKingInCheck;
+import chess.game.rules.validation.CantLetOwnKingInCheckValidationError;
 import chess.game.rules.validation.NotYourTurn;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,6 +53,20 @@ public class PlayValidatorTest {
     var move = new Move(Color.WHITE, new Position("f1"), new Position("e2"));
 
     // Then
-    assertThrows(CantLetOwnKingInCheck.class, () -> this.playValidator.validateNextPlay(move));
+    assertThrows(CantLetOwnKingInCheckValidationError.class,
+        () -> this.playValidator.validateNextPlay(move));
+  }
+
+  @Test
+  void shouldRequirePawnPromotion() {
+    // Given
+    this.board.placePiece("a7", new Pawn(Color.WHITE));
+
+    // When
+    var move = new Move(Color.WHITE, new Position("a7"), new Position("a8"));
+
+    // Then
+    assertThrows(PawnShouldBePromotedValidationError.class,
+        () -> this.playValidator.validateNextPlay(move));
   }
 }

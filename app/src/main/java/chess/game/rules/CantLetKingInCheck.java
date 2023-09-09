@@ -8,14 +8,15 @@ import chess.game.pieces.Color;
 import chess.game.pieces.PieceProperties;
 import chess.game.pieces.Type;
 import chess.game.plays.Play;
+import chess.game.rules.validation.CantLetOwnKingInCheckValidationError;
 import chess.game.rules.validation.IlegalPlay;
 import java.util.Optional;
 
 
-public class CantLetOwnKingInCheck {
+public class CantLetKingInCheck {
 
 
-  private CantLetOwnKingInCheck() {
+  private CantLetKingInCheck() {
   }
 
   private static Optional<Position> findKing(Board state, Color color) {
@@ -46,7 +47,7 @@ public class CantLetOwnKingInCheck {
     Position ownKingPosition = possiblePositionsForKing.get();
 
     if (isPositionThreatenedBy(state, ownKingPosition, play.getPlayerColor().opposite())) {
-      throw new chess.game.rules.validation.CantLetOwnKingInCheck(play.getPlayerColor(),
+      throw new CantLetOwnKingInCheckValidationError(play.getPlayerColor(),
           ownKingPosition);
     }
   }

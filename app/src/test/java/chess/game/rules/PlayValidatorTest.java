@@ -10,7 +10,7 @@ import chess.game.pieces.Color;
 import chess.game.pieces.King;
 import chess.game.pieces.Rook;
 import chess.game.plays.Move;
-import chess.game.rules.validation.CantLetOwnKingInCheck;
+import chess.game.rules.validation.CantLetOwnKingInCheckValidationError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +33,7 @@ public class PlayValidatorTest {
     this.state.placePiece("h1", new Rook(Color.BLACK));
 
     // Then
-    assertThrows(CantLetOwnKingInCheck.class,
+    assertThrows(CantLetOwnKingInCheckValidationError.class,
         () -> new PlayValidator(this.state, this.history).validateNextPlay(
             new Move(Color.WHITE, new Position("f1"), new Position("e2"))));
   }

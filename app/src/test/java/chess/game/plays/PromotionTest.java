@@ -37,7 +37,7 @@ public class PromotionTest {
   }
 
   @Test
-  void shouldNotPromotePieceThatIsNotAPawn() {
+  void shouldNotPromoteOtherThanPawn() {
     this.board.placePiece("a8", new Bishop(Color.WHITE));
 
     var promotion = new Promotion(Color.WHITE, new Position("b8"),
