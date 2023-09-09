@@ -7,7 +7,7 @@ import chess.game.plays.Play;
 import chess.game.plays.PlayDto;
 import chess.game.plays.PlayDtoToPlayMapper;
 import chess.game.plays.validation.PlayValidationError;
-import chess.game.rules.PlayValidatorAgainstAllChessRules;
+import chess.game.rules.PlayValidator;
 import chess.game.rules.validation.IlegalPlay;
 import java.util.HashSet;
 import java.util.List;
@@ -43,8 +43,7 @@ public class GameController {
 
   public void makePlay(PlayDto playDto) throws PlayValidationError, IlegalPlay {
     var play = new PlayDtoToPlayMapper(this.board).createPlayFromDto(playDto);
-    PlayValidatorAgainstAllChessRules.validateNextPlay(this.board,
-        this.history, play);
+    new PlayValidator(this.board, this.history).validateNextPlay(play);
     play.actOn(this.board, this.history);
   }
 }

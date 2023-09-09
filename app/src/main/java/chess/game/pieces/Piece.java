@@ -6,7 +6,7 @@ import chess.game.board.PlayHistory;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
 import chess.game.plays.validation.PlayValidationError;
-import chess.game.rules.PlayValidatorAgainstAllChessRules;
+import chess.game.rules.PlayValidator;
 import chess.game.rules.validation.IlegalPlay;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -64,7 +64,7 @@ public abstract class Piece implements PieceProperties {
     return this.getPossiblePlays().stream()
         .filter(play -> {
           try {
-            PlayValidatorAgainstAllChessRules.validateNextPlay(state, history, play);
+            new PlayValidator(state, history).validateNextPlay(play);
             return true;
           } catch (IlegalPlay | PlayValidationError ignored) {
             return false;

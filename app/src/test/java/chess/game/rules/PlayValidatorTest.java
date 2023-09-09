@@ -14,7 +14,7 @@ import chess.game.rules.validation.CantLetOwnKingInCheck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PlayValidatorAgainstAllChessRulesTest {
+public class PlayValidatorTest {
 
   private Board state;
   private PlayHistory history;
@@ -34,7 +34,7 @@ public class PlayValidatorAgainstAllChessRulesTest {
 
     // Then
     assertThrows(CantLetOwnKingInCheck.class,
-        () -> PlayValidatorAgainstAllChessRules.validateNextPlay(this.state, this.history,
+        () -> new PlayValidator(this.state, this.history).validateNextPlay(
             new Move(Color.WHITE, new Position("f1"), new Position("e2"))));
   }
 }
