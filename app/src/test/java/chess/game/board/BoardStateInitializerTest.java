@@ -11,10 +11,10 @@ import chess.game.pieces.Type;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-public class BoardStateFactoryTest {
+public class BoardStateInitializerTest {
   @Test
   void shouldPlaceWhiteQueenOnD1() {
-    var board = new BoardStateFactory().createFreshBoardState();
+    var board = new BoardStateInitializer().placeAll().getBoardState();
     var piece = board.getPieceAt("d1").orElseThrow();
 
     assertEquals(Type.QUEEN, piece.getType());
@@ -23,7 +23,7 @@ public class BoardStateFactoryTest {
 
   @Test
   void shouldPlaceBlackQueenOnD8() {
-    var board = new BoardStateFactory().createFreshBoardState();
+    var board = new BoardStateInitializer().placeAll().getBoardState();
     var piece = board.getPieceAt("d8").orElseThrow();
 
     assertEquals(Type.QUEEN, piece.getType());
@@ -33,7 +33,7 @@ public class BoardStateFactoryTest {
 
   @Test
   void shouldPlaceWhiteKingOnE1() {
-    var board = new BoardStateFactory().createFreshBoardState();
+    var board = new BoardStateInitializer().placeAll().getBoardState();
     var piece = board.getPieceAt("e1").orElseThrow();
 
     assertEquals(Type.KING, piece.getType());
@@ -42,7 +42,7 @@ public class BoardStateFactoryTest {
 
   @Test
   void shouldPlaceBlackKingOnE8() {
-    var board = new BoardStateFactory().createFreshBoardState();
+    var board = new BoardStateInitializer().placeAll().getBoardState();
     var piece = board.getPieceAt("e8").orElseThrow();
 
     assertEquals(Type.KING, piece.getType());
@@ -51,7 +51,7 @@ public class BoardStateFactoryTest {
 
   @Test
   void shouldPlaceWhiteRooksOnA1AndH1() {
-    var board = new BoardStateFactory().createFreshBoardState();
+    var board = new BoardStateInitializer().placeAll().getBoardState();
 
     for (var position : List.of(new Position("a1"), new Position("h1"))) {
       var piece = board.getPieceAt(position).orElseThrow();
@@ -63,7 +63,7 @@ public class BoardStateFactoryTest {
 
   @Test
   void shouldPlaceBlackRooksOnA8AndH8() {
-    var board = new BoardStateFactory().createFreshBoardState();
+    var board = new BoardStateInitializer().placeAll().getBoardState();
 
     for (var position : List.of(new Position("a8"), new Position("h8"))) {
       var piece = board.getPieceAt(position).orElseThrow();
@@ -75,7 +75,7 @@ public class BoardStateFactoryTest {
 
   @Test
   void shouldPlaceWhiteKnightsOnB1AndG1() {
-    var board = new BoardStateFactory().createFreshBoardState();
+    var board = new BoardStateInitializer().placeAll().getBoardState();
 
     for (var position : List.of(new Position("b1"), new Position("g1"))) {
       var piece = board.getPieceAt(position).orElseThrow();
@@ -87,7 +87,7 @@ public class BoardStateFactoryTest {
 
   @Test
   void shouldPlaceBlackKnightsOnB8AndG8() {
-    var board = new BoardStateFactory().createFreshBoardState();
+    var board = new BoardStateInitializer().placeAll().getBoardState();
 
     for (var position : List.of(new Position("b8"), new Position("g8"))) {
       var piece = board.getPieceAt(position).orElseThrow();
@@ -99,7 +99,7 @@ public class BoardStateFactoryTest {
 
   @Test
   void shouldPlaceWhiteBishopsOnC1AndF1() {
-    var board = new BoardStateFactory().createFreshBoardState();
+    var board = new BoardStateInitializer().placeAll().getBoardState();
 
     for (var position : List.of(new Position("c1"), new Position("f1"))) {
       var piece = board.getPieceAt(position).orElseThrow();
@@ -111,7 +111,7 @@ public class BoardStateFactoryTest {
 
   @Test
   void shouldPlaceBlackBishopsOnC8AndF8() {
-    var board = new BoardStateFactory().createFreshBoardState();
+    var board = new BoardStateInitializer().placeAll().getBoardState();
 
     for (var position : List.of(new Position("c8"), new Position("f8"))) {
       var piece = board.getPieceAt(position).orElseThrow();
@@ -123,7 +123,7 @@ public class BoardStateFactoryTest {
 
   @Test
   void shouldPlaceWhitePawnsOnSecondRank() {
-    var board = new BoardStateFactory().createFreshBoardState();
+    var board = new BoardStateInitializer().placeAll().getBoardState();
 
     for (var file : File.values()) {
       var position = new Position(file, Rank.TWO);
@@ -136,7 +136,7 @@ public class BoardStateFactoryTest {
 
   @Test
   void shouldPlaceBlackPawnsOnSeventhRank() {
-    var board = new BoardStateFactory().createFreshBoardState();
+    var board = new BoardStateInitializer().placeAll().getBoardState();
 
     for (var file : File.values()) {
       var position = new Position(file, Rank.SEVEN);
@@ -149,7 +149,7 @@ public class BoardStateFactoryTest {
 
   @Test
   void shouldPlaceEmptySquaresOnThirdToSixthRank() {
-    var board = new BoardStateFactory().createFreshBoardState();
+    var board = new BoardStateInitializer().placeAll().getBoardState();
 
     for (var file : File.values()) {
       for (var rank : List.of(Rank.THREE, Rank.FOUR, Rank.FIVE, Rank.SIX)) {

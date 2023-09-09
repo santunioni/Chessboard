@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import chess.game.board.BoardHistory;
 import chess.game.board.BoardState;
-import chess.game.board.BoardStateFactory;
+import chess.game.board.BoardStateInitializer;
 import chess.game.grid.Position;
 import chess.game.pieces.Color;
 import chess.game.pieces.Type;
@@ -21,7 +21,7 @@ public class EnPassantRulesTest {
 
   @BeforeEach
   void setUp() {
-    this.board = new BoardStateFactory().createFreshBoardState();
+    this.board = new BoardStateInitializer().placeAll().getBoardState();
     this.history = new BoardHistory();
   }
 
