@@ -46,9 +46,6 @@ public class Path implements Iterable<Position> {
   }
 
   public Boolean isBlockedOn(ReadonlyBoard board) {
-    if (this.maxSteps == 0) {
-      return false;
-    }
     for (var position : this) {
       if (board.hasPieceAt(position)) {
         return true;

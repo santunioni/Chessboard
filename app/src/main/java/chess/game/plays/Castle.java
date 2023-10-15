@@ -8,7 +8,6 @@ import chess.game.board.pieces.Color;
 import chess.game.board.pieces.King;
 import chess.game.board.pieces.Piece;
 import chess.game.board.pieces.PieceType;
-import chess.game.grid.BoardPathReachabilityAnalyzer;
 import chess.game.grid.Direction;
 import chess.game.grid.Path;
 import chess.game.grid.Position;
@@ -20,7 +19,6 @@ import chess.game.plays.validation.CantCastleWhileInCheck;
 import chess.game.plays.validation.CantCastleWhilePassingThroughCheck;
 import chess.game.plays.validation.PlayValidationError;
 import java.util.Iterator;
-import java.util.Set;
 
 public record Castle(Color color, Position to) implements Play {
 
@@ -60,15 +58,15 @@ public record Castle(Color color, Position to) implements Play {
     final Position kingPosition = this.getKingPosition(board);
     final Direction direction = kingPosition.directionTo(rookPosition).orElseThrow();
 
-    final Iterator<Position> kingPathIterator = new Path(kingPosition, direction).iterator();
+    final Path kingPath = new Path(kingPosition, direction, kingPosition.stepsTo(rookPosition) - 1);
+    final Iterator<Position> kingPathIterator = kingPath.iterator();
     final Position kingFirstStep = kingPathIterator.next();
     final Position kingSecondStep = kingPathIterator.next();
 
     final Piece king = board.getPieceAt(kingPosition).orElseThrow();
     final Piece rook = board.getPieceAt(rookPosition).orElseThrow();
 
-    if (!new BoardPathReachabilityAnalyzer(board).isReachableWalkingInOneOfDirections(kingPosition,
-        Set.of(direction), rookPosition)) {
+    if (kingPath.isBlockedOn(board)) {
       throw new CantCastleOverOccupiedSquares(this.color, this.to);
     }
 
