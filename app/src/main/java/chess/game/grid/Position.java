@@ -92,7 +92,7 @@ public record Position(File file, Rank rank) {
     var nextRank = direction.isUp() ? this.rank.next() :
         direction.isDown() ? this.rank.previous() : Optional.of(this.rank);
 
-    return nextFile.flatMap(file -> nextRank.map(rank -> new Position(file, rank)));
+    return nextFile.flatMap(f -> nextRank.map(r -> new Position(f, r)));
   }
 
   public Optional<Position> previousOn(Direction direction) {
