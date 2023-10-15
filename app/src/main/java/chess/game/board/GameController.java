@@ -1,8 +1,8 @@
 package chess.game.board;
 
+import chess.game.board.pieces.Piece;
+import chess.game.board.pieces.PieceSpecification;
 import chess.game.grid.Position;
-import chess.game.pieces.Piece;
-import chess.game.pieces.PieceProperties;
 import chess.game.plays.Play;
 import chess.game.plays.PlayDto;
 import chess.game.plays.PlayDtoToPlayMapper;
@@ -26,11 +26,11 @@ public class GameController {
     this.history = history;
   }
 
-  public Optional<PieceProperties> getPieceAt(Position position) {
+  public Optional<PieceSpecification> getPieceAt(Position position) {
     Optional<Piece> pieceOptional = this.board.getPieceAt(position);
     if (pieceOptional.isPresent()) {
       var piece = pieceOptional.get();
-      return Optional.of(piece.toProperties());
+      return Optional.of(piece.getSpecification());
     }
     return Optional.empty();
   }

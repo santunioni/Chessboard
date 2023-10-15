@@ -3,10 +3,10 @@ package chess.game.rules;
 import static chess.game.plays.PlayFunctions.isPositionThreatenedBy;
 
 import chess.game.board.Board;
+import chess.game.board.pieces.Color;
+import chess.game.board.pieces.PieceSpecification;
+import chess.game.board.pieces.PieceType;
 import chess.game.grid.Position;
-import chess.game.pieces.Color;
-import chess.game.pieces.PieceProperties;
-import chess.game.pieces.Type;
 import chess.game.plays.Play;
 import chess.game.rules.validation.CantLetOwnKingInCheckValidationError;
 import chess.game.rules.validation.IlegalPlay;
@@ -20,15 +20,8 @@ public class CantLetKingInCheck {
   }
 
   private static Optional<Position> findKing(Board state, Color color) {
-    var possiblePositionsForKing = state.findPositionsWithPiece(new PieceProperties() {
-      public Color getColor() {
-        return color;
-      }
-
-      public Type getType() {
-        return Type.KING;
-      }
-    });
+    var possiblePositionsForKing = state.findPositionsWithPiece(new PieceSpecification(color,
+        PieceType.KING));
     if (possiblePositionsForKing.size() != 1) {
       return Optional.empty();
     }

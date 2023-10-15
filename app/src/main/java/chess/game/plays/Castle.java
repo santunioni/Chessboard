@@ -4,14 +4,14 @@ import static chess.game.plays.PlayFunctions.isPositionThreatenedBy;
 
 import chess.game.board.Board;
 import chess.game.board.PlayHistory;
-import chess.game.grid.BoardPath;
-import chess.game.grid.BoardPathDirection;
+import chess.game.board.pieces.Color;
+import chess.game.board.pieces.King;
+import chess.game.board.pieces.Piece;
+import chess.game.board.pieces.PieceType;
 import chess.game.grid.BoardPathReachabilityAnalyzer;
+import chess.game.grid.Direction;
+import chess.game.grid.Path;
 import chess.game.grid.Position;
-import chess.game.pieces.Color;
-import chess.game.pieces.King;
-import chess.game.pieces.Piece;
-import chess.game.pieces.Type;
 import chess.game.plays.validation.CantCastleOnKingThatAlreadyMoved;
 import chess.game.plays.validation.CantCastleOnRookThatAlreadyMoved;
 import chess.game.plays.validation.CantCastleOverOccupiedSquares;
@@ -28,8 +28,8 @@ public record Castle(Color color, Position to) implements Play {
     var kingPosition = King.initialPosition(this.color);
     var kingOptional = state.getPieceAt(kingPosition);
     if (kingOptional.isEmpty()
-        || kingOptional.get().getType() != Type.KING
-        || kingOptional.get().getColor() != this.color) {
+        || kingOptional.get().getSpecification().pieceType() != PieceType.KING
+        || kingOptional.get().getSpecification().color() != this.color) {
       throw new CantCastleOnKingThatAlreadyMoved(this.color);
     }
     return kingPosition;
@@ -37,18 +37,17 @@ public record Castle(Color color, Position to) implements Play {
 
   private Position getRookPosition(Board state)
       throws CantCastleToInvalidPosition, CantCastleOnRookThatAlreadyMoved {
-    if ((this.color == Color.WHITE
-        && !this.to.equals(new Position("a1"))
+    if ((this.color == Color.WHITE && !this.to.equals(new Position("a1"))
         && !new Position("h1").equals(this.to))
-        || (this.color == Color.BLACK
-        && !this.to.equals(new Position("a8"))
+        || (this.color == Color.BLACK && !this.to.equals(new Position("a8"))
         && !new Position("h8").equals(this.to))) {
       throw new CantCastleToInvalidPosition(color, this.to);
     }
 
     var rookOptional = state.getPieceAt(this.to);
-    if (rookOptional.isEmpty() || rookOptional.get().getType() != Type.ROOK
-        || rookOptional.get().getColor() != this.color) {
+    if (rookOptional.isEmpty()
+        || rookOptional.get().getSpecification().pieceType() != PieceType.ROOK
+        || rookOptional.get().getSpecification().color() != this.color) {
       throw new CantCastleOnRookThatAlreadyMoved(this.color, this.to);
     }
 
@@ -59,17 +58,17 @@ public record Castle(Color color, Position to) implements Play {
       throws PlayValidationError {
     final Position rookPosition = this.getRookPosition(board);
     final Position kingPosition = this.getKingPosition(board);
-    final BoardPathDirection direction = kingPosition.directionTo(rookPosition).orElseThrow();
+    final Direction direction = kingPosition.directionTo(rookPosition).orElseThrow();
 
-    final Iterator<Position> kingPathIterator = new BoardPath(kingPosition, direction).iterator();
+    final Iterator<Position> kingPathIterator = new Path(kingPosition, direction).iterator();
     final Position kingFirstStep = kingPathIterator.next();
     final Position kingSecondStep = kingPathIterator.next();
 
     final Piece king = board.getPieceAt(kingPosition).orElseThrow();
     final Piece rook = board.getPieceAt(rookPosition).orElseThrow();
 
-    if (!new BoardPathReachabilityAnalyzer(board).isReachableWalkingInOneOfDirections(
-        kingPosition, Set.of(direction), rookPosition)) {
+    if (!new BoardPathReachabilityAnalyzer(board).isReachableWalkingInOneOfDirections(kingPosition,
+        Set.of(direction), rookPosition)) {
       throw new CantCastleOverOccupiedSquares(this.color, this.to);
     }
 

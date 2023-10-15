@@ -1,26 +1,19 @@
 package chess.game.board;
 
-import static chess.game.pieces.Pawn.getStartRank;
+import static chess.game.board.pieces.Pawn.getStartRank;
 
-import chess.game.pieces.Bishop;
-import chess.game.pieces.Color;
-import chess.game.pieces.King;
-import chess.game.pieces.Knight;
-import chess.game.pieces.Pawn;
-import chess.game.pieces.Queen;
-import chess.game.pieces.Rook;
+import chess.game.board.pieces.Bishop;
+import chess.game.board.pieces.Color;
+import chess.game.board.pieces.King;
+import chess.game.board.pieces.Knight;
+import chess.game.board.pieces.Pawn;
+import chess.game.board.pieces.Queen;
+import chess.game.board.pieces.Rook;
 
 public class BoardInitializer {
 
-  private final Board board;
+  private final Board board = new Board();
 
-  public BoardInitializer() {
-    this(new Board());
-  }
-
-  public BoardInitializer(Board board) {
-    this.board = board;
-  }
 
   public BoardInitializer placeAll() {
     return this.placeRooks().placeKnights().placeBishops().placeQueens().placeKings().placePawns();

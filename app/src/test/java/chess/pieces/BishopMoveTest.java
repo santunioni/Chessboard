@@ -4,10 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import chess.game.board.Board;
 import chess.game.board.PlayHistory;
+import chess.game.board.pieces.Bishop;
+import chess.game.board.pieces.Color;
+import chess.game.board.pieces.Pawn;
 import chess.game.grid.Position;
-import chess.game.pieces.Bishop;
-import chess.game.pieces.Color;
-import chess.game.pieces.Pawn;
 import chess.game.plays.Move;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;

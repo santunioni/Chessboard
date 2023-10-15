@@ -4,12 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import chess.game.board.Board;
-import chess.game.pieces.Color;
-import chess.game.pieces.Pawn;
+import chess.game.board.pieces.Color;
+import chess.game.board.pieces.Pawn;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class BoardPathReachabilityAnalyzerForNotEmptyBoardTest {
+public class BoardPathReachabilityAnalyzerForNotEmptyTest {
   private Board board;
   private BoardPathReachabilityAnalyzer boardPathReachabilityAnalyzer;
 
@@ -24,7 +24,7 @@ public class BoardPathReachabilityAnalyzerForNotEmptyBoardTest {
     this.board.placePiece("a5", new Pawn(Color.WHITE));
     assertTrue(this.boardPathReachabilityAnalyzer.isReachableWalkingInOneOfDirections(
         new Position("a1"),
-        BoardPathDirection.allDirections(),
+        Direction.allDirections(),
         new Position("a5")
     ));
   }
@@ -34,7 +34,7 @@ public class BoardPathReachabilityAnalyzerForNotEmptyBoardTest {
     this.board.placePiece("a4", new Pawn(Color.WHITE));
     assertFalse(this.boardPathReachabilityAnalyzer.isReachableWalkingInOneOfDirections(
         new Position("a1"),
-        BoardPathDirection.allDirections(),
+        Direction.allDirections(),
         new Position("a5")
     ));
   }
@@ -44,7 +44,7 @@ public class BoardPathReachabilityAnalyzerForNotEmptyBoardTest {
     this.board.placePiece("e5", new Pawn(Color.WHITE));
     assertTrue(this.boardPathReachabilityAnalyzer.isReachableWalkingInOneOfDirections(
         new Position("a1"),
-        BoardPathDirection.allDirections(),
+        Direction.allDirections(),
         new Position("e5")
     ));
   }
@@ -54,7 +54,7 @@ public class BoardPathReachabilityAnalyzerForNotEmptyBoardTest {
     this.board.placePiece("d4", new Pawn(Color.WHITE));
     assertFalse(this.boardPathReachabilityAnalyzer.isReachableWalkingInOneOfDirections(
         new Position("a1"),
-        BoardPathDirection.allDirections(),
+        Direction.allDirections(),
         new Position("e5")
     ));
   }

@@ -4,10 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import chess.game.board.Board;
 import chess.game.board.PlayHistory;
+import chess.game.board.pieces.Color;
+import chess.game.board.pieces.Pawn;
+import chess.game.board.pieces.Rook;
 import chess.game.grid.Position;
-import chess.game.pieces.Color;
-import chess.game.pieces.Pawn;
-import chess.game.pieces.Rook;
 import chess.game.plays.validation.CantEnPassantOnInvalidRank;
 import chess.game.plays.validation.CapturePatternNotAllowedValidationError;
 import chess.game.plays.validation.PlayValidationError;

@@ -1,9 +1,9 @@
-package chess.game.pieces;
+package chess.game.board.pieces;
 
-import chess.game.grid.BoardPath;
-import chess.game.grid.BoardPathDirection;
 import chess.game.grid.BoardPathReachabilityAnalyzer;
+import chess.game.grid.Direction;
 import chess.game.grid.File;
+import chess.game.grid.Path;
 import chess.game.grid.Position;
 import chess.game.grid.Rank;
 import chess.game.plays.Capture;
@@ -16,12 +16,12 @@ import java.util.Set;
 
 public class Pawn extends Piece {
 
-  private final BoardPathDirection walkDirection;
+  private final Direction walkDirection;
 
   public Pawn(Color color) {
-    super(color, Type.PAWN);
+    super(color, PieceType.PAWN);
     this.walkDirection =
-        color == Color.WHITE ? BoardPathDirection.VERTICAL_UP : BoardPathDirection.VERTICAL_DOWN;
+        color == Color.WHITE ? Direction.VERTICAL_UP : Direction.VERTICAL_DOWN;
   }
 
   public static Rank getEnPassantRank(Color color) {
@@ -33,7 +33,7 @@ public class Pawn extends Piece {
   }
 
   private boolean hasAlreadyMoved() {
-    return this.board.getMyPosition().rank() != getStartRank(this.getColor());
+    return this.board.getMyPosition().rank() != getStartRank(this.getSpecification().color());
   }
 
   public boolean couldCaptureEnemyAt(Position enemyPosition) {
@@ -45,7 +45,7 @@ public class Pawn extends Piece {
     }
 
     return myPosition.rank().distanceTo(enemyPosition.rank())
-        == (this.walkDirection == BoardPathDirection.VERTICAL_UP ? 1 : -1);
+        == (this.walkDirection == Direction.VERTICAL_UP ? 1 : -1);
   }
 
   public boolean couldMoveToIfEmpty(Position position) {
@@ -56,14 +56,14 @@ public class Pawn extends Piece {
 
 
   public Pawn copy() {
-    return new Pawn(this.getColor());
+    return new Pawn(this.getSpecification().color());
   }
 
   protected Set<Play> getPossiblePlays() {
     var plays = new HashSet<Play>();
 
     var from = this.board.getMyPosition();
-    for (var verticalDisplacedPosition : new BoardPath(from, this.walkDirection, 2)) {
+    for (var verticalDisplacedPosition : new Path(from, this.walkDirection, 2)) {
       for (var horizontalDiff : List.of(-1, 0, 1)) {
         var fileOptional =
             File.createFromIndex(verticalDisplacedPosition.file().ordinal() + horizontalDiff);
@@ -75,13 +75,13 @@ public class Pawn extends Piece {
         var target = targetOptional.get();
 
         if (this.couldMoveToIfEmpty(target)) {
-          plays.add(new Move(this.getColor(), from, target));
+          plays.add(new Move(this.getSpecification().color(), from, target));
         }
 
         if (this.couldCaptureEnemyAt(target)) {
-          plays.add(new Capture(this.getColor(), from, target));
-          if (from.rank() == getEnPassantRank(this.getColor())) {
-            plays.add(new EnPassant(this.getColor(), from, target));
+          plays.add(new Capture(this.getSpecification().color(), from, target));
+          if (from.rank() == getEnPassantRank(this.getSpecification().color())) {
+            plays.add(new EnPassant(this.getSpecification().color(), from, target));
           }
         }
       }

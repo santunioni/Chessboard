@@ -1,7 +1,7 @@
 package chess.game.rules.validation;
 
+import chess.game.board.pieces.Color;
 import chess.game.grid.Position;
-import chess.game.pieces.Color;
 
 public class CantLetOwnKingInCheckValidationError extends IlegalPlay {
   public CantLetOwnKingInCheckValidationError(Color kingColor, Position at) {

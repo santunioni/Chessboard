@@ -7,9 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import chess.game.board.Board;
 import chess.game.board.BoardInitializer;
 import chess.game.board.PlayHistory;
+import chess.game.board.pieces.Color;
+import chess.game.board.pieces.PieceType;
 import chess.game.grid.Position;
-import chess.game.pieces.Color;
-import chess.game.pieces.Type;
 import chess.game.plays.validation.CantEnPassantPawnThatDidntJumpLastRound;
 import chess.game.plays.validation.PlayValidationError;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,8 +39,8 @@ public class EnPassantRulesTest {
     // Then
     assertTrue(board.getPieceAt(new Position("b5")).isEmpty());
     var whitePawn = board.getPieceAt(new Position("b6")).orElseThrow();
-    assertEquals(whitePawn.getType(), Type.PAWN);
-    assertEquals(whitePawn.getColor(), Color.WHITE);
+    assertEquals(whitePawn.getSpecification().pieceType(), PieceType.PAWN);
+    assertEquals(whitePawn.getSpecification().color(), Color.WHITE);
   }
 
   @Test

@@ -3,11 +3,11 @@ package chess.game.board;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import chess.game.board.pieces.Color;
+import chess.game.board.pieces.PieceType;
 import chess.game.grid.File;
 import chess.game.grid.Position;
 import chess.game.grid.Rank;
-import chess.game.pieces.Color;
-import chess.game.pieces.Type;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -17,8 +17,8 @@ public class BoardInitializerTest {
     var board = new BoardInitializer().placeAll().getBoard();
     var piece = board.getPieceAt("d1").orElseThrow();
 
-    assertEquals(Type.QUEEN, piece.getType());
-    assertEquals(Color.WHITE, piece.getColor());
+    assertEquals(PieceType.QUEEN, piece.getSpecification().pieceType());
+    assertEquals(Color.WHITE, piece.getSpecification().color());
   }
 
   @Test
@@ -26,8 +26,8 @@ public class BoardInitializerTest {
     var board = new BoardInitializer().placeAll().getBoard();
     var piece = board.getPieceAt("d8").orElseThrow();
 
-    assertEquals(Type.QUEEN, piece.getType());
-    assertEquals(Color.BLACK, piece.getColor());
+    assertEquals(PieceType.QUEEN, piece.getSpecification().pieceType());
+    assertEquals(Color.BLACK, piece.getSpecification().color());
   }
 
 
@@ -36,8 +36,8 @@ public class BoardInitializerTest {
     var board = new BoardInitializer().placeAll().getBoard();
     var piece = board.getPieceAt("e1").orElseThrow();
 
-    assertEquals(Type.KING, piece.getType());
-    assertEquals(Color.WHITE, piece.getColor());
+    assertEquals(PieceType.KING, piece.getSpecification().pieceType());
+    assertEquals(Color.WHITE, piece.getSpecification().color());
   }
 
   @Test
@@ -45,8 +45,8 @@ public class BoardInitializerTest {
     var board = new BoardInitializer().placeAll().getBoard();
     var piece = board.getPieceAt("e8").orElseThrow();
 
-    assertEquals(Type.KING, piece.getType());
-    assertEquals(Color.BLACK, piece.getColor());
+    assertEquals(PieceType.KING, piece.getSpecification().pieceType());
+    assertEquals(Color.BLACK, piece.getSpecification().color());
   }
 
   @Test
@@ -56,8 +56,8 @@ public class BoardInitializerTest {
     for (var position : List.of(new Position("a1"), new Position("h1"))) {
       var piece = board.getPieceAt(position).orElseThrow();
 
-      assertEquals(Type.ROOK, piece.getType());
-      assertEquals(Color.WHITE, piece.getColor());
+      assertEquals(PieceType.ROOK, piece.getSpecification().pieceType());
+      assertEquals(Color.WHITE, piece.getSpecification().color());
     }
   }
 
@@ -68,8 +68,8 @@ public class BoardInitializerTest {
     for (var position : List.of(new Position("a8"), new Position("h8"))) {
       var piece = board.getPieceAt(position).orElseThrow();
 
-      assertEquals(Type.ROOK, piece.getType());
-      assertEquals(Color.BLACK, piece.getColor());
+      assertEquals(PieceType.ROOK, piece.getSpecification().pieceType());
+      assertEquals(Color.BLACK, piece.getSpecification().color());
     }
   }
 
@@ -80,8 +80,8 @@ public class BoardInitializerTest {
     for (var position : List.of(new Position("b1"), new Position("g1"))) {
       var piece = board.getPieceAt(position).orElseThrow();
 
-      assertEquals(Type.KNIGHT, piece.getType());
-      assertEquals(Color.WHITE, piece.getColor());
+      assertEquals(PieceType.KNIGHT, piece.getSpecification().pieceType());
+      assertEquals(Color.WHITE, piece.getSpecification().color());
     }
   }
 
@@ -92,8 +92,8 @@ public class BoardInitializerTest {
     for (var position : List.of(new Position("b8"), new Position("g8"))) {
       var piece = board.getPieceAt(position).orElseThrow();
 
-      assertEquals(Type.KNIGHT, piece.getType());
-      assertEquals(Color.BLACK, piece.getColor());
+      assertEquals(PieceType.KNIGHT, piece.getSpecification().pieceType());
+      assertEquals(Color.BLACK, piece.getSpecification().color());
     }
   }
 
@@ -104,8 +104,8 @@ public class BoardInitializerTest {
     for (var position : List.of(new Position("c1"), new Position("f1"))) {
       var piece = board.getPieceAt(position).orElseThrow();
 
-      assertEquals(Type.BISHOP, piece.getType());
-      assertEquals(Color.WHITE, piece.getColor());
+      assertEquals(PieceType.BISHOP, piece.getSpecification().pieceType());
+      assertEquals(Color.WHITE, piece.getSpecification().color());
     }
   }
 
@@ -116,8 +116,8 @@ public class BoardInitializerTest {
     for (var position : List.of(new Position("c8"), new Position("f8"))) {
       var piece = board.getPieceAt(position).orElseThrow();
 
-      assertEquals(Type.BISHOP, piece.getType());
-      assertEquals(Color.BLACK, piece.getColor());
+      assertEquals(PieceType.BISHOP, piece.getSpecification().pieceType());
+      assertEquals(Color.BLACK, piece.getSpecification().color());
     }
   }
 
@@ -129,8 +129,8 @@ public class BoardInitializerTest {
       var position = new Position(file, Rank.TWO);
       var piece = board.getPieceAt(position).orElseThrow();
 
-      assertEquals(Type.PAWN, piece.getType());
-      assertEquals(Color.WHITE, piece.getColor());
+      assertEquals(PieceType.PAWN, piece.getSpecification().pieceType());
+      assertEquals(Color.WHITE, piece.getSpecification().color());
     }
   }
 
@@ -142,8 +142,8 @@ public class BoardInitializerTest {
       var position = new Position(file, Rank.SEVEN);
       var piece = board.getPieceAt(position).orElseThrow();
 
-      assertEquals(Type.PAWN, piece.getType());
-      assertEquals(Color.BLACK, piece.getColor());
+      assertEquals(PieceType.PAWN, piece.getSpecification().pieceType());
+      assertEquals(Color.BLACK, piece.getSpecification().color());
     }
   }
 

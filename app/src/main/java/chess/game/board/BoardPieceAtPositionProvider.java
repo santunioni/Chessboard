@@ -1,7 +1,7 @@
 package chess.game.board;
 
+import chess.game.board.pieces.Piece;
 import chess.game.grid.Position;
-import chess.game.pieces.Piece;
 import java.util.Optional;
 
 public interface BoardPieceAtPositionProvider {

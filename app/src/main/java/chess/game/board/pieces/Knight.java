@@ -1,4 +1,4 @@
-package chess.game.pieces;
+package chess.game.board.pieces;
 
 import chess.game.grid.Position;
 import chess.game.plays.Capture;
@@ -12,7 +12,7 @@ import java.util.Set;
 public class Knight extends Piece {
 
   public Knight(Color color) {
-    super(color, Type.KNIGHT);
+    super(color, PieceType.KNIGHT);
   }
 
 
@@ -20,10 +20,8 @@ public class Knight extends Piece {
     var myPosition = this.board.getMyPosition();
     var horizontalDistance = Math.abs(myPosition.file().distanceTo(position.file()));
     var verticalDistance = Math.abs(myPosition.rank().distanceTo(position.rank()));
-    return (horizontalDistance == 1
-        && verticalDistance == 2)
-        || (horizontalDistance == 2
-        && verticalDistance == 1);
+    return (horizontalDistance == 1 && verticalDistance == 2)
+        || (horizontalDistance == 2 && verticalDistance == 1);
   }
 
   protected Set<Play> getPossiblePlays() {
@@ -36,8 +34,10 @@ public class Knight extends Piece {
         if (0 <= targetPositionIndex && targetPositionIndex <= 63) {
           var targetPosition = Position.fromIndex(targetPositionIndex);
           if (this.couldMoveToIfEmpty(targetPosition)) {
-            plays.add(new Move(this.getColor(), this.board.getMyPosition(), targetPosition));
-            plays.add(new Capture(this.getColor(), this.board.getMyPosition(), targetPosition));
+            plays.add(new Move(this.getSpecification().color(), this.board.getMyPosition(),
+                targetPosition));
+            plays.add(new Capture(this.getSpecification().color(), this.board.getMyPosition(),
+                targetPosition));
           }
         }
       }
@@ -47,6 +47,6 @@ public class Knight extends Piece {
   }
 
   public Knight copy() {
-    return new Knight(this.getColor());
+    return new Knight(this.getSpecification().color());
   }
 }

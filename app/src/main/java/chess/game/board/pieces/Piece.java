@@ -1,4 +1,4 @@
-package chess.game.pieces;
+package chess.game.board.pieces;
 
 import chess.game.board.Board;
 import chess.game.board.BoardPlacement;
@@ -11,30 +11,25 @@ import chess.game.rules.validation.IlegalPlay;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class Piece implements PieceProperties {
+public abstract class Piece {
 
-  private final Color color;
-  private final Type type;
+  private final PieceSpecification specification;
   protected BoardPlacement board;
 
-  public Piece(Color color, Type type) {
-    this.color = color;
-    this.type = type;
+  public Piece(Color color, PieceType pieceType) {
+    this.specification = new PieceSpecification(color, pieceType);
   }
 
   public void placeInBoard(BoardPlacement boardPlacement) {
     this.board = boardPlacement;
   }
 
+  public PieceSpecification getSpecification() {
+    return specification;
+  }
+
   public abstract Piece copy();
 
-  public Color getColor() {
-    return this.color;
-  }
-
-  public Type getType() {
-    return this.type;
-  }
 
   public abstract boolean couldMoveToIfEmpty(Position position);
 
@@ -43,20 +38,9 @@ public abstract class Piece implements PieceProperties {
   }
 
   public boolean isEnemyOf(Piece piece) {
-    return this.color.opposite() == piece.color;
+    return this.getSpecification().color().oppositeOf(piece.specification.color());
   }
 
-  public PieceProperties toProperties() {
-    return new PieceProperties() {
-      public Color getColor() {
-        return Piece.this.getColor();
-      }
-
-      public Type getType() {
-        return Piece.this.getType();
-      }
-    };
-  }
 
   protected abstract Set<Play> getPossiblePlays();
 

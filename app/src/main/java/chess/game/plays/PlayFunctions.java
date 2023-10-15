@@ -2,12 +2,12 @@ package chess.game.plays;
 
 import chess.game.board.Board;
 import chess.game.board.BoardPlacement;
-import chess.game.grid.BoardPath;
-import chess.game.grid.BoardPathDirection;
+import chess.game.board.pieces.Color;
+import chess.game.board.pieces.Piece;
+import chess.game.board.pieces.PieceType;
+import chess.game.grid.Direction;
+import chess.game.grid.Path;
 import chess.game.grid.Position;
-import chess.game.pieces.Color;
-import chess.game.pieces.Piece;
-import chess.game.pieces.Type;
 import chess.game.plays.validation.NoPieceAtPositionValidationError;
 import chess.game.plays.validation.PieceAtPositionIsOfUnexpectedColorValidationError;
 import chess.game.plays.validation.PlayValidationError;
@@ -26,7 +26,7 @@ public class PlayFunctions {
     }
 
     var piece = pieceOptional.get();
-    if (piece.getColor() != expectedColor) {
+    if (piece.getSpecification().color() != expectedColor) {
       throw new PieceAtPositionIsOfUnexpectedColorValidationError(from, expectedColor);
     }
 
@@ -37,7 +37,7 @@ public class PlayFunctions {
       throws PlayValidationError {
     var piece = getPieceFromBoard(expectedColor, position, board);
 
-    if (piece.getType() != Type.PAWN) {
+    if (piece.getSpecification().pieceType() != PieceType.PAWN) {
       throw new PlayValidationError("Piece is not a pawn");
     }
 
@@ -45,7 +45,7 @@ public class PlayFunctions {
   }
 
   public static boolean isPositionThreatenedBy(Board state, Position position, Color color) {
-    for (var piece : state.getPlayerPieces(color)) {
+    for (var piece : state.getPiecesOf(color)) {
       if (piece.couldCaptureEnemyAt(position)) {
         return true;
       }
@@ -54,18 +54,19 @@ public class PlayFunctions {
   }
 
   public static void collectDirectionalPlays(Piece piece, BoardPlacement board,
-                                             Set<BoardPathDirection> directions,
+                                             Set<Direction> directions,
                                              PlayIteratorCallback callback) {
     collectDirectionalPlays(piece, board, directions, callback, 8);
   }
 
   public static void collectDirectionalPlays(Piece piece, BoardPlacement board,
-                                             Set<BoardPathDirection> directions,
+                                             Set<Direction> directions,
                                              PlayIteratorCallback callback, int maxSteps) {
     for (var direction : directions) {
-      for (var position : new BoardPath(board.getMyPosition(), direction, maxSteps)) {
-        callback.call(new Move(piece.getColor(), board.getMyPosition(), position));
-        callback.call(new Capture(piece.getColor(), board.getMyPosition(), position));
+      for (var position : new Path(board.getMyPosition(), direction, maxSteps)) {
+        callback.call(new Move(piece.getSpecification().color(), board.getMyPosition(), position));
+        callback.call(
+            new Capture(piece.getSpecification().color(), board.getMyPosition(), position));
         if (board.getPieceAt(position).isPresent()) {
           break;
         }

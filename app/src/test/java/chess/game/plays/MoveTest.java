@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import chess.game.board.Board;
 import chess.game.board.PlayHistory;
+import chess.game.board.pieces.Color;
+import chess.game.board.pieces.Pawn;
+import chess.game.board.pieces.Queen;
 import chess.game.grid.Position;
-import chess.game.pieces.Color;
-import chess.game.pieces.Pawn;
-import chess.game.pieces.Queen;
 import chess.game.plays.validation.NoPieceAtPositionValidationError;
 import chess.game.plays.validation.PlayValidationError;
 import chess.game.plays.validation.SquareAlreadyOccupiedValidationError;

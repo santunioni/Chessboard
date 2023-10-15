@@ -16,7 +16,7 @@ public class PositionDirectionToTest {
   @ParameterizedTest
   @ArgumentsSource(PositionDirectionToCases.class)
   void shouldReturnRankStringRepresentation(String from, String to,
-                                            BoardPathDirection expectedDirection) {
+                                            Direction expectedDirection) {
     assertEquals(expectedDirection, new Position(from).directionTo(new Position(to)).orElseThrow());
   }
 
@@ -34,14 +34,14 @@ public class PositionDirectionToTest {
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
       return Stream.of(
-          Arguments.of("d4", "d5", BoardPathDirection.VERTICAL_UP),
-          Arguments.of("d4", "d3", BoardPathDirection.VERTICAL_DOWN),
-          Arguments.of("d4", "e4", BoardPathDirection.HORIZONTAL_RIGHT),
-          Arguments.of("d4", "c4", BoardPathDirection.HORIZONTAL_LEFT),
-          Arguments.of("d4", "e5", BoardPathDirection.DIAGONAL_UP_RIGHT),
-          Arguments.of("d4", "e3", BoardPathDirection.DIAGONAL_DOWN_RIGHT),
-          Arguments.of("d4", "c3", BoardPathDirection.DIAGONAL_DOWN_LEFT),
-          Arguments.of("d4", "c5", BoardPathDirection.DIAGONAL_UP_LEFT)
+          Arguments.of("d4", "d5", Direction.VERTICAL_UP),
+          Arguments.of("d4", "d3", Direction.VERTICAL_DOWN),
+          Arguments.of("d4", "e4", Direction.HORIZONTAL_RIGHT),
+          Arguments.of("d4", "c4", Direction.HORIZONTAL_LEFT),
+          Arguments.of("d4", "e5", Direction.DIAGONAL_UP_RIGHT),
+          Arguments.of("d4", "e3", Direction.DIAGONAL_DOWN_RIGHT),
+          Arguments.of("d4", "c3", Direction.DIAGONAL_DOWN_LEFT),
+          Arguments.of("d4", "c5", Direction.DIAGONAL_UP_LEFT)
       );
     }
   }

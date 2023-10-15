@@ -2,7 +2,7 @@ package chess.game.plays;
 
 import chess.game.board.Board;
 import chess.game.board.PlayHistory;
-import chess.game.pieces.Color;
+import chess.game.board.pieces.Color;
 import chess.game.plays.validation.PlayValidationError;
 
 public interface Play {

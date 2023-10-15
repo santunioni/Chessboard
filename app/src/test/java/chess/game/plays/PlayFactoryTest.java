@@ -1,14 +1,14 @@
 package chess.game.plays;
 
-import static chess.game.plays.LongAlgebraicNotationToPlayMapper.createPlayFromLongAlgebraicNotation;
+import static chess.game.plays.PlayFactory.createPlayFromLongAlgebraicNotation;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import chess.game.board.pieces.Color;
 import chess.game.grid.Position;
-import chess.game.pieces.Color;
 import chess.game.plays.validation.PlayValidationError;
 import org.junit.jupiter.api.Test;
 
-public class LongAlgebraicNotationToPlayMapperTest {
+public class PlayFactoryTest {
 
   @Test
   void shouldReturnBishopCapturesPieceOnE5() throws PlayValidationError {

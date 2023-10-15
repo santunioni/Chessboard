@@ -1,6 +1,6 @@
 package chess.game.plays.validation;
 
-import chess.game.pieces.Color;
+import chess.game.board.pieces.Color;
 
 public class CantCastleWhileInCheck extends PlayValidationError {
   public CantCastleWhileInCheck(Color color) {

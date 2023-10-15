@@ -1,24 +1,24 @@
-package chess.game.pieces;
+package chess.game.board.pieces;
 
 import static chess.game.plays.PlayFunctions.collectDirectionalPlays;
 
-import chess.game.grid.BoardPathDirection;
 import chess.game.grid.BoardPathReachabilityAnalyzer;
+import chess.game.grid.Direction;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Rook extends Piece {
-  private static final Set<BoardPathDirection> pathDirections = Set.of(
-      BoardPathDirection.VERTICAL_UP,
-      BoardPathDirection.VERTICAL_DOWN,
-      BoardPathDirection.HORIZONTAL_LEFT,
-      BoardPathDirection.HORIZONTAL_RIGHT
+  private static final Set<Direction> pathDirections = Set.of(
+      Direction.VERTICAL_UP,
+      Direction.VERTICAL_DOWN,
+      Direction.HORIZONTAL_LEFT,
+      Direction.HORIZONTAL_RIGHT
   );
 
   public Rook(Color color) {
-    super(color, Type.ROOK);
+    super(color, PieceType.ROOK);
   }
 
   public boolean couldMoveToIfEmpty(Position enemyPosition) {
@@ -31,7 +31,7 @@ public class Rook extends Piece {
 
 
   public Rook copy() {
-    return new Rook(this.getColor());
+    return new Rook(this.getSpecification().color());
   }
 
   protected Set<Play> getPossiblePlays() {

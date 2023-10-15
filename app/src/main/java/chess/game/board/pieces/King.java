@@ -1,8 +1,8 @@
-package chess.game.pieces;
+package chess.game.board.pieces;
 
 import static chess.game.plays.PlayFunctions.collectDirectionalPlays;
 
-import chess.game.grid.BoardPathDirection;
+import chess.game.grid.Direction;
 import chess.game.grid.Position;
 import chess.game.plays.Castle;
 import chess.game.plays.Play;
@@ -12,7 +12,7 @@ import java.util.Set;
 public class King extends Piece {
 
   public King(Color color) {
-    super(color, Type.KING);
+    super(color, PieceType.KING);
   }
 
   public static Position initialPosition(Color color) {
@@ -25,19 +25,19 @@ public class King extends Piece {
 
 
   public King copy() {
-    return new King(this.getColor());
+    return new King(this.getSpecification().color());
   }
 
   protected Set<Play> getPossiblePlays() {
     var plays = new HashSet<Play>();
-    collectDirectionalPlays(this, this.board, BoardPathDirection.allDirections(), plays::add, 1);
+    collectDirectionalPlays(this, this.board, Direction.allDirections(), plays::add, 1);
 
-    if (this.getColor() == Color.WHITE) {
-      plays.add(new Castle(this.getColor(), new Position("a1")));
-      plays.add(new Castle(this.getColor(), new Position("h1")));
+    if (this.getSpecification().color() == Color.WHITE) {
+      plays.add(new Castle(this.getSpecification().color(), new Position("a1")));
+      plays.add(new Castle(this.getSpecification().color(), new Position("h1")));
     } else {
-      plays.add(new Castle(this.getColor(), new Position("a8")));
-      plays.add(new Castle(this.getColor(), new Position("h8")));
+      plays.add(new Castle(this.getSpecification().color(), new Position("a8")));
+      plays.add(new Castle(this.getSpecification().color(), new Position("h8")));
     }
 
     return plays;

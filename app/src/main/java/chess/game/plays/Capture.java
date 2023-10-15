@@ -4,8 +4,8 @@ import static chess.game.plays.PlayFunctions.getPieceFromBoard;
 
 import chess.game.board.Board;
 import chess.game.board.PlayHistory;
+import chess.game.board.pieces.Color;
 import chess.game.grid.Position;
-import chess.game.pieces.Color;
 import chess.game.plays.validation.CapturePatternNotAllowedValidationError;
 import chess.game.plays.validation.NoPieceAtPositionValidationError;
 import chess.game.plays.validation.PieceAtPositionIsOfUnexpectedColorValidationError;
@@ -36,7 +36,8 @@ public record Capture(Color color, Position from, Position to) implements Play {
 
     var victim = targetPositionOccupation.get();
     if (!victim.isEnemyOf(piece)) {
-      throw new PieceAtPositionIsOfUnexpectedColorValidationError(to, piece.getColor().opposite());
+      throw new PieceAtPositionIsOfUnexpectedColorValidationError(to,
+          piece.getSpecification().color().opposite());
     }
 
     return () -> {

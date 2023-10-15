@@ -4,9 +4,9 @@ import static chess.game.plays.PlayFunctions.getPawnOrThrown;
 
 import chess.game.board.Board;
 import chess.game.board.PlayHistory;
+import chess.game.board.pieces.Color;
+import chess.game.board.pieces.Pawn;
 import chess.game.grid.Position;
-import chess.game.pieces.Color;
-import chess.game.pieces.Pawn;
 import chess.game.plays.validation.CantEnPassantOnInvalidRank;
 import chess.game.plays.validation.CantEnPassantPawnThatDidntJumpLastRound;
 import chess.game.plays.validation.CapturePatternNotAllowedValidationError;
@@ -23,7 +23,7 @@ public record EnPassant(Color color, Position from, Position to) implements Play
         .orElseThrow(() -> new PlayValidationError("En Passant cant be the first play."));
     var pawnJumpingTwoSquares = new Move(
         this.color.opposite(),
-        new Position(victimPosition.file(), Pawn.getStartRank(victim.getColor())),
+        new Position(victimPosition.file(), Pawn.getStartRank(victim.getSpecification().color())),
         victimPosition
     );
     return lastPlay.equals(pawnJumpingTwoSquares);

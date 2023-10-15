@@ -2,12 +2,12 @@ package chess.game.board;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import chess.game.board.pieces.Bishop;
+import chess.game.board.pieces.Color;
+import chess.game.board.pieces.King;
+import chess.game.board.pieces.Pawn;
+import chess.game.board.pieces.Rook;
 import chess.game.grid.Position;
-import chess.game.pieces.Bishop;
-import chess.game.pieces.Color;
-import chess.game.pieces.King;
-import chess.game.pieces.Pawn;
-import chess.game.pieces.Rook;
 import chess.game.plays.Capture;
 import chess.game.plays.Move;
 import chess.game.plays.validation.PawnShouldBePromotedValidationError;

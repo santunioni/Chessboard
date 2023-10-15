@@ -2,7 +2,7 @@ package chess.game.plays.validation;
 
 import static chess.game.plays.Promotion.getPromotionRankForColor;
 
-import chess.game.pieces.Color;
+import chess.game.board.pieces.Color;
 
 public class PawnShouldBePromotedValidationError extends PlayValidationError {
   public PawnShouldBePromotedValidationError(Color color) {

@@ -5,8 +5,8 @@ import static chess.game.plays.PlayFunctions.getPieceFromBoard;
 
 import chess.game.board.Board;
 import chess.game.board.PlayHistory;
+import chess.game.board.pieces.Color;
 import chess.game.grid.Position;
-import chess.game.pieces.Color;
 import chess.game.plays.validation.MovePatternNotAllowedValidationError;
 import chess.game.plays.validation.PlayValidationError;
 import chess.game.plays.validation.SquareAlreadyOccupiedValidationError;

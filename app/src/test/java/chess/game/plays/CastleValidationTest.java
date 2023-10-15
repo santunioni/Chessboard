@@ -4,10 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import chess.game.board.Board;
 import chess.game.board.PlayHistory;
+import chess.game.board.pieces.Color;
+import chess.game.board.pieces.King;
+import chess.game.board.pieces.Rook;
 import chess.game.grid.Position;
-import chess.game.pieces.Color;
-import chess.game.pieces.King;
-import chess.game.pieces.Rook;
 import chess.game.plays.validation.CantCastleOnKingThatAlreadyMoved;
 import chess.game.plays.validation.CantCastleOnRookThatAlreadyMoved;
 import chess.game.plays.validation.CantCastleToInvalidPosition;

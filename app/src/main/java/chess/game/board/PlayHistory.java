@@ -1,11 +1,12 @@
 package chess.game.board;
 
-import chess.game.pieces.Color;
+import chess.game.board.pieces.Color;
 import chess.game.plays.Play;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import javax.annotation.Nonnull;
 
 public class PlayHistory implements Iterable<Play> {
 
@@ -36,6 +37,7 @@ public class PlayHistory implements Iterable<Play> {
     return this.getLastPlay().map(play -> play.getPlayerColor().opposite()).orElse(Color.WHITE);
   }
 
+  @Nonnull
   public Iterator<Play> iterator() {
     return this.stack.iterator();
   }

@@ -1,8 +1,8 @@
 package chess.ui.pieces;
 
 import chess.game.board.GameController;
+import chess.game.board.pieces.PieceSpecification;
 import chess.game.grid.Position;
-import chess.game.pieces.PieceProperties;
 import chess.ui.grid.SquaresUi;
 import chess.ui.plays.PlaysUi;
 import java.awt.event.MouseAdapter;
@@ -38,12 +38,12 @@ public class PiecesUi extends JPanel {
     }
   }
 
-  private JLabel createPieceUiAtPosition(Position position, PieceProperties piece) {
+  private JLabel createPieceUiAtPosition(Position position, PieceSpecification piece) {
     var rectangle = this.grid.getRectangleForPosition(position, 0.8);
     var pieceIconFactory = new PieceIconFactory(rectangle.width);
     var pieceUi = new JLabel();
 
-    pieceUi.setIcon(pieceIconFactory.getIcon(piece.getColor(), piece.getType()));
+    pieceUi.setIcon(pieceIconFactory.getIcon(piece.color(), piece.pieceType()));
     pieceUi.setBounds(rectangle);
     pieceUi.addMouseListener(new MouseAdapter() {
       public void mouseClicked(MouseEvent event) {

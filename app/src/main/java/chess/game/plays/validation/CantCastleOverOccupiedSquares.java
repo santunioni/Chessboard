@@ -1,7 +1,7 @@
 package chess.game.plays.validation;
 
+import chess.game.board.pieces.Color;
 import chess.game.grid.Position;
-import chess.game.pieces.Color;
 
 public class CantCastleOverOccupiedSquares extends PlayValidationError {
 

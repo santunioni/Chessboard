@@ -43,7 +43,7 @@ public record Position(File file, Rank rank) {
     return file.toString() + rank.toString();
   }
 
-  public Optional<BoardPathDirection> directionTo(Position that) {
+  public Optional<Direction> directionTo(Position that) {
     var fileDisplacement = this.file.distanceTo(that.file);
     var rankDisplacement = this.rank.distanceTo(that.rank);
 
@@ -53,25 +53,38 @@ public record Position(File file, Rank rank) {
 
     if (fileDisplacement.equals(0)) {
       return Optional.of(
-          rankDisplacement > 0 ? BoardPathDirection.VERTICAL_UP : BoardPathDirection.VERTICAL_DOWN);
+          rankDisplacement > 0 ? Direction.VERTICAL_UP : Direction.VERTICAL_DOWN);
     }
 
     if (rankDisplacement.equals(0)) {
-      return Optional.of(fileDisplacement > 0 ? BoardPathDirection.HORIZONTAL_RIGHT :
-          BoardPathDirection.HORIZONTAL_LEFT);
+      return Optional.of(fileDisplacement > 0 ? Direction.HORIZONTAL_RIGHT :
+          Direction.HORIZONTAL_LEFT);
     }
 
     if (fileDisplacement.equals(rankDisplacement)) {
-      return Optional.of(fileDisplacement > 0 ? BoardPathDirection.DIAGONAL_UP_RIGHT :
-          BoardPathDirection.DIAGONAL_DOWN_LEFT);
+      return Optional.of(fileDisplacement > 0 ? Direction.DIAGONAL_UP_RIGHT :
+          Direction.DIAGONAL_DOWN_LEFT);
     }
 
     if (fileDisplacement.equals(-rankDisplacement)) {
-      return Optional.of(fileDisplacement > 0 ? BoardPathDirection.DIAGONAL_DOWN_RIGHT :
-          BoardPathDirection.DIAGONAL_UP_LEFT);
+      return Optional.of(fileDisplacement > 0 ? Direction.DIAGONAL_DOWN_RIGHT :
+          Direction.DIAGONAL_UP_LEFT);
     }
 
     return Optional.empty();
+  }
+
+  public Optional<Position> nextOn(Direction direction) {
+    var nextFile = direction.isRight() ? this.file.next() :
+        direction.isLeft() ? this.file.previous() : Optional.of(this.file);
+    var nextRank = direction.isUp() ? this.rank.next() :
+        direction.isDown() ? this.rank.previous() : Optional.of(this.rank);
+
+    return nextFile.flatMap(file -> nextRank.map(rank -> new Position(file, rank)));
+  }
+
+  public Optional<Position> previousOn(Direction direction) {
+    return this.nextOn(direction.opposite());
   }
 
   public boolean isNeighborTo(Position that) {

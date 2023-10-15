@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import chess.game.board.Board;
+import chess.game.board.pieces.Color;
+import chess.game.board.pieces.Pawn;
+import chess.game.board.pieces.Queen;
 import chess.game.grid.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

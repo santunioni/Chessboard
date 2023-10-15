@@ -4,17 +4,17 @@ import static chess.game.plays.PlayFunctions.getPawnOrThrown;
 
 import chess.game.board.Board;
 import chess.game.board.PlayHistory;
+import chess.game.board.pieces.Bishop;
+import chess.game.board.pieces.Color;
+import chess.game.board.pieces.Knight;
+import chess.game.board.pieces.PieceType;
+import chess.game.board.pieces.Queen;
+import chess.game.board.pieces.Rook;
 import chess.game.grid.Position;
 import chess.game.grid.Rank;
-import chess.game.pieces.Bishop;
-import chess.game.pieces.Color;
-import chess.game.pieces.Knight;
-import chess.game.pieces.Queen;
-import chess.game.pieces.Rook;
-import chess.game.pieces.Type;
 import chess.game.plays.validation.PlayValidationError;
 
-public record Promotion(Color color, Position at, Type to) implements Play {
+public record Promotion(Color color, Position at, PieceType to) implements Play {
 
   public static Rank getPromotionRankForColor(Color color) {
     return color == Color.WHITE ? Rank.EIGHT : Rank.ONE;

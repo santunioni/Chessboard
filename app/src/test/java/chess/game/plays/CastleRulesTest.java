@@ -6,12 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import chess.game.board.Board;
 import chess.game.board.PlayHistory;
+import chess.game.board.pieces.Bishop;
+import chess.game.board.pieces.Color;
+import chess.game.board.pieces.King;
+import chess.game.board.pieces.PieceType;
+import chess.game.board.pieces.Rook;
 import chess.game.grid.Position;
-import chess.game.pieces.Bishop;
-import chess.game.pieces.Color;
-import chess.game.pieces.King;
-import chess.game.pieces.Rook;
-import chess.game.pieces.Type;
 import chess.game.plays.validation.CantCastleOnKingThatAlreadyMoved;
 import chess.game.plays.validation.CantCastleOnRookThatAlreadyMoved;
 import chess.game.plays.validation.CantCastleOverOccupiedSquares;
@@ -46,12 +46,12 @@ public class CastleRulesTest {
     assertTrue(board.getPieceAt("h1").isEmpty());
 
     var king = board.getPieceAt(new Position("g1")).orElseThrow();
-    assertEquals(king.getType(), Type.KING);
-    assertEquals(king.getColor(), Color.WHITE);
+    assertEquals(king.getSpecification().pieceType(), PieceType.KING);
+    assertEquals(king.getSpecification().color(), Color.WHITE);
 
     var rook = board.getPieceAt(new Position("f1")).orElseThrow();
-    assertEquals(rook.getType(), Type.ROOK);
-    assertEquals(rook.getColor(), Color.WHITE);
+    assertEquals(rook.getSpecification().pieceType(), PieceType.ROOK);
+    assertEquals(rook.getSpecification().color(), Color.WHITE);
   }
 
   @Test

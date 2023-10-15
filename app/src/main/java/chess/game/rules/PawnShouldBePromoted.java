@@ -3,9 +3,9 @@ package chess.game.rules;
 import static chess.game.plays.Promotion.getPromotionRankForColor;
 
 import chess.game.board.Board;
+import chess.game.board.pieces.PieceType;
 import chess.game.grid.File;
 import chess.game.grid.Position;
-import chess.game.pieces.Type;
 import chess.game.plays.Play;
 import chess.game.plays.validation.PawnShouldBePromotedValidationError;
 
@@ -21,10 +21,9 @@ public class PawnShouldBePromoted {
       var pieceOptional = board.getPieceAt(position);
       if (pieceOptional.isPresent()) {
         var piece = pieceOptional.get();
-        if (piece.getType() == Type.PAWN) {
+        if (piece.getSpecification().pieceType() == PieceType.PAWN) {
           throw new PawnShouldBePromotedValidationError(play.getPlayerColor());
         }
-        ;
       }
     }
   }

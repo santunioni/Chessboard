@@ -2,11 +2,11 @@ package chess.game.board;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import chess.game.board.pieces.Color;
+import chess.game.board.pieces.Piece;
+import chess.game.board.pieces.PieceType;
+import chess.game.board.pieces.Rook;
 import chess.game.grid.Position;
-import chess.game.pieces.Color;
-import chess.game.pieces.Piece;
-import chess.game.pieces.Rook;
-import chess.game.pieces.Type;
 import chess.game.plays.Capture;
 import chess.game.plays.Move;
 import chess.game.plays.validation.PlayValidationError;
@@ -40,8 +40,8 @@ public class GameControllerTest {
 
     // Then
     Piece pieceAtA1 = this.board.getPieceAt(new Position("a1")).orElseThrow();
-    assertEquals(Color.WHITE, pieceAtA1.getColor());
-    assertEquals(Type.ROOK, pieceAtA1.getType());
+    assertEquals(Color.WHITE, pieceAtA1.getSpecification().color());
+    assertEquals(PieceType.ROOK, pieceAtA1.getSpecification().pieceType());
   }
 
 
@@ -59,7 +59,7 @@ public class GameControllerTest {
 
     // Then
     Piece pieceAtA1 = this.board.getPieceAt(new Position("a1")).orElseThrow();
-    assertEquals(Color.BLACK, pieceAtA1.getColor());
-    assertEquals(Type.ROOK, pieceAtA1.getType());
+    assertEquals(Color.BLACK, pieceAtA1.getSpecification().color());
+    assertEquals(PieceType.ROOK, pieceAtA1.getSpecification().pieceType());
   }
 }

@@ -1,7 +1,7 @@
 package chess.game.plays.validation;
 
-import chess.game.pieces.Color;
-import chess.game.pieces.Pawn;
+import chess.game.board.pieces.Color;
+import chess.game.board.pieces.Pawn;
 
 public class CantEnPassantOnInvalidRank extends PlayValidationError {
   public CantEnPassantOnInvalidRank(Color color) {
