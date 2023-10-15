@@ -44,6 +44,14 @@ public enum Direction {
     return this == VERTICAL_DOWN || this == DIAGONAL_DOWN_LEFT || this == DIAGONAL_DOWN_RIGHT;
   }
 
+  public boolean isDiagonal() {
+    return Direction.diagonals().contains(this);
+  }
+
+  public boolean isNotDiagonal() {
+    return !this.isDiagonal();
+  }
+
   public Direction opposite() {
     return switch (this) {
       case VERTICAL_UP -> VERTICAL_DOWN;

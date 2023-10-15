@@ -2,8 +2,8 @@ package chess.game.board.pieces;
 
 import static chess.game.plays.PlayFunctions.collectDirectionalPlays;
 
-import chess.game.grid.BoardPathReachabilityAnalyzer;
 import chess.game.grid.Direction;
+import chess.game.grid.Path;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
 import java.util.HashSet;
@@ -19,12 +19,11 @@ public class Queen extends Piece {
     return new Position(color == Color.WHITE ? "d1" : "d8");
   }
 
-  public boolean couldMoveToIfEmpty(Position position) {
-    return new BoardPathReachabilityAnalyzer(this.board).isReachableWalkingInOneOfDirections(
-        this.board.getMyPosition(),
-        Direction.allDirections(),
-        position
-    );
+  public boolean couldMoveToIfEmpty(Position target) {
+    var myPosition = this.board.getMyPosition();
+    return myPosition.directionTo(target).map(
+        direction -> new Path(myPosition, direction, myPosition.stepsTo(target) - 1).isClearOn(
+            this.board)).orElse(false);
   }
 
   public Queen copy() {

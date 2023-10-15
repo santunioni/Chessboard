@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-public class Board implements BoardPieceAtPositionProvider {
+public class Board implements ReadonlyBoard {
   private final HashMap<Position, Piece> currentPositionToPiece = new HashMap<>();
   private final List<Play> stack = new ArrayList<>();
 
@@ -20,10 +20,6 @@ public class Board implements BoardPieceAtPositionProvider {
 
   public Optional<Piece> getPieceAt(Position position) {
     return Optional.ofNullable(currentPositionToPiece.get(position));
-  }
-
-  public Boolean isOccupiedAt(Position position) {
-    return this.getPieceAt(position).isPresent();
   }
 
   public Optional<Position> getPositionOf(Piece piece) {

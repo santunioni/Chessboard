@@ -46,10 +46,6 @@ public record Position(File file, Rank rank) {
   }
 
   public Optional<Direction> directionTo(Position that) {
-    return this.pathTo(that).map(Path::getDirection);
-  }
-
-  public Optional<Path> pathTo(Position that) {
     var fileDisplacement = this.file.distanceTo(that.file);
     var rankDisplacement = this.rank.distanceTo(that.rank);
 
@@ -59,32 +55,35 @@ public record Position(File file, Rank rank) {
 
     if (fileDisplacement.equals(0)) {
       return Optional.of(
-          new Path(this, rankDisplacement > 0 ? Direction.VERTICAL_UP : Direction.VERTICAL_DOWN,
-              Math.abs(rankDisplacement)));
+          rankDisplacement > 0 ? Direction.VERTICAL_UP : Direction.VERTICAL_DOWN);
     }
 
     if (rankDisplacement.equals(0)) {
-      return Optional.of(
-          new Path(this, fileDisplacement > 0 ? Direction.HORIZONTAL_RIGHT :
-              Direction.HORIZONTAL_LEFT,
-              Math.abs(fileDisplacement)));
+      return Optional.of(fileDisplacement > 0 ? Direction.HORIZONTAL_RIGHT :
+          Direction.HORIZONTAL_LEFT);
     }
 
     if (fileDisplacement.equals(rankDisplacement)) {
-      return Optional.of(
-          new Path(this, fileDisplacement > 0 ? Direction.DIAGONAL_UP_RIGHT :
-              Direction.DIAGONAL_DOWN_LEFT,
-              Math.abs(fileDisplacement)));
+      return Optional.of(fileDisplacement > 0 ? Direction.DIAGONAL_UP_RIGHT :
+          Direction.DIAGONAL_DOWN_LEFT);
     }
 
     if (fileDisplacement.equals(-rankDisplacement)) {
-      return Optional.of(
-          new Path(this, fileDisplacement > 0 ? Direction.DIAGONAL_DOWN_RIGHT :
-              Direction.DIAGONAL_UP_LEFT,
-              Math.abs(fileDisplacement)));
+      return Optional.of(fileDisplacement > 0 ? Direction.DIAGONAL_DOWN_RIGHT :
+          Direction.DIAGONAL_UP_LEFT);
     }
 
     return Optional.empty();
+  }
+
+  public int stepsTo(Position target) {
+    return Math.max(Math.abs(this.file.distanceTo(target.file)),
+        Math.abs(this.rank.distanceTo(target.rank)));
+  }
+
+  public Optional<Path> pathTo(Position target) {
+    return this.directionTo(target)
+        .map(direction -> new Path(this, direction, this.stepsTo(target)));
   }
 
   public Optional<Position> nextOn(Direction direction) {

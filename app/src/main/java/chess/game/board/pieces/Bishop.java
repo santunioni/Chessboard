@@ -2,8 +2,8 @@ package chess.game.board.pieces;
 
 import static chess.game.plays.PlayFunctions.collectDirectionalPlays;
 
-import chess.game.grid.BoardPathReachabilityAnalyzer;
 import chess.game.grid.Direction;
+import chess.game.grid.Path;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
 import java.util.HashSet;
@@ -16,12 +16,11 @@ public class Bishop extends Piece {
     super(color, PieceType.BISHOP);
   }
 
-  public boolean couldMoveToIfEmpty(Position position) {
-    return new BoardPathReachabilityAnalyzer(this.board).isReachableWalkingInOneOfDirections(
-        this.board.getMyPosition(),
-        Direction.diagonals(),
-        position
-    );
+  public boolean couldMoveToIfEmpty(Position target) {
+    var myPosition = this.board.getMyPosition();
+    return myPosition.directionTo(target).filter(Direction::isDiagonal).map(
+        direction -> new Path(myPosition, direction, myPosition.stepsTo(target) - 1).isClearOn(
+            this.board)).orElse(false);
   }
 
 

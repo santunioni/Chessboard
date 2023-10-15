@@ -2,6 +2,6 @@ package chess.game.board;
 
 import chess.game.grid.Position;
 
-public interface BoardPlacement extends BoardPieceAtPositionProvider {
+public interface BoardPlacement extends ReadonlyBoard {
   Position getMyPosition();
 }

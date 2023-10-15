@@ -1,6 +1,5 @@
 package chess.game.board.pieces;
 
-import chess.game.grid.BoardPathReachabilityAnalyzer;
 import chess.game.grid.Direction;
 import chess.game.grid.File;
 import chess.game.grid.Path;
@@ -20,8 +19,7 @@ public class Pawn extends Piece {
 
   public Pawn(Color color) {
     super(color, PieceType.PAWN);
-    this.walkDirection =
-        color == Color.WHITE ? Direction.VERTICAL_UP : Direction.VERTICAL_DOWN;
+    this.walkDirection = color == Color.WHITE ? Direction.VERTICAL_UP : Direction.VERTICAL_DOWN;
   }
 
   public static Rank getEnPassantRank(Color color) {
@@ -48,10 +46,17 @@ public class Pawn extends Piece {
         == (this.walkDirection == Direction.VERTICAL_UP ? 1 : -1);
   }
 
-  public boolean couldMoveToIfEmpty(Position position) {
-    return new BoardPathReachabilityAnalyzer(this.board).isReachableWalkingInOneOfDirections(
-        this.board.getMyPosition(), Set.of(this.walkDirection), position,
-        this.hasAlreadyMoved() ? 1 : 2);
+  public boolean couldMoveToIfEmpty(Position target) {
+    var myPosition = this.board.getMyPosition();
+    var stepsToTarget = myPosition.stepsTo(target);
+
+    if (myPosition.directionTo(target).filter(d -> d.equals(this.walkDirection)).isEmpty()
+        || (this.hasAlreadyMoved() && stepsToTarget > 1)) {
+      return false;
+    }
+
+    return new Path(myPosition, this.walkDirection,
+        stepsToTarget - 1).isClearOn(this.board);
   }
 
 

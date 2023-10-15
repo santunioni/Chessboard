@@ -2,8 +2,8 @@ package chess.game.board.pieces;
 
 import static chess.game.plays.PlayFunctions.collectDirectionalPlays;
 
-import chess.game.grid.BoardPathReachabilityAnalyzer;
 import chess.game.grid.Direction;
+import chess.game.grid.Path;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
 import java.util.HashSet;
@@ -21,12 +21,11 @@ public class Rook extends Piece {
     super(color, PieceType.ROOK);
   }
 
-  public boolean couldMoveToIfEmpty(Position enemyPosition) {
-    return new BoardPathReachabilityAnalyzer(this.board).isReachableWalkingInOneOfDirections(
-        this.board.getMyPosition(),
-        Rook.pathDirections,
-        enemyPosition
-    );
+  public boolean couldMoveToIfEmpty(Position target) {
+    var myPosition = this.board.getMyPosition();
+    return myPosition.directionTo(target).filter(Direction::isNotDiagonal).map(
+        direction -> new Path(myPosition, direction, myPosition.stepsTo(target) - 1).isClearOn(
+            this.board)).orElse(false);
   }
 
 

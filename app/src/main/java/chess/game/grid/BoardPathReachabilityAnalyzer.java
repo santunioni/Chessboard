@@ -1,13 +1,13 @@
 package chess.game.grid;
 
-import chess.game.board.BoardPieceAtPositionProvider;
+import chess.game.board.ReadonlyBoard;
 import java.util.Set;
 
 public class BoardPathReachabilityAnalyzer {
 
-  private final BoardPieceAtPositionProvider board;
+  private final ReadonlyBoard board;
 
-  public BoardPathReachabilityAnalyzer(BoardPieceAtPositionProvider board) {
+  public BoardPathReachabilityAnalyzer(ReadonlyBoard board) {
     this.board = board;
   }
 

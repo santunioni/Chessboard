@@ -1,6 +1,6 @@
 package chess.game.grid;
 
-import chess.game.board.Board;
+import chess.game.board.ReadonlyBoard;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -45,17 +45,20 @@ public class Path implements Iterable<Position> {
     };
   }
 
-  public Boolean isBlocked(Board board) {
+  public Boolean isBlockedOn(ReadonlyBoard board) {
+    if (this.maxSteps == 0) {
+      return false;
+    }
     for (var position : this) {
-      if (board.isOccupiedAt(position)) {
+      if (board.hasPieceAt(position)) {
         return true;
       }
     }
     return false;
   }
 
-  public Boolean isFree(Board board) {
-    return !this.isBlocked(board);
+  public Boolean isClearOn(ReadonlyBoard board) {
+    return !this.isBlockedOn(board);
   }
 
   public List<Position> toPositionList() {
