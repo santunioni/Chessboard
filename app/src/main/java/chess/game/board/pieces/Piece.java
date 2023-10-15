@@ -8,6 +8,7 @@ import chess.game.plays.Play;
 import chess.game.plays.validation.PlayValidationError;
 import chess.game.rules.PlayValidator;
 import chess.game.rules.validation.IlegalPlay;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,11 +30,9 @@ public abstract class Piece {
     return this.initialPosition;
   }
 
-  public boolean equals(Piece that) {
-    return this.board.equals(that.board)
-        && this.idInBoard().equals(that.idInBoard())
-        && this.specification.equals(that.specification);
-    // TODO: remove last line after removing legacy constructors from PieceFactory
+  @Override
+  public int hashCode() {
+    return Objects.hash(initialPosition, specification);
   }
 
   public Position currentPosition() {

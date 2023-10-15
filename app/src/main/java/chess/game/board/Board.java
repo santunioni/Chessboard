@@ -3,20 +3,22 @@ package chess.game.board;
 import chess.game.board.pieces.Piece;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
 public class Board implements ReadonlyBoard {
   private final UUID id;
-  private final HashMap<Position, Piece> currentPositionToPiece;
+  private final BiMap<Position, Piece> currentPositionToPiece;
   private final List<Play> stack;
 
-  public Board(UUID id, HashMap<Position, Piece> currentPositionToPiece, List<Play> stack) {
+  public Board(UUID id, BiMap<Position, Piece> currentPositionToPiece, List<Play> stack) {
     this.id = id;
     this.currentPositionToPiece = currentPositionToPiece;
     this.stack = stack;
@@ -24,7 +26,7 @@ public class Board implements ReadonlyBoard {
 
   public Board() {
     this.id = UUID.randomUUID();
-    this.currentPositionToPiece = new HashMap<>();
+    this.currentPositionToPiece = HashBiMap.create();
     this.stack = new ArrayList<>();
   }
 
@@ -58,6 +60,10 @@ public class Board implements ReadonlyBoard {
     }
   }
 
+  public Position getPositionOf(Piece piece) {
+    return this.currentPositionToPiece.inverse().get(piece);
+  }
+
   public Board copy() {
     var newState = new Board();
     this.currentPositionToPiece.forEach(
@@ -70,5 +76,10 @@ public class Board implements ReadonlyBoard {
       return this.id.equals(((Board) that).id);
     }
     return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return this.id.hashCode();
   }
 }

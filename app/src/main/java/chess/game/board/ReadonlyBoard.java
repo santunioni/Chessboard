@@ -46,16 +46,7 @@ public interface ReadonlyBoard {
     return this.getPieces().filter(p -> p.getValue().getSpecification().equals(spec));
   }
 
-  default Position getPositionOf(Piece piece) {
-    var piecesMatching = this.getPieces().filter(p -> p.getValue().equals(piece)).toList();
-    if (piecesMatching.isEmpty()) {
-      throw new RuntimeException("Piece not found in board");
-    }
-    if (piecesMatching.size() > 1) {
-      throw new RuntimeException("Piece found more than once in board");
-    }
-    return piecesMatching.get(0).getKey();
-  }
+  Position getPositionOf(Piece piece);
 
   default Optional<Piece> getSingleOf(PieceSpecification spec) {
     var pieces = this.getPieces(spec).toList();
