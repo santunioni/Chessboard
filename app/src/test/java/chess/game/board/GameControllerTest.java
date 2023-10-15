@@ -46,7 +46,7 @@ public class GameControllerTest {
 
 
   @Test
-  void shoudAllowBlackToCaptureWhiteOnItsTurn() throws PlayValidationError, IlegalPlay {
+  void shouldAllowBlackToCaptureWhiteOnItsTurn() throws PlayValidationError, IlegalPlay {
     // Given
     this.history.push(new Move(Color.WHITE, new Position("b1"), new Position("a1")));
     this.board.placePiece("a1", new Rook(Color.WHITE));

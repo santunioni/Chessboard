@@ -7,6 +7,7 @@ import chess.game.grid.Position;
 import chess.game.plays.validation.NoPieceAtPositionValidationError;
 import chess.game.plays.validation.PlayValidationError;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -35,14 +36,25 @@ public interface ReadonlyBoard {
     return this.getPieceAt(position).isPresent();
   }
 
-  Stream<Piece> getPieces();
+  Stream<Map.Entry<Position, Piece>> getPieces();
 
-  default Stream<Piece> getPieces(Color color) {
-    return this.getPieces().filter(p -> p.getSpecification().color().equals(color));
+  default Stream<Map.Entry<Position, Piece>> getPieces(Color color) {
+    return this.getPieces().filter(p -> p.getValue().getSpecification().color().equals(color));
   }
 
-  default Stream<Piece> getPieces(PieceSpecification spec) {
-    return this.getPieces().filter(p -> p.getSpecification().equals(spec));
+  default Stream<Map.Entry<Position, Piece>> getPieces(PieceSpecification spec) {
+    return this.getPieces().filter(p -> p.getValue().getSpecification().equals(spec));
+  }
+
+  default Position getPositionOf(Piece piece) {
+    var piecesMatching = this.getPieces().filter(p -> p.getValue().equals(piece)).toList();
+    if (piecesMatching.isEmpty()) {
+      throw new RuntimeException("Piece not found in board");
+    }
+    if (piecesMatching.size() > 1) {
+      throw new RuntimeException("Piece found more than once in board");
+    }
+    return piecesMatching.get(0).getKey();
   }
 
   default Optional<Piece> getSingleOf(PieceSpecification spec) {
@@ -50,12 +62,13 @@ public interface ReadonlyBoard {
     if (pieces.size() != 1) {
       return Optional.empty();
     }
-    return Optional.of(pieces.get(0));
+    return Optional.of(pieces.get(0).getValue());
   }
 
   default boolean isPositionThreatenedBy(Position at, Color color) {
-    for (Iterator<Piece> it = this.getPieces(color).iterator(); it.hasNext(); ) {
-      var piece = it.next();
+    for (Iterator<Map.Entry<Position, Piece>> it = this.getPieces(color).iterator();
+         it.hasNext(); ) {
+      var piece = it.next().getValue();
       if (piece.couldCaptureEnemyAt(at)) {
         return true;
       }

@@ -1,8 +1,8 @@
 package chess.game.board.pieces;
 
 import chess.game.board.Board;
-import chess.game.board.BoardPlacement;
 import chess.game.board.PlayHistory;
+import chess.game.board.ReadonlyBoard;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
 import chess.game.plays.validation.PlayValidationError;
@@ -18,7 +18,7 @@ public abstract class Piece {
    */
   private final Position initialPosition;
   private final PieceSpecification specification;
-  protected BoardPlacement board;
+  protected ReadonlyBoard board;
 
   public Piece(Position initialPosition, Color color, PieceType pieceType) {
     this.initialPosition = initialPosition;
@@ -29,12 +29,19 @@ public abstract class Piece {
     return this.initialPosition;
   }
 
-  public Position currentPosition() {
-    return this.board.getMyPosition();
+  public boolean equals(Piece that) {
+    return this.board.equals(that.board)
+        && this.idInBoard().equals(that.idInBoard())
+        && this.specification.equals(that.specification);
+    // TODO: remove last line after removing legacy constructors from PieceFactory
   }
 
-  public void placeInBoard(BoardPlacement boardPlacement) {
-    this.board = boardPlacement;
+  public Position currentPosition() {
+    return this.board.getPositionOf(this);
+  }
+
+  public void placeInBoard(ReadonlyBoard board) {
+    this.board = board;
   }
 
   public PieceSpecification getSpecification() {
@@ -58,14 +65,13 @@ public abstract class Piece {
   protected abstract Set<Play> getPossiblePlays();
 
   public Set<Play> getPlays(Board state, PlayHistory history) {
-    return this.getPossiblePlays().stream()
-        .filter(play -> {
-          try {
-            new PlayValidator(state, history).validateNextPlay(play);
-            return true;
-          } catch (IlegalPlay | PlayValidationError ignored) {
-            return false;
-          }
-        }).collect(Collectors.toSet());
+    return this.getPossiblePlays().stream().filter(play -> {
+      try {
+        new PlayValidator(state, history).validateNextPlay(play);
+        return true;
+      } catch (IlegalPlay | PlayValidationError ignored) {
+        return false;
+      }
+    }).collect(Collectors.toSet());
   }
 }

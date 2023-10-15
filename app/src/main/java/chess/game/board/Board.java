@@ -6,6 +6,7 @@ import chess.game.plays.Play;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -31,29 +32,14 @@ public class Board implements ReadonlyBoard {
     return Optional.ofNullable(currentPositionToPiece.get(position));
   }
 
-  public Stream<Piece> getPieces() {
-    return this.currentPositionToPiece.values().stream();
+  public Stream<Map.Entry<Position, Piece>> getPieces() {
+    return this.currentPositionToPiece.entrySet().stream();
   }
 
   public void placePiece(Position position, Piece piece) {
     this.removePieceFromSquare(position);
     this.currentPositionToPiece.put(position, piece);
-    piece.placeInBoard(new BoardPlacement() {
-
-
-      public Position getMyPosition() {
-        return position;
-      }
-
-      public Optional<Piece> getPieceAt(Position position) {
-        return Board.this.getPieceAt(position);
-      }
-
-      @Override
-      public Stream<Piece> getPieces() {
-        return Board.this.getPieces();
-      }
-    });
+    piece.placeInBoard(this);
   }
 
   public void placePiece(String position, Piece piece) {

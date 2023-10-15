@@ -48,7 +48,7 @@ public class MoveTest {
   @Test
   void shouldNotDisplaceToPositionOccupiedByAlly() {
     board.placePiece("e2", new Queen(Color.BLACK));
-    board.placePiece("e4", new Queen(Color.BLACK));
+    board.placePiece("e4", new Pawn(Color.BLACK));
 
     var move = new Move(Color.BLACK, new Position("e2"), new Position("e4"));
 
