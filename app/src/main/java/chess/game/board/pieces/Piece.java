@@ -20,6 +20,10 @@ public abstract class Piece {
     this.specification = new PieceSpecification(color, pieceType);
   }
 
+  protected Position getMyPosition() {
+    return this.board.getMyPosition();
+  }
+
   public void placeInBoard(BoardPlacement boardPlacement) {
     this.board = boardPlacement;
   }

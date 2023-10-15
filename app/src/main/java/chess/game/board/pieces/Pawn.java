@@ -31,11 +31,11 @@ public class Pawn extends Piece {
   }
 
   private boolean hasAlreadyMoved() {
-    return this.board.getMyPosition().rank() != getStartRank(this.getSpecification().color());
+    return this.getMyPosition().rank() != getStartRank(this.getSpecification().color());
   }
 
   public boolean couldCaptureEnemyAt(Position enemyPosition) {
-    var myPosition = this.board.getMyPosition();
+    var myPosition = this.getMyPosition();
 
     if (Math.abs(myPosition.rank().distanceTo(enemyPosition.rank())) != 1
         || Math.abs(myPosition.file().distanceTo(enemyPosition.file())) != 1) {
@@ -47,7 +47,7 @@ public class Pawn extends Piece {
   }
 
   public boolean couldMoveToIfEmpty(Position target) {
-    var myPosition = this.board.getMyPosition();
+    var myPosition = this.getMyPosition();
     var stepsToTarget = myPosition.stepsTo(target);
 
     if (myPosition.directionTo(target).filter(d -> d.equals(this.walkDirection)).isEmpty()
@@ -67,7 +67,7 @@ public class Pawn extends Piece {
   protected Set<Play> getPossiblePlays() {
     var plays = new HashSet<Play>();
 
-    var from = this.board.getMyPosition();
+    var from = this.getMyPosition();
     for (var verticalDisplacedPosition : new Path(from, this.walkDirection, 2)) {
       for (var horizontalDiff : List.of(-1, 0, 1)) {
         var fileOptional =

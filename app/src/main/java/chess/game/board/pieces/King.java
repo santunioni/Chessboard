@@ -20,7 +20,7 @@ public class King extends Piece {
   }
 
   public boolean couldMoveToIfEmpty(Position position) {
-    return this.board.getMyPosition().isNeighborTo(position);
+    return this.getMyPosition().isNeighborTo(position);
   }
 
 

@@ -22,7 +22,7 @@ public class Rook extends Piece {
   }
 
   public boolean couldMoveToIfEmpty(Position target) {
-    var myPosition = this.board.getMyPosition();
+    var myPosition = this.getMyPosition();
     return myPosition.directionTo(target).filter(Direction::isNotDiagonal).map(
         direction -> new Path(myPosition, direction, myPosition.stepsTo(target) - 1).isClearOn(
             this.board)).orElse(false);
