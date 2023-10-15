@@ -22,6 +22,10 @@ public class Board implements BoardPieceAtPositionProvider {
     return Optional.ofNullable(currentPositionToPiece.get(position));
   }
 
+  public Boolean isOccupiedAt(Position position) {
+    return this.getPieceAt(position).isPresent();
+  }
+
   public Optional<Position> getPositionOf(Piece piece) {
     for (var entry : this.currentPositionToPiece.entrySet()) {
       if (entry.getValue().equals(piece)) {

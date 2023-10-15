@@ -3,6 +3,7 @@ package chess.game.grid;
 
 import java.util.Iterator;
 import java.util.Optional;
+import javax.annotation.Nonnull;
 
 public record Position(File file, Rank rank) {
   public Position(String position) {
@@ -16,17 +17,18 @@ public record Position(File file, Rank rank) {
 
   public static Iterable<Position> values() {
     return new Iterable<>() {
+      @Nonnull
       public Iterator<Position> iterator() {
         return new Iterator<>() {
-          private int nextposition = 0;
+          private int nextPosition = 0;
 
           public boolean hasNext() {
-            return this.nextposition < 64;
+            return this.nextPosition < 64;
           }
 
           public Position next() {
-            var position = Position.fromIndex(this.nextposition);
-            this.nextposition += 1;
+            var position = Position.fromIndex(this.nextPosition);
+            this.nextPosition += 1;
             return position;
           }
         };
@@ -44,6 +46,10 @@ public record Position(File file, Rank rank) {
   }
 
   public Optional<Direction> directionTo(Position that) {
+    return this.pathTo(that).map(Path::getDirection);
+  }
+
+  public Optional<Path> pathTo(Position that) {
     var fileDisplacement = this.file.distanceTo(that.file);
     var rankDisplacement = this.rank.distanceTo(that.rank);
 
@@ -53,22 +59,29 @@ public record Position(File file, Rank rank) {
 
     if (fileDisplacement.equals(0)) {
       return Optional.of(
-          rankDisplacement > 0 ? Direction.VERTICAL_UP : Direction.VERTICAL_DOWN);
+          new Path(this, rankDisplacement > 0 ? Direction.VERTICAL_UP : Direction.VERTICAL_DOWN,
+              Math.abs(rankDisplacement)));
     }
 
     if (rankDisplacement.equals(0)) {
-      return Optional.of(fileDisplacement > 0 ? Direction.HORIZONTAL_RIGHT :
-          Direction.HORIZONTAL_LEFT);
+      return Optional.of(
+          new Path(this, fileDisplacement > 0 ? Direction.HORIZONTAL_RIGHT :
+              Direction.HORIZONTAL_LEFT,
+              Math.abs(fileDisplacement)));
     }
 
     if (fileDisplacement.equals(rankDisplacement)) {
-      return Optional.of(fileDisplacement > 0 ? Direction.DIAGONAL_UP_RIGHT :
-          Direction.DIAGONAL_DOWN_LEFT);
+      return Optional.of(
+          new Path(this, fileDisplacement > 0 ? Direction.DIAGONAL_UP_RIGHT :
+              Direction.DIAGONAL_DOWN_LEFT,
+              Math.abs(fileDisplacement)));
     }
 
     if (fileDisplacement.equals(-rankDisplacement)) {
-      return Optional.of(fileDisplacement > 0 ? Direction.DIAGONAL_DOWN_RIGHT :
-          Direction.DIAGONAL_UP_LEFT);
+      return Optional.of(
+          new Path(this, fileDisplacement > 0 ? Direction.DIAGONAL_DOWN_RIGHT :
+              Direction.DIAGONAL_UP_LEFT,
+              Math.abs(fileDisplacement)));
     }
 
     return Optional.empty();

@@ -1,5 +1,6 @@
 package chess.game.grid;
 
+import chess.game.board.Board;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,24 +9,28 @@ import javax.annotation.Nonnull;
 
 public class Path implements Iterable<Position> {
 
-  private final Position position;
+  private final Position from;
   private final Direction direction;
   private final int maxSteps;
 
-  public Path(Position position, Direction direction, int maxSteps) {
-    this.position = position;
+  public Path(Position from, Direction direction, int maxSteps) {
+    this.from = from;
     this.direction = direction;
     this.maxSteps = maxSteps;
   }
 
-  public Path(Position position, Direction direction) {
-    this(position, direction, 8);
+  public Path(Position from, Direction direction) {
+    this(from, direction, 8);
+  }
+
+  public Direction getDirection() {
+    return direction;
   }
 
   @Nonnull
   public Iterator<Position> iterator() {
     return new Iterator<>() {
-      private Position position = Path.this.position;
+      private Position position = Path.this.from;
       private int stepsLeft = Path.this.maxSteps;
 
       public boolean hasNext() {
@@ -38,6 +43,19 @@ public class Path implements Iterable<Position> {
         return this.position;
       }
     };
+  }
+
+  public Boolean isBlocked(Board board) {
+    for (var position : this) {
+      if (board.isOccupiedAt(position)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public Boolean isFree(Board board) {
+    return !this.isBlocked(board);
   }
 
   public List<Position> toPositionList() {
