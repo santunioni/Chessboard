@@ -1,7 +1,5 @@
 package chess.game.plays;
 
-import static chess.game.plays.PlayFunctions.getPawnOrThrown;
-
 import chess.game.board.Board;
 import chess.game.board.PlayHistory;
 import chess.game.board.pieces.Color;
@@ -18,7 +16,7 @@ public record EnPassant(Color color, Position from, Position to) implements Play
                                                      PlayHistory playHistory,
                                                      Position victimPosition)
       throws PlayValidationError {
-    var victim = getPawnOrThrown(board, this.color.opposite(), victimPosition);
+    var victim = board.getPawnOrThrown(victimPosition, this.color.opposite());
     var lastPlay = playHistory.getLastPlay()
         .orElseThrow(() -> new PlayValidationError("En Passant cant be the first play."));
     var pawnJumpingTwoSquares = new Move(
@@ -35,7 +33,7 @@ public record EnPassant(Color color, Position from, Position to) implements Play
       throw new CantEnPassantOnInvalidRank(color);
     }
 
-    var attacker = getPawnOrThrown(board, this.color, this.from);
+    var attacker = board.getPawnOrThrown(this.from, this.color);
 
     if (!attacker.couldCaptureEnemyAt(to)) {
       throw new CapturePatternNotAllowedValidationError(attacker, from, to);

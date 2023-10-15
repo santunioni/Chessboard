@@ -1,8 +1,6 @@
 package chess.game.plays;
 
 
-import static chess.game.plays.PlayFunctions.getPieceFromBoard;
-
 import chess.game.board.Board;
 import chess.game.board.PlayHistory;
 import chess.game.board.pieces.Color;
@@ -22,7 +20,7 @@ public record Move(Color color, Position from, Position to) implements Play {
 
   public Runnable validateAndGetAction(Board board, PlayHistory playHistory)
       throws PlayValidationError {
-    var piece = getPieceFromBoard(color, from, board);
+    var piece = board.getPieceAtOrThrown(from, color);
 
     if (!piece.couldMoveToIfEmpty(to)) {
       throw new MovePatternNotAllowedValidationError(piece, from, to);

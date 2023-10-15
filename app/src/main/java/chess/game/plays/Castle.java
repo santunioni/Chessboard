@@ -1,7 +1,5 @@
 package chess.game.plays;
 
-import static chess.game.plays.PlayFunctions.isPositionThreatenedBy;
-
 import chess.game.board.Board;
 import chess.game.board.PlayHistory;
 import chess.game.board.pieces.Color;
@@ -70,11 +68,11 @@ public record Castle(Color color, Position to) implements Play {
       throw new CantCastleOverOccupiedSquares(this.color, this.to);
     }
 
-    if (isPositionThreatenedBy(board, kingPosition, this.color.opposite())) {
+    if (board.isPositionThreatenedBy(kingPosition, this.color.opposite())) {
       throw new CantCastleWhileInCheck(this.color);
     }
 
-    if (isPositionThreatenedBy(board, kingFirstStep, this.color.opposite())) {
+    if (board.isPositionThreatenedBy(kingFirstStep, this.color.opposite())) {
       throw new CantCastleWhilePassingThroughCheck(this.color, this.to);
     }
 

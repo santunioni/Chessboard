@@ -2,7 +2,6 @@ package chess.game.board;
 
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Piece;
-import chess.game.board.pieces.PieceSpecification;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
 import java.util.ArrayList;
@@ -22,19 +21,15 @@ public class Board implements ReadonlyBoard {
     return Optional.ofNullable(currentPositionToPiece.get(position));
   }
 
-  public Optional<Position> getPositionOf(Piece piece) {
-    for (var entry : this.currentPositionToPiece.entrySet()) {
-      if (entry.getValue().equals(piece)) {
-        return Optional.of(entry.getKey());
-      }
-    }
-    return Optional.empty();
-  }
-
   public void placePiece(Position position, Piece piece) {
     this.removePieceFromSquare(position);
     this.currentPositionToPiece.put(position, piece);
     piece.placeInBoard(new BoardPlacement() {
+      @Override
+      public List<Piece> getPiecesOf(Color player) {
+        return Board.this.getPiecesOf(player);
+      }
+
       public Position getMyPosition() {
         return position;
       }
@@ -62,16 +57,6 @@ public class Board implements ReadonlyBoard {
     this.currentPositionToPiece.forEach(
         ((position, piece) -> newState.placePiece(position, piece.copy())));
     return newState;
-  }
-
-  public List<Position> findPositionsWithPiece(PieceSpecification piece) {
-    var positions = new ArrayList<Position>();
-    for (var entry : this.currentPositionToPiece.entrySet()) {
-      if (entry.getValue().getSpecification().equals(piece)) {
-        positions.add(entry.getKey());
-      }
-    }
-    return positions;
   }
 
   public List<Piece> getPiecesOf(Color player) {

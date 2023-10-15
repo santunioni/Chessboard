@@ -17,7 +17,7 @@ public class Knight extends Piece {
 
 
   public boolean couldMoveToIfEmpty(Position position) {
-    var myPosition = this.getMyPosition();
+    var myPosition = this.currentPosition();
     var horizontalDistance = Math.abs(myPosition.file().distanceTo(position.file()));
     var verticalDistance = Math.abs(myPosition.rank().distanceTo(position.rank()));
     return (horizontalDistance == 1 && verticalDistance == 2)
@@ -30,13 +30,13 @@ public class Knight extends Piece {
     for (var horizontalJump : List.of(-2, -1, 1, 2)) {
       for (var verticalJump : List.of(-2, -1, 1, 2)) {
         var targetPositionIndex =
-            this.getMyPosition().toIndex() + horizontalJump + 8 * verticalJump;
+            this.currentPosition().toIndex() + horizontalJump + 8 * verticalJump;
         if (0 <= targetPositionIndex && targetPositionIndex <= 63) {
           var targetPosition = Position.fromIndex(targetPositionIndex);
           if (this.couldMoveToIfEmpty(targetPosition)) {
-            plays.add(new Move(this.getSpecification().color(), this.getMyPosition(),
+            plays.add(new Move(this.getSpecification().color(), this.currentPosition(),
                 targetPosition));
-            plays.add(new Capture(this.getSpecification().color(), this.getMyPosition(),
+            plays.add(new Capture(this.getSpecification().color(), this.currentPosition(),
                 targetPosition));
           }
         }

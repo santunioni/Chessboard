@@ -17,7 +17,7 @@ public class Bishop extends Piece {
   }
 
   public boolean couldMoveToIfEmpty(Position target) {
-    var myPosition = this.getMyPosition();
+    var myPosition = this.currentPosition();
     return myPosition.directionTo(target).filter(Direction::isDiagonal).map(
         direction -> new Path(myPosition, direction, myPosition.stepsTo(target) - 1).isClearOn(
             this.board)).orElse(false);

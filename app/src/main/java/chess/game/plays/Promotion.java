@@ -1,7 +1,5 @@
 package chess.game.plays;
 
-import static chess.game.plays.PlayFunctions.getPawnOrThrown;
-
 import chess.game.board.Board;
 import chess.game.board.PlayHistory;
 import chess.game.board.pieces.Bishop;
@@ -29,7 +27,7 @@ public record Promotion(Color color, Position at, PieceType to) implements Play 
       throw new PlayValidationError(this.color + " can only promote at " + expectedRank);
     }
 
-    getPawnOrThrown(board, this.color, this.at);
+    board.getPawnOrThrown(this.at, this.color);
 
     var newPiece = switch (this.to) {
       case ROOK -> new Rook(this.color);

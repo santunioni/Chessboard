@@ -20,7 +20,7 @@ public abstract class Piece {
     this.specification = new PieceSpecification(color, pieceType);
   }
 
-  protected Position getMyPosition() {
+  public Position currentPosition() {
     return this.board.getMyPosition();
   }
 
