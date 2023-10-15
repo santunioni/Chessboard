@@ -3,7 +3,6 @@ package chess.game.board;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Piece;
 import chess.game.board.pieces.PieceSpecification;
-import chess.game.board.pieces.PieceType;
 import chess.game.grid.Position;
 import chess.game.plays.validation.NoPieceAtPositionValidationError;
 import chess.game.plays.validation.PieceAtPositionIsOfUnexpectedColorValidationError;
@@ -47,14 +46,10 @@ public interface ReadonlyBoard {
     return piece;
   }
 
-  default Piece getPawnOrThrown(Position at, Color expectedColor) throws PlayValidationError {
-    var piece = this.getPieceAtOrThrown(at, expectedColor);
-
-    if (piece.getSpecification().pieceType() != PieceType.PAWN) {
-      throw new PlayValidationError("Piece is not a pawn");
-    }
-
-    return piece;
+  default Piece getPieceAtOrThrown(Position at, PieceSpecification spec)
+      throws PlayValidationError {
+    return this.getPieceAt(at).filter(piece -> piece.getSpecification().equals(spec))
+        .orElseThrow(() -> new NoPieceAtPositionValidationError(at));
   }
 
   default boolean isPositionThreatenedBy(Position at, Color color) {

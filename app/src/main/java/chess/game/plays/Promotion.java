@@ -5,6 +5,7 @@ import chess.game.board.PlayHistory;
 import chess.game.board.pieces.Bishop;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Knight;
+import chess.game.board.pieces.PieceSpecification;
 import chess.game.board.pieces.PieceType;
 import chess.game.board.pieces.Queen;
 import chess.game.board.pieces.Rook;
@@ -27,7 +28,7 @@ public record Promotion(Color color, Position at, PieceType to) implements Play 
       throw new PlayValidationError(this.color + " can only promote at " + expectedRank);
     }
 
-    board.getPawnOrThrown(this.at, this.color);
+    board.getPieceAtOrThrown(this.at, new PieceSpecification(this.color, PieceType.PAWN));
 
     var newPiece = switch (this.to) {
       case ROOK -> new Rook(this.color);
