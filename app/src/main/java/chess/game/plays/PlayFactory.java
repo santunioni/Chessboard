@@ -7,7 +7,7 @@ import chess.game.plays.validation.PlayValidationError;
 
 public class PlayFactory {
 
-  public static Play createPlayFromLongAlgebraicNotation(String algebraic)
+  public static Play createPlayFromLongAlgebraicNotation(Color color, String algebraic)
       throws PlayValidationError {
     final char pieceTypeChar = algebraic.charAt(0);
     final PieceType pieceType = switch (pieceTypeChar) {
@@ -19,7 +19,6 @@ public class PlayFactory {
       case 'P', 'p' -> PieceType.PAWN;
       default -> throw new PlayValidationError("Unexpected value: " + algebraic);
     };
-    final Color color = Character.isUpperCase(pieceTypeChar) ? Color.WHITE : Color.BLACK;
 
     final Position from = new Position(algebraic.substring(1, 3));
     final char move = algebraic.charAt(3);
