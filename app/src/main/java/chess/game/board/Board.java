@@ -7,11 +7,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 public class Board implements ReadonlyBoard {
-  private final HashMap<Position, Piece> currentPositionToPiece = new HashMap<>();
-  private final List<Play> stack = new ArrayList<>();
+  private final UUID id;
+  private final HashMap<Position, Piece> currentPositionToPiece;
+  private final List<Play> stack;
+
+  public Board(UUID id, HashMap<Position, Piece> currentPositionToPiece, List<Play> stack) {
+    this.id = id;
+    this.currentPositionToPiece = currentPositionToPiece;
+    this.stack = stack;
+  }
+
+  public Board() {
+    this.id = UUID.randomUUID();
+    this.currentPositionToPiece = new HashMap<>();
+    this.stack = new ArrayList<>();
+  }
 
   public Optional<Piece> getPieceAt(Position position) {
     return Optional.ofNullable(currentPositionToPiece.get(position));
@@ -59,5 +73,12 @@ public class Board implements ReadonlyBoard {
     this.currentPositionToPiece.forEach(
         ((position, piece) -> newState.placePiece(position, piece.copy())));
     return newState;
+  }
+
+  public boolean equals(Object that) {
+    if (that instanceof Board) {
+      return this.id.equals(((Board) that).id);
+    }
+    return false;
   }
 }

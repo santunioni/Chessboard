@@ -11,6 +11,8 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public interface ReadonlyBoard {
+  boolean equals(Object that);
+
   Optional<Piece> getPieceAt(Position position);
 
   default Optional<Piece> getPieceAt(String position) {
