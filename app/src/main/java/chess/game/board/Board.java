@@ -1,6 +1,5 @@
 package chess.game.board;
 
-import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Piece;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
@@ -8,27 +7,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class Board implements ReadonlyBoard {
   private final HashMap<Position, Piece> currentPositionToPiece = new HashMap<>();
   private final List<Play> stack = new ArrayList<>();
 
-  public Optional<Piece> getPieceAt(String position) {
-    return this.getPieceAt(new Position(position));
-  }
-
   public Optional<Piece> getPieceAt(Position position) {
     return Optional.ofNullable(currentPositionToPiece.get(position));
+  }
+
+  public Stream<Piece> getPieces() {
+    return this.currentPositionToPiece.values().stream();
   }
 
   public void placePiece(Position position, Piece piece) {
     this.removePieceFromSquare(position);
     this.currentPositionToPiece.put(position, piece);
     piece.placeInBoard(new BoardPlacement() {
-      @Override
-      public List<Piece> getPiecesOf(Color player) {
-        return Board.this.getPiecesOf(player);
-      }
+
 
       public Position getMyPosition() {
         return position;
@@ -36,6 +33,11 @@ public class Board implements ReadonlyBoard {
 
       public Optional<Piece> getPieceAt(Position position) {
         return Board.this.getPieceAt(position);
+      }
+
+      @Override
+      public Stream<Piece> getPieces() {
+        return Board.this.getPieces();
       }
     });
   }
@@ -57,15 +59,5 @@ public class Board implements ReadonlyBoard {
     this.currentPositionToPiece.forEach(
         ((position, piece) -> newState.placePiece(position, piece.copy())));
     return newState;
-  }
-
-  public List<Piece> getPiecesOf(Color player) {
-    List<Piece> pieces = new ArrayList<>();
-    for (var entry : this.currentPositionToPiece.entrySet()) {
-      if (entry.getValue().getSpecification().color().equals(player)) {
-        pieces.add(entry.getValue());
-      }
-    }
-    return pieces;
   }
 }
