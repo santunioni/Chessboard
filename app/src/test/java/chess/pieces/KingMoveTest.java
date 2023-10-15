@@ -3,13 +3,17 @@ package chess.pieces;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import chess.game.board.Board;
-import chess.game.board.PlayHistory;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.King;
 import chess.game.board.pieces.Pawn;
 import chess.game.grid.Position;
 import chess.game.plays.Move;
+import chess.game.plays.Play;
+import com.google.common.collect.HashBiMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,17 +21,17 @@ import org.junit.jupiter.api.Test;
 public class KingMoveTest {
 
   private Board board;
-  private PlayHistory history;
+  private List<Play> stack;
 
 
   @BeforeEach
   void setUp() {
-    this.board = new Board();
-    this.history = new PlayHistory();
+    this.stack = new ArrayList<>();
+    this.board = new Board(UUID.randomUUID().toString(), HashBiMap.create(), stack);
   }
 
   private void forwardToBlackTurn() {
-    this.history.push(new Move(Color.WHITE, new Position("h7"), new Position("h8")));
+    this.stack.add(new Move(Color.WHITE, new Position("h7"), new Position("h8")));
   }
 
   @Test
@@ -49,7 +53,7 @@ public class KingMoveTest {
         new Move(Color.BLACK, new Position("d4"), new Position("e5"))
     );
 
-    assertEquals(expectedValidMoves, king.getPlays(board, history));
+    assertEquals(expectedValidMoves, king.getPlays(board));
   }
 
   @Test
@@ -66,7 +70,7 @@ public class KingMoveTest {
         new Move(Color.WHITE, new Position("e1"), new Position("f2"))
     );
 
-    assertEquals(expectedValidMoves, king.getPlays(board, history));
+    assertEquals(expectedValidMoves, king.getPlays(board));
   }
 
   @Test
@@ -80,7 +84,7 @@ public class KingMoveTest {
         new Move(Color.WHITE, new Position("a1"), new Position("b2"))
     );
 
-    assertEquals(expectedValidMoves, king.getPlays(board, history));
+    assertEquals(expectedValidMoves, king.getPlays(board));
   }
 
   @Test
@@ -94,6 +98,6 @@ public class KingMoveTest {
         new Move(Color.WHITE, new Position("a1"), new Position("b1"))
     );
 
-    assertEquals(expectedValidMoves, king.getPlays(board, history));
+    assertEquals(expectedValidMoves, king.getPlays(board));
   }
 }

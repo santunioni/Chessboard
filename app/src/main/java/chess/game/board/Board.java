@@ -3,6 +3,7 @@ package chess.game.board;
 import chess.game.board.pieces.Piece;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
+import chess.game.plays.validation.PlayValidationError;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import java.util.ArrayList;
@@ -80,5 +81,21 @@ public class Board implements ReadonlyBoard {
   @Override
   public int hashCode() {
     return this.id.hashCode();
+  }
+
+  public void makePlay(Play play) throws PlayValidationError {
+    play.validateAndGetAction(this).run();
+    this.stack.add(play);
+  }
+
+  public Optional<Play> getLastPlay() {
+    if (!this.stack.isEmpty()) {
+      return Optional.of(this.stack.get(this.stack.size() - 1));
+    }
+    return Optional.empty();
+  }
+
+  public Iterable<Play> history() {
+    return this.stack;
   }
 }

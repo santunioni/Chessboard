@@ -1,7 +1,6 @@
 package chess.game.plays;
 
 import chess.game.board.Board;
-import chess.game.board.PlayHistory;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.King;
 import chess.game.board.pieces.Piece;
@@ -50,7 +49,7 @@ public record Castle(Color color, Position to) implements Play {
     return this.to;
   }
 
-  public Runnable validateAndGetAction(Board board, PlayHistory playHistory)
+  public Runnable validateAndGetAction(Board board)
       throws PlayValidationError {
     final Position rookPosition = this.getRookPosition(board);
     final Position kingPosition = this.getKingPosition(board);
@@ -76,7 +75,7 @@ public record Castle(Color color, Position to) implements Play {
       throw new CantCastleWhilePassingThroughCheck(this.color, this.to);
     }
 
-    for (Play oldPlay : playHistory) {
+    for (Play oldPlay : board.history()) {
       PlayDto oldPlayDto = oldPlay.toDto();
       if (oldPlayDto.getFrom().equals(kingPosition)) {
         throw new CantCastleOnKingThatAlreadyMoved(this.color);
@@ -91,7 +90,6 @@ public record Castle(Color color, Position to) implements Play {
       board.removePieceFromSquare(rookPosition);
       board.placePiece(kingFirstStep, rook);
       board.placePiece(kingSecondStep, king);
-      playHistory.push(this);
     };
   }
 

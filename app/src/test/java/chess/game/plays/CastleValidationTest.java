@@ -3,7 +3,6 @@ package chess.game.plays;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import chess.game.board.Board;
-import chess.game.board.PlayHistory;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.King;
 import chess.game.board.pieces.Rook;
@@ -16,12 +15,10 @@ import org.junit.jupiter.api.Test;
 
 public class CastleValidationTest {
   private Board board;
-  private PlayHistory history;
 
   @BeforeEach
   void setUp() {
     this.board = new Board();
-    this.history = new PlayHistory();
   }
 
   @Test
@@ -34,7 +31,7 @@ public class CastleValidationTest {
     var castle = new Castle(Color.WHITE, new Position("h1"));
 
     // Then
-    assertThrows(CantCastleOnKingThatAlreadyMoved.class, () -> castle.actOn(board, history));
+    assertThrows(CantCastleOnKingThatAlreadyMoved.class, () -> castle.actOn(board));
   }
 
   @Test
@@ -47,7 +44,7 @@ public class CastleValidationTest {
     var castle = new Castle(Color.WHITE, new Position("h1"));
 
     // Then
-    assertThrows(CantCastleOnRookThatAlreadyMoved.class, () -> castle.actOn(board, history));
+    assertThrows(CantCastleOnRookThatAlreadyMoved.class, () -> castle.actOn(board));
   }
 
   @Test
@@ -60,6 +57,6 @@ public class CastleValidationTest {
     var castle = new Castle(Color.WHITE, new Position("h2"));
 
     // Then
-    assertThrows(CantCastleToInvalidPosition.class, () -> castle.actOn(board, history));
+    assertThrows(CantCastleToInvalidPosition.class, () -> castle.actOn(board));
   }
 }

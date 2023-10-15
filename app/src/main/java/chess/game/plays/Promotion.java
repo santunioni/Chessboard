@@ -1,7 +1,6 @@
 package chess.game.plays;
 
 import chess.game.board.Board;
-import chess.game.board.PlayHistory;
 import chess.game.board.pieces.Bishop;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Knight;
@@ -21,7 +20,7 @@ public record Promotion(Color color, Position at, PieceType to) implements Play 
   }
 
   @Override
-  public Runnable validateAndGetAction(Board board, PlayHistory playHistory)
+  public Runnable validateAndGetAction(Board board)
       throws PlayValidationError {
     var expectedRank = getPromotionRankForColor(color);
 

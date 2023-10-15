@@ -19,11 +19,9 @@ import java.util.stream.Collectors;
  */
 public class GameController {
   private final Board board;
-  private final PlayHistory history;
 
-  public GameController(Board board, PlayHistory history) {
+  public GameController(Board board) {
     this.board = board;
-    this.history = history;
   }
 
   public Optional<PieceSpecification> getPieceAt(Position position) {
@@ -37,13 +35,13 @@ public class GameController {
 
   public List<PlayDto> getPlaysFor(Position position) {
     var playingPieceOptional = this.board.getPieceAt(position);
-    return playingPieceOptional.map(piece -> piece.getPlays(this.board, this.history))
+    return playingPieceOptional.map(piece -> piece.getPlays(this.board))
         .orElse(new HashSet<>()).stream().map(Play::toDto).collect(Collectors.toList());
   }
 
   public void makePlay(PlayDto playDto) throws PlayValidationError, IlegalPlay {
     var play = new PlayDtoToPlayMapper(this.board).createPlayFromDto(playDto);
-    new PlayValidator(this.board, this.history).validateNextPlay(play);
-    play.actOn(this.board, this.history);
+    new PlayValidator(this.board).validateNextPlay(play);
+    play.actOn(this.board);
   }
 }

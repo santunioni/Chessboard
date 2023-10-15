@@ -1,7 +1,6 @@
 package chess.game.plays;
 
 import chess.game.board.Board;
-import chess.game.board.PlayHistory;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Pawn;
 import chess.game.board.pieces.PieceSpecification;
@@ -16,13 +15,12 @@ import chess.game.plays.validation.PlayValidationError;
 public record EnPassant(Color color, Position from, Position to) implements Play {
 
   private boolean hasVictimJumpedTwoSquaresLastRound(Board board,
-                                                     PlayHistory playHistory,
                                                      Position victimPosition)
       throws PlayValidationError {
     var victim = board.getPieceAt(victimPosition,
             new PieceSpecification(this.color.opposite(), PieceType.PAWN))
         .orElseThrow(() -> new NoPieceAtPositionValidationError(victimPosition));
-    var lastPlay = playHistory.getLastPlay()
+    var lastPlay = board.getLastPlay()
         .orElseThrow(() -> new PlayValidationError("En Passant cant be the first play."));
     var pawnJumpingTwoSquares = new Move(
         this.color.opposite(),
@@ -32,7 +30,7 @@ public record EnPassant(Color color, Position from, Position to) implements Play
     return lastPlay.equals(pawnJumpingTwoSquares);
   }
 
-  public Runnable validateAndGetAction(Board board, PlayHistory playHistory)
+  public Runnable validateAndGetAction(Board board)
       throws PlayValidationError {
     if (Pawn.getEnPassantRank(color) != from.rank()) {
       throw new CantEnPassantOnInvalidRank(color);
@@ -47,7 +45,7 @@ public record EnPassant(Color color, Position from, Position to) implements Play
     }
 
     var victimPosition = new Position(this.to.file(), Pawn.getEnPassantRank(color));
-    if (!this.hasVictimJumpedTwoSquaresLastRound(board, playHistory, victimPosition)) {
+    if (!this.hasVictimJumpedTwoSquaresLastRound(board, victimPosition)) {
       throw new CantEnPassantPawnThatDidntJumpLastRound();
     }
 
@@ -55,7 +53,6 @@ public record EnPassant(Color color, Position from, Position to) implements Play
       board.removePieceFromSquare(victimPosition);
       board.removePieceFromSquare(this.from);
       board.placePiece(this.to, attacker);
-      playHistory.push(this);
     };
   }
 

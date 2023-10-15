@@ -3,7 +3,6 @@ package chess.game.rules;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import chess.game.board.Board;
-import chess.game.board.PlayHistory;
 import chess.game.board.pieces.Bishop;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.King;
@@ -17,12 +16,10 @@ import org.junit.jupiter.api.Test;
 public class PlayValidatorTest {
 
   private Board state;
-  private PlayHistory history;
 
   @BeforeEach
   void setUp() {
     this.state = new Board();
-    this.history = new PlayHistory();
   }
 
   @Test
@@ -34,7 +31,7 @@ public class PlayValidatorTest {
 
     // Then
     assertThrows(CantLetOwnKingInCheckValidationError.class,
-        () -> new PlayValidator(this.state, this.history).validateNextPlay(
+        () -> new PlayValidator(this.state).validateNextPlay(
             new Move(Color.WHITE, new Position("f1"), new Position("e2"))));
   }
 }

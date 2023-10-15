@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import chess.game.board.Board;
-import chess.game.board.PlayHistory;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Pawn;
 import chess.game.board.pieces.Queen;
@@ -19,12 +18,10 @@ import org.junit.jupiter.api.Test;
 
 public class CaptureTest {
   private Board board;
-  private PlayHistory history;
 
   @BeforeEach
   void setUp() {
     this.board = new Board();
-    this.history = new PlayHistory();
   }
 
   @Test
@@ -34,7 +31,7 @@ public class CaptureTest {
     board.placePiece("d3", new Pawn(Color.BLACK));
 
     var capture = new Capture(Color.WHITE, new Position("e2"), new Position("d3"));
-    capture.actOn(board, history);
+    capture.actOn(board);
 
     assertNull(board.getPieceAt(new Position("e2")).orElse(null));
     assertEquals(pawn, board.getPieceAt(new Position("d3")).orElseThrow());
@@ -49,7 +46,7 @@ public class CaptureTest {
     var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e3"));
 
     assertThrows(CapturePatternNotAllowedValidationError.class,
-        () -> capture.actOn(board, history));
+        () -> capture.actOn(board));
   }
 
   @Test
@@ -61,7 +58,7 @@ public class CaptureTest {
     var capture = new Capture(Color.WHITE, new Position("e2"), new Position("d1"));
 
     assertThrows(CapturePatternNotAllowedValidationError.class,
-        () -> capture.actOn(board, history));
+        () -> capture.actOn(board));
   }
 
   @Test
@@ -71,7 +68,7 @@ public class CaptureTest {
     board.placePiece("e7", new Pawn(Color.BLACK));
 
     var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
-    capture.actOn(board, history);
+    capture.actOn(board);
 
     assertNull(board.getPieceAt(new Position("e2")).orElse(null));
     assertEquals(queen, board.getPieceAt(new Position("e7")).orElseThrow());
@@ -86,7 +83,7 @@ public class CaptureTest {
     var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
 
     assertThrows(PieceAtPositionIsOfUnexpectedColorValidationError.class,
-        () -> capture.actOn(board, history));
+        () -> capture.actOn(board));
   }
 
   @Test
@@ -95,6 +92,6 @@ public class CaptureTest {
     board.placePiece("e2", queen);
     var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
 
-    assertThrows(NoPieceAtPositionValidationError.class, () -> capture.actOn(board, history));
+    assertThrows(NoPieceAtPositionValidationError.class, () -> capture.actOn(board));
   }
 }

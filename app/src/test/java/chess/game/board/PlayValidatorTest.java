@@ -25,7 +25,7 @@ public class PlayValidatorTest {
   @BeforeEach
   void setUp() {
     this.board = new Board();
-    this.playValidator = new PlayValidator(this.board, new PlayHistory());
+    this.playValidator = new PlayValidator(this.board);
   }
 
 

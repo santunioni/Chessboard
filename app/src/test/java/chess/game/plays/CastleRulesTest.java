@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import chess.game.board.Board;
-import chess.game.board.PlayHistory;
 import chess.game.board.pieces.Bishop;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.King;
@@ -23,12 +22,11 @@ import org.junit.jupiter.api.Test;
 
 public class CastleRulesTest {
   private Board board;
-  private PlayHistory history;
+
 
   @BeforeEach
   void setUp() {
     this.board = new Board();
-    this.history = new PlayHistory();
     board.placePiece("e1", new King(Color.WHITE));
     board.placePiece("h1", new Rook(Color.WHITE));
   }
@@ -39,7 +37,7 @@ public class CastleRulesTest {
     var castle = new Castle(Color.WHITE, new Position("h1"));
 
     // When
-    castle.actOn(board, history);
+    board.makePlay(castle);
 
     // Then
     assertTrue(board.getPieceAt(King.initialPosition(Color.WHITE)).isEmpty());
@@ -57,27 +55,27 @@ public class CastleRulesTest {
   @Test
   void shouldFailWhenKingAlreadyMoved() throws PlayValidationError {
     // Given
-    new Move(Color.WHITE, new Position("e1"), new Position("e2")).actOn(board, history);
-    new Move(Color.WHITE, new Position("e2"), new Position("e1")).actOn(board, history);
+    board.makePlay(new Move(Color.WHITE, new Position("e1"), new Position("e2")));
+    board.makePlay(new Move(Color.WHITE, new Position("e2"), new Position("e1")));
 
     // When
     var castle = new Castle(Color.WHITE, new Position("h1"));
 
     // Then
-    assertThrows(CantCastleOnKingThatAlreadyMoved.class, () -> castle.actOn(board, history));
+    assertThrows(CantCastleOnKingThatAlreadyMoved.class, () -> board.makePlay(castle));
   }
 
   @Test
   void shouldFailWhenRookAlreadyMoved() throws PlayValidationError {
     // Given
-    new Move(Color.WHITE, new Position("h1"), new Position("h2")).actOn(board, history);
-    new Move(Color.WHITE, new Position("h2"), new Position("h1")).actOn(board, history);
+    board.makePlay(new Move(Color.WHITE, new Position("h1"), new Position("h2")));
+    board.makePlay(new Move(Color.WHITE, new Position("h2"), new Position("h1")));
 
     // When
     var castle = new Castle(Color.WHITE, new Position("h1"));
 
     // Then
-    assertThrows(CantCastleOnRookThatAlreadyMoved.class, () -> castle.actOn(board, history));
+    assertThrows(CantCastleOnRookThatAlreadyMoved.class, () -> board.makePlay(castle));
   }
 
   @Test
@@ -89,7 +87,7 @@ public class CastleRulesTest {
     var castle = new Castle(Color.WHITE, new Position("h1"));
 
     // Then
-    assertThrows(CantCastleWhileInCheck.class, () -> castle.actOn(board, history));
+    assertThrows(CantCastleWhileInCheck.class, () -> board.makePlay(castle));
   }
 
   @Test
@@ -101,7 +99,7 @@ public class CastleRulesTest {
     var castle = new Castle(Color.WHITE, new Position("h1"));
 
     // Then
-    assertThrows(CantCastleOverOccupiedSquares.class, () -> castle.actOn(board, history));
+    assertThrows(CantCastleOverOccupiedSquares.class, () -> board.makePlay(castle));
   }
 
   @Test
@@ -113,6 +111,6 @@ public class CastleRulesTest {
     var castle = new Castle(Color.WHITE, new Position("h1"));
 
     // Then
-    assertThrows(CantCastleWhilePassingThroughCheck.class, () -> castle.actOn(board, history));
+    assertThrows(CantCastleWhilePassingThroughCheck.class, () -> board.makePlay(castle));
   }
 }

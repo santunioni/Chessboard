@@ -9,22 +9,31 @@ import chess.game.board.pieces.Rook;
 import chess.game.grid.Position;
 import chess.game.plays.Capture;
 import chess.game.plays.Move;
+import chess.game.plays.Play;
 import chess.game.plays.validation.PlayValidationError;
 import chess.game.rules.validation.IlegalPlay;
+import com.google.common.collect.HashBiMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class GameControllerTest {
-
   private Board board;
-  private PlayHistory history;
+  private List<Play> stack;
   private GameController controller;
+
 
   @BeforeEach
   void setUp() {
-    this.board = new Board();
-    this.history = new PlayHistory();
-    this.controller = new GameController(this.board, this.history);
+    this.stack = new ArrayList<>();
+    this.board = new Board(UUID.randomUUID().toString(), HashBiMap.create(), stack);
+    this.controller = new GameController(this.board);
+  }
+
+  private void forwardToBlackTurn() {
+    this.stack.add(new Move(Color.WHITE, new Position("h7"), new Position("h8")));
   }
 
   @Test
@@ -48,7 +57,7 @@ public class GameControllerTest {
   @Test
   void shouldAllowBlackToCaptureWhiteOnItsTurn() throws PlayValidationError, IlegalPlay {
     // Given
-    this.history.push(new Move(Color.WHITE, new Position("b1"), new Position("a1")));
+    forwardToBlackTurn();
     this.board.placePiece("a1", new Rook(Color.WHITE));
     this.board.placePiece("a2", new Rook(Color.BLACK));
 

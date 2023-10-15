@@ -3,7 +3,6 @@ package chess.pieces;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import chess.game.board.Board;
-import chess.game.board.PlayHistory;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Knight;
 import chess.game.board.pieces.Pawn;
@@ -17,13 +16,11 @@ import org.junit.jupiter.api.Test;
 public class KnightMoveTest {
 
   private Board board;
-  private PlayHistory history;
 
 
   @BeforeEach
   void setUp() {
     this.board = new Board();
-    this.history = new PlayHistory();
   }
 
   @Test
@@ -45,7 +42,7 @@ public class KnightMoveTest {
         new Move(Color.WHITE, new Position("d4"), new Position("f5"))
     );
 
-    assertEquals(expectedValidMoves, knight.getPlays(board, history));
+    assertEquals(expectedValidMoves, knight.getPlays(board));
   }
 
   @Test
@@ -59,6 +56,6 @@ public class KnightMoveTest {
         new Move(Color.WHITE, new Position("b1"), new Position("d2"))
     );
 
-    assertEquals(expectedValidMoves, knight.getPlays(board, history));
+    assertEquals(expectedValidMoves, knight.getPlays(board));
   }
 }

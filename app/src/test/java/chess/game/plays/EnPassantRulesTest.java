@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import chess.game.board.Board;
 import chess.game.board.BoardInitializer;
-import chess.game.board.PlayHistory;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.PieceType;
 import chess.game.grid.Position;
@@ -17,24 +16,22 @@ import org.junit.jupiter.api.Test;
 
 public class EnPassantRulesTest {
   private Board board;
-  private PlayHistory history;
 
   @BeforeEach
   void setUp() {
     this.board = new BoardInitializer().placeAll().getBoard();
-    this.history = new PlayHistory();
   }
 
   @Test
   void shouldCaptureBlackPieceThatRecentlyJumpedTwoSquares() throws PlayValidationError {
     // Given
-    new Move(Color.WHITE, new Position("a2"), new Position("a4")).actOn(board, history);
-    new Move(Color.BLACK, new Position("h7"), new Position("h5")).actOn(board, history);
-    new Move(Color.WHITE, new Position("a4"), new Position("a5")).actOn(board, history);
-    new Move(Color.BLACK, new Position("b7"), new Position("b5")).actOn(board, history);
+    board.makePlay(new Move(Color.WHITE, new Position("a2"), new Position("a4")));
+    board.makePlay(new Move(Color.BLACK, new Position("h7"), new Position("h5")));
+    board.makePlay(new Move(Color.WHITE, new Position("a4"), new Position("a5")));
+    board.makePlay(new Move(Color.BLACK, new Position("b7"), new Position("b5")));
 
     // When
-    new EnPassant(Color.WHITE, new Position("a5"), new Position("b6")).actOn(board, history);
+    board.makePlay(new EnPassant(Color.WHITE, new Position("a5"), new Position("b6")));
 
     // Then
     assertTrue(board.getPieceAt(new Position("b5")).isEmpty());
@@ -44,16 +41,15 @@ public class EnPassantRulesTest {
   }
 
   @Test
-  void shouldFailIfBlackPieceHadntRecentlyMoved() throws PlayValidationError {
+  void shouldFailIfBlackPieceHadNotRecentlyMoved() throws PlayValidationError {
     // Given
-    new Move(Color.WHITE, new Position("a2"), new Position("a4")).actOn(board, history);
-    new Move(Color.BLACK, new Position("b7"), new Position("b5")).actOn(board, history);
-    new Move(Color.WHITE, new Position("a4"), new Position("a5")).actOn(board, history);
-    new Move(Color.BLACK, new Position("h7"), new Position("h5")).actOn(board, history);
+    board.makePlay(new Move(Color.WHITE, new Position("a2"), new Position("a4")));
+    board.makePlay(new Move(Color.BLACK, new Position("b7"), new Position("b5")));
+    board.makePlay(new Move(Color.WHITE, new Position("a4"), new Position("a5")));
+    board.makePlay(new Move(Color.BLACK, new Position("h7"), new Position("h5")));
 
     // Then
     assertThrows(CantEnPassantPawnThatDidntJumpLastRound.class,
-        () -> new EnPassant(Color.WHITE, new Position("a5"), new Position("b6")).actOn(board,
-            history));
+        () -> board.makePlay(new EnPassant(Color.WHITE, new Position("a5"), new Position("b6"))));
   }
 }

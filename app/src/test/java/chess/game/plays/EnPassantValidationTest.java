@@ -3,7 +3,6 @@ package chess.game.plays;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import chess.game.board.Board;
-import chess.game.board.PlayHistory;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Pawn;
 import chess.game.board.pieces.Rook;
@@ -16,12 +15,10 @@ import org.junit.jupiter.api.Test;
 
 public class EnPassantValidationTest {
   private Board board;
-  private PlayHistory history;
 
   @BeforeEach
   void setUp() {
     this.board = new Board();
-    this.history = new PlayHistory();
   }
 
   @Test
@@ -33,7 +30,7 @@ public class EnPassantValidationTest {
     var enPassant = new EnPassant(Color.WHITE, new Position("a2"), new Position("b3"));
 
     // Then
-    assertThrows(CantEnPassantOnInvalidRank.class, () -> enPassant.actOn(board, history));
+    assertThrows(CantEnPassantOnInvalidRank.class, () -> enPassant.actOn(board));
   }
 
   @Test
@@ -45,7 +42,7 @@ public class EnPassantValidationTest {
     var enPassant = new EnPassant(Color.WHITE, new Position("a5"), new Position("b6"));
 
     // Then
-    assertThrows(PlayValidationError.class, () -> enPassant.actOn(board, history));
+    assertThrows(PlayValidationError.class, () -> enPassant.actOn(board));
   }
 
   @Test
@@ -57,7 +54,7 @@ public class EnPassantValidationTest {
     var enPassant = new EnPassant(Color.BLACK, new Position("a5"), new Position("b6"));
 
     // Then
-    assertThrows(PlayValidationError.class, () -> enPassant.actOn(board, history));
+    assertThrows(PlayValidationError.class, () -> enPassant.actOn(board));
   }
 
   @Test
@@ -70,6 +67,6 @@ public class EnPassantValidationTest {
 
     // Then
     assertThrows(CapturePatternNotAllowedValidationError.class,
-        () -> enPassant.actOn(board, history));
+        () -> enPassant.actOn(board));
   }
 }

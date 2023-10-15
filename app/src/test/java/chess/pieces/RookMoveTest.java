@@ -3,30 +3,34 @@ package chess.pieces;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import chess.game.board.Board;
-import chess.game.board.PlayHistory;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Pawn;
 import chess.game.board.pieces.Rook;
 import chess.game.grid.Position;
 import chess.game.plays.Move;
+import chess.game.plays.Play;
+import com.google.common.collect.HashBiMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class RookMoveTest {
 
   private Board board;
-  private PlayHistory history;
+  private List<Play> stack;
 
 
   @BeforeEach
   void setUp() {
-    this.board = new Board();
-    this.history = new PlayHistory();
+    this.stack = new ArrayList<>();
+    this.board = new Board(UUID.randomUUID().toString(), HashBiMap.create(), stack);
   }
 
   private void forwardToBlackTurn() {
-    this.history.push(new Move(Color.WHITE, new Position("h7"), new Position("h8")));
+    this.stack.add(new Move(Color.WHITE, new Position("h7"), new Position("h8")));
   }
 
   @Test
@@ -53,7 +57,7 @@ public class RookMoveTest {
         new Move(Color.BLACK, new Position("d4"), new Position("d8"))
     );
 
-    assertEquals(expectedValidMoves, rook.getPlays(board, history));
+    assertEquals(expectedValidMoves, rook.getPlays(board));
   }
 
   @Test
@@ -68,6 +72,6 @@ public class RookMoveTest {
         new Move(Color.WHITE, new Position("b1"), new Position("c1"))
     );
 
-    assertEquals(expectedValidMoves, rook.getPlays(board, history));
+    assertEquals(expectedValidMoves, rook.getPlays(board));
   }
 }

@@ -2,7 +2,6 @@ package chess.game.plays;
 
 
 import chess.game.board.Board;
-import chess.game.board.PlayHistory;
 import chess.game.board.pieces.Color;
 import chess.game.grid.Position;
 import chess.game.plays.validation.MovePatternNotAllowedValidationError;
@@ -19,7 +18,7 @@ import chess.game.plays.validation.SquareAlreadyOccupiedValidationError;
  */
 public record Move(Color color, Position from, Position to) implements Play {
 
-  public Runnable validateAndGetAction(Board board, PlayHistory playHistory)
+  public Runnable validateAndGetAction(Board board)
       throws PlayValidationError {
     var piece = board.getPieceAt(from, color)
         .orElseThrow(() -> new NoPieceAtPositionValidationError(from));
@@ -36,7 +35,6 @@ public record Move(Color color, Position from, Position to) implements Play {
     return () -> {
       board.removePieceFromSquare(from);
       board.placePiece(to, piece);
-      playHistory.push(this);
     };
   }
 

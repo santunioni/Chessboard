@@ -1,7 +1,6 @@
 package chess.game.board.pieces;
 
 import chess.game.board.Board;
-import chess.game.board.PlayHistory;
 import chess.game.board.ReadonlyBoard;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
@@ -62,10 +61,10 @@ public abstract class Piece {
 
   protected abstract Set<Play> getPossiblePlays();
 
-  public Set<Play> getPlays(Board state, PlayHistory history) {
+  public Set<Play> getPlays(Board state) {
     return this.getPossiblePlays().stream().filter(play -> {
       try {
-        new PlayValidator(state, history).validateNextPlay(play);
+        new PlayValidator(state).validateNextPlay(play);
         return true;
       } catch (IlegalPlay | PlayValidationError ignored) {
         return false;

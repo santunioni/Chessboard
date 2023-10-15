@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import chess.game.board.Board;
 import chess.game.board.BoardInitializer;
-import chess.game.board.PlayHistory;
 import chess.game.board.pieces.Bishop;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Pawn;
@@ -17,12 +16,10 @@ import org.junit.jupiter.api.Test;
 
 public class PromotionTest {
   private Board board;
-  private PlayHistory history;
 
   @BeforeEach
   void setUp() {
     this.board = new BoardInitializer().placeKings().getBoard();
-    this.history = new PlayHistory();
   }
 
 
@@ -33,7 +30,7 @@ public class PromotionTest {
     var promotion = new Promotion(Color.WHITE, new Position("a7"),
         PieceType.QUEEN);
 
-    assertThrows(PlayValidationError.class, () -> promotion.actOn(this.board, this.history));
+    assertThrows(PlayValidationError.class, () -> promotion.actOn(this.board));
   }
 
   @Test
@@ -43,7 +40,7 @@ public class PromotionTest {
     var promotion = new Promotion(Color.WHITE, new Position("b8"),
         PieceType.QUEEN);
 
-    assertThrows(PlayValidationError.class, () -> promotion.actOn(this.board, this.history));
+    assertThrows(PlayValidationError.class, () -> promotion.actOn(this.board));
   }
 
   @Test
@@ -53,7 +50,7 @@ public class PromotionTest {
     var promotion = new Promotion(Color.WHITE, new Position("b8"),
         PieceType.KING);
 
-    assertThrows(PlayValidationError.class, () -> promotion.actOn(this.board, this.history));
+    assertThrows(PlayValidationError.class, () -> promotion.actOn(this.board));
   }
 
   @Test
@@ -62,7 +59,7 @@ public class PromotionTest {
 
     var promotion = new Promotion(Color.WHITE, new Position("a8"),
         PieceType.QUEEN);
-    promotion.actOn(this.board, this.history);
+    promotion.actOn(this.board);
 
     var whiteQueen = this.board.getPieceAt("a8").orElseThrow();
     assertEquals(PieceType.QUEEN, whiteQueen.getSpecification().pieceType());

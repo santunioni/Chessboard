@@ -4,6 +4,7 @@ import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Piece;
 import chess.game.board.pieces.PieceSpecification;
 import chess.game.grid.Position;
+import chess.game.plays.Play;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
@@ -59,5 +60,13 @@ public interface ReadonlyBoard {
       }
     }
     return false;
+  }
+
+  Optional<Play> getLastPlay();
+
+  Iterable<Play> history();
+
+  default Color nextTurnPlayerColor() {
+    return this.getLastPlay().map(play -> play.getPlayerColor().opposite()).orElse(Color.WHITE);
   }
 }
