@@ -14,18 +14,18 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 public class Board implements ReadonlyBoard {
-  private final UUID id;
+  private final String id;
   private final BiMap<Position, Piece> currentPositionToPiece;
   private final List<Play> stack;
 
-  public Board(UUID id, BiMap<Position, Piece> currentPositionToPiece, List<Play> stack) {
+  public Board(String id, BiMap<Position, Piece> currentPositionToPiece, List<Play> stack) {
     this.id = id;
     this.currentPositionToPiece = currentPositionToPiece;
     this.stack = stack;
   }
 
   public Board() {
-    this.id = UUID.randomUUID();
+    this.id = UUID.randomUUID().toString();
     this.currentPositionToPiece = HashBiMap.create();
     this.stack = new ArrayList<>();
   }
