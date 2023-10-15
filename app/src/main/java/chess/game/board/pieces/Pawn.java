@@ -17,8 +17,23 @@ public class Pawn extends Piece {
 
   private final Direction walkDirection;
 
+  /**
+   * Constructor used only to delay refactoring the tests.
+   *
+   * @deprecated use {@link #Pawn(Position, Color)} instead
+   */
   public Pawn(Color color) {
-    super(color, PieceType.PAWN);
+    super(new Position("a1"), color, PieceType.PAWN);
+    this.walkDirection = color == Color.WHITE ? Direction.VERTICAL_UP : Direction.VERTICAL_DOWN;
+  }
+
+  public Pawn(Position initialPosition, Color color) {
+    super(initialPosition, color, PieceType.PAWN);
+    this.walkDirection = color == Color.WHITE ? Direction.VERTICAL_UP : Direction.VERTICAL_DOWN;
+  }
+
+  public Pawn(String initialPosition, Color color) {
+    super(new Position(initialPosition), color, PieceType.PAWN);
     this.walkDirection = color == Color.WHITE ? Direction.VERTICAL_UP : Direction.VERTICAL_DOWN;
   }
 
@@ -61,7 +76,7 @@ public class Pawn extends Piece {
 
 
   public Pawn copy() {
-    return new Pawn(this.getSpecification().color());
+    return new Pawn(this.idInBoard(), this.getSpecification().color());
   }
 
   protected Set<Play> getPossiblePlays() {

@@ -11,8 +11,17 @@ import java.util.Set;
 
 public class Queen extends Piece {
 
+  /**
+   * Constructor used only to delay refactoring the tests.
+   *
+   * @deprecated use {@link #Queen(Position, Color)} instead
+   */
   public Queen(Color color) {
-    super(color, PieceType.QUEEN);
+    super(initialPosition(color), color, PieceType.QUEEN);
+  }
+
+  public Queen(Position initialPosition, Color color) {
+    super(initialPosition, color, PieceType.QUEEN);
   }
 
   public static Position initialPosition(Color color) {
@@ -27,7 +36,7 @@ public class Queen extends Piece {
   }
 
   public Queen copy() {
-    return new Queen(this.getSpecification().color());
+    return new Queen(this.idInBoard(), this.getSpecification().color());
   }
 
   protected Set<Play> getPossiblePlays() {

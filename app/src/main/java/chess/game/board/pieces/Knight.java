@@ -11,10 +11,18 @@ import java.util.Set;
 
 public class Knight extends Piece {
 
+  /**
+   * Constructor used only to delay refactoring the tests.
+   *
+   * @deprecated use {@link #Knight(Position, Color)} instead
+   */
   public Knight(Color color) {
-    super(color, PieceType.KNIGHT);
+    super(new Position("a1"), color, PieceType.KNIGHT);
   }
 
+  public Knight(Position initialPosition, Color color) {
+    super(initialPosition, color, PieceType.KNIGHT);
+  }
 
   public boolean couldMoveToIfEmpty(Position position) {
     var myPosition = this.currentPosition();
@@ -47,6 +55,6 @@ public class Knight extends Piece {
   }
 
   public Knight copy() {
-    return new Knight(this.getSpecification().color());
+    return new Knight(this.idInBoard(), this.getSpecification().color());
   }
 }

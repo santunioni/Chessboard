@@ -13,11 +13,20 @@ import java.util.stream.Collectors;
 
 public abstract class Piece {
 
+  /**
+   * The initial position of the piece. Serves at the piece's identifier in the board.
+   */
+  private final Position initialPosition;
   private final PieceSpecification specification;
   protected BoardPlacement board;
 
-  public Piece(Color color, PieceType pieceType) {
+  public Piece(Position initialPosition, Color color, PieceType pieceType) {
+    this.initialPosition = initialPosition;
     this.specification = new PieceSpecification(color, pieceType);
+  }
+
+  public Position idInBoard() {
+    return this.initialPosition;
   }
 
   public Position currentPosition() {

@@ -28,13 +28,14 @@ public record Promotion(Color color, Position at, PieceType to) implements Play 
       throw new PlayValidationError(this.color + " can only promote at " + expectedRank);
     }
 
-    board.getPieceAtOrThrown(this.at, new PieceSpecification(this.color, PieceType.PAWN));
+    var oldPiece =
+        board.getPieceAtOrThrown(this.at, new PieceSpecification(this.color, PieceType.PAWN));
 
     var newPiece = switch (this.to) {
-      case ROOK -> new Rook(this.color);
-      case KNIGHT -> new Knight(this.color);
-      case BISHOP -> new Bishop(this.color);
-      case QUEEN -> new Queen(this.color);
+      case ROOK -> new Rook(oldPiece.idInBoard(), this.color);
+      case KNIGHT -> new Knight(oldPiece.idInBoard(), this.color);
+      case BISHOP -> new Bishop(oldPiece.idInBoard(), this.color);
+      case QUEEN -> new Queen(oldPiece.idInBoard(), this.color);
       default -> throw new PlayValidationError("Invalid Type at Promotion");
     };
 

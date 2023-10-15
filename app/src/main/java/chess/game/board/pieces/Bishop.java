@@ -11,9 +11,17 @@ import java.util.Set;
 
 public class Bishop extends Piece {
 
-
+  /**
+   * Constructor used only to delay refactoring the tests.
+   *
+   * @deprecated use {@link #Bishop(Position, Color)} instead
+   */
   public Bishop(Color color) {
-    super(color, PieceType.BISHOP);
+    super(new Position("a1"), color, PieceType.BISHOP);
+  }
+
+  public Bishop(Position initialPosition, Color color) {
+    super(initialPosition, color, PieceType.BISHOP);
   }
 
   public boolean couldMoveToIfEmpty(Position target) {
@@ -25,7 +33,7 @@ public class Bishop extends Piece {
 
 
   public Bishop copy() {
-    return new Bishop(this.getSpecification().color());
+    return new Bishop(this.idInBoard(), this.getSpecification().color());
   }
 
   protected Set<Play> getPossiblePlays() {

@@ -10,15 +10,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Rook extends Piece {
-  private static final Set<Direction> pathDirections = Set.of(
-      Direction.VERTICAL_UP,
-      Direction.VERTICAL_DOWN,
-      Direction.HORIZONTAL_LEFT,
-      Direction.HORIZONTAL_RIGHT
-  );
+  private static final Set<Direction> pathDirections =
+      Set.of(Direction.VERTICAL_UP, Direction.VERTICAL_DOWN, Direction.HORIZONTAL_LEFT,
+          Direction.HORIZONTAL_RIGHT);
 
+  /**
+   * Constructor used only to delay refactoring the tests.
+   *
+   * @deprecated use {@link #Rook(Position, Color)} instead
+   */
   public Rook(Color color) {
-    super(color, PieceType.ROOK);
+    super(new Position("a1"), color, PieceType.ROOK);
+  }
+
+  public Rook(Position initialPosition, Color color) {
+    super(initialPosition, color, PieceType.ROOK);
   }
 
   public boolean couldMoveToIfEmpty(Position target) {
@@ -30,7 +36,7 @@ public class Rook extends Piece {
 
 
   public Rook copy() {
-    return new Rook(this.getSpecification().color());
+    return new Rook(this.idInBoard(), this.getSpecification().color());
   }
 
   protected Set<Play> getPossiblePlays() {

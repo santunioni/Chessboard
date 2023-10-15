@@ -11,8 +11,17 @@ import java.util.Set;
 
 public class King extends Piece {
 
+  /**
+   * Constructor used only to delay refactoring the tests.
+   *
+   * @deprecated use {@link #King(Position, Color)} instead
+   */
   public King(Color color) {
-    super(color, PieceType.KING);
+    super(initialPosition(color), color, PieceType.KING);
+  }
+
+  public King(Position initialPosition, Color color) {
+    super(initialPosition, color, PieceType.KING);
   }
 
   public static Position initialPosition(Color color) {
@@ -25,7 +34,7 @@ public class King extends Piece {
 
 
   public King copy() {
-    return new King(this.getSpecification().color());
+    return new King(this.idInBoard(), this.getSpecification().color());
   }
 
   protected Set<Play> getPossiblePlays() {
