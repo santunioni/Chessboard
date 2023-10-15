@@ -44,10 +44,10 @@ public interface ReadonlyBoard {
 
   default Optional<Piece> getSingleOf(PieceSpecification spec) {
     var pieces = this.getPieces(spec).toList();
-    if (pieces.size() != 1) {
-      return Optional.empty();
+    if (pieces.size() > 1) {
+      throw new IllegalStateException("Many pieces found while requiring single.");
     }
-    return Optional.of(pieces.get(0).getValue());
+    return Optional.ofNullable(pieces.size() == 1 ? pieces.get(0).getValue() : null);
   }
 
   default boolean isPositionThreatenedBy(Position at, Color color) {
