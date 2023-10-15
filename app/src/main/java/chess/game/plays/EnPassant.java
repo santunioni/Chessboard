@@ -10,6 +10,7 @@ import chess.game.grid.Position;
 import chess.game.plays.validation.CantEnPassantOnInvalidRank;
 import chess.game.plays.validation.CantEnPassantPawnThatDidntJumpLastRound;
 import chess.game.plays.validation.CapturePatternNotAllowedValidationError;
+import chess.game.plays.validation.NoPieceAtPositionValidationError;
 import chess.game.plays.validation.PlayValidationError;
 
 public record EnPassant(Color color, Position from, Position to) implements Play {
@@ -18,8 +19,9 @@ public record EnPassant(Color color, Position from, Position to) implements Play
                                                      PlayHistory playHistory,
                                                      Position victimPosition)
       throws PlayValidationError {
-    var victim = board.getPieceAtOrThrown(victimPosition,
-        new PieceSpecification(this.color.opposite(), PieceType.PAWN));
+    var victim = board.getPieceAt(victimPosition,
+            new PieceSpecification(this.color.opposite(), PieceType.PAWN))
+        .orElseThrow(() -> new NoPieceAtPositionValidationError(victimPosition));
     var lastPlay = playHistory.getLastPlay()
         .orElseThrow(() -> new PlayValidationError("En Passant cant be the first play."));
     var pawnJumpingTwoSquares = new Move(
@@ -37,7 +39,8 @@ public record EnPassant(Color color, Position from, Position to) implements Play
     }
 
     var attacker =
-        board.getPieceAtOrThrown(this.from, new PieceSpecification(this.color, PieceType.PAWN));
+        board.getPieceAt(this.from, new PieceSpecification(this.color, PieceType.PAWN))
+            .orElseThrow(() -> new NoPieceAtPositionValidationError(this.from));
 
     if (!attacker.couldCaptureEnemyAt(to)) {
       throw new CapturePatternNotAllowedValidationError(attacker, from, to);

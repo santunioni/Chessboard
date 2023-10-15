@@ -11,6 +11,7 @@ import chess.game.board.pieces.Queen;
 import chess.game.board.pieces.Rook;
 import chess.game.grid.Position;
 import chess.game.grid.Rank;
+import chess.game.plays.validation.NoPieceAtPositionValidationError;
 import chess.game.plays.validation.PlayValidationError;
 
 public record Promotion(Color color, Position at, PieceType to) implements Play {
@@ -29,7 +30,8 @@ public record Promotion(Color color, Position at, PieceType to) implements Play 
     }
 
     var oldPiece =
-        board.getPieceAtOrThrown(this.at, new PieceSpecification(this.color, PieceType.PAWN));
+        board.getPieceAt(this.at, new PieceSpecification(this.color, PieceType.PAWN))
+            .orElseThrow(() -> new NoPieceAtPositionValidationError(this.at));
 
     var newPiece = switch (this.to) {
       case ROOK -> new Rook(oldPiece.idInBoard(), this.color);

@@ -4,15 +4,12 @@ import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Piece;
 import chess.game.board.pieces.PieceSpecification;
 import chess.game.grid.Position;
-import chess.game.plays.validation.NoPieceAtPositionValidationError;
-import chess.game.plays.validation.PlayValidationError;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 public interface ReadonlyBoard {
-  boolean equals(Object that);
 
   Optional<Piece> getPieceAt(Position position);
 
@@ -20,16 +17,13 @@ public interface ReadonlyBoard {
     return this.getPieceAt(new Position(position));
   }
 
-  default Piece getPieceAtOrThrown(Position at, Color expectedColor) throws PlayValidationError {
+  default Optional<Piece> getPieceAt(Position at, Color expectedColor) {
     return this.getPieceAt(at)
-        .filter(piece -> piece.getSpecification().color().equals(expectedColor))
-        .orElseThrow(() -> new NoPieceAtPositionValidationError(at));
+        .filter(piece -> piece.getSpecification().color().equals(expectedColor));
   }
 
-  default Piece getPieceAtOrThrown(Position at, PieceSpecification spec)
-      throws PlayValidationError {
-    return this.getPieceAt(at).filter(piece -> piece.getSpecification().equals(spec))
-        .orElseThrow(() -> new NoPieceAtPositionValidationError(at));
+  default Optional<Piece> getPieceAt(Position at, PieceSpecification spec) {
+    return this.getPieceAt(at).filter(piece -> piece.getSpecification().equals(spec));
   }
 
   default Boolean hasPieceAt(Position position) {

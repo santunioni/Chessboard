@@ -21,7 +21,8 @@ public record Capture(Color color, Position from, Position to) implements Play {
 
   public Runnable validateAndGetAction(Board board, PlayHistory playHistory)
       throws PlayValidationError {
-    var piece = board.getPieceAtOrThrown(from, color);
+    var piece = board.getPieceAt(from, color)
+        .orElseThrow(() -> new NoPieceAtPositionValidationError(from));
 
     if (!piece.couldCaptureEnemyAt(to)) {
       throw new CapturePatternNotAllowedValidationError(piece, from, to);
