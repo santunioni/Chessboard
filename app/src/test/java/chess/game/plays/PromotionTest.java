@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
-import chess.game.board.pieces.Pawn;
 import chess.game.board.pieces.PieceFactory;
 import chess.game.board.pieces.PieceType;
 import chess.game.grid.Position;
@@ -24,7 +23,7 @@ public class PromotionTest {
 
   @Test
   void shouldNotPromoteOnInvalidRank() {
-    this.board.placePiece("a7", new Pawn(Color.WHITE));
+    this.board.placePiece("a7", this.pieceFactory.createPawns(Color.WHITE).get(0));
 
     var promotion = new Promotion(Color.WHITE, new Position("a7"),
         PieceType.QUEEN);
@@ -44,7 +43,7 @@ public class PromotionTest {
 
   @Test
   void shouldNotPromoteToInvalidPiece() {
-    this.board.placePiece("a8", new Pawn(Color.WHITE));
+    this.board.placePiece("a8", this.pieceFactory.createPawns(Color.WHITE).get(0));
 
     var promotion = new Promotion(Color.WHITE, new Position("b8"),
         PieceType.KING);
@@ -54,7 +53,7 @@ public class PromotionTest {
 
   @Test
   void shouldPromoteWhitePawnAtA8ToQueen() throws PlayValidationError {
-    this.board.placePiece("a8", new Pawn(Color.WHITE));
+    this.board.placePiece("a8", this.pieceFactory.createPawns(Color.WHITE).get(0));
 
     var promotion = new Promotion(Color.WHITE, new Position("a8"),
         PieceType.QUEEN);

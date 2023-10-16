@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
-import chess.game.board.pieces.Pawn;
 import chess.game.board.pieces.PieceFactory;
 import chess.game.grid.Position;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +33,7 @@ public class BishopThreatensTest {
   public void shouldNotThreatenIfEnemyIsBetween() {
     var bishop = this.pieceFactory.createBishops(Color.BLACK).get(0);
     this.board.placePiece("d4", bishop);
-    this.board.placePiece("f6", new Pawn(Color.WHITE));
+    this.board.placePiece("f6", this.pieceFactory.createPawns(Color.WHITE).get(0));
 
     assertFalse(bishop.couldCaptureEnemyAt(new Position("g7")));
   }
@@ -43,7 +42,7 @@ public class BishopThreatensTest {
   public void shouldNotThreatenIfAllyIsBetween() {
     var bishop = this.pieceFactory.createBishops(Color.BLACK).get(0);
     this.board.placePiece("d4", bishop);
-    this.board.placePiece("f6", new Pawn(Color.BLACK));
+    this.board.placePiece("f6", this.pieceFactory.createPawns(Color.BLACK).get(0));
 
     assertFalse(bishop.couldCaptureEnemyAt(new Position("g7")));
   }
@@ -52,7 +51,7 @@ public class BishopThreatensTest {
   public void shouldThreatenEvenIfPositionIsOccupiedByAlly() {
     var bishop = this.pieceFactory.createBishops(Color.BLACK).get(0);
     this.board.placePiece("d4", bishop);
-    this.board.placePiece("f6", new Pawn(Color.BLACK));
+    this.board.placePiece("f6", this.pieceFactory.createPawns(Color.BLACK).get(0));
 
     assertTrue(bishop.couldCaptureEnemyAt(new Position("f6")));
   }
@@ -61,7 +60,7 @@ public class BishopThreatensTest {
   public void shouldThreatenEvenIfPositionIsOccupiedByEnemy() {
     var bishop = this.pieceFactory.createBishops(Color.BLACK).get(0);
     this.board.placePiece("d4", bishop);
-    this.board.placePiece("f6", new Pawn(Color.WHITE));
+    this.board.placePiece("f6", this.pieceFactory.createPawns(Color.WHITE).get(0));
 
     assertTrue(bishop.couldCaptureEnemyAt(new Position("f6")));
   }

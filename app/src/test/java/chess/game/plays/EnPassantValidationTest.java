@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
-import chess.game.board.pieces.Pawn;
 import chess.game.board.pieces.PieceFactory;
 import chess.game.grid.Position;
 import chess.game.plays.validation.CantEnPassantOnInvalidRank;
@@ -25,7 +24,7 @@ public class EnPassantValidationTest {
   @Test
   void shouldFailValidationWhenWhitePawnIsNotOnRankFive() {
     // Given
-    board.placePiece("a2", new Pawn(Color.WHITE));
+    board.placePiece("a2", this.pieceFactory.createPawns(Color.WHITE).get(0));
 
     // When
     var enPassant = new EnPassant(Color.WHITE, new Position("a2"), new Position("b3"));
@@ -49,7 +48,7 @@ public class EnPassantValidationTest {
   @Test
   void shouldFailvalidationWhenBlackPawnIsAtWhitePawnEnPassantRank() {
     // Given
-    board.placePiece("a5", new Pawn(Color.BLACK));
+    board.placePiece("a5", this.pieceFactory.createPawns(Color.BLACK).get(0));
 
     // When
     var enPassant = new EnPassant(Color.BLACK, new Position("a5"), new Position("b6"));
@@ -61,7 +60,7 @@ public class EnPassantValidationTest {
   @Test
   void shouldFailValidationOnInconsistentEnPassantPositions() {
     // Given
-    board.placePiece("a5", new Pawn(Color.WHITE));
+    board.placePiece("a5", this.pieceFactory.createPawns(Color.WHITE).get(0));
 
     // When
     var enPassant = new EnPassant(Color.WHITE, new Position("a5"), new Position("b7"));

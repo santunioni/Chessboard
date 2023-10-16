@@ -3,7 +3,6 @@ package chess.game.board;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import chess.game.board.pieces.Color;
-import chess.game.board.pieces.Pawn;
 import chess.game.board.pieces.PieceFactory;
 import chess.game.grid.Position;
 import chess.game.plays.Capture;
@@ -59,7 +58,7 @@ public class PlayValidatorTest {
   @Test
   void shouldRequirePawnPromotion() {
     // Given
-    this.board.placePiece("a7", new Pawn(Color.WHITE));
+    this.board.placePiece("a7", this.pieceFactory.createPawns(Color.WHITE).get(0));
 
     // When
     var move = new Move(Color.WHITE, new Position("a7"), new Position("a8"));

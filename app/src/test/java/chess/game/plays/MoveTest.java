@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
-import chess.game.board.pieces.Pawn;
 import chess.game.board.pieces.PieceFactory;
 import chess.game.grid.Position;
 import chess.game.plays.validation.NoPieceAtPositionValidationError;
@@ -26,7 +25,7 @@ public class MoveTest {
 
   @Test
   void shouldMovePieceInBoard() throws PlayValidationError {
-    var pawn = new Pawn(Color.WHITE);
+    var pawn = this.pieceFactory.createPawns(Color.WHITE).get(0);
     board.placePiece("e2", pawn);
 
     var move = new Move(Color.WHITE, new Position("e2"), new Position("e4"));
@@ -46,7 +45,7 @@ public class MoveTest {
   @Test
   void shouldNotDisplaceToPositionOccupiedByAlly() {
     board.placePiece("e2", this.pieceFactory.createQueen(Color.BLACK));
-    board.placePiece("e4", new Pawn(Color.BLACK));
+    board.placePiece("e4", this.pieceFactory.createPawns(Color.BLACK).get(0));
 
     var move = new Move(Color.BLACK, new Position("e2"), new Position("e4"));
 

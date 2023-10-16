@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
-import chess.game.board.pieces.Pawn;
 import chess.game.board.pieces.PieceFactory;
 import chess.game.grid.Position;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,7 +49,7 @@ public class QueenThreatensTest {
   public void shouldNotThreatenIfEnemyIsBetween() {
     var queen = this.pieceFactory.createQueen(Color.BLACK);
     this.board.placePiece("d4", queen);
-    this.board.placePiece("f6", new Pawn(Color.WHITE));
+    this.board.placePiece("f6", this.pieceFactory.createPawns(Color.WHITE).get(0));
 
     assertFalse(queen.couldCaptureEnemyAt(new Position("g7")));
   }
@@ -59,7 +58,7 @@ public class QueenThreatensTest {
   public void shouldNotThreatenIfAllyIsBetween() {
     var queen = this.pieceFactory.createQueen(Color.BLACK);
     this.board.placePiece("d4", queen);
-    this.board.placePiece("f6", new Pawn(Color.BLACK));
+    this.board.placePiece("f6", this.pieceFactory.createPawns(Color.BLACK).get(0));
 
     assertFalse(queen.couldCaptureEnemyAt(new Position("g7")));
   }

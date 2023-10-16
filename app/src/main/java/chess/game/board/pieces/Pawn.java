@@ -18,15 +18,6 @@ public class Pawn extends Piece {
 
   private final Direction walkDirection = Pawn.walkDirectionFor(this.getSpecification().color());
 
-  /**
-   * Constructor used only to delay refactoring the tests.
-   *
-   * @deprecated use {@link #Pawn(Position, Color)} instead
-   */
-  public Pawn(Color color) {
-    super(new Position("a1"), color, PieceType.PAWN);
-  }
-
   public Pawn(Position initialPosition, Color color) {
     super(initialPosition, color, PieceType.PAWN);
   }

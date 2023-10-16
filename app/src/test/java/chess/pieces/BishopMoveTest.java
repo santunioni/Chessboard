@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
-import chess.game.board.pieces.Pawn;
 import chess.game.board.pieces.PieceFactory;
 import chess.game.grid.Position;
 import chess.game.plays.Move;
@@ -62,7 +61,7 @@ public class BishopMoveTest {
   void shouldBeBlockedByItsTeamMates() {
     var bishop = this.pieceFactory.createBishops(Color.WHITE).get(0);
     this.board.placePiece("b1", bishop);
-    this.board.placePiece("d3", new Pawn(Color.WHITE));
+    this.board.placePiece("d3", this.pieceFactory.createPawns(Color.WHITE).get(0));
 
     var expectedValidMoves = Set.of(
         new Move(Color.WHITE, new Position("b1"), new Position("a2")),
