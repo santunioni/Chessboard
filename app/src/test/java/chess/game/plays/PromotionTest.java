@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import chess.game.board.Board;
-import chess.game.board.BoardInitializer;
 import chess.game.board.pieces.Bishop;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Pawn;
@@ -19,9 +18,8 @@ public class PromotionTest {
 
   @BeforeEach
   void setUp() {
-    this.board = new BoardInitializer().placeKings().getBoard();
+    this.board = new Board();
   }
-
 
   @Test
   void shouldNotPromoteOnInvalidRank() {
