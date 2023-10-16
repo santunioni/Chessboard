@@ -4,7 +4,7 @@ import chess.game.board.Board;
 import chess.game.board.ReadonlyBoard;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
-import chess.game.rules.PlayValidator;
+import chess.game.plays.PlayValidator;
 import java.util.Set;
 import java.util.stream.Collectors;
 

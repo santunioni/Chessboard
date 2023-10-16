@@ -7,7 +7,7 @@ import chess.game.board.pieces.PieceFactory;
 import chess.game.grid.Position;
 import chess.game.plays.Capture;
 import chess.game.plays.Move;
-import chess.game.rules.PlayValidator;
+import chess.game.plays.PlayValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

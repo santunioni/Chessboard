@@ -1,9 +1,9 @@
-package chess.game.rules;
+package chess.game.plays;
 
 import chess.game.assertions.BoardStateIsValidAssertion;
 import chess.game.board.Board;
-import chess.game.plays.Play;
 import chess.game.plays.validation.PlayValidationError;
+import chess.game.rules.CantPlayWhenNotYourTurn;
 
 public class PlayValidator {
   private final Play play;
