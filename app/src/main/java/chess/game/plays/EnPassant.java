@@ -24,7 +24,8 @@ public record EnPassant(Color color, Position from, Position to) implements Play
         .orElseThrow(() -> new PlayValidationError("En Passant cant be the first play."));
     var pawnJumpingTwoSquares = new Move(
         this.color.opposite(),
-        new Position(victimPosition.file(), Pawn.getStartRank(victim.getSpecification().color())),
+        new Position(victimPosition.file(),
+            Pawn.getStartRankFor(victim.getSpecification().color())),
         victimPosition
     );
     return lastPlay.equals(pawnJumpingTwoSquares);
@@ -32,7 +33,7 @@ public record EnPassant(Color color, Position from, Position to) implements Play
 
   public Runnable validateAndGetAction(Board board)
       throws PlayValidationError {
-    if (Pawn.getEnPassantRank(color) != from.rank()) {
+    if (Pawn.getEnPassantRankFor(color) != from.rank()) {
       throw new CantEnPassantOnInvalidRank(color);
     }
 
@@ -44,7 +45,7 @@ public record EnPassant(Color color, Position from, Position to) implements Play
       throw new CapturePatternNotAllowedValidationError(attacker, from, to);
     }
 
-    var victimPosition = new Position(this.to.file(), Pawn.getEnPassantRank(color));
+    var victimPosition = new Position(this.to.file(), Pawn.getEnPassantRankFor(color));
     if (!this.hasVictimJumpedTwoSquaresLastRound(board, victimPosition)) {
       throw new CantEnPassantPawnThatDidntJumpLastRound();
     }

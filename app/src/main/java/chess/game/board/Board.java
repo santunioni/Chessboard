@@ -48,10 +48,6 @@ public class Board implements ReadonlyBoard {
     this.placePiece(new Position(position), piece);
   }
 
-  public void placePiece(Piece piece) {
-    this.placePiece(piece.idInBoard(), piece);
-  }
-
   public void removePieceFromSquare(Position position) {
     if (this.currentPositionToPiece.containsKey(position)) {
       var piece = this.currentPositionToPiece.get(position);

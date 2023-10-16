@@ -20,7 +20,7 @@ import java.util.Iterator;
 public record Castle(Color color, Position to) implements Play {
 
   private Position getKingPosition(Board state) throws CantCastleOnKingThatAlreadyMoved {
-    var kingPosition = King.initialPosition(this.color);
+    var kingPosition = King.initialPositionFor(this.color);
     var kingOptional = state.getPieceAt(kingPosition);
     if (kingOptional.isEmpty()
         || kingOptional.get().getSpecification().pieceType() != PieceType.KING
@@ -104,7 +104,7 @@ public record Castle(Color color, Position to) implements Play {
       }
 
       public Position getFrom() {
-        return King.initialPosition(Castle.this.color);
+        return King.initialPositionFor(Castle.this.color);
       }
 
       public Position getTo() {

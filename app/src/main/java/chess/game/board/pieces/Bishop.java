@@ -25,7 +25,7 @@ public class Bishop extends Piece {
     super(initialPosition, color, PieceType.BISHOP);
   }
 
-  public static List<Position> initialPositions(Color color) {
+  public static List<Position> initialPositionsFor(Color color) {
     return color.equals(Color.WHITE) ? List.of(new Position("c1"), new Position("f1")) :
         List.of(new Position("c8"), new Position("f8"));
   }

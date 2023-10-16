@@ -24,7 +24,7 @@ public class Knight extends Piece {
     super(initialPosition, color, PieceType.KNIGHT);
   }
 
-  public static List<Position> initialPositions(Color color) {
+  public static List<Position> initialPositionsFor(Color color) {
     return color.equals(Color.WHITE) ? List.of(new Position("b1"), new Position("g1")) :
         List.of(new Position("b8"), new Position("g8"));
   }

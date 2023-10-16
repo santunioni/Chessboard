@@ -24,6 +24,10 @@ public abstract class Piece {
     this.specification = new PieceSpecification(color, pieceType);
   }
 
+  public Position getInitialPosition() {
+    return initialPosition;
+  }
+
   public Position idInBoard() {
     return this.initialPosition;
   }

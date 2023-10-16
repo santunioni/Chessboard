@@ -21,7 +21,8 @@ public class BoardInitializer {
   }
 
   private void placePiecesOf(PieceSpecification pieceSpecification) {
-    this.pieceFactory.createPiecesOf(pieceSpecification).forEach(this.board::placePiece);
+    this.pieceFactory.createPiecesOf(pieceSpecification)
+        .forEach(piece -> this.board.placePiece(piece.getInitialPosition(), piece));
   }
 
   public Board getBoard() {

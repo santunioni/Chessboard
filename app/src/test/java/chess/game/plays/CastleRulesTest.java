@@ -40,7 +40,7 @@ public class CastleRulesTest {
     board.makePlay(castle);
 
     // Then
-    assertTrue(board.getPieceAt(King.initialPosition(Color.WHITE)).isEmpty());
+    assertTrue(board.getPieceAt(King.initialPositionFor(Color.WHITE)).isEmpty());
     assertTrue(board.getPieceAt("h1").isEmpty());
 
     var king = board.getPieceAt(new Position("g1")).orElseThrow();

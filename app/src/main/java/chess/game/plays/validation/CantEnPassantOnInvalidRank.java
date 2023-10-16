@@ -5,6 +5,6 @@ import chess.game.board.pieces.Pawn;
 
 public class CantEnPassantOnInvalidRank extends PlayValidationError {
   public CantEnPassantOnInvalidRank(Color color) {
-    super(color + " can only En Passant on rank " + Pawn.getEnPassantRank(color) + ".");
+    super(color + " can only En Passant on rank " + Pawn.getEnPassantRankFor(color) + ".");
   }
 }

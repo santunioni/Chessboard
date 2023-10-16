@@ -17,14 +17,14 @@ public class King extends Piece {
    * @deprecated use {@link #King(Position, Color)} instead
    */
   public King(Color color) {
-    super(initialPosition(color), color, PieceType.KING);
+    super(initialPositionFor(color), color, PieceType.KING);
   }
 
   public King(Position initialPosition, Color color) {
     super(initialPosition, color, PieceType.KING);
   }
 
-  public static Position initialPosition(Color color) {
+  public static Position initialPositionFor(Color color) {
     return new Position(color == Color.WHITE ? "e1" : "e8");
   }
 

@@ -17,14 +17,14 @@ public class Queen extends Piece {
    * @deprecated use {@link #Queen(Position, Color)} instead
    */
   public Queen(Color color) {
-    super(initialPosition(color), color, PieceType.QUEEN);
+    super(initialPositionFor(color), color, PieceType.QUEEN);
   }
 
   public Queen(Position initialPosition, Color color) {
     super(initialPosition, color, PieceType.QUEEN);
   }
 
-  public static Position initialPosition(Color color) {
+  public static Position initialPositionFor(Color color) {
     return new Position(color == Color.WHITE ? "d1" : "d8");
   }
 

@@ -16,34 +16,34 @@ public class PieceFactory {
   }
 
   public Piece createKing(Color color) {
-    return new King(King.initialPosition(color), color);
+    return new King(King.initialPositionFor(color), color);
   }
 
   public Piece createQueen(Color color) {
-    return new Queen(Queen.initialPosition(color), color);
+    return new Queen(Queen.initialPositionFor(color), color);
   }
 
   public List<Piece> createRooks(Color color) {
     var rooks = new ArrayList<Piece>();
-    Rook.initialPositions(color).forEach(position -> rooks.add(new Rook(position, color)));
+    Rook.initialPositionsFor(color).forEach(position -> rooks.add(new Rook(position, color)));
     return rooks;
   }
 
   public List<Piece> createKnights(Color color) {
     var knights = new ArrayList<Piece>();
-    Knight.initialPositions(color).forEach(position -> knights.add(new Knight(position, color)));
+    Knight.initialPositionsFor(color).forEach(position -> knights.add(new Knight(position, color)));
     return knights;
   }
 
   public List<Piece> createBishops(Color color) {
     var bishops = new ArrayList<Piece>();
-    Bishop.initialPositions(color).forEach(position -> bishops.add(new Bishop(position, color)));
+    Bishop.initialPositionsFor(color).forEach(position -> bishops.add(new Bishop(position, color)));
     return bishops;
   }
 
   public List<Piece> createPawns(Color color) {
     var pawns = new ArrayList<Piece>();
-    Pawn.initialPositions(color).forEach(position -> pawns.add(new Pawn(position, color)));
+    Pawn.initialPositionsFor(color).forEach(position -> pawns.add(new Pawn(position, color)));
     return pawns;
   }
 }

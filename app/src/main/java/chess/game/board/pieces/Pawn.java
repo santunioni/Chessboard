@@ -16,7 +16,7 @@ import java.util.Set;
 
 public class Pawn extends Piece {
 
-  private final Direction walkDirection;
+  private final Direction walkDirection = Pawn.walkDirectionFor(this.getSpecification().color());
 
   /**
    * Constructor used only to delay refactoring the tests.
@@ -25,30 +25,36 @@ public class Pawn extends Piece {
    */
   public Pawn(Color color) {
     super(new Position("a1"), color, PieceType.PAWN);
-    this.walkDirection = color == Color.WHITE ? Direction.VERTICAL_UP : Direction.VERTICAL_DOWN;
   }
 
   public Pawn(Position initialPosition, Color color) {
     super(initialPosition, color, PieceType.PAWN);
-    this.walkDirection = color == Color.WHITE ? Direction.VERTICAL_UP : Direction.VERTICAL_DOWN;
   }
 
   public Pawn(String initialPosition, Color color) {
     super(new Position(initialPosition), color, PieceType.PAWN);
-    this.walkDirection = color == Color.WHITE ? Direction.VERTICAL_UP : Direction.VERTICAL_DOWN;
   }
 
-  public static Rank getEnPassantRank(Color color) {
+
+  public static Direction walkDirectionFor(Color color) {
+    return color == Color.WHITE ? Direction.VERTICAL_UP : Direction.VERTICAL_DOWN;
+  }
+
+  public static Rank getEnPassantRankFor(Color color) {
     return color == Color.WHITE ? Rank.FIVE : Rank.FOUR;
   }
 
-  public static Rank getStartRank(Color color) {
+  public static Rank getStartRankFor(Color color) {
     return color == Color.WHITE ? Rank.TWO : Rank.SEVEN;
   }
 
-  public static List<Position> initialPositions(Color color) {
+  public static Rank getPromotionRankFor(Color color) {
+    return color == Color.WHITE ? Rank.EIGHT : Rank.ONE;
+  }
+
+  public static List<Position> initialPositionsFor(Color color) {
     var positions = new ArrayList<Position>();
-    var rank = Pawn.getStartRank(color);
+    var rank = Pawn.getStartRankFor(color);
     for (var file : File.values()) {
       positions.add(new Position(file, rank));
     }
@@ -56,7 +62,7 @@ public class Pawn extends Piece {
   }
 
   private boolean hasAlreadyMoved() {
-    return this.currentPosition().rank() != getStartRank(this.getSpecification().color());
+    return this.currentPosition().rank() != getStartRankFor(this.getSpecification().color());
   }
 
   public boolean couldCaptureEnemyAt(Position enemyPosition) {
@@ -110,7 +116,7 @@ public class Pawn extends Piece {
 
         if (this.couldCaptureEnemyAt(target)) {
           plays.add(new Capture(this.getSpecification().color(), from, target));
-          if (from.rank() == getEnPassantRank(this.getSpecification().color())) {
+          if (from.rank() == getEnPassantRankFor(this.getSpecification().color())) {
             plays.add(new EnPassant(this.getSpecification().color(), from, target));
           }
         }

@@ -28,7 +28,7 @@ public class Rook extends Piece {
     super(initialPosition, color, PieceType.ROOK);
   }
 
-  public static List<Position> initialPositions(Color color) {
+  public static List<Position> initialPositionsFor(Color color) {
     return color.equals(Color.WHITE) ? List.of(new Position("a1"), new Position("h1")) :
         List.of(new Position("a8"), new Position("h8"));
   }
