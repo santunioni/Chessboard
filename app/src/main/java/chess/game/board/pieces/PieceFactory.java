@@ -1,7 +1,5 @@
 package chess.game.board.pieces;
 
-import chess.game.grid.File;
-import chess.game.grid.Position;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,34 +25,25 @@ public class PieceFactory {
 
   public List<Piece> createRooks(Color color) {
     var rooks = new ArrayList<Piece>();
-    for (var initialPosition : color == Color.WHITE ? List.of("a1", "h1") : List.of("a8", "h8")) {
-      rooks.add(new Rook(new Position(initialPosition), color));
-    }
+    Rook.initialPositions(color).forEach(position -> rooks.add(new Rook(position, color)));
     return rooks;
   }
 
   public List<Piece> createKnights(Color color) {
     var knights = new ArrayList<Piece>();
-    for (var initialPosition : color == Color.WHITE ? List.of("b1", "g1") : List.of("b8", "g8")) {
-      knights.add(new Knight(new Position(initialPosition), color));
-    }
+    Knight.initialPositions(color).forEach(position -> knights.add(new Knight(position, color)));
     return knights;
   }
 
   public List<Piece> createBishops(Color color) {
     var bishops = new ArrayList<Piece>();
-    for (var initialPosition : color == Color.WHITE ? List.of("c1", "f1") : List.of("c8", "f8")) {
-      bishops.add(new Bishop(new Position(initialPosition), color));
-    }
+    Bishop.initialPositions(color).forEach(position -> bishops.add(new Bishop(position, color)));
     return bishops;
   }
 
   public List<Piece> createPawns(Color color) {
-    var rank = Pawn.getStartRank(color);
     var pawns = new ArrayList<Piece>();
-    for (var file : File.values()) {
-      pawns.add(new Pawn(new Position(file, rank), color));
-    }
+    Pawn.initialPositions(color).forEach(position -> pawns.add(new Pawn(position, color)));
     return pawns;
   }
 }

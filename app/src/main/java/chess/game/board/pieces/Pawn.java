@@ -9,6 +9,7 @@ import chess.game.plays.Capture;
 import chess.game.plays.EnPassant;
 import chess.game.plays.Move;
 import chess.game.plays.Play;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -43,6 +44,15 @@ public class Pawn extends Piece {
 
   public static Rank getStartRank(Color color) {
     return color == Color.WHITE ? Rank.TWO : Rank.SEVEN;
+  }
+
+  public static List<Position> initialPositions(Color color) {
+    var positions = new ArrayList<Position>();
+    var rank = Pawn.getStartRank(color);
+    for (var file : File.values()) {
+      positions.add(new Position(file, rank));
+    }
+    return positions;
   }
 
   private boolean hasAlreadyMoved() {

@@ -7,6 +7,7 @@ import chess.game.grid.Path;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Bishop extends Piece {
@@ -22,6 +23,11 @@ public class Bishop extends Piece {
 
   public Bishop(Position initialPosition, Color color) {
     super(initialPosition, color, PieceType.BISHOP);
+  }
+
+  public static List<Position> initialPositions(Color color) {
+    return color.equals(Color.WHITE) ? List.of(new Position("c1"), new Position("f1")) :
+        List.of(new Position("c8"), new Position("f8"));
   }
 
   public boolean couldMoveToIfEmpty(Position target) {

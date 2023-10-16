@@ -24,6 +24,11 @@ public class Knight extends Piece {
     super(initialPosition, color, PieceType.KNIGHT);
   }
 
+  public static List<Position> initialPositions(Color color) {
+    return color.equals(Color.WHITE) ? List.of(new Position("b1"), new Position("g1")) :
+        List.of(new Position("b8"), new Position("g8"));
+  }
+
   public boolean couldMoveToIfEmpty(Position position) {
     var myPosition = this.currentPosition();
     var horizontalDistance = Math.abs(myPosition.file().distanceTo(position.file()));
@@ -42,8 +47,8 @@ public class Knight extends Piece {
         if (0 <= targetPositionIndex && targetPositionIndex <= 63) {
           var targetPosition = Position.fromIndex(targetPositionIndex);
           if (this.couldMoveToIfEmpty(targetPosition)) {
-            plays.add(new Move(this.getSpecification().color(), this.currentPosition(),
-                targetPosition));
+            plays.add(
+                new Move(this.getSpecification().color(), this.currentPosition(), targetPosition));
             plays.add(new Capture(this.getSpecification().color(), this.currentPosition(),
                 targetPosition));
           }
