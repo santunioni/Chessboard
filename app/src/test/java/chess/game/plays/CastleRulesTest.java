@@ -21,14 +21,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class CastleRulesTest {
-  private Board board;
   private final PieceFactory pieceFactory = new PieceFactory();
-
+  private Board board;
 
   @BeforeEach
   void setUp() {
     this.board = new Board();
-    board.placePiece("e1", new King(Color.WHITE));
+    board.placePiece("e1", this.pieceFactory.createKing(Color.WHITE));
     board.placePiece("h1", new Rook(Color.WHITE));
   }
 

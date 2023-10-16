@@ -6,13 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Pawn;
-import chess.game.board.pieces.Queen;
+import chess.game.board.pieces.PieceFactory;
 import chess.game.grid.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class QueenThreatensTest {
 
+  private final PieceFactory pieceFactory = new PieceFactory();
   private Board board;
 
   @BeforeEach
@@ -23,7 +24,7 @@ public class QueenThreatensTest {
 
   @Test
   public void shouldThreatenDiagonally() {
-    var queen = new Queen(Color.BLACK);
+    var queen = this.pieceFactory.createQueen(Color.BLACK);
     this.board.placePiece("d4", queen);
 
     assertTrue(queen.couldCaptureEnemyAt(new Position("f6")));
@@ -31,7 +32,7 @@ public class QueenThreatensTest {
 
   @Test
   public void shouldThreatenVertically() {
-    var queen = new Queen(Color.BLACK);
+    var queen = this.pieceFactory.createQueen(Color.BLACK);
     this.board.placePiece("d4", queen);
 
     assertTrue(queen.couldCaptureEnemyAt(new Position("d5")));
@@ -39,7 +40,7 @@ public class QueenThreatensTest {
 
   @Test
   public void shouldThreatenHorizontally() {
-    var queen = new Queen(Color.BLACK);
+    var queen = this.pieceFactory.createQueen(Color.BLACK);
     this.board.placePiece("d4", queen);
 
     assertTrue(queen.couldCaptureEnemyAt(new Position("e4")));
@@ -47,7 +48,7 @@ public class QueenThreatensTest {
 
   @Test
   public void shouldNotThreatenIfEnemyIsBetween() {
-    var queen = new Queen(Color.BLACK);
+    var queen = this.pieceFactory.createQueen(Color.BLACK);
     this.board.placePiece("d4", queen);
     this.board.placePiece("f6", new Pawn(Color.WHITE));
 
@@ -56,7 +57,7 @@ public class QueenThreatensTest {
 
   @Test
   public void shouldNotThreatenIfAllyIsBetween() {
-    var queen = new Queen(Color.BLACK);
+    var queen = this.pieceFactory.createQueen(Color.BLACK);
     this.board.placePiece("d4", queen);
     this.board.placePiece("f6", new Pawn(Color.BLACK));
 

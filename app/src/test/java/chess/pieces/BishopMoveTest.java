@@ -19,10 +19,9 @@ import org.junit.jupiter.api.Test;
 
 public class BishopMoveTest {
 
+  private final PieceFactory pieceFactory = new PieceFactory();
   private Board board;
   private List<Play> stack;
-  private final PieceFactory pieceFactory = new PieceFactory();
-
 
   @BeforeEach
   void setUp() {

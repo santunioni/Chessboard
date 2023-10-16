@@ -14,8 +14,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class PromotionTest {
-  private Board board;
   private final PieceFactory pieceFactory = new PieceFactory();
+  private Board board;
 
   @BeforeEach
   void setUp() {

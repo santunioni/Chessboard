@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Pawn;
-import chess.game.board.pieces.Queen;
+import chess.game.board.pieces.PieceFactory;
 import chess.game.grid.Position;
 import chess.game.plays.validation.CapturePatternNotAllowedValidationError;
 import chess.game.plays.validation.NoPieceAtPositionValidationError;
@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class CaptureTest {
+  private final PieceFactory pieceFactory = new PieceFactory();
   private Board board;
 
   @BeforeEach
@@ -63,7 +64,7 @@ public class CaptureTest {
 
   @Test
   void shouldAllowQueenVerticalAttack() throws PlayValidationError {
-    var queen = new Queen(Color.WHITE);
+    var queen = this.pieceFactory.createQueen(Color.WHITE);
     board.placePiece("e2", queen);
     board.placePiece("e7", new Pawn(Color.BLACK));
 
@@ -76,7 +77,7 @@ public class CaptureTest {
 
   @Test
   void shouldNotAttackAlly() {
-    var queen = new Queen(Color.WHITE);
+    var queen = this.pieceFactory.createQueen(Color.WHITE);
     board.placePiece("e2", queen);
     board.placePiece("e7", new Pawn(Color.WHITE));
 
@@ -88,7 +89,7 @@ public class CaptureTest {
 
   @Test
   void shouldNotAttackEmptyPositions() {
-    var queen = new Queen(Color.WHITE);
+    var queen = this.pieceFactory.createQueen(Color.WHITE);
     board.placePiece("e2", queen);
     var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
 

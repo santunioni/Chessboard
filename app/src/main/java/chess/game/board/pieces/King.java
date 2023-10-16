@@ -11,15 +11,6 @@ import java.util.Set;
 
 public class King extends Piece {
 
-  /**
-   * Constructor used only to delay refactoring the tests.
-   *
-   * @deprecated use {@link #King(Position, Color)} instead
-   */
-  public King(Color color) {
-    super(initialPositionFor(color), color, PieceType.KING);
-  }
-
   public King(Position initialPosition, Color color) {
     super(initialPosition, color, PieceType.KING);
   }

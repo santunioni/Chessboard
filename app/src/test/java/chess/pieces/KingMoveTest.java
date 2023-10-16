@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
-import chess.game.board.pieces.King;
 import chess.game.board.pieces.Pawn;
+import chess.game.board.pieces.PieceFactory;
 import chess.game.grid.Position;
 import chess.game.plays.Move;
 import chess.game.plays.Play;
@@ -20,9 +20,9 @@ import org.junit.jupiter.api.Test;
 
 public class KingMoveTest {
 
+  private final PieceFactory pieceFactory = new PieceFactory();
   private Board board;
   private List<Play> stack;
-
 
   @BeforeEach
   void setUp() {
@@ -37,7 +37,7 @@ public class KingMoveTest {
   @Test
   void shouldBeAbleToMoveExactlyOneSquareInAnyDirection() {
     forwardToBlackTurn();
-    var king = new King(Color.BLACK);
+    var king = this.pieceFactory.createKing(Color.BLACK);
     this.board.placePiece("d4", king);
 
     var expectedValidMoves = Set.of(
@@ -58,7 +58,7 @@ public class KingMoveTest {
 
   @Test
   void shouldBeBlockedByWalls() {
-    var king = new King(Color.WHITE);
+    var king = this.pieceFactory.createKing(Color.WHITE);
     this.board.placePiece("e1", king);
 
     var expectedValidMoves = Set.of(
@@ -75,7 +75,7 @@ public class KingMoveTest {
 
   @Test
   void shouldBeBlockedByCorner() {
-    var king = new King(Color.WHITE);
+    var king = this.pieceFactory.createKing(Color.WHITE);
     this.board.placePiece("a1", king);
 
     var expectedValidMoves = Set.of(
@@ -89,7 +89,7 @@ public class KingMoveTest {
 
   @Test
   void shouldBeBlockedByItsTeamMates() {
-    var king = new King(Color.WHITE);
+    var king = this.pieceFactory.createKing(Color.WHITE);
     this.board.placePiece("a1", king);
     this.board.placePiece("a2", new Pawn(Color.WHITE));
     this.board.placePiece("b2", new Pawn(Color.WHITE));

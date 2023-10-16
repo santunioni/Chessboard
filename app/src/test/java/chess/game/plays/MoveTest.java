@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Pawn;
-import chess.game.board.pieces.Queen;
+import chess.game.board.pieces.PieceFactory;
 import chess.game.grid.Position;
 import chess.game.plays.validation.NoPieceAtPositionValidationError;
 import chess.game.plays.validation.PlayValidationError;
@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class MoveTest {
+  private final PieceFactory pieceFactory = new PieceFactory();
   private Board board;
 
   @BeforeEach
@@ -44,7 +45,7 @@ public class MoveTest {
 
   @Test
   void shouldNotDisplaceToPositionOccupiedByAlly() {
-    board.placePiece("e2", new Queen(Color.BLACK));
+    board.placePiece("e2", this.pieceFactory.createQueen(Color.BLACK));
     board.placePiece("e4", new Pawn(Color.BLACK));
 
     var move = new Move(Color.BLACK, new Position("e2"), new Position("e4"));
@@ -54,8 +55,8 @@ public class MoveTest {
 
   @Test
   void shouldNotDisplaceToPositionOccupiedByEnemy() {
-    board.placePiece("e2", new Queen(Color.BLACK));
-    board.placePiece("e4", new Queen(Color.WHITE));
+    board.placePiece("e2", this.pieceFactory.createQueen(Color.BLACK));
+    board.placePiece("e4", this.pieceFactory.createQueen(Color.WHITE));
 
     var move = new Move(Color.BLACK, new Position("e2"), new Position("e4"));
 

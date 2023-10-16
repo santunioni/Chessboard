@@ -5,12 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
-import chess.game.board.pieces.King;
+import chess.game.board.pieces.PieceFactory;
 import chess.game.grid.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class KingThreatensTest {
+  private final PieceFactory pieceFactory = new PieceFactory();
   private Board board;
 
   @BeforeEach
@@ -20,7 +21,7 @@ public class KingThreatensTest {
 
   @Test
   public void shouldThreatenVertically() {
-    var king = new King(Color.BLACK);
+    var king = this.pieceFactory.createKing(Color.BLACK);
     board.placePiece("d4", king);
 
     assertTrue(king.couldCaptureEnemyAt(new Position("d5")));
@@ -28,7 +29,7 @@ public class KingThreatensTest {
 
   @Test
   public void shouldThreatenHorizontally() {
-    var king = new King(Color.BLACK);
+    var king = this.pieceFactory.createKing(Color.BLACK);
     board.placePiece("d4", king);
 
     assertTrue(king.couldCaptureEnemyAt(new Position("e4")));
@@ -36,7 +37,7 @@ public class KingThreatensTest {
 
   @Test
   public void shouldThreatenDiagonally() {
-    var king = new King(Color.BLACK);
+    var king = this.pieceFactory.createKing(Color.BLACK);
     board.placePiece("d4", king);
 
     assertTrue(king.couldCaptureEnemyAt(new Position("e5")));
@@ -44,7 +45,7 @@ public class KingThreatensTest {
 
   @Test
   public void shouldNotDistantPiece() {
-    var king = new King(Color.BLACK);
+    var king = this.pieceFactory.createKing(Color.BLACK);
     board.placePiece("d4", king);
 
     assertFalse(king.couldCaptureEnemyAt(new Position("d6")));

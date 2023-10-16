@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
-import chess.game.board.pieces.King;
 import chess.game.board.pieces.PieceFactory;
 import chess.game.board.pieces.Rook;
 import chess.game.grid.Position;
@@ -15,8 +14,8 @@ import org.junit.jupiter.api.Test;
 
 public class PlayValidatorTest {
 
-  private Board state;
   private final PieceFactory pieceFactory = new PieceFactory();
+  private Board state;
 
   @BeforeEach
   void setUp() {
@@ -26,7 +25,7 @@ public class PlayValidatorTest {
   @Test
   void shouldNotAllowPlayerToPutItsOwnKingInCheck() {
     // Given
-    this.state.placePiece("e1", new King(Color.WHITE));
+    this.state.placePiece("e1", this.pieceFactory.createKing(Color.WHITE));
     this.state.placePiece("f1", pieceFactory.createBishops(Color.WHITE).get(0));
     this.state.placePiece("h1", new Rook(Color.BLACK));
 
