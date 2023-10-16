@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import chess.game.board.Board;
-import chess.game.board.pieces.Bishop;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Pawn;
+import chess.game.board.pieces.PieceFactory;
 import chess.game.board.pieces.PieceType;
 import chess.game.grid.Position;
 import chess.game.plays.validation.PlayValidationError;
@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 public class PromotionTest {
   private Board board;
+  private final PieceFactory pieceFactory = new PieceFactory();
 
   @BeforeEach
   void setUp() {
@@ -33,7 +34,7 @@ public class PromotionTest {
 
   @Test
   void shouldNotPromoteOtherThanPawn() {
-    this.board.placePiece("a8", new Bishop(Color.WHITE));
+    this.board.placePiece("a8", this.pieceFactory.createBishops(Color.WHITE).get(0));
 
     var promotion = new Promotion(Color.WHITE, new Position("b8"),
         PieceType.QUEEN);

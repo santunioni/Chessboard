@@ -12,15 +12,6 @@ import java.util.Set;
 
 public class Bishop extends Piece {
 
-  /**
-   * Constructor used only to delay refactoring the tests.
-   *
-   * @deprecated use {@link #Bishop(Position, Color)} instead
-   */
-  public Bishop(Color color) {
-    super(new Position("a1"), color, PieceType.BISHOP);
-  }
-
   public Bishop(Position initialPosition, Color color) {
     super(initialPosition, color, PieceType.BISHOP);
   }

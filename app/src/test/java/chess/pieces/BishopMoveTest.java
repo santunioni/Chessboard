@@ -3,9 +3,9 @@ package chess.pieces;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import chess.game.board.Board;
-import chess.game.board.pieces.Bishop;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Pawn;
+import chess.game.board.pieces.PieceFactory;
 import chess.game.grid.Position;
 import chess.game.plays.Move;
 import chess.game.plays.Play;
@@ -21,6 +21,7 @@ public class BishopMoveTest {
 
   private Board board;
   private List<Play> stack;
+  private final PieceFactory pieceFactory = new PieceFactory();
 
 
   @BeforeEach
@@ -36,7 +37,7 @@ public class BishopMoveTest {
   @Test
   void shouldBeAbleToMoveDiagonally() {
     forwardToBlackTurn();
-    var bishop = new Bishop(Color.BLACK);
+    var bishop = this.pieceFactory.createBishops(Color.BLACK).get(0);
     this.board.placePiece("d4", bishop);
 
     var expectedValidMoves = Set.of(
@@ -60,7 +61,7 @@ public class BishopMoveTest {
 
   @Test
   void shouldBeBlockedByItsTeamMates() {
-    var bishop = new Bishop(Color.WHITE);
+    var bishop = this.pieceFactory.createBishops(Color.WHITE).get(0);
     this.board.placePiece("b1", bishop);
     this.board.placePiece("d3", new Pawn(Color.WHITE));
 

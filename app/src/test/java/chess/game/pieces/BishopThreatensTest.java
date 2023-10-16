@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import chess.game.board.Board;
-import chess.game.board.pieces.Bishop;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Pawn;
+import chess.game.board.pieces.PieceFactory;
 import chess.game.grid.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 public class BishopThreatensTest {
 
   private Board board;
+  private final PieceFactory pieceFactory = new PieceFactory();
 
   @BeforeEach
   void setUp() {
@@ -23,7 +24,7 @@ public class BishopThreatensTest {
 
   @Test
   public void shouldThreatenDiagonally() {
-    var bishop = new Bishop(Color.BLACK);
+    var bishop = this.pieceFactory.createBishops(Color.BLACK).get(0);
     this.board.placePiece("d4", bishop);
 
     assertTrue(bishop.couldCaptureEnemyAt(new Position("f6")));
@@ -31,7 +32,7 @@ public class BishopThreatensTest {
 
   @Test
   public void shouldNotThreatenIfEnemyIsBetween() {
-    var bishop = new Bishop(Color.BLACK);
+    var bishop = this.pieceFactory.createBishops(Color.BLACK).get(0);
     this.board.placePiece("d4", bishop);
     this.board.placePiece("f6", new Pawn(Color.WHITE));
 
@@ -40,7 +41,7 @@ public class BishopThreatensTest {
 
   @Test
   public void shouldNotThreatenIfAllyIsBetween() {
-    var bishop = new Bishop(Color.BLACK);
+    var bishop = this.pieceFactory.createBishops(Color.BLACK).get(0);
     this.board.placePiece("d4", bishop);
     this.board.placePiece("f6", new Pawn(Color.BLACK));
 
@@ -49,7 +50,7 @@ public class BishopThreatensTest {
 
   @Test
   public void shouldThreatenEvenIfPositionIsOccupiedByAlly() {
-    var bishop = new Bishop(Color.BLACK);
+    var bishop = this.pieceFactory.createBishops(Color.BLACK).get(0);
     this.board.placePiece("d4", bishop);
     this.board.placePiece("f6", new Pawn(Color.BLACK));
 
@@ -58,7 +59,7 @@ public class BishopThreatensTest {
 
   @Test
   public void shouldThreatenEvenIfPositionIsOccupiedByEnemy() {
-    var bishop = new Bishop(Color.BLACK);
+    var bishop = this.pieceFactory.createBishops(Color.BLACK).get(0);
     this.board.placePiece("d4", bishop);
     this.board.placePiece("f6", new Pawn(Color.WHITE));
 
@@ -67,7 +68,7 @@ public class BishopThreatensTest {
 
   @Test
   public void shouldNotThreatenVertically() {
-    var bishop = new Bishop(Color.BLACK);
+    var bishop = this.pieceFactory.createBishops(Color.BLACK).get(0);
     this.board.placePiece("d4", bishop);
 
     assertFalse(bishop.couldCaptureEnemyAt(new Position("d5")));
@@ -75,7 +76,7 @@ public class BishopThreatensTest {
 
   @Test
   public void shouldNotThreatenHorizontally() {
-    var bishop = new Bishop(Color.BLACK);
+    var bishop = this.pieceFactory.createBishops(Color.BLACK).get(0);
     this.board.placePiece("d4", bishop);
 
     assertFalse(bishop.couldCaptureEnemyAt(new Position("e4")));

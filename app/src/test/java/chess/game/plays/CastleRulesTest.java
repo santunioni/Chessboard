@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import chess.game.board.Board;
-import chess.game.board.pieces.Bishop;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.King;
+import chess.game.board.pieces.PieceFactory;
 import chess.game.board.pieces.PieceType;
 import chess.game.board.pieces.Rook;
 import chess.game.grid.Position;
@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 
 public class CastleRulesTest {
   private Board board;
+  private final PieceFactory pieceFactory = new PieceFactory();
 
 
   @BeforeEach
@@ -93,7 +94,7 @@ public class CastleRulesTest {
   @Test
   void shouldFailIfPathBetweenKingAndRookIsBlocked() {
     // Given
-    board.placePiece("f1", new Bishop(Color.WHITE));
+    board.placePiece("f1", this.pieceFactory.createBishops(Color.WHITE).get(0));
 
     // When
     var castle = new Castle(Color.WHITE, new Position("h1"));
