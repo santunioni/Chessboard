@@ -7,41 +7,41 @@ import chess.game.plays.Play;
 import chess.game.plays.PlayDto;
 import chess.game.plays.PlayDtoToPlayMapper;
 import chess.game.plays.validation.PlayValidationError;
-import chess.game.rules.PlayValidator;
-import chess.game.rules.validation.IlegalPlay;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * The only way that ui should interact with the chess game.
  */
 public class GameController {
-  private final Board board;
+  private final BoardRepository boardRepository;
 
-  public GameController(Board board) {
-    this.board = board;
+  public GameController(BoardRepository boardRepository) {
+    this.boardRepository = boardRepository;
   }
 
-  public Optional<PieceSpecification> getPieceAt(Position position) {
-    Optional<Piece> pieceOptional = this.board.getPieceAt(position);
-    if (pieceOptional.isPresent()) {
-      var piece = pieceOptional.get();
-      return Optional.of(piece.getSpecification());
-    }
-    return Optional.empty();
+  public String newGame() {
+    var board = this.boardRepository.createNewBoardInitializer().placeAll().getBoard();
+    this.boardRepository.saveBoard(board);
+    return board.getId();
   }
 
-  public List<PlayDto> getPlaysFor(Position position) {
-    var playingPieceOptional = this.board.getPieceAt(position);
-    return playingPieceOptional.map(piece -> piece.getPlays(this.board))
-        .orElse(new HashSet<>()).stream().map(Play::toDto).collect(Collectors.toList());
+  public Optional<PieceSpecification> getPieceAt(String boardId, Position position) {
+    var board = this.boardRepository.getBoard(boardId);
+    return board.getPieceAt(position).map(Piece::getSpecification);
   }
 
-  public void makePlay(PlayDto playDto) throws PlayValidationError, IlegalPlay {
-    var play = new PlayDtoToPlayMapper(this.board).createPlayFromDto(playDto);
-    new PlayValidator(this.board).validateNextPlay(play);
-    play.actOn(this.board);
+  public List<PlayDto> getPlaysFor(String boardId, Position position) {
+    var board = this.boardRepository.getBoard(boardId);
+    return board.getPieceAt(position)
+        .map(piece -> piece.getPlays(board))
+        .orElse(new HashSet<>()).stream().map(Play::toDto).toList();
+  }
+
+  public void makePlay(String boardId, PlayDto playDto) throws PlayValidationError {
+    var board = this.boardRepository.getBoard(boardId);
+    var play = new PlayDtoToPlayMapper(board).createPlayFromDto(playDto);
+    board.makePlay(play);
   }
 }

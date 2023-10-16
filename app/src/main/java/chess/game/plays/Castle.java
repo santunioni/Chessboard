@@ -1,5 +1,6 @@
 package chess.game.plays;
 
+import chess.game.assertions.IsPositionThreatenedByColorAssertion;
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.King;
@@ -67,11 +68,12 @@ public record Castle(Color color, Position to) implements Play {
       throw new CantCastleOverOccupiedSquares(this.color, this.to);
     }
 
-    if (board.isPositionThreatenedBy(kingPosition, this.color.opposite())) {
+    if (new IsPositionThreatenedByColorAssertion(this.color.opposite(), kingPosition).test(board)) {
       throw new CantCastleWhileInCheck(this.color);
     }
 
-    if (board.isPositionThreatenedBy(kingFirstStep, this.color.opposite())) {
+    if (new IsPositionThreatenedByColorAssertion(this.color.opposite(), kingFirstStep).test(
+        board)) {
       throw new CantCastleWhilePassingThroughCheck(this.color, this.to);
     }
 

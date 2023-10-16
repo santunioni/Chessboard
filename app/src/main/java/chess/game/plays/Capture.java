@@ -23,7 +23,7 @@ public record Capture(Color color, Position from, Position to) implements Play {
     var piece = board.getPieceAt(from, color)
         .orElseThrow(() -> new NoPieceAtPositionValidationError(from));
 
-    if (!piece.couldCaptureEnemyAt(to)) {
+    if (!piece.threatens(to)) {
       throw new CapturePatternNotAllowedValidationError(piece, from, to);
     }
 

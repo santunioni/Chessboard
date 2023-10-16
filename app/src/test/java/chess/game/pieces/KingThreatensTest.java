@@ -24,7 +24,7 @@ public class KingThreatensTest {
     var king = this.pieceFactory.createKing(Color.BLACK);
     board.placePiece("d4", king);
 
-    assertTrue(king.couldCaptureEnemyAt(new Position("d5")));
+    assertTrue(king.threatens(new Position("d5")));
   }
 
   @Test
@@ -32,7 +32,7 @@ public class KingThreatensTest {
     var king = this.pieceFactory.createKing(Color.BLACK);
     board.placePiece("d4", king);
 
-    assertTrue(king.couldCaptureEnemyAt(new Position("e4")));
+    assertTrue(king.threatens(new Position("e4")));
   }
 
   @Test
@@ -40,7 +40,7 @@ public class KingThreatensTest {
     var king = this.pieceFactory.createKing(Color.BLACK);
     board.placePiece("d4", king);
 
-    assertTrue(king.couldCaptureEnemyAt(new Position("e5")));
+    assertTrue(king.threatens(new Position("e5")));
   }
 
   @Test
@@ -48,7 +48,7 @@ public class KingThreatensTest {
     var king = this.pieceFactory.createKing(Color.BLACK);
     board.placePiece("d4", king);
 
-    assertFalse(king.couldCaptureEnemyAt(new Position("d6")));
+    assertFalse(king.threatens(new Position("d6")));
   }
 
 }

@@ -14,12 +14,14 @@ public class PiecesUi extends JPanel {
   private final PlaysUi moves;
   private final SquaresUi grid;
   private final GameController controller;
+  private final String boardId;
 
-  public PiecesUi(SquaresUi grid, GameController gameController, PlaysUi moves) {
+  public PiecesUi(SquaresUi grid, GameController gameController, PlaysUi moves, String boardId) {
     super(null); // Null layout for absolute positioning
     this.grid = grid;
     this.controller = gameController;
     this.moves = moves;
+    this.boardId = boardId;
     this.setOpaque(false);
   }
 
@@ -33,7 +35,7 @@ public class PiecesUi extends JPanel {
   private void replacePieces() {
     this.removeAll();
     for (var position : Position.values()) {
-      var pieceOptional = this.controller.getPieceAt(position);
+      var pieceOptional = this.controller.getPieceAt(this.boardId, position);
       pieceOptional.ifPresent(piece -> this.add(this.createPieceUiAtPosition(position, piece)));
     }
   }

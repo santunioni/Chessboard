@@ -30,7 +30,7 @@ public class KnightThreatensTest {
   void shouldThreatenPositionDisplacedInLpattern(String knightPosition, String threatenedPosition) {
     var knight = this.pieceFactory.createKnights(Color.WHITE).get(0);
     this.board.placePiece(knightPosition, knight);
-    assertTrue(knight.couldCaptureEnemyAt(new Position(threatenedPosition)));
+    assertTrue(knight.threatens(new Position(threatenedPosition)));
   }
 
   @ParameterizedTest
@@ -39,7 +39,7 @@ public class KnightThreatensTest {
                                                        String notThreatenedPosition) {
     var knight = this.pieceFactory.createKnights(Color.WHITE).get(0);
     this.board.placePiece(knightPosition, knight);
-    assertFalse(knight.couldCaptureEnemyAt(new Position(notThreatenedPosition)));
+    assertFalse(knight.threatens(new Position(notThreatenedPosition)));
   }
 
   static class KnightThreatensInLcases implements ArgumentsProvider {

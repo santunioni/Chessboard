@@ -4,7 +4,6 @@ import chess.game.board.GameController;
 import chess.game.grid.Position;
 import chess.game.plays.PlayDto;
 import chess.game.plays.validation.PlayValidationError;
-import chess.game.rules.validation.IlegalPlay;
 import chess.ui.grid.SquaresUi;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +14,14 @@ public class PlaysUi extends JPanel {
   private final GameController controller;
   private final List<Runnable> onMovedPieceCallbacks = new ArrayList<>();
   private final PlayUiFactory playUiFactory;
+  private final String boardId;
   private Position highlighted;
 
-  public PlaysUi(SquaresUi grid, GameController controller) {
+  public PlaysUi(SquaresUi grid, GameController controller, String boardId) {
     super(null); // Null layout for absolute positioning
     this.controller = controller;
     this.playUiFactory = new PlayUiFactory(grid);
+    this.boardId = boardId;
     this.setOpaque(false);
   }
 
@@ -44,17 +45,17 @@ public class PlaysUi extends JPanel {
 
   private void paintPlaysForPosition(Position position) {
     this.removeAll();
-    List<PlayDto> plays = this.controller.getPlaysFor(position);
+    List<PlayDto> plays = this.controller.getPlaysFor(this.boardId, position);
 
     for (var play : plays) {
       JLabel playUi = this.playUiFactory.createJlabelForPlay(play, () -> {
         try {
-          controller.makePlay(play);
+          controller.makePlay(this.boardId, play);
           unhighlight();
           for (var callback : onMovedPieceCallbacks) {
             callback.run();
           }
-        } catch (PlayValidationError | IlegalPlay e) {
+        } catch (PlayValidationError e) {
           System.out.println(e.getMessage());
         }
       });

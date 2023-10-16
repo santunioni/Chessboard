@@ -15,12 +15,12 @@ public class ChessGame extends JFrame {
   private final JLayeredPane layers = new JLayeredPane();
   private int nextLayerZindex;
 
-  public ChessGame(int boardSize, GameController controller) {
+  public ChessGame(int boardSize, GameController controller, String boardId) {
     this.boardSize = boardSize;
 
     var squares = new SquaresUi();
-    var moves = new PlaysUi(squares, controller);
-    var pieces = new PiecesUi(squares, controller, moves);
+    var moves = new PlaysUi(squares, controller, boardId);
+    var pieces = new PiecesUi(squares, controller, moves, boardId);
     moves.addCallbackForMovedPiece(pieces::repaint);
 
     this.addLayer(squares);

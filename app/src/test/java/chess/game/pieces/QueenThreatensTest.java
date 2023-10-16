@@ -26,7 +26,7 @@ public class QueenThreatensTest {
     var queen = this.pieceFactory.createQueen(Color.BLACK);
     this.board.placePiece("d4", queen);
 
-    assertTrue(queen.couldCaptureEnemyAt(new Position("f6")));
+    assertTrue(queen.threatens(new Position("f6")));
   }
 
   @Test
@@ -34,7 +34,7 @@ public class QueenThreatensTest {
     var queen = this.pieceFactory.createQueen(Color.BLACK);
     this.board.placePiece("d4", queen);
 
-    assertTrue(queen.couldCaptureEnemyAt(new Position("d5")));
+    assertTrue(queen.threatens(new Position("d5")));
   }
 
   @Test
@@ -42,7 +42,7 @@ public class QueenThreatensTest {
     var queen = this.pieceFactory.createQueen(Color.BLACK);
     this.board.placePiece("d4", queen);
 
-    assertTrue(queen.couldCaptureEnemyAt(new Position("e4")));
+    assertTrue(queen.threatens(new Position("e4")));
   }
 
   @Test
@@ -51,7 +51,7 @@ public class QueenThreatensTest {
     this.board.placePiece("d4", queen);
     this.board.placePiece("f6", this.pieceFactory.createPawns(Color.WHITE).get(0));
 
-    assertFalse(queen.couldCaptureEnemyAt(new Position("g7")));
+    assertFalse(queen.threatens(new Position("g7")));
   }
 
   @Test
@@ -60,6 +60,6 @@ public class QueenThreatensTest {
     this.board.placePiece("d4", queen);
     this.board.placePiece("f6", this.pieceFactory.createPawns(Color.BLACK).get(0));
 
-    assertFalse(queen.couldCaptureEnemyAt(new Position("g7")));
+    assertFalse(queen.threatens(new Position("g7")));
   }
 }

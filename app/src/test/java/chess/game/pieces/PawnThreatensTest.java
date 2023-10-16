@@ -11,8 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class PawnThreatensTest {
-  private Board board;
   private final PieceFactory pieceFactory = new PieceFactory();
+  private Board board;
 
   @BeforeEach
   void setUp() {
@@ -24,8 +24,8 @@ public class PawnThreatensTest {
     var pawn = this.pieceFactory.createPawns(Color.WHITE).get(0);
     this.board.placePiece("c2", pawn);
 
-    assertTrue(pawn.couldCaptureEnemyAt(new Position("d3")));
-    assertTrue(pawn.couldCaptureEnemyAt(new Position("b3")));
+    assertTrue(pawn.threatens(new Position("d3")));
+    assertTrue(pawn.threatens(new Position("b3")));
   }
 
   @Test
@@ -33,8 +33,8 @@ public class PawnThreatensTest {
     var pawn = this.pieceFactory.createPawns(Color.BLACK).get(0);
     this.board.placePiece("c7", pawn);
 
-    assertTrue(pawn.couldCaptureEnemyAt(new Position("d6")));
-    assertTrue(pawn.couldCaptureEnemyAt(new Position("b6")));
+    assertTrue(pawn.threatens(new Position("d6")));
+    assertTrue(pawn.threatens(new Position("b6")));
   }
 
   @Test
@@ -42,8 +42,8 @@ public class PawnThreatensTest {
     var pawn = this.pieceFactory.createPawns(Color.BLACK).get(0);
     this.board.placePiece("c2", pawn);
 
-    assertFalse(pawn.couldCaptureEnemyAt(new Position("d3")));
-    assertFalse(pawn.couldCaptureEnemyAt(new Position("b3")));
+    assertFalse(pawn.threatens(new Position("d3")));
+    assertFalse(pawn.threatens(new Position("b3")));
   }
 
   @Test
@@ -51,8 +51,8 @@ public class PawnThreatensTest {
     var pawn = this.pieceFactory.createPawns(Color.WHITE).get(0);
     this.board.placePiece("c7", pawn);
 
-    assertFalse(pawn.couldCaptureEnemyAt(new Position("d6")));
-    assertFalse(pawn.couldCaptureEnemyAt(new Position("b6")));
+    assertFalse(pawn.threatens(new Position("d6")));
+    assertFalse(pawn.threatens(new Position("b6")));
   }
 
   @Test
@@ -60,7 +60,7 @@ public class PawnThreatensTest {
     var pawn = this.pieceFactory.createPawns(Color.WHITE).get(0);
     this.board.placePiece("a2", pawn);
 
-    assertFalse(pawn.couldCaptureEnemyAt(new Position("b2")));
+    assertFalse(pawn.threatens(new Position("b2")));
   }
 
   @Test
@@ -68,7 +68,7 @@ public class PawnThreatensTest {
     var pawn = this.pieceFactory.createPawns(Color.WHITE).get(0);
     this.board.placePiece("a1", pawn);
 
-    assertFalse(pawn.couldCaptureEnemyAt(new Position("b3")));
+    assertFalse(pawn.threatens(new Position("b3")));
   }
 
   @Test
@@ -76,6 +76,6 @@ public class PawnThreatensTest {
     var pawn = this.pieceFactory.createPawns(Color.WHITE).get(0);
     this.board.placePiece("a1", pawn);
 
-    assertFalse(pawn.couldCaptureEnemyAt(new Position("c3")));
+    assertFalse(pawn.threatens(new Position("c3")));
   }
 }

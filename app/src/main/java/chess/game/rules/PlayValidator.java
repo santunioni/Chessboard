@@ -1,26 +1,25 @@
 package chess.game.rules;
 
+import chess.game.assertions.BoardStateIsValidAssertion;
 import chess.game.board.Board;
 import chess.game.plays.Play;
 import chess.game.plays.validation.PlayValidationError;
-import chess.game.rules.validation.IlegalPlay;
 
 public class PlayValidator {
-  private final Board board;
+  private final Play play;
 
-  public PlayValidator(Board board) {
-    this.board = board;
+  public PlayValidator(Play play) {
+    this.play = play;
   }
 
-  public void validateNextPlay(Play play)
-      throws PlayValidationError, IlegalPlay {
-    play.validateAndGetAction(this.board);
-    CantPlayWhenNotYourTurn.validateHistoryBeforePlay(this.board, play);
-
-    var boardCopy = this.board.copy();
-    play.actOn(boardCopy);
-
-    CantLetKingInCheck.validateStateAfterPlay(boardCopy, play);
-    PawnShouldBePromoted.validateStateAfterPlay(boardCopy, play);
+  public boolean test(Board board) {
+    try {
+      CantPlayWhenNotYourTurn.validateHistoryBeforePlay(board, play);
+      var boardCopy = board.createStateValidationCopy();
+      boardCopy.makePlay(play);
+      return new BoardStateIsValidAssertion().test(boardCopy);
+    } catch (PlayValidationError e) {
+      return false;
+    }
   }
 }

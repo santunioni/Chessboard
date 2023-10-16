@@ -15,6 +15,14 @@ public class PieceFactory {
     };
   }
 
+  public List<Piece> createPiecesOf(PieceType type) {
+    var pieces = new ArrayList<Piece>();
+    for (var color : Color.values()) {
+      pieces.addAll(this.createPiecesOf(new PieceSpecification(color, type)));
+    }
+    return pieces;
+  }
+
   public Piece createKing(Color color) {
     return new King(King.initialPositionFor(color), color);
   }

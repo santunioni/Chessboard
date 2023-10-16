@@ -22,11 +22,6 @@ public class Pawn extends Piece {
     super(initialPosition, color, PieceType.PAWN);
   }
 
-  public Pawn(String initialPosition, Color color) {
-    super(new Position(initialPosition), color, PieceType.PAWN);
-  }
-
-
   public static Direction walkDirectionFor(Color color) {
     return color == Color.WHITE ? Direction.VERTICAL_UP : Direction.VERTICAL_DOWN;
   }
@@ -56,7 +51,7 @@ public class Pawn extends Piece {
     return this.currentPosition().rank() != getStartRankFor(this.getSpecification().color());
   }
 
-  public boolean couldCaptureEnemyAt(Position enemyPosition) {
+  public boolean threatens(Position enemyPosition) {
     var myPosition = this.currentPosition();
 
     if (Math.abs(myPosition.rank().distanceTo(enemyPosition.rank())) != 1
@@ -105,7 +100,7 @@ public class Pawn extends Piece {
           plays.add(new Move(this.getSpecification().color(), from, target));
         }
 
-        if (this.couldCaptureEnemyAt(target)) {
+        if (this.threatens(target)) {
           plays.add(new Capture(this.getSpecification().color(), from, target));
           if (from.rank() == getEnPassantRankFor(this.getSpecification().color())) {
             plays.add(new EnPassant(this.getSpecification().color(), from, target));

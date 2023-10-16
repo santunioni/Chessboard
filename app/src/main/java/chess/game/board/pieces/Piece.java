@@ -4,9 +4,7 @@ import chess.game.board.Board;
 import chess.game.board.ReadonlyBoard;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
-import chess.game.plays.validation.PlayValidationError;
 import chess.game.rules.PlayValidator;
-import chess.game.rules.validation.IlegalPlay;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -54,7 +52,7 @@ public abstract class Piece {
 
   public abstract boolean couldMoveToIfEmpty(Position position);
 
-  public boolean couldCaptureEnemyAt(Position position) {
+  public boolean threatens(Position position) {
     return this.couldMoveToIfEmpty(position);
   }
 
@@ -62,17 +60,10 @@ public abstract class Piece {
     return this.getSpecification().color().oppositeOf(piece.specification.color());
   }
 
-
   protected abstract Set<Play> getPossiblePlays();
 
-  public Set<Play> getPlays(Board state) {
-    return this.getPossiblePlays().stream().filter(play -> {
-      try {
-        new PlayValidator(state).validateNextPlay(play);
-        return true;
-      } catch (IlegalPlay | PlayValidationError ignored) {
-        return false;
-      }
-    }).collect(Collectors.toSet());
+  public Set<Play> getPlays(Board board) {
+    return this.getPossiblePlays().stream().filter(play -> new PlayValidator(play).test(board))
+        .collect(Collectors.toSet());
   }
 }

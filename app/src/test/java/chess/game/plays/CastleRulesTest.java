@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import chess.game.board.Board;
+import chess.game.board.BoardInitializer;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.King;
 import chess.game.board.pieces.PieceFactory;
@@ -25,9 +26,8 @@ public class CastleRulesTest {
 
   @BeforeEach
   void setUp() {
-    this.board = new Board();
-    board.placePiece("e1", this.pieceFactory.createKing(Color.WHITE));
-    board.placePiece("h1", this.pieceFactory.createRooks(Color.WHITE).get(0));
+    this.board = new BoardInitializer().placePiecesOf(PieceType.KING).placePiecesOf(PieceType.ROOK)
+        .getBoard();
   }
 
   @Test
@@ -55,7 +55,9 @@ public class CastleRulesTest {
   void shouldFailWhenKingAlreadyMoved() throws PlayValidationError {
     // Given
     board.makePlay(new Move(Color.WHITE, new Position("e1"), new Position("e2")));
+    board.makePlay(new Move(Color.BLACK, new Position("e8"), new Position("e7")));
     board.makePlay(new Move(Color.WHITE, new Position("e2"), new Position("e1")));
+    board.makePlay(new Move(Color.BLACK, new Position("e7"), new Position("e8")));
 
     // When
     var castle = new Castle(Color.WHITE, new Position("h1"));
@@ -68,7 +70,9 @@ public class CastleRulesTest {
   void shouldFailWhenRookAlreadyMoved() throws PlayValidationError {
     // Given
     board.makePlay(new Move(Color.WHITE, new Position("h1"), new Position("h2")));
+    board.makePlay(new Move(Color.BLACK, new Position("h8"), new Position("h7")));
     board.makePlay(new Move(Color.WHITE, new Position("h2"), new Position("h1")));
+    board.makePlay(new Move(Color.BLACK, new Position("h7"), new Position("h8")));
 
     // When
     var castle = new Castle(Color.WHITE, new Position("h1"));

@@ -5,7 +5,6 @@ import chess.game.board.pieces.Piece;
 import chess.game.board.pieces.PieceSpecification;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -49,17 +48,6 @@ public interface ReadonlyBoard {
       throw new IllegalStateException("Many pieces found while requiring single.");
     }
     return Optional.ofNullable(pieces.size() == 1 ? pieces.get(0).getValue() : null);
-  }
-
-  default boolean isPositionThreatenedBy(Position at, Color color) {
-    for (Iterator<Map.Entry<Position, Piece>> it = this.getPieces(color).iterator();
-         it.hasNext(); ) {
-      var piece = it.next().getValue();
-      if (piece.couldCaptureEnemyAt(at)) {
-        return true;
-      }
-    }
-    return false;
   }
 
   Optional<Play> getLastPlay();

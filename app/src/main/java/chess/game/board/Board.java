@@ -4,6 +4,7 @@ import chess.game.board.pieces.Piece;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
 import chess.game.plays.validation.PlayValidationError;
+import chess.game.rules.PlayValidator;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class Board implements ReadonlyBoard {
   private final String id;
   private final BiMap<Position, Piece> currentPositionToPiece;
   private final List<Play> stack;
+  private boolean isStateValidationCopy = false;
 
   public Board(String id, BiMap<Position, Piece> currentPositionToPiece, List<Play> stack) {
     this.id = id;
@@ -28,6 +30,10 @@ public class Board implements ReadonlyBoard {
     this.id = UUID.randomUUID().toString();
     this.currentPositionToPiece = HashBiMap.create();
     this.stack = new ArrayList<>();
+  }
+
+  public String getId() {
+    return id;
   }
 
   public Optional<Piece> getPieceAt(Position position) {
@@ -49,22 +55,26 @@ public class Board implements ReadonlyBoard {
   }
 
   public void removePieceFromSquare(Position position) {
-    if (this.currentPositionToPiece.containsKey(position)) {
-      var piece = this.currentPositionToPiece.get(position);
-      this.currentPositionToPiece.remove(position);
-      piece.placeInBoard(null);
-    }
+    Optional
+        .ofNullable(this.currentPositionToPiece.remove(position))
+        .ifPresent(piece -> piece.placeInBoard(null));
   }
 
   public Position getPositionOf(Piece piece) {
     return this.currentPositionToPiece.inverse().get(piece);
   }
 
-  public Board copy() {
-    var newState = new Board();
+  public Board createStateValidationCopy() {
+    BiMap<Position, Piece> copiedState = HashBiMap.create();
     this.currentPositionToPiece.forEach(
-        ((position, piece) -> newState.placePiece(position, piece.copy())));
-    return newState;
+        (position, piece) -> copiedState.put(position, piece.copy()));
+
+    Board copiedBoard =
+        new Board(UUID.randomUUID().toString(), copiedState, new ArrayList<>(this.stack));
+    copiedState.forEach((position, piece) -> piece.placeInBoard(copiedBoard));
+    copiedBoard.isStateValidationCopy = true;
+
+    return copiedBoard;
   }
 
   public boolean equals(Object that) {
@@ -80,7 +90,13 @@ public class Board implements ReadonlyBoard {
   }
 
   public void makePlay(Play play) throws PlayValidationError {
-    play.validateAndGetAction(this).run();
+    var action = play.validateAndGetAction(this);
+    if (!this.isStateValidationCopy) {
+      if (!new PlayValidator(play).test(this)) {
+        throw new PlayValidationError("Invalid play");
+      }
+    }
+    action.run();
     this.stack.add(play);
   }
 

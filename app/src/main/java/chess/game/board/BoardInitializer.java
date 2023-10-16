@@ -20,9 +20,15 @@ public class BoardInitializer {
     return this;
   }
 
-  private void placePiecesOf(PieceSpecification pieceSpecification) {
+  public void placePiecesOf(PieceSpecification pieceSpecification) {
     this.pieceFactory.createPiecesOf(pieceSpecification)
         .forEach(piece -> this.board.placePiece(piece.getInitialPosition(), piece));
+  }
+
+  public BoardInitializer placePiecesOf(PieceType type) {
+    this.pieceFactory.createPiecesOf(type)
+        .forEach(piece -> this.board.placePiece(piece.getInitialPosition(), piece));
+    return this;
   }
 
   public Board getBoard() {

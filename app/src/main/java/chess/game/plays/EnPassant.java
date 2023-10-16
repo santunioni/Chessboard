@@ -41,7 +41,7 @@ public record EnPassant(Color color, Position from, Position to) implements Play
         board.getPieceAt(this.from, new PieceSpecification(this.color, PieceType.PAWN))
             .orElseThrow(() -> new NoPieceAtPositionValidationError(this.from));
 
-    if (!attacker.couldCaptureEnemyAt(to)) {
+    if (!attacker.threatens(to)) {
       throw new CapturePatternNotAllowedValidationError(attacker, from, to);
     }
 

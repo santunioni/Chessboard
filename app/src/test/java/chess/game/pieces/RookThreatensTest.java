@@ -24,7 +24,7 @@ public class RookThreatensTest {
     var rook = this.pieceFactory.createRooks(Color.BLACK).get(0);
     board.placePiece("d4", rook);
 
-    assertTrue(rook.couldCaptureEnemyAt(new Position("d5")));
+    assertTrue(rook.threatens(new Position("d5")));
   }
 
   @Test
@@ -32,7 +32,7 @@ public class RookThreatensTest {
     var rook = this.pieceFactory.createRooks(Color.BLACK).get(0);
     board.placePiece("d4", rook);
 
-    assertTrue(rook.couldCaptureEnemyAt(new Position("e4")));
+    assertTrue(rook.threatens(new Position("e4")));
   }
 
   @Test
@@ -41,7 +41,7 @@ public class RookThreatensTest {
     board.placePiece("d4", rook);
     board.placePiece("d5", this.pieceFactory.createPawns(Color.BLACK).get(0));
 
-    assertFalse(rook.couldCaptureEnemyAt(new Position("d6")));
+    assertFalse(rook.threatens(new Position("d6")));
   }
 
   @Test
@@ -50,6 +50,6 @@ public class RookThreatensTest {
     board.placePiece("d4", rook);
     board.placePiece("d5", this.pieceFactory.createPawns(Color.BLACK).get(0));
 
-    assertTrue(rook.couldCaptureEnemyAt(new Position("d5")));
+    assertTrue(rook.threatens(new Position("d5")));
   }
 }

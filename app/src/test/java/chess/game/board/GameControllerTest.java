@@ -3,72 +3,52 @@ package chess.game.board;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import chess.game.board.pieces.Color;
-import chess.game.board.pieces.Piece;
-import chess.game.board.pieces.PieceFactory;
+import chess.game.board.pieces.PieceSpecification;
 import chess.game.board.pieces.PieceType;
 import chess.game.grid.Position;
-import chess.game.plays.Capture;
 import chess.game.plays.Move;
-import chess.game.plays.Play;
 import chess.game.plays.validation.PlayValidationError;
-import chess.game.rules.validation.IlegalPlay;
-import com.google.common.collect.HashBiMap;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class GameControllerTest {
-  private final PieceFactory pieceFactory = new PieceFactory();
-  private Board board;
-  private List<Play> stack;
   private GameController controller;
+  private String boardId;
 
   @BeforeEach
   void setUp() {
-    this.stack = new ArrayList<>();
-    this.board = new Board(UUID.randomUUID().toString(), HashBiMap.create(), stack);
-    this.controller = new GameController(this.board);
+    this.controller = new GameController(new BoardRepository());
+    this.boardId = this.controller.newGame();
   }
 
-  private void forwardToBlackTurn() {
-    this.stack.add(new Move(Color.WHITE, new Position("h7"), new Position("h8")));
+  private void forwardToBlackTurn() throws PlayValidationError {
+    var move = new Move(Color.WHITE, new Position("b2"), new Position("b3")).toDto();
+    this.controller.makePlay(boardId, move);
   }
 
   @Test
-  void shouldAllowWhiteToMoveOnItsTurn() throws PlayValidationError, IlegalPlay {
-    // Given
-    this.board.placePiece("a2", this.pieceFactory.createRooks(Color.BLACK).get(0));
-    this.board.placePiece("b1", this.pieceFactory.createRooks(Color.WHITE).get(0));
-
+  void shouldAllowWhiteToMoveOnItsTurn() throws PlayValidationError {
     // When
-    var move = new Move(Color.WHITE, new Position("b1"), new Position("a1"));
-    var moveDto = move.toDto();
-    this.controller.makePlay(moveDto);
+    var move = new Move(Color.WHITE, new Position("b2"), new Position("b3")).toDto();
+    this.controller.makePlay(boardId, move);
 
     // Then
-    Piece pieceAtA1 = this.board.getPieceAt(new Position("a1")).orElseThrow();
-    assertEquals(Color.WHITE, pieceAtA1.getSpecification().color());
-    assertEquals(PieceType.ROOK, pieceAtA1.getSpecification().pieceType());
+    var pieceAtB3 = this.controller.getPieceAt(boardId, new Position("b3")).orElseThrow();
+    assertEquals(pieceAtB3, new PieceSpecification(Color.WHITE, PieceType.PAWN));
   }
 
 
   @Test
-  void shouldAllowBlackToCaptureWhiteOnItsTurn() throws PlayValidationError, IlegalPlay {
+  void shouldAllowBlackToCaptureWhiteOnItsTurn() throws PlayValidationError {
     // Given
     forwardToBlackTurn();
-    this.board.placePiece("a1", this.pieceFactory.createRooks(Color.WHITE).get(0));
-    this.board.placePiece("a2", this.pieceFactory.createRooks(Color.BLACK).get(0));
 
     // When
-    var capture = new Capture(Color.BLACK, new Position("a2"), new Position("a1"));
-    var captureDto = capture.toDto();
-    this.controller.makePlay(captureDto);
+    var move = new Move(Color.WHITE, new Position("b7"), new Position("b6")).toDto();
+    this.controller.makePlay(boardId, move);
 
     // Then
-    Piece pieceAtA1 = this.board.getPieceAt(new Position("a1")).orElseThrow();
-    assertEquals(Color.BLACK, pieceAtA1.getSpecification().color());
-    assertEquals(PieceType.ROOK, pieceAtA1.getSpecification().pieceType());
+    var pieceAtB6 = this.controller.getPieceAt(boardId, new Position("b6")).orElseThrow();
+    assertEquals(pieceAtB6, new PieceSpecification(Color.BLACK, PieceType.PAWN));
   }
 }
