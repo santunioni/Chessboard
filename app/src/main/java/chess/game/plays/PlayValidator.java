@@ -15,9 +15,7 @@ public class PlayValidator {
   public boolean test(Board board) {
     try {
       CantPlayWhenNotYourTurn.validateHistoryBeforePlay(board, play);
-      var boardCopy = board.createStateValidationCopy();
-      boardCopy.makePlayUnsafe(play);
-      return new BoardStateIsValidAssertion().test(boardCopy);
+      return new BoardStateIsValidAssertion().test(board.simulate(play));
     } catch (PlayValidationError e) {
       return false;
     }

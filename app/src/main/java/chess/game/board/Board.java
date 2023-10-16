@@ -18,7 +18,6 @@ public class Board implements ReadonlyBoard {
   private final String id;
   private final BiMap<Position, Piece> currentPositionToPiece;
   private final List<Play> stack;
-  private boolean isStateValidationCopy = false;
 
   public Board(String id, BiMap<Position, Piece> currentPositionToPiece, List<Play> stack) {
     this.id = id;
@@ -63,15 +62,15 @@ public class Board implements ReadonlyBoard {
     return this.currentPositionToPiece.inverse().get(piece);
   }
 
-  public Board createStateValidationCopy() {
+  private Board copy() {
     BiMap<Position, Piece> copiedState = HashBiMap.create();
     this.currentPositionToPiece.forEach(
         (position, piece) -> copiedState.put(position, piece.copy()));
 
     Board copiedBoard =
         new Board(UUID.randomUUID().toString(), copiedState, new ArrayList<>(this.stack));
+
     copiedState.forEach((position, piece) -> piece.placeInBoard(copiedBoard));
-    copiedBoard.isStateValidationCopy = true;
 
     return copiedBoard;
   }
@@ -88,14 +87,17 @@ public class Board implements ReadonlyBoard {
     return this.id.hashCode();
   }
 
-  public void makePlayUnsafe(Play play) throws PlayValidationError {
-    play.actOn(this);
-    this.stack.add(play);
+  public ReadonlyBoard simulate(Play play) throws PlayValidationError {
+    Board copy = this.copy();
+    play.actOn(copy);
+    copy.stack.add(play);
+    return copy;
   }
 
   public void makePlay(Play play) throws PlayValidationError {
     if (play.isLegalOn(this) && new PlayValidator(play).test(this)) {
-      this.makePlayUnsafe(play);
+      play.actOn(this);
+      this.stack.add(play);
     } else {
       throw new PlayValidationError("Invalid play");
     }
