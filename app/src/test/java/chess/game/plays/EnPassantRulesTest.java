@@ -9,7 +9,6 @@ import chess.game.board.BoardInitializer;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.PieceType;
 import chess.game.grid.Position;
-import chess.game.plays.validation.CantEnPassantPawnThatDidntJumpLastRound;
 import chess.game.plays.validation.PlayValidationError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,7 +48,7 @@ public class EnPassantRulesTest {
     board.makePlay(new Move(Color.BLACK, new Position("h7"), new Position("h5")));
 
     // Then
-    assertThrows(CantEnPassantPawnThatDidntJumpLastRound.class,
+    assertThrows(PlayValidationError.class,
         () -> board.makePlay(new EnPassant(Color.WHITE, new Position("a5"), new Position("b6"))));
   }
 }

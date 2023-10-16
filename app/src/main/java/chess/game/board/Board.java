@@ -55,8 +55,7 @@ public class Board implements ReadonlyBoard {
   }
 
   public void removePieceFromSquare(Position position) {
-    Optional
-        .ofNullable(this.currentPositionToPiece.remove(position))
+    Optional.ofNullable(this.currentPositionToPiece.remove(position))
         .ifPresent(piece -> piece.placeInBoard(null));
   }
 
@@ -89,15 +88,17 @@ public class Board implements ReadonlyBoard {
     return this.id.hashCode();
   }
 
-  public void makePlay(Play play) throws PlayValidationError {
-    var action = play.validateAndGetAction(this);
-    if (!this.isStateValidationCopy) {
-      if (!new PlayValidator(play).test(this)) {
-        throw new PlayValidationError("Invalid play");
-      }
-    }
-    action.run();
+  public void makePlayUnsafe(Play play) throws PlayValidationError {
+    play.actOn(this);
     this.stack.add(play);
+  }
+
+  public void makePlay(Play play) throws PlayValidationError {
+    if (play.isLegalOn(this) && new PlayValidator(play).test(this)) {
+      this.makePlayUnsafe(play);
+    } else {
+      throw new PlayValidationError("Invalid play");
+    }
   }
 
   public Optional<Play> getLastPlay() {

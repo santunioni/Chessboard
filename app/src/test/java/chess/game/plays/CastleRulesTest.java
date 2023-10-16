@@ -63,7 +63,7 @@ public class CastleRulesTest {
     var castle = new Castle(Color.WHITE, new Position("h1"));
 
     // Then
-    assertThrows(CantCastleOnKingThatAlreadyMoved.class, () -> board.makePlay(castle));
+    assertThrows(PlayValidationError.class, () -> board.makePlay(castle));
   }
 
   @Test
@@ -78,7 +78,7 @@ public class CastleRulesTest {
     var castle = new Castle(Color.WHITE, new Position("h1"));
 
     // Then
-    assertThrows(CantCastleOnRookThatAlreadyMoved.class, () -> board.makePlay(castle));
+    assertThrows(PlayValidationError.class, () -> board.makePlay(castle));
   }
 
   @Test
@@ -90,7 +90,7 @@ public class CastleRulesTest {
     var castle = new Castle(Color.WHITE, new Position("h1"));
 
     // Then
-    assertThrows(CantCastleWhileInCheck.class, () -> board.makePlay(castle));
+    assertThrows(PlayValidationError.class, () -> board.makePlay(castle));
   }
 
   @Test
@@ -102,7 +102,7 @@ public class CastleRulesTest {
     var castle = new Castle(Color.WHITE, new Position("h1"));
 
     // Then
-    assertThrows(CantCastleOverOccupiedSquares.class, () -> board.makePlay(castle));
+    assertThrows(PlayValidationError.class, () -> board.makePlay(castle));
   }
 
   @Test
@@ -114,6 +114,6 @@ public class CastleRulesTest {
     var castle = new Castle(Color.WHITE, new Position("h1"));
 
     // Then
-    assertThrows(CantCastleWhilePassingThroughCheck.class, () -> board.makePlay(castle));
+    assertThrows(PlayValidationError.class, () -> board.makePlay(castle));
   }
 }
