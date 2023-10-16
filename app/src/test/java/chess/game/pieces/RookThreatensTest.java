@@ -6,12 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Pawn;
-import chess.game.board.pieces.Rook;
+import chess.game.board.pieces.PieceFactory;
 import chess.game.grid.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class RookThreatensTest {
+  private final PieceFactory pieceFactory = new PieceFactory();
   private Board board;
 
   @BeforeEach
@@ -21,7 +22,7 @@ public class RookThreatensTest {
 
   @Test
   public void shouldThreatenVertically() {
-    var rook = new Rook(Color.BLACK);
+    var rook = this.pieceFactory.createRooks(Color.BLACK).get(0);
     board.placePiece("d4", rook);
 
     assertTrue(rook.couldCaptureEnemyAt(new Position("d5")));
@@ -29,7 +30,7 @@ public class RookThreatensTest {
 
   @Test
   public void shouldThreatenHorizontally() {
-    var rook = new Rook(Color.BLACK);
+    var rook = this.pieceFactory.createRooks(Color.BLACK).get(0);
     board.placePiece("d4", rook);
 
     assertTrue(rook.couldCaptureEnemyAt(new Position("e4")));
@@ -37,7 +38,7 @@ public class RookThreatensTest {
 
   @Test
   public void shouldNotThreatenIfPieceBetween() {
-    var rook = new Rook(Color.BLACK);
+    var rook = this.pieceFactory.createRooks(Color.BLACK).get(0);
     board.placePiece("d4", rook);
     board.placePiece("d5", new Pawn(Color.BLACK));
 
@@ -46,7 +47,7 @@ public class RookThreatensTest {
 
   @Test
   public void shouldThreatenIfPieceAtPosition() {
-    var rook = new Rook(Color.BLACK);
+    var rook = this.pieceFactory.createRooks(Color.BLACK).get(0);
     board.placePiece("d4", rook);
     board.placePiece("d5", new Pawn(Color.BLACK));
 

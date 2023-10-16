@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.PieceFactory;
-import chess.game.board.pieces.Rook;
 import chess.game.grid.Position;
 import chess.game.plays.validation.CantCastleOnKingThatAlreadyMoved;
 import chess.game.plays.validation.CantCastleOnRookThatAlreadyMoved;
@@ -26,7 +25,7 @@ public class CastleValidationTest {
   void shouldFailValidationWhenKingNotInPosition() {
     // Given
     board.placePiece("e2", this.pieceFactory.createKing(Color.WHITE));
-    board.placePiece("h1", new Rook(Color.WHITE));
+    board.placePiece("h1", this.pieceFactory.createRooks(Color.WHITE).get(0));
 
     // When
     var castle = new Castle(Color.WHITE, new Position("h1"));
@@ -39,7 +38,7 @@ public class CastleValidationTest {
   void shouldFailValidationWhenRookNotInPosition() {
     // Given
     board.placePiece("e1", this.pieceFactory.createKing(Color.WHITE));
-    board.placePiece("h2", new Rook(Color.WHITE));
+    board.placePiece("h2", this.pieceFactory.createRooks(Color.WHITE).get(0));
 
     // When
     var castle = new Castle(Color.WHITE, new Position("h1"));
@@ -52,7 +51,7 @@ public class CastleValidationTest {
   void shouldFailValidationWhenCastlingToPositionOtherThanRooks() {
     // Given
     board.placePiece("e1", this.pieceFactory.createKing(Color.WHITE));
-    board.placePiece("h2", new Rook(Color.WHITE));
+    board.placePiece("h2", this.pieceFactory.createRooks(Color.WHITE).get(0));
 
     // When
     var castle = new Castle(Color.WHITE, new Position("h2"));

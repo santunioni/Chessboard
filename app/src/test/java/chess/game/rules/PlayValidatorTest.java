@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.PieceFactory;
-import chess.game.board.pieces.Rook;
 import chess.game.grid.Position;
 import chess.game.plays.Move;
 import chess.game.rules.validation.CantLetOwnKingInCheckValidationError;
@@ -27,7 +26,7 @@ public class PlayValidatorTest {
     // Given
     this.state.placePiece("e1", this.pieceFactory.createKing(Color.WHITE));
     this.state.placePiece("f1", pieceFactory.createBishops(Color.WHITE).get(0));
-    this.state.placePiece("h1", new Rook(Color.BLACK));
+    this.state.placePiece("h1", this.pieceFactory.createRooks(Color.BLACK).get(0));
 
     // Then
     assertThrows(CantLetOwnKingInCheckValidationError.class,

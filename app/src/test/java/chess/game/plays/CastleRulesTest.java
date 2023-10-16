@@ -9,7 +9,6 @@ import chess.game.board.pieces.Color;
 import chess.game.board.pieces.King;
 import chess.game.board.pieces.PieceFactory;
 import chess.game.board.pieces.PieceType;
-import chess.game.board.pieces.Rook;
 import chess.game.grid.Position;
 import chess.game.plays.validation.CantCastleOnKingThatAlreadyMoved;
 import chess.game.plays.validation.CantCastleOnRookThatAlreadyMoved;
@@ -28,7 +27,7 @@ public class CastleRulesTest {
   void setUp() {
     this.board = new Board();
     board.placePiece("e1", this.pieceFactory.createKing(Color.WHITE));
-    board.placePiece("h1", new Rook(Color.WHITE));
+    board.placePiece("h1", this.pieceFactory.createRooks(Color.WHITE).get(0));
   }
 
   @Test
@@ -81,7 +80,7 @@ public class CastleRulesTest {
   @Test
   void shouldFailIfKingIsInCheck() {
     // Given
-    board.placePiece("e2", new Rook(Color.BLACK));
+    board.placePiece("e2", this.pieceFactory.createRooks(Color.BLACK).get(0));
 
     // When
     var castle = new Castle(Color.WHITE, new Position("h1"));
@@ -105,7 +104,7 @@ public class CastleRulesTest {
   @Test
   void shouldFailIfKingsPathIsThreatened() {
     // Given
-    board.placePiece("f2", new Rook(Color.BLACK));
+    board.placePiece("f2", this.pieceFactory.createRooks(Color.BLACK).get(0));
 
     // When
     var castle = new Castle(Color.WHITE, new Position("h1"));

@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Pawn;
-import chess.game.board.pieces.Rook;
+import chess.game.board.pieces.PieceFactory;
 import chess.game.grid.Position;
 import chess.game.plays.validation.CantEnPassantOnInvalidRank;
 import chess.game.plays.validation.CapturePatternNotAllowedValidationError;
@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class EnPassantValidationTest {
+  private final PieceFactory pieceFactory = new PieceFactory();
   private Board board;
 
   @BeforeEach
@@ -36,7 +37,7 @@ public class EnPassantValidationTest {
   @Test
   void shouldFailValidationWhenEnPassantIsCalledOnOtherThanPawns() {
     // Given
-    board.placePiece("a5", new Rook(Color.WHITE));
+    board.placePiece("a5", this.pieceFactory.createRooks(Color.WHITE).get(0));
 
     // When
     var enPassant = new EnPassant(Color.WHITE, new Position("a5"), new Position("b6"));

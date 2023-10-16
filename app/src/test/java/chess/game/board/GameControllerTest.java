@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.Piece;
+import chess.game.board.pieces.PieceFactory;
 import chess.game.board.pieces.PieceType;
-import chess.game.board.pieces.Rook;
 import chess.game.grid.Position;
 import chess.game.plays.Capture;
 import chess.game.plays.Move;
@@ -20,10 +20,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class GameControllerTest {
+  private final PieceFactory pieceFactory = new PieceFactory();
   private Board board;
   private List<Play> stack;
   private GameController controller;
-
 
   @BeforeEach
   void setUp() {
@@ -39,8 +39,8 @@ public class GameControllerTest {
   @Test
   void shouldAllowWhiteToMoveOnItsTurn() throws PlayValidationError, IlegalPlay {
     // Given
-    this.board.placePiece("a2", new Rook(Color.BLACK));
-    this.board.placePiece("b1", new Rook(Color.WHITE));
+    this.board.placePiece("a2", this.pieceFactory.createRooks(Color.BLACK).get(0));
+    this.board.placePiece("b1", this.pieceFactory.createRooks(Color.WHITE).get(0));
 
     // When
     var move = new Move(Color.WHITE, new Position("b1"), new Position("a1"));
@@ -58,8 +58,8 @@ public class GameControllerTest {
   void shouldAllowBlackToCaptureWhiteOnItsTurn() throws PlayValidationError, IlegalPlay {
     // Given
     forwardToBlackTurn();
-    this.board.placePiece("a1", new Rook(Color.WHITE));
-    this.board.placePiece("a2", new Rook(Color.BLACK));
+    this.board.placePiece("a1", this.pieceFactory.createRooks(Color.WHITE).get(0));
+    this.board.placePiece("a2", this.pieceFactory.createRooks(Color.BLACK).get(0));
 
     // When
     var capture = new Capture(Color.BLACK, new Position("a2"), new Position("a1"));

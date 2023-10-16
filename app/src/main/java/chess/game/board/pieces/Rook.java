@@ -15,15 +15,6 @@ public class Rook extends Piece {
       Set.of(Direction.VERTICAL_UP, Direction.VERTICAL_DOWN, Direction.HORIZONTAL_LEFT,
           Direction.HORIZONTAL_RIGHT);
 
-  /**
-   * Constructor used only to delay refactoring the tests.
-   *
-   * @deprecated use {@link #Rook(Position, Color)} instead
-   */
-  public Rook(Color color) {
-    super(new Position("a1"), color, PieceType.ROOK);
-  }
-
   public Rook(Position initialPosition, Color color) {
     super(initialPosition, color, PieceType.ROOK);
   }
