@@ -11,15 +11,6 @@ import java.util.Set;
 
 public class Knight extends Piece {
 
-  /**
-   * Constructor used only to delay refactoring the tests.
-   *
-   * @deprecated use {@link #Knight(Position, Color)} instead
-   */
-  public Knight(Color color) {
-    super(new Position("a1"), color, PieceType.KNIGHT);
-  }
-
   public Knight(Position initialPosition, Color color) {
     super(initialPosition, color, PieceType.KNIGHT);
   }

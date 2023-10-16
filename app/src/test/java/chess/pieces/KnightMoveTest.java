@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
-import chess.game.board.pieces.Knight;
 import chess.game.board.pieces.Pawn;
+import chess.game.board.pieces.PieceFactory;
 import chess.game.grid.Position;
 import chess.game.plays.Move;
 import java.util.Set;
@@ -15,8 +15,8 @@ import org.junit.jupiter.api.Test;
 
 public class KnightMoveTest {
 
+  private final PieceFactory pieceFactory = new PieceFactory();
   private Board board;
-
 
   @BeforeEach
   void setUp() {
@@ -25,7 +25,7 @@ public class KnightMoveTest {
 
   @Test
   void shouldMoveInL() {
-    var knight = new Knight(Color.WHITE);
+    var knight = this.pieceFactory.createKnights(Color.WHITE).get(0);
     this.board.placePiece("d4", knight);
 
     var expectedValidMoves = Set.of(
@@ -47,7 +47,7 @@ public class KnightMoveTest {
 
   @Test
   void shouldBeBlockedByItsTeamMates() {
-    var knight = new Knight(Color.WHITE);
+    var knight = this.pieceFactory.createKnights(Color.WHITE).get(0);
     this.board.placePiece("b1", knight);
     this.board.placePiece("c3", new Pawn(Color.WHITE));
 
