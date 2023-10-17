@@ -1,10 +1,10 @@
 package chess.game.board.pieces;
 
+import chess.game.assertions.IsPlayLegalAssertion;
 import chess.game.board.Board;
 import chess.game.board.ReadonlyBoard;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
-import chess.game.plays.PlayValidator;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -63,7 +63,8 @@ public abstract class Piece {
   protected abstract Set<Play> getPossiblePlays();
 
   public Set<Play> getPlays(Board board) {
-    return this.getPossiblePlays().stream().filter(play -> new PlayValidator(play).test(board))
+    return this.getPossiblePlays().stream()
+        .filter(play -> new IsPlayLegalAssertion(play).test(board))
         .collect(Collectors.toSet());
   }
 }

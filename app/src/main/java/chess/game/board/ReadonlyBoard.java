@@ -5,6 +5,7 @@ import chess.game.board.pieces.Piece;
 import chess.game.board.pieces.PieceSpecification;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
+import chess.game.plays.validation.PlayValidationError;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -57,4 +58,6 @@ public interface ReadonlyBoard {
   default Color nextTurnPlayerColor() {
     return this.getLastPlay().map(play -> play.getPlayerColor().opposite()).orElse(Color.WHITE);
   }
+
+  ReadonlyBoard simulate(Play play) throws PlayValidationError;
 }

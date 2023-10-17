@@ -9,7 +9,7 @@ public interface Play {
   Runnable validateAndGetAction(Board board)
       throws PlayValidationError;
 
-  default boolean isLegalOn(Board board) {
+  default boolean playPassesValidations(Board board) {
     try {
       this.validateAndGetAction(board);
       return true;

@@ -1,9 +1,9 @@
 package chess.game.board;
 
+import chess.game.assertions.IsPlayLegalAssertion;
 import chess.game.board.pieces.Piece;
 import chess.game.grid.Position;
 import chess.game.plays.Play;
-import chess.game.plays.PlayValidator;
 import chess.game.plays.validation.PlayValidationError;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -95,7 +95,7 @@ public class Board implements ReadonlyBoard {
   }
 
   public void makePlay(Play play) throws PlayValidationError {
-    if (play.isLegalOn(this) && new PlayValidator(play).test(this)) {
+    if (new IsPlayLegalAssertion(play).test(this)) {
       play.actOn(this);
       this.stack.add(play);
     } else {

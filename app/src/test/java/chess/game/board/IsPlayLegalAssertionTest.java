@@ -2,16 +2,16 @@ package chess.game.board;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import chess.game.assertions.IsPlayLegalAssertion;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.PieceFactory;
 import chess.game.grid.Position;
 import chess.game.plays.Capture;
 import chess.game.plays.Move;
-import chess.game.plays.PlayValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PlayValidatorTest {
+public class IsPlayLegalAssertionTest {
 
   private final PieceFactory pieceFactory = new PieceFactory();
   private Board board;
@@ -32,7 +32,7 @@ public class PlayValidatorTest {
     var capture = new Capture(Color.BLACK, new Position("a2"), new Position("a1"));
 
     // Then
-    assertFalse(new PlayValidator(capture).test(board));
+    assertFalse(new IsPlayLegalAssertion(capture).test(board));
   }
 
   @Test
@@ -46,7 +46,7 @@ public class PlayValidatorTest {
     var move = new Move(Color.WHITE, new Position("f1"), new Position("e2"));
 
     // Then
-    assertFalse(new PlayValidator(move).test(board));
+    assertFalse(new IsPlayLegalAssertion(move).test(board));
   }
 
   @Test
@@ -58,6 +58,6 @@ public class PlayValidatorTest {
     var move = new Move(Color.WHITE, new Position("a7"), new Position("a8"));
 
     // Then
-    assertFalse(new PlayValidator(move).test(board));
+    assertFalse(new IsPlayLegalAssertion(move).test(board));
   }
 }
