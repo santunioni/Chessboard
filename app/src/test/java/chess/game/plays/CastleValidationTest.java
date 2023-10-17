@@ -1,14 +1,11 @@
 package chess.game.plays;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.PieceFactory;
 import chess.game.grid.Position;
-import chess.game.plays.validation.CantCastleOnKingThatAlreadyMoved;
-import chess.game.plays.validation.CantCastleOnRookThatAlreadyMoved;
-import chess.game.plays.validation.CantCastleToInvalidPosition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +28,7 @@ public class CastleValidationTest {
     var castle = new Castle(Color.WHITE, new Position("h1"));
 
     // Then
-    assertThrows(CantCastleOnKingThatAlreadyMoved.class, () -> castle.actOn(board));
+    assertFalse(castle.passesValidationsOn(board));
   }
 
   @Test
@@ -44,7 +41,7 @@ public class CastleValidationTest {
     var castle = new Castle(Color.WHITE, new Position("h1"));
 
     // Then
-    assertThrows(CantCastleOnRookThatAlreadyMoved.class, () -> castle.actOn(board));
+    assertFalse(castle.passesValidationsOn(board));
   }
 
   @Test
@@ -57,6 +54,6 @@ public class CastleValidationTest {
     var castle = new Castle(Color.WHITE, new Position("h2"));
 
     // Then
-    assertThrows(CantCastleToInvalidPosition.class, () -> castle.actOn(board));
+    assertFalse(castle.passesValidationsOn(board));
   }
 }

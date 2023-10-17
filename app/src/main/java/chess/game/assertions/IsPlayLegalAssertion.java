@@ -15,7 +15,7 @@ public class IsPlayLegalAssertion implements BoardAssertion {
   public boolean test(ReadonlyBoard board) {
     try {
       return play.getPlayerColor() == board.nextTurnPlayerColor()
-          && play.playPassesValidations((Board) board)
+          && play.passesValidationsOn((Board) board)
           && new BoardStateIsValidAssertion().test(board.simulate(play));
     } catch (PlayValidationError e) {
       return false;

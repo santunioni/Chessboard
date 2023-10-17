@@ -42,7 +42,7 @@ public class CaptureTest {
 
     var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e3"));
 
-    assertFalse(capture.playPassesValidations(board));
+    assertFalse(capture.passesValidationsOn(board));
   }
 
   @Test
@@ -53,7 +53,7 @@ public class CaptureTest {
 
     var capture = new Capture(Color.WHITE, new Position("e2"), new Position("d1"));
 
-    assertFalse(capture.playPassesValidations(board));
+    assertFalse(capture.passesValidationsOn(board));
   }
 
   @Test
@@ -77,7 +77,7 @@ public class CaptureTest {
 
     var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
 
-    assertFalse(capture.playPassesValidations(board));
+    assertFalse(capture.passesValidationsOn(board));
   }
 
   @Test
@@ -86,6 +86,6 @@ public class CaptureTest {
     board.placePiece("e2", queen);
     var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
 
-    assertFalse(capture.playPassesValidations(board));
+    assertFalse(capture.passesValidationsOn(board));
   }
 }

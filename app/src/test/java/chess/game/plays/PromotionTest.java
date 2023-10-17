@@ -1,7 +1,7 @@
 package chess.game.plays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
@@ -28,7 +28,7 @@ public class PromotionTest {
     var promotion = new Promotion(Color.WHITE, new Position("a7"),
         PieceType.QUEEN);
 
-    assertThrows(PlayValidationError.class, () -> promotion.actOn(this.board));
+    assertFalse(promotion.passesValidationsOn(board));
   }
 
   @Test
@@ -38,7 +38,7 @@ public class PromotionTest {
     var promotion = new Promotion(Color.WHITE, new Position("b8"),
         PieceType.QUEEN);
 
-    assertThrows(PlayValidationError.class, () -> promotion.actOn(this.board));
+    assertFalse(promotion.passesValidationsOn(board));
   }
 
   @Test
@@ -48,7 +48,7 @@ public class PromotionTest {
     var promotion = new Promotion(Color.WHITE, new Position("b8"),
         PieceType.KING);
 
-    assertThrows(PlayValidationError.class, () -> promotion.actOn(this.board));
+    assertFalse(promotion.passesValidationsOn(board));
   }
 
   @Test
