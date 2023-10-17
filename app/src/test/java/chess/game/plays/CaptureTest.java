@@ -1,16 +1,13 @@
 package chess.game.plays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import chess.game.board.Board;
 import chess.game.board.pieces.Color;
 import chess.game.board.pieces.PieceFactory;
 import chess.game.grid.Position;
-import chess.game.plays.validation.CapturePatternNotAllowedValidationError;
-import chess.game.plays.validation.NoPieceAtPositionValidationError;
-import chess.game.plays.validation.PieceAtPositionIsOfUnexpectedColorValidationError;
 import chess.game.plays.validation.PlayValidationError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,8 +42,7 @@ public class CaptureTest {
 
     var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e3"));
 
-    assertThrows(CapturePatternNotAllowedValidationError.class,
-        () -> capture.actOn(board));
+    assertFalse(capture.isLegalOn(board));
   }
 
   @Test
@@ -57,8 +53,7 @@ public class CaptureTest {
 
     var capture = new Capture(Color.WHITE, new Position("e2"), new Position("d1"));
 
-    assertThrows(CapturePatternNotAllowedValidationError.class,
-        () -> capture.actOn(board));
+    assertFalse(capture.isLegalOn(board));
   }
 
   @Test
@@ -82,8 +77,7 @@ public class CaptureTest {
 
     var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
 
-    assertThrows(PieceAtPositionIsOfUnexpectedColorValidationError.class,
-        () -> capture.actOn(board));
+    assertFalse(capture.isLegalOn(board));
   }
 
   @Test
@@ -92,6 +86,6 @@ public class CaptureTest {
     board.placePiece("e2", queen);
     var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
 
-    assertThrows(NoPieceAtPositionValidationError.class, () -> capture.actOn(board));
+    assertFalse(capture.isLegalOn(board));
   }
 }
