@@ -2,12 +2,12 @@ package chess.pieces;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import chess.game.board.Board;
-import chess.game.board.pieces.Color;
-import chess.game.board.pieces.PieceFactory;
-import chess.game.grid.Position;
-import chess.game.plays.Move;
-import chess.game.plays.Play;
+import chess.domain.board.Board;
+import chess.domain.grid.Position;
+import chess.domain.pieces.Color;
+import chess.domain.pieces.PieceFactory;
+import chess.domain.plays.Move;
+import chess.domain.plays.Play;
 import com.google.common.collect.HashBiMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +52,7 @@ public class KingMoveTest {
         new Move(Color.BLACK, new Position("d4"), new Position("e5"))
     );
 
-    assertEquals(expectedValidMoves, king.getPlays(board));
+    assertEquals(expectedValidMoves, king.getSuggestedPlays());
   }
 
   @Test
@@ -69,7 +69,7 @@ public class KingMoveTest {
         new Move(Color.WHITE, new Position("e1"), new Position("f2"))
     );
 
-    assertEquals(expectedValidMoves, king.getPlays(board));
+    assertEquals(expectedValidMoves, king.getSuggestedPlays());
   }
 
   @Test
@@ -83,7 +83,7 @@ public class KingMoveTest {
         new Move(Color.WHITE, new Position("a1"), new Position("b2"))
     );
 
-    assertEquals(expectedValidMoves, king.getPlays(board));
+    assertEquals(expectedValidMoves, king.getSuggestedPlays());
   }
 
   @Test
@@ -97,6 +97,6 @@ public class KingMoveTest {
         new Move(Color.WHITE, new Position("a1"), new Position("b1"))
     );
 
-    assertEquals(expectedValidMoves, king.getPlays(board));
+    assertEquals(expectedValidMoves, king.getSuggestedPlays());
   }
 }

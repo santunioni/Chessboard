@@ -2,11 +2,11 @@ package chess.pieces;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import chess.game.board.Board;
-import chess.game.board.pieces.Color;
-import chess.game.board.pieces.PieceFactory;
-import chess.game.grid.Position;
-import chess.game.plays.Move;
+import chess.domain.board.Board;
+import chess.domain.grid.Position;
+import chess.domain.pieces.Color;
+import chess.domain.pieces.PieceFactory;
+import chess.domain.plays.Move;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,7 +41,7 @@ public class KnightMoveTest {
         new Move(Color.WHITE, new Position("d4"), new Position("f5"))
     );
 
-    assertEquals(expectedValidMoves, knight.getPlays(board));
+    assertEquals(expectedValidMoves, knight.getSuggestedPlays());
   }
 
   @Test
@@ -55,6 +55,6 @@ public class KnightMoveTest {
         new Move(Color.WHITE, new Position("b1"), new Position("d2"))
     );
 
-    assertEquals(expectedValidMoves, knight.getPlays(board));
+    assertEquals(expectedValidMoves, knight.getSuggestedPlays());
   }
 }

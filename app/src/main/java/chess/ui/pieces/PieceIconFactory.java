@@ -1,7 +1,7 @@
 package chess.ui.pieces;
 
-import chess.game.board.pieces.Color;
-import chess.game.board.pieces.PieceType;
+import chess.domain.pieces.Color;
+import chess.domain.pieces.PieceType;
 import java.awt.Image;
 import java.util.HashMap;
 import java.util.Objects;

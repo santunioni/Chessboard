@@ -2,12 +2,12 @@ package chess.pieces;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import chess.game.board.Board;
-import chess.game.board.pieces.Color;
-import chess.game.board.pieces.PieceFactory;
-import chess.game.grid.Position;
-import chess.game.plays.Move;
-import chess.game.plays.Play;
+import chess.domain.board.Board;
+import chess.domain.grid.Position;
+import chess.domain.pieces.Color;
+import chess.domain.pieces.PieceFactory;
+import chess.domain.plays.Move;
+import chess.domain.plays.Play;
 import com.google.common.collect.HashBiMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +72,7 @@ public class QueenMoveTest {
         new Move(Color.BLACK, new Position("d4"), new Position("h4"))
     );
 
-    assertEquals(expectedValidMoves, queen.getPlays(board));
+    assertEquals(expectedValidMoves, queen.getSuggestedPlays());
   }
 
   @Test
@@ -89,6 +89,6 @@ public class QueenMoveTest {
         new Move(Color.WHITE, new Position("a1"), new Position("d1"))
     );
 
-    assertEquals(expectedValidMoves, queen.getPlays(board));
+    assertEquals(expectedValidMoves, queen.getSuggestedPlays());
   }
 }

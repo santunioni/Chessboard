@@ -1,7 +1,7 @@
 package chess.ui.grid;
 
 
-import chess.game.grid.Position;
+import chess.domain.grid.Position;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Rectangle;

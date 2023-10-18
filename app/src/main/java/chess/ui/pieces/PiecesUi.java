@@ -1,8 +1,8 @@
 package chess.ui.pieces;
 
-import chess.game.board.GameController;
-import chess.game.board.pieces.PieceSpecification;
-import chess.game.grid.Position;
+import chess.application.GameController;
+import chess.domain.grid.Position;
+import chess.domain.pieces.PieceSpecification;
 import chess.ui.grid.SquaresUi;
 import chess.ui.plays.PlaysUi;
 import java.awt.event.MouseAdapter;

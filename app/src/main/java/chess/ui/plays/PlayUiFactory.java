@@ -1,6 +1,6 @@
 package chess.ui.plays;
 
-import chess.game.plays.PlayDto;
+import chess.domain.plays.PlayDto;
 import chess.ui.grid.SquaresUi;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,7 +15,7 @@ public class PlayUiFactory {
   }
 
   public JLabel createJlabelForPlay(PlayDto play, Runnable onPlayedCallback) {
-    var target = play.getTo();
+    var target = play.uiHighlightPosition();
     var moveUi = new JLabel();
     moveUi.setBounds(grid.getRectangleForPosition(target, 0.8));
     moveUi.setOpaque(true);

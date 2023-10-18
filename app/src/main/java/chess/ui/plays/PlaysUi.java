@@ -1,9 +1,9 @@
 package chess.ui.plays;
 
-import chess.game.board.GameController;
-import chess.game.grid.Position;
-import chess.game.plays.PlayDto;
-import chess.game.plays.validation.PlayValidationError;
+import chess.application.GameController;
+import chess.domain.grid.Position;
+import chess.domain.plays.PlayDto;
+import chess.domain.plays.validation.PlayValidationError;
 import chess.ui.grid.SquaresUi;
 import java.util.ArrayList;
 import java.util.List;

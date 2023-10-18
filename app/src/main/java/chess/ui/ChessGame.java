@@ -1,7 +1,7 @@
 package chess.ui;
 
 
-import chess.game.board.GameController;
+import chess.application.GameController;
 import chess.ui.grid.SquaresUi;
 import chess.ui.pieces.PiecesUi;
 import chess.ui.plays.PlaysUi;
