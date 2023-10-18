@@ -1,8 +1,9 @@
-package chess.domain.board;
+package chess.domain.application;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import chess.application.GameController;
+import chess.domain.board.BoardRepository;
 import chess.domain.grid.Position;
 import chess.domain.pieces.Color;
 import chess.domain.pieces.PieceSpecification;

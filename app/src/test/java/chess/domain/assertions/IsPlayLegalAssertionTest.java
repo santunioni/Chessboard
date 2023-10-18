@@ -1,7 +1,8 @@
-package chess.domain.board;
+package chess.domain.assertions;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import chess.domain.board.Board;
 import chess.domain.grid.Position;
 import chess.domain.pieces.Color;
 import chess.domain.pieces.PieceFactory;

@@ -4,7 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import chess.domain.board.Board;
+import chess.domain.pieces.Color;
+import chess.domain.pieces.PieceFactory;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,11 +15,37 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-public class PathReachabilityOnEmptyBoardTest {
-  private final Board board = new Board();
+public class PathReachabilityTest {
+  private final PieceFactory pieceFactory = new PieceFactory();
+  private Board board;
+
+  @BeforeEach
+  void setUp() {
+    this.board = new Board();
+  }
+
+  @Test
+  void shouldNotReachA5FromA1IfPieceInA5() {
+    this.board.placePiece("a5", this.pieceFactory.createPawns(Color.WHITE).get(0));
+    var path = new Position("a1").pathTo(new Position("a5")).orElseThrow();
+    assertTrue(path.isBlockedOn(this.board));
+  }
+
+  @Test
+  void shouldNotReachA5FromA1IfPieceInA4() {
+    this.board.placePiece("a4", this.pieceFactory.createPawns(Color.WHITE).get(0));
+    var path = new Position("a1").pathTo(new Position("a5")).orElseThrow();
+    assertTrue(path.isBlockedOn(this.board));
+  }
+
+  @Test
+  void shouldAlwaysBeClearIfZeroSteps() {
+    var path = new Path(new Position("a1"), Direction.DIAGONAL_UP_RIGHT, 0);
+    assertTrue(path.isClearOn(this.board));
+  }
 
   @ParameterizedTest
-  @ArgumentsSource(PathReachabilityOnEmptyBoardTest.PathReachabilityCases.class)
+  @ArgumentsSource(PathDirectionCases.class)
   void shouldReachTargetAtExpectedDirection(Position from, Position target,
                                             Direction expectedDirection) {
     var path = from.pathTo(target).orElseThrow();
@@ -25,11 +54,11 @@ public class PathReachabilityOnEmptyBoardTest {
   }
 
   @Test
-  void shouldNotReachD5FromA1GoingAnyDirection() {
+  void shouldNotFindPathFromA1ToD5() {
     assertTrue(new Position("a1").pathTo(new Position("d5")).isEmpty());
   }
 
-  static class PathReachabilityCases implements ArgumentsProvider {
+  static class PathDirectionCases implements ArgumentsProvider {
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
       return Stream.of(
