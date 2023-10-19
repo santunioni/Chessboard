@@ -78,18 +78,6 @@ public class Board implements ReadonlyBoard {
     return copiedBoard;
   }
 
-  public boolean equals(Object that) {
-    if (that instanceof Board) {
-      return this.id.equals(((Board) that).id);
-    }
-    return false;
-  }
-
-  @Override
-  public int hashCode() {
-    return this.id.hashCode();
-  }
-
   public ReadonlyBoard simulate(Play play) {
     Board copy = this.copy();
     play.actOn(copy);

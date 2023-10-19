@@ -10,8 +10,4 @@ public enum Color {
   public Color opposite() {
     return this == WHITE ? BLACK : WHITE;
   }
-
-  public Boolean oppositeOf(Color that) {
-    return this != that;
-  }
 }

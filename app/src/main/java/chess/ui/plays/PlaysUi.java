@@ -2,7 +2,6 @@ package chess.ui.plays;
 
 import chess.application.GameController;
 import chess.domain.grid.Position;
-import chess.domain.plays.PlayDto;
 import chess.domain.plays.validation.PlayValidationError;
 import chess.ui.grid.SquaresUi;
 import java.util.ArrayList;
@@ -45,7 +44,7 @@ public class PlaysUi extends JPanel {
 
   private void paintPlaysForPosition(Position position) {
     this.removeAll();
-    List<PlayDto> plays = this.controller.getPlaysFor(this.boardId, position);
+    var plays = this.controller.getPlaysFor(this.boardId, position);
 
     for (var play : plays) {
       JLabel playUi = this.playUiFactory.createJlabelForPlay(play, () -> {

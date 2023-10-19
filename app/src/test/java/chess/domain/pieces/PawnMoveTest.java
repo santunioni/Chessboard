@@ -1,10 +1,16 @@
 package chess.domain.pieces;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import chess.domain.board.Board;
 import chess.domain.grid.Position;
+import chess.domain.plays.Move;
+import chess.domain.plays.Play;
+import com.google.common.collect.HashBiMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,10 +18,16 @@ public class PawnMoveTest {
 
   private final PieceFactory pieceFactory = new PieceFactory();
   private Board board;
+  private List<Play> stack;
 
   @BeforeEach
   void setUp() {
-    this.board = new Board();
+    this.stack = new ArrayList<>();
+    this.board = new Board(UUID.randomUUID().toString(), HashBiMap.create(), stack);
+  }
+
+  private void forwardToBlackTurn() {
+    this.stack.add(new Move(Color.WHITE, new Position("h7"), new Position("h8")));
   }
 
   @Test
@@ -23,15 +35,20 @@ public class PawnMoveTest {
     var pawn = this.pieceFactory.createPawns(Color.WHITE).get(0);
     this.board.placePiece("a4", pawn);
 
-    assertTrue(pawn.couldMoveToIfEmpty(new Position("a5")));
+    assertEquals(Set.of(
+        new Move(Color.WHITE, new Position("a4"), new Position("a5"))
+    ), pawn.getSuggestedPlays());
   }
 
   @Test
   void shouldBeAbleToMoveExactlyOneSquareDown() {
+    forwardToBlackTurn();
     var pawn = this.pieceFactory.createPawns(Color.BLACK).get(0);
     this.board.placePiece("b4", pawn);
 
-    assertTrue(pawn.couldMoveToIfEmpty(new Position("b3")));
+    assertEquals(Set.of(
+        new Move(Color.BLACK, new Position("b4"), new Position("b3"))
+    ), pawn.getSuggestedPlays());
   }
 
   @Test
@@ -39,17 +56,22 @@ public class PawnMoveTest {
     var pawn = this.pieceFactory.createPawns(Color.WHITE).get(0);
     this.board.placePiece("c2", pawn);
 
-    assertTrue(pawn.couldMoveToIfEmpty(new Position("c3")));
-    assertTrue(pawn.couldMoveToIfEmpty(new Position("c4")));
+    assertEquals(Set.of(
+        new Move(Color.WHITE, new Position("c2"), new Position("c3")),
+        new Move(Color.WHITE, new Position("c2"), new Position("c4"))
+    ), pawn.getSuggestedPlays());
   }
 
   @Test
   void shouldBeAbleToMoveExactlyTwoSquaresDownIfHasNotMovedYet() {
+    forwardToBlackTurn();
     var pawn = this.pieceFactory.createPawns(Color.BLACK).get(0);
     this.board.placePiece("d7", pawn);
 
-    assertTrue(pawn.couldMoveToIfEmpty(new Position("d6")));
-    assertTrue(pawn.couldMoveToIfEmpty(new Position("d5")));
+    assertEquals(Set.of(
+        new Move(Color.BLACK, new Position("d7"), new Position("d6")),
+        new Move(Color.BLACK, new Position("d7"), new Position("d5"))
+    ), pawn.getSuggestedPlays());
   }
 
   @Test
@@ -58,7 +80,6 @@ public class PawnMoveTest {
     this.board.placePiece("e2", pawn);
     this.board.placePiece("e3", this.pieceFactory.createPawns(Color.BLACK).get(0));
 
-    assertTrue(pawn.couldMoveToIfEmpty(new Position("e3")));
-    assertFalse(pawn.couldMoveToIfEmpty(new Position("e4")));
+    assertEquals(0, pawn.getSuggestedPlays().size());
   }
 }

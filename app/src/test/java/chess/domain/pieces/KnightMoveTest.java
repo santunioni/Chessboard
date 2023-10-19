@@ -1,11 +1,9 @@
-package chess.pieces;
+package chess.domain.pieces;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import chess.domain.board.Board;
 import chess.domain.grid.Position;
-import chess.domain.pieces.Color;
-import chess.domain.pieces.PieceFactory;
 import chess.domain.plays.Move;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;

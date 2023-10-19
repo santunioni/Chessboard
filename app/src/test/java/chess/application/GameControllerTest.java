@@ -1,8 +1,7 @@
-package chess.domain.application;
+package chess.application;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import chess.application.GameController;
 import chess.domain.board.BoardRepository;
 import chess.domain.grid.Position;
 import chess.domain.pieces.Color;
@@ -10,6 +9,7 @@ import chess.domain.pieces.PieceSpecification;
 import chess.domain.pieces.PieceType;
 import chess.domain.plays.Move;
 import chess.domain.plays.validation.PlayValidationError;
+import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -52,5 +52,17 @@ public class GameControllerTest {
     // Then
     var pieceAtB6 = this.controller.getPieceAt(boardId, new Position("b6")).orElseThrow();
     assertEquals(pieceAtB6, new PieceSpecification(Color.BLACK, PieceType.PAWN));
+  }
+
+  @Test
+  void shouldSuggestWhitePawnToMoveOneOrTwoSquares() {
+    // When
+    var plays = this.controller.getPlaysFor(boardId, new Position("b2"));
+
+    // Then
+    assertEquals(Set.of(
+            new Move(Color.WHITE, new Position("b2"), new Position("b3")).toDto(),
+            new Move(Color.WHITE, new Position("b2"), new Position("b4")).toDto()),
+        plays);
   }
 }

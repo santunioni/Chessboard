@@ -9,8 +9,9 @@ import chess.domain.plays.PlayDto;
 import chess.domain.plays.PlayDtoToPlayMapper;
 import chess.domain.plays.validation.PlayValidationError;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * The only way that ui should interact with the chess game.
@@ -33,11 +34,11 @@ public class GameController {
     return board.getPieceAt(position).map(Piece::getSpecification);
   }
 
-  public List<PlayDto> getPlaysFor(String boardId, Position position) {
+  public Set<PlayDto> getPlaysFor(String boardId, Position position) {
     var board = this.boardRepository.getBoard(boardId);
     return board.getPieceAt(position)
         .map(Piece::getSuggestedPlays)
-        .orElse(new HashSet<>()).stream().map(Play::toDto).toList();
+        .orElse(new HashSet<>()).stream().map(Play::toDto).collect(Collectors.toUnmodifiableSet());
   }
 
   public void makePlay(String boardId, PlayDto playDto) throws PlayValidationError {

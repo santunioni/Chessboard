@@ -1,4 +1,4 @@
-package chess.domain.assertions;
+package chess.domain.plays;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -6,12 +6,10 @@ import chess.domain.board.Board;
 import chess.domain.grid.Position;
 import chess.domain.pieces.Color;
 import chess.domain.pieces.PieceFactory;
-import chess.domain.plays.Capture;
-import chess.domain.plays.Move;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class IsPlayLegalAssertionTest {
+public class PlayLeavesBoardInLegalStateTest {
 
   private final PieceFactory pieceFactory = new PieceFactory();
   private Board board;
