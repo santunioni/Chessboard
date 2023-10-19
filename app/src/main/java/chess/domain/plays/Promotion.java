@@ -7,7 +7,6 @@ import chess.domain.pieces.Bishop;
 import chess.domain.pieces.Color;
 import chess.domain.pieces.Knight;
 import chess.domain.pieces.Pawn;
-import chess.domain.pieces.PieceSpecification;
 import chess.domain.pieces.PieceType;
 import chess.domain.pieces.Queen;
 import chess.domain.pieces.Rook;
@@ -36,14 +35,12 @@ public class Promotion extends Play {
 
   protected boolean canActOnCurrentState(ReadonlyBoard board) {
     return this.isOnPromotionRank()
-        && board
-        .getPieceAt(this.from, new PieceSpecification(this.color, PieceType.PAWN)).isPresent()
+        && board.getPieceAt(this.from, this.color, PieceType.PAWN).isPresent()
         && board.getPieceAt(this.targetPosition()).isEmpty();
   }
 
   public void actOn(Board board) {
-    var pawn = board.getPieceAt(this.from, new PieceSpecification(this.color, PieceType.PAWN))
-        .orElseThrow();
+    var pawn = board.getPieceAt(this.from, this.color, PieceType.PAWN).orElseThrow();
     var newPiece = switch (this.to) {
       case ROOK -> new Rook(pawn.idInBoard(), this.color);
       case KNIGHT -> new Knight(pawn.idInBoard(), this.color);

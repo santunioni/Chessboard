@@ -7,7 +7,6 @@ import chess.domain.board.Board;
 import chess.domain.board.BoardInitializer;
 import chess.domain.grid.Position;
 import chess.domain.pieces.Color;
-import chess.domain.pieces.PieceSpecification;
 import chess.domain.pieces.PieceType;
 import chess.domain.plays.validation.PlayValidationError;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,11 +33,7 @@ public class EnPassantRulesTest {
 
     // Then
     assertTrue(board.getPieceAt(new Position("b5")).isEmpty());
-    assertTrue(
-        board
-            .getPieceAt(new Position("b6"), new PieceSpecification(Color.WHITE, PieceType.PAWN))
-            .isPresent()
-    );
+    assertTrue(board.getPieceAt(new Position("b6"), Color.WHITE, PieceType.PAWN).isPresent());
   }
 
   @Test

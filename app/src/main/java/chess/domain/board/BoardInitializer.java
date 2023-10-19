@@ -2,7 +2,6 @@ package chess.domain.board;
 
 import chess.domain.pieces.Color;
 import chess.domain.pieces.PieceFactory;
-import chess.domain.pieces.PieceSpecification;
 import chess.domain.pieces.PieceType;
 
 public class BoardInitializer {
@@ -12,16 +11,16 @@ public class BoardInitializer {
 
 
   public BoardInitializer placeAll() {
-    for (var pieceType : PieceType.values()) {
+    for (var type : PieceType.values()) {
       for (var color : Color.values()) {
-        this.placePiecesOf(new PieceSpecification(color, pieceType));
+        this.placePiecesOf(color, type);
       }
     }
     return this;
   }
 
-  public void placePiecesOf(PieceSpecification pieceSpecification) {
-    this.pieceFactory.createPiecesOf(pieceSpecification)
+  public void placePiecesOf(Color color, PieceType type) {
+    this.pieceFactory.createPiecesOf(color, type)
         .forEach(piece -> this.board.placePiece(piece.getInitialPosition(), piece));
   }
 

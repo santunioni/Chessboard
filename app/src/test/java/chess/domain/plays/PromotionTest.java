@@ -7,7 +7,6 @@ import chess.domain.board.Board;
 import chess.domain.grid.Position;
 import chess.domain.pieces.Color;
 import chess.domain.pieces.PieceFactory;
-import chess.domain.pieces.PieceSpecification;
 import chess.domain.pieces.PieceType;
 import chess.domain.plays.validation.PlayValidationError;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,8 +25,7 @@ public class PromotionTest {
   void shouldNotPromoteFromInvalidRank() {
     this.board.placePiece("a6", this.pieceFactory.createPawns(Color.WHITE).get(0));
 
-    var promotion = new Promotion(Color.WHITE, new Position("a6"),
-        PieceType.QUEEN);
+    var promotion = new Promotion(Color.WHITE, new Position("a6"), PieceType.QUEEN);
 
     assertFalse(promotion.isLegalOn(board));
   }
@@ -36,8 +34,7 @@ public class PromotionTest {
   void shouldNotPromoteOtherThanPawn() {
     this.board.placePiece("a7", this.pieceFactory.createBishops(Color.WHITE).get(0));
 
-    var promotion = new Promotion(Color.WHITE, new Position("b8"),
-        PieceType.QUEEN);
+    var promotion = new Promotion(Color.WHITE, new Position("b8"), PieceType.QUEEN);
 
     assertFalse(promotion.isLegalOn(board));
   }
@@ -46,8 +43,7 @@ public class PromotionTest {
   void shouldNotPromoteToInvalidPiece() {
     this.board.placePiece("a7", this.pieceFactory.createPawns(Color.WHITE).get(0));
 
-    var promotion = new Promotion(Color.WHITE, new Position("b8"),
-        PieceType.KING);
+    var promotion = new Promotion(Color.WHITE, new Position("b8"), PieceType.KING);
 
     assertFalse(promotion.isLegalOn(board));
   }
@@ -59,10 +55,6 @@ public class PromotionTest {
     var promotion = new Promotion(Color.WHITE, new Position("a7"), PieceType.QUEEN);
     this.board.makePlay(promotion);
 
-    assertTrue(
-        board
-            .getPieceAt(new Position("a8"), new PieceSpecification(Color.WHITE, PieceType.QUEEN))
-            .isPresent()
-    );
+    assertTrue(board.getPieceAt(new Position("a8"), Color.WHITE, PieceType.QUEEN).isPresent());
   }
 }

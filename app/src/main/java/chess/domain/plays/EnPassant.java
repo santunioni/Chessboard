@@ -5,7 +5,6 @@ import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Position;
 import chess.domain.pieces.Color;
 import chess.domain.pieces.Pawn;
-import chess.domain.pieces.PieceSpecification;
 import chess.domain.pieces.PieceType;
 
 public class EnPassant extends Play {
@@ -23,7 +22,7 @@ public class EnPassant extends Play {
 
   protected boolean canActOnCurrentState(ReadonlyBoard board) {
     return from.rank() == Pawn.getEnPassantRankFor(color)
-        && board.getPieceAt(from, new PieceSpecification(color, PieceType.PAWN))
+        && board.getPieceAt(from, color, PieceType.PAWN)
         .map(p -> p.threatens(to)).orElse(false)
         && board.getPieceAt(to).isEmpty()
         && this.hasVictimJumpedTwoSquaresLastRound(board);

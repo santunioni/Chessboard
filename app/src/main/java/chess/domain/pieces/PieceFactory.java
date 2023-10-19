@@ -4,21 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PieceFactory {
-  public List<Piece> createPiecesOf(PieceSpecification pieceSpecification) {
-    return switch (pieceSpecification.pieceType()) {
-      case KING -> List.of(this.createKing(pieceSpecification.color()));
-      case QUEEN -> List.of(this.createQueen(pieceSpecification.color()));
-      case ROOK -> this.createRooks(pieceSpecification.color());
-      case KNIGHT -> this.createKnights(pieceSpecification.color());
-      case BISHOP -> this.createBishops(pieceSpecification.color());
-      case PAWN -> this.createPawns(pieceSpecification.color());
+  public List<Piece> createPiecesOf(Color color, PieceType type) {
+    return switch (type) {
+      case KING -> List.of(this.createKing(color));
+      case QUEEN -> List.of(this.createQueen(color));
+      case ROOK -> this.createRooks(color);
+      case KNIGHT -> this.createKnights(color);
+      case BISHOP -> this.createBishops(color);
+      case PAWN -> this.createPawns(color);
     };
   }
 
   public List<Piece> createPiecesOf(PieceType type) {
     var pieces = new ArrayList<Piece>();
     for (var color : Color.values()) {
-      pieces.addAll(this.createPiecesOf(new PieceSpecification(color, type)));
+      pieces.addAll(this.createPiecesOf(color, type));
     }
     return pieces;
   }

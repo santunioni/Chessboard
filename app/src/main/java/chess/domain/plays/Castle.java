@@ -9,7 +9,6 @@ import chess.domain.grid.Position;
 import chess.domain.grid.Rank;
 import chess.domain.pieces.Color;
 import chess.domain.pieces.King;
-import chess.domain.pieces.PieceSpecification;
 import chess.domain.pieces.PieceType;
 
 public class Castle extends Play {
@@ -34,8 +33,7 @@ public class Castle extends Play {
     board.changePosition(this.rookPosition(), this.kingFirstStep());
     board.changePosition(this.kingPosition(), this.kingSecondStep());
   }
-
-
+  
   private boolean kingIsNotChecked(ReadonlyBoard board) {
     return !new IsPositionThreatenedByColorAssertion(this.color.opposite(),
         this.kingPosition()).test(board);
@@ -75,12 +73,12 @@ public class Castle extends Play {
   }
 
   private boolean kingIsOnItsInitialPosition(ReadonlyBoard board) {
-    return board.getPieceAt(this.kingPosition(), new PieceSpecification(color, PieceType.KING))
+    return board.getPieceAt(this.kingPosition(), color, PieceType.KING)
         .isPresent();
   }
 
   private boolean rookIsOnItsInitialPosition(ReadonlyBoard board) {
-    return board.getPieceAt(this.rookPosition(), new PieceSpecification(color, PieceType.ROOK))
+    return board.getPieceAt(this.rookPosition(), color, PieceType.ROOK)
         .isPresent();
   }
 
