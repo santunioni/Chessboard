@@ -39,4 +39,12 @@ public class Capture extends Play {
   public PlayDto toDto() {
     return new PlayDto(PlayName.CAPTURE, this.from, this.to);
   }
+
+  public Position toPosition() {
+    return this.to;
+  }
+
+  public Position fromPosition() {
+    return this.from;
+  }
 }

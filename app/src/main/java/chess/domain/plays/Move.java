@@ -37,4 +37,12 @@ public class Move extends Play {
   public PlayDto toDto() {
     return new PlayDto(PlayName.MOVE, this.from, this.to);
   }
+
+  public Position toPosition() {
+    return this.to;
+  }
+
+  public Position fromPosition() {
+    return this.from;
+  }
 }
