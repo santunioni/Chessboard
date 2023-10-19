@@ -3,7 +3,6 @@ package chess.domain.plays;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import chess.domain.board.Board;
-import chess.domain.grid.Position;
 import chess.domain.pieces.Color;
 import chess.domain.pieces.PieceFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +24,7 @@ public class CastleValidationTest {
     board.placePiece("h1", this.pieceFactory.createRooks(Color.WHITE).get(0));
 
     // When
-    var castle = new Castle(Color.WHITE, new Position("h1"));
+    var castle = new Castle(Color.WHITE, CastleSide.KING_SIDE);
 
     // Then
     assertFalse(castle.isLegalOn(board));
@@ -38,7 +37,7 @@ public class CastleValidationTest {
     board.placePiece("h2", this.pieceFactory.createRooks(Color.WHITE).get(0));
 
     // When
-    var castle = new Castle(Color.WHITE, new Position("h1"));
+    var castle = new Castle(Color.WHITE, CastleSide.KING_SIDE);
 
     // Then
     assertFalse(castle.isLegalOn(board));
@@ -51,7 +50,7 @@ public class CastleValidationTest {
     board.placePiece("h2", this.pieceFactory.createRooks(Color.WHITE).get(0));
 
     // When
-    var castle = new Castle(Color.WHITE, new Position("h2"));
+    var castle = new Castle(Color.WHITE, CastleSide.QUEEN_SIDE);
 
     // Then
     assertFalse(castle.isLegalOn(board));

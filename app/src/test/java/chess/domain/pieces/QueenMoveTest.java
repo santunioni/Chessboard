@@ -27,7 +27,7 @@ public class QueenMoveTest {
   }
 
   private void forwardToBlackTurn() {
-    this.stack.add(new Move(Color.WHITE, new Position("h7"), new Position("h8")));
+    this.stack.add(new Move(PieceType.QUEEN, Color.WHITE, new Position("h7"), new Position("h8")));
   }
 
 
@@ -38,36 +38,36 @@ public class QueenMoveTest {
     this.board.placePiece("d4", queen);
 
     var expectedValidMoves = Set.of(
-        new Move(Color.BLACK, new Position("d4"), new Position("a1")),
-        new Move(Color.BLACK, new Position("d4"), new Position("b2")),
-        new Move(Color.BLACK, new Position("d4"), new Position("c3")),
-        new Move(Color.BLACK, new Position("d4"), new Position("e5")),
-        new Move(Color.BLACK, new Position("d4"), new Position("f6")),
-        new Move(Color.BLACK, new Position("d4"), new Position("g7")),
-        new Move(Color.BLACK, new Position("d4"), new Position("h8")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("a1")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("b2")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("c3")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("e5")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("f6")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("g7")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("h8")),
 
-        new Move(Color.BLACK, new Position("d4"), new Position("a7")),
-        new Move(Color.BLACK, new Position("d4"), new Position("b6")),
-        new Move(Color.BLACK, new Position("d4"), new Position("c5")),
-        new Move(Color.BLACK, new Position("d4"), new Position("e3")),
-        new Move(Color.BLACK, new Position("d4"), new Position("f2")),
-        new Move(Color.BLACK, new Position("d4"), new Position("g1")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("a7")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("b6")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("c5")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("e3")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("f2")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("g1")),
 
-        new Move(Color.BLACK, new Position("d4"), new Position("d1")),
-        new Move(Color.BLACK, new Position("d4"), new Position("d2")),
-        new Move(Color.BLACK, new Position("d4"), new Position("d3")),
-        new Move(Color.BLACK, new Position("d4"), new Position("d5")),
-        new Move(Color.BLACK, new Position("d4"), new Position("d6")),
-        new Move(Color.BLACK, new Position("d4"), new Position("d7")),
-        new Move(Color.BLACK, new Position("d4"), new Position("d8")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("d1")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("d2")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("d3")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("d5")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("d6")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("d7")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("d8")),
 
-        new Move(Color.BLACK, new Position("d4"), new Position("a4")),
-        new Move(Color.BLACK, new Position("d4"), new Position("b4")),
-        new Move(Color.BLACK, new Position("d4"), new Position("c4")),
-        new Move(Color.BLACK, new Position("d4"), new Position("e4")),
-        new Move(Color.BLACK, new Position("d4"), new Position("f4")),
-        new Move(Color.BLACK, new Position("d4"), new Position("g4")),
-        new Move(Color.BLACK, new Position("d4"), new Position("h4"))
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("a4")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("b4")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("c4")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("e4")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("f4")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("g4")),
+        new Move(PieceType.QUEEN, Color.BLACK, new Position("d4"), new Position("h4"))
     );
 
     assertEquals(expectedValidMoves, queen.getSuggestedPlays());
@@ -82,9 +82,9 @@ public class QueenMoveTest {
     this.board.placePiece("b2", this.pieceFactory.createPawns(Color.WHITE).get(2));
 
     var expectedValidMoves = Set.of(
-        new Move(Color.WHITE, new Position("a1"), new Position("b1")),
-        new Move(Color.WHITE, new Position("a1"), new Position("c1")),
-        new Move(Color.WHITE, new Position("a1"), new Position("d1"))
+        new Move(PieceType.QUEEN, Color.WHITE, new Position("a1"), new Position("b1")),
+        new Move(PieceType.QUEEN, Color.WHITE, new Position("a1"), new Position("c1")),
+        new Move(PieceType.QUEEN, Color.WHITE, new Position("a1"), new Position("d1"))
     );
 
     assertEquals(expectedValidMoves, queen.getSuggestedPlays());

@@ -27,7 +27,7 @@ public class PawnMoveTest {
   }
 
   private void forwardToBlackTurn() {
-    this.stack.add(new Move(Color.WHITE, new Position("h7"), new Position("h8")));
+    this.stack.add(new Move(PieceType.PAWN, Color.WHITE, new Position("h7"), new Position("h8")));
   }
 
   @Test
@@ -36,7 +36,7 @@ public class PawnMoveTest {
     this.board.placePiece("a4", pawn);
 
     assertEquals(Set.of(
-        new Move(Color.WHITE, new Position("a4"), new Position("a5"))
+        new Move(PieceType.PAWN, Color.WHITE, new Position("a4"), new Position("a5"))
     ), pawn.getSuggestedPlays());
   }
 
@@ -47,7 +47,7 @@ public class PawnMoveTest {
     this.board.placePiece("b4", pawn);
 
     assertEquals(Set.of(
-        new Move(Color.BLACK, new Position("b4"), new Position("b3"))
+        new Move(PieceType.PAWN, Color.BLACK, new Position("b4"), new Position("b3"))
     ), pawn.getSuggestedPlays());
   }
 
@@ -57,8 +57,8 @@ public class PawnMoveTest {
     this.board.placePiece("c2", pawn);
 
     assertEquals(Set.of(
-        new Move(Color.WHITE, new Position("c2"), new Position("c3")),
-        new Move(Color.WHITE, new Position("c2"), new Position("c4"))
+        new Move(PieceType.PAWN, Color.WHITE, new Position("c2"), new Position("c3")),
+        new Move(PieceType.PAWN, Color.WHITE, new Position("c2"), new Position("c4"))
     ), pawn.getSuggestedPlays());
   }
 
@@ -69,8 +69,8 @@ public class PawnMoveTest {
     this.board.placePiece("d7", pawn);
 
     assertEquals(Set.of(
-        new Move(Color.BLACK, new Position("d7"), new Position("d6")),
-        new Move(Color.BLACK, new Position("d7"), new Position("d5"))
+        new Move(PieceType.PAWN, Color.BLACK, new Position("d7"), new Position("d6")),
+        new Move(PieceType.PAWN, Color.BLACK, new Position("d7"), new Position("d5"))
     ), pawn.getSuggestedPlays());
   }
 

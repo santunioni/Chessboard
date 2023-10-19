@@ -39,8 +39,8 @@ public class Knight extends Piece {
           var targetPosition = Position.fromIndex(targetPositionIndex);
           if (this.couldMoveToIfEmpty(targetPosition)) {
             plays.add(
-                new Move(this.color(), this.currentPosition(), targetPosition));
-            plays.add(new Capture(this.color(), this.currentPosition(),
+                new Move(this.type(), this.color(), this.currentPosition(), targetPosition));
+            plays.add(new Capture(this.type(), this.color(), this.currentPosition(),
                 targetPosition));
           }
         }

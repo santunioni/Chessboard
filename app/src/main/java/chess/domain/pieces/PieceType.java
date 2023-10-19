@@ -6,5 +6,16 @@ public enum PieceType {
   KNIGHT,
   BISHOP,
   QUEEN,
-  KING
+  KING;
+
+  public String toStringAlgebraicNotation() {
+    return switch (this) {
+      case PAWN -> "";
+      case ROOK -> "R";
+      case KNIGHT -> "N";
+      case BISHOP -> "B";
+      case QUEEN -> "Q";
+      case KING -> "K";
+    };
+  }
 }

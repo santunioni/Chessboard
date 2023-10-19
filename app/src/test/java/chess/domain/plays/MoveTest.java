@@ -8,6 +8,7 @@ import chess.domain.board.Board;
 import chess.domain.grid.Position;
 import chess.domain.pieces.Color;
 import chess.domain.pieces.PieceFactory;
+import chess.domain.pieces.PieceType;
 import chess.domain.plays.validation.PlayValidationError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,7 @@ public class MoveTest {
     var pawn = this.pieceFactory.createPawns(Color.WHITE).get(0);
     board.placePiece("e2", pawn);
 
-    var move = new Move(Color.WHITE, new Position("e2"), new Position("e4"));
+    var move = new Move(PieceType.PAWN, Color.WHITE, new Position("e2"), new Position("e4"));
     board.makePlay(move);
 
     assertTrue(board.getPieceAt(new Position("e2")).isEmpty());
@@ -35,7 +36,7 @@ public class MoveTest {
 
   @Test
   void shouldThrownIfEmptyOriginPosition() {
-    var move = new Move(Color.WHITE, new Position("e2"), new Position("e4"));
+    var move = new Move(PieceType.PAWN, Color.WHITE, new Position("e2"), new Position("e4"));
 
     assertFalse(move.isLegalOn(board));
   }
@@ -45,7 +46,7 @@ public class MoveTest {
     board.placePiece("e2", this.pieceFactory.createQueen(Color.BLACK));
     board.placePiece("e4", this.pieceFactory.createPawns(Color.BLACK).get(0));
 
-    var move = new Move(Color.BLACK, new Position("e2"), new Position("e4"));
+    var move = new Move(PieceType.QUEEN, Color.BLACK, new Position("e2"), new Position("e4"));
 
     assertFalse(move.isLegalOn(board));
   }
@@ -55,8 +56,14 @@ public class MoveTest {
     board.placePiece("e2", this.pieceFactory.createQueen(Color.BLACK));
     board.placePiece("e4", this.pieceFactory.createQueen(Color.WHITE));
 
-    var move = new Move(Color.BLACK, new Position("e2"), new Position("e4"));
+    var move = new Move(PieceType.QUEEN, Color.BLACK, new Position("e2"), new Position("e4"));
 
     assertFalse(move.isLegalOn(board));
+  }
+
+  @Test
+  void shouldReturnAlgebraicNotation() {
+    var move = new Move(PieceType.QUEEN, Color.BLACK, new Position("e2"), new Position("e4"));
+    assertEquals("Qe2e4", move.toDto().algebraicNotation());
   }
 }

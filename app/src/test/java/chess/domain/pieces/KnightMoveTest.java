@@ -26,17 +26,17 @@ public class KnightMoveTest {
     this.board.placePiece("d4", knight);
 
     var expectedValidMoves = Set.of(
-        new Move(Color.WHITE, new Position("d4"), new Position("e6")),
-        new Move(Color.WHITE, new Position("d4"), new Position("c6")),
+        new Move(PieceType.KNIGHT, Color.WHITE, new Position("d4"), new Position("e6")),
+        new Move(PieceType.KNIGHT, Color.WHITE, new Position("d4"), new Position("c6")),
 
-        new Move(Color.WHITE, new Position("d4"), new Position("b5")),
-        new Move(Color.WHITE, new Position("d4"), new Position("b3")),
+        new Move(PieceType.KNIGHT, Color.WHITE, new Position("d4"), new Position("b5")),
+        new Move(PieceType.KNIGHT, Color.WHITE, new Position("d4"), new Position("b3")),
 
-        new Move(Color.WHITE, new Position("d4"), new Position("c2")),
-        new Move(Color.WHITE, new Position("d4"), new Position("e2")),
+        new Move(PieceType.KNIGHT, Color.WHITE, new Position("d4"), new Position("c2")),
+        new Move(PieceType.KNIGHT, Color.WHITE, new Position("d4"), new Position("e2")),
 
-        new Move(Color.WHITE, new Position("d4"), new Position("f3")),
-        new Move(Color.WHITE, new Position("d4"), new Position("f5"))
+        new Move(PieceType.KNIGHT, Color.WHITE, new Position("d4"), new Position("f3")),
+        new Move(PieceType.KNIGHT, Color.WHITE, new Position("d4"), new Position("f5"))
     );
 
     assertEquals(expectedValidMoves, knight.getSuggestedPlays());
@@ -49,8 +49,8 @@ public class KnightMoveTest {
     this.board.placePiece("c3", this.pieceFactory.createPawns(Color.WHITE).get(0));
 
     var expectedValidMoves = Set.of(
-        new Move(Color.WHITE, new Position("b1"), new Position("a3")),
-        new Move(Color.WHITE, new Position("b1"), new Position("d2"))
+        new Move(PieceType.KNIGHT, Color.WHITE, new Position("b1"), new Position("a3")),
+        new Move(PieceType.KNIGHT, Color.WHITE, new Position("b1"), new Position("d2"))
     );
 
     assertEquals(expectedValidMoves, knight.getSuggestedPlays());

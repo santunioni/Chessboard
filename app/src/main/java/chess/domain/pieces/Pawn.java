@@ -9,6 +9,7 @@ import chess.domain.plays.Capture;
 import chess.domain.plays.EnPassant;
 import chess.domain.plays.Move;
 import chess.domain.plays.Play;
+import chess.domain.plays.Promotion;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -72,8 +73,7 @@ public class Pawn extends Piece {
       return false;
     }
 
-    return new Path(myPosition, this.walkDirection,
-        stepsToTarget - 1).isClearOn(this.board);
+    return new Path(myPosition, this.walkDirection, stepsToTarget - 1).isClearOn(this.board);
   }
 
 
@@ -97,11 +97,21 @@ public class Pawn extends Piece {
         var target = targetOptional.get();
 
         if (this.couldMoveToIfEmpty(target)) {
-          plays.add(new Move(this.color(), from, target));
+          if (target.rank() == getPromotionRankFor(this.color())) {
+            Promotion.possibleTypes.forEach(type -> plays.add(
+                new Promotion(new Move(PieceType.PAWN, this.color(), from, target), type)));
+          } else {
+            plays.add(new Move(PieceType.PAWN, this.color(), from, target));
+          }
         }
 
         if (this.threatens(target)) {
-          plays.add(new Capture(this.color(), from, target));
+          if (target.rank() == getPromotionRankFor(this.color())) {
+            Promotion.possibleTypes.forEach(type -> plays.add(
+                new Promotion(new Capture(PieceType.PAWN, this.color(), from, target), type)));
+          } else {
+            plays.add(new Capture(PieceType.PAWN, this.color(), from, target));
+          }
           if (from.rank() == getEnPassantRankFor(this.color())) {
             plays.add(new EnPassant(this.color(), from, target));
           }

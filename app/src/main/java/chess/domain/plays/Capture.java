@@ -4,6 +4,7 @@ import chess.domain.board.Board;
 import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Position;
 import chess.domain.pieces.Color;
+import chess.domain.pieces.PieceType;
 
 /**
  * Represents a Capture play.
@@ -13,15 +14,18 @@ import chess.domain.pieces.Color;
  * - Attacks are only valid when moving to a position occupied by the enemy.
  */
 public class Capture extends Play {
+  private final PieceType type;
   private final Color color;
   private final Position from;
   private final Position to;
 
   public Capture(
+      PieceType type,
       Color color,
       Position from,
       Position to) {
     super(color);
+    this.type = type;
     this.color = color;
     this.from = from;
     this.to = to;
@@ -37,7 +41,8 @@ public class Capture extends Play {
   }
 
   public PlayDto toDto() {
-    return new PlayDto(PlayName.CAPTURE, this.from, this.to);
+    return new PlayDto(this.color,
+        this.type.toStringAlgebraicNotation() + this.from + "x" + this.to, this.to);
   }
 
   public Position toPosition() {

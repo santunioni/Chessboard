@@ -1,5 +1,6 @@
 package chess.domain.plays;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -27,7 +28,7 @@ public class CastleRulesTest {
   @Test
   void shouldMoveKingTwoSpacesRightAndPutRookOnItsLeft() throws PlayValidationError {
     // Given
-    var castle = new Castle(Color.WHITE, new Position("h1"));
+    var castle = new Castle(Color.WHITE, CastleSide.KING_SIDE);
 
     // When
     board.makePlay(castle);
@@ -42,13 +43,13 @@ public class CastleRulesTest {
   @Test
   void shouldFailWhenKingAlreadyMoved() throws PlayValidationError {
     // Given
-    board.makePlay(new Move(Color.WHITE, new Position("e1"), new Position("e2")));
-    board.makePlay(new Move(Color.BLACK, new Position("e8"), new Position("e7")));
-    board.makePlay(new Move(Color.WHITE, new Position("e2"), new Position("e1")));
-    board.makePlay(new Move(Color.BLACK, new Position("e7"), new Position("e8")));
+    board.makePlay(new Move(PieceType.KING, Color.WHITE, new Position("e1"), new Position("e2")));
+    board.makePlay(new Move(PieceType.KING, Color.BLACK, new Position("e8"), new Position("e7")));
+    board.makePlay(new Move(PieceType.KING, Color.WHITE, new Position("e2"), new Position("e1")));
+    board.makePlay(new Move(PieceType.KING, Color.BLACK, new Position("e7"), new Position("e8")));
 
     // When
-    var castle = new Castle(Color.WHITE, new Position("h1"));
+    var castle = new Castle(Color.WHITE, CastleSide.KING_SIDE);
 
     // Then
     assertThrows(PlayValidationError.class, () -> board.makePlay(castle));
@@ -57,13 +58,13 @@ public class CastleRulesTest {
   @Test
   void shouldFailWhenRookAlreadyMoved() throws PlayValidationError {
     // Given
-    board.makePlay(new Move(Color.WHITE, new Position("h1"), new Position("h2")));
-    board.makePlay(new Move(Color.BLACK, new Position("h8"), new Position("h7")));
-    board.makePlay(new Move(Color.WHITE, new Position("h2"), new Position("h1")));
-    board.makePlay(new Move(Color.BLACK, new Position("h7"), new Position("h8")));
+    board.makePlay(new Move(PieceType.ROOK, Color.WHITE, new Position("h1"), new Position("h2")));
+    board.makePlay(new Move(PieceType.ROOK, Color.BLACK, new Position("h8"), new Position("h7")));
+    board.makePlay(new Move(PieceType.ROOK, Color.WHITE, new Position("h2"), new Position("h1")));
+    board.makePlay(new Move(PieceType.ROOK, Color.BLACK, new Position("h7"), new Position("h8")));
 
     // When
-    var castle = new Castle(Color.WHITE, new Position("h1"));
+    var castle = new Castle(Color.WHITE, CastleSide.KING_SIDE);
 
     // Then
     assertThrows(PlayValidationError.class, () -> board.makePlay(castle));
@@ -75,7 +76,7 @@ public class CastleRulesTest {
     board.placePiece("e2", this.pieceFactory.createRooks(Color.BLACK).get(0));
 
     // When
-    var castle = new Castle(Color.WHITE, new Position("h1"));
+    var castle = new Castle(Color.WHITE, CastleSide.KING_SIDE);
 
     // Then
     assertThrows(PlayValidationError.class, () -> board.makePlay(castle));
@@ -87,7 +88,7 @@ public class CastleRulesTest {
     board.placePiece("f1", this.pieceFactory.createBishops(Color.WHITE).get(0));
 
     // When
-    var castle = new Castle(Color.WHITE, new Position("h1"));
+    var castle = new Castle(Color.WHITE, CastleSide.KING_SIDE);
 
     // Then
     assertThrows(PlayValidationError.class, () -> board.makePlay(castle));
@@ -99,9 +100,17 @@ public class CastleRulesTest {
     board.placePiece("f2", this.pieceFactory.createRooks(Color.BLACK).get(0));
 
     // When
-    var castle = new Castle(Color.WHITE, new Position("h1"));
+    var castle = new Castle(Color.WHITE, CastleSide.KING_SIDE);
 
     // Then
     assertThrows(PlayValidationError.class, () -> board.makePlay(castle));
+  }
+
+  @Test
+  void shouldReturnAlgebraicNotation() {
+    var kingSideCastle = new Castle(Color.WHITE, CastleSide.KING_SIDE);
+    var queenSideCastle = new Castle(Color.WHITE, CastleSide.QUEEN_SIDE);
+    assertEquals("0-0", kingSideCastle.toDto().algebraicNotation());
+    assertEquals("0-0-0", queenSideCastle.toDto().algebraicNotation());
   }
 }

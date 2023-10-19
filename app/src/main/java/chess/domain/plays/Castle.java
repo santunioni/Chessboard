@@ -3,7 +3,6 @@ package chess.domain.plays;
 import chess.domain.assertions.IsPositionThreatenedByColorAssertion;
 import chess.domain.board.Board;
 import chess.domain.board.ReadonlyBoard;
-import chess.domain.grid.Direction;
 import chess.domain.grid.Path;
 import chess.domain.grid.Position;
 import chess.domain.grid.Rank;
@@ -14,17 +13,16 @@ import chess.domain.pieces.PieceType;
 public class Castle extends Play {
 
   private final Color color;
-  private final Position to;
+  private final CastleSide castleSide;
 
-  public Castle(Color color, Position to) {
+  public Castle(Color color, CastleSide castleSide) {
     super(color);
     this.color = color;
-    this.to = to;
+    this.castleSide = castleSide;
   }
 
   protected boolean canActOnCurrentState(ReadonlyBoard board) {
-    return this.kingAndRookNeverMoved(board)
-        && this.kingIsNotChecked(board)
+    return this.kingAndRookNeverMoved(board) && this.kingIsNotChecked(board)
         && this.kingPath().isClearOn(board)
         && !this.kingPath().isThreatenedBy(this.color.opposite(), board);
   }
@@ -33,7 +31,7 @@ public class Castle extends Play {
     board.changePosition(this.rookPosition(), this.kingFirstStep());
     board.changePosition(this.kingPosition(), this.kingSecondStep());
   }
-  
+
   private boolean kingIsNotChecked(ReadonlyBoard board) {
     return !new IsPositionThreatenedByColorAssertion(this.color.opposite(),
         this.kingPosition()).test(board);
@@ -45,9 +43,10 @@ public class Castle extends Play {
     }
 
     for (Play oldPlay : board.history()) {
-      PlayDto oldPlayDto = oldPlay.toDto();
-      if (oldPlayDto.from().equals(this.kingPosition())
-          || oldPlayDto.from().equals(this.rookPosition())) {
+      Color oldPlayColor = oldPlay.getPlayerColor();
+      String oldPlayAlgebraicNotation = oldPlay.toDto().algebraicNotation();
+      if (oldPlayColor.equals(this.color) && (oldPlayAlgebraicNotation.contains("K")
+          || oldPlayAlgebraicNotation.contains("R" + this.castleSide.toRookFile()))) {
         return false;
       }
     }
@@ -56,35 +55,28 @@ public class Castle extends Play {
   }
 
   private Position kingFirstStep() {
-    return this.kingPosition().nextOn(this.castleDirection()).orElseThrow();
+    return this.kingPosition().nextOn(this.castleSide.toDirection()).orElseThrow();
   }
 
   private Position kingSecondStep() {
-    return this.kingFirstStep().nextOn(this.castleDirection()).orElseThrow();
+    return this.kingFirstStep().nextOn(this.castleSide.toDirection()).orElseThrow();
   }
 
   private Path kingPath() {
-    return new Path(this.kingPosition(), this.castleDirection(), 2);
+    return new Path(this.kingPosition(), this.castleSide.toDirection(), 2);
   }
 
   private Position rookPosition() {
-    return this.castleDirection().equals(Direction.HORIZONTAL_RIGHT)
-        ? new Position("h" + this.rank()) : new Position("a" + this.rank());
+    return this.castleSide.equals(CastleSide.KING_SIDE) ? new Position("h" + this.rank()) :
+        new Position("a" + this.rank());
   }
 
   private boolean kingIsOnItsInitialPosition(ReadonlyBoard board) {
-    return board.getPieceAt(this.kingPosition(), color, PieceType.KING)
-        .isPresent();
+    return board.getPieceAt(this.kingPosition(), color, PieceType.KING).isPresent();
   }
 
   private boolean rookIsOnItsInitialPosition(ReadonlyBoard board) {
-    return board.getPieceAt(this.rookPosition(), color, PieceType.ROOK)
-        .isPresent();
-  }
-
-  private Direction castleDirection() {
-    return this.kingPosition().file().distanceTo(to.file()) > 0 ? Direction.HORIZONTAL_RIGHT :
-        Direction.HORIZONTAL_LEFT;
+    return board.getPieceAt(this.rookPosition(), color, PieceType.ROOK).isPresent();
   }
 
   private Position kingPosition() {
@@ -96,6 +88,7 @@ public class Castle extends Play {
   }
 
   public PlayDto toDto() {
-    return new PlayDto(PlayName.CASTLE, King.initialPositionFor(this.color), this.to);
+    return new PlayDto(this.color, this.castleSide.equals(CastleSide.KING_SIDE) ? "0-0" : "0-0-0",
+        this.rookPosition());
   }
 }

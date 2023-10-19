@@ -27,7 +27,7 @@ public class RookMoveTest {
   }
 
   private void forwardToBlackTurn() {
-    this.stack.add(new Move(Color.WHITE, new Position("h7"), new Position("h8")));
+    this.stack.add(new Move(PieceType.ROOK, Color.WHITE, new Position("h7"), new Position("h8")));
   }
 
   @Test
@@ -37,21 +37,21 @@ public class RookMoveTest {
     this.board.placePiece("d4", rook);
 
     var expectedValidMoves = Set.of(
-        new Move(Color.BLACK, new Position("d4"), new Position("a4")),
-        new Move(Color.BLACK, new Position("d4"), new Position("b4")),
-        new Move(Color.BLACK, new Position("d4"), new Position("c4")),
-        new Move(Color.BLACK, new Position("d4"), new Position("e4")),
-        new Move(Color.BLACK, new Position("d4"), new Position("f4")),
-        new Move(Color.BLACK, new Position("d4"), new Position("g4")),
-        new Move(Color.BLACK, new Position("d4"), new Position("h4")),
+        new Move(PieceType.ROOK, Color.BLACK, new Position("d4"), new Position("a4")),
+        new Move(PieceType.ROOK, Color.BLACK, new Position("d4"), new Position("b4")),
+        new Move(PieceType.ROOK, Color.BLACK, new Position("d4"), new Position("c4")),
+        new Move(PieceType.ROOK, Color.BLACK, new Position("d4"), new Position("e4")),
+        new Move(PieceType.ROOK, Color.BLACK, new Position("d4"), new Position("f4")),
+        new Move(PieceType.ROOK, Color.BLACK, new Position("d4"), new Position("g4")),
+        new Move(PieceType.ROOK, Color.BLACK, new Position("d4"), new Position("h4")),
 
-        new Move(Color.BLACK, new Position("d4"), new Position("d1")),
-        new Move(Color.BLACK, new Position("d4"), new Position("d2")),
-        new Move(Color.BLACK, new Position("d4"), new Position("d3")),
-        new Move(Color.BLACK, new Position("d4"), new Position("d5")),
-        new Move(Color.BLACK, new Position("d4"), new Position("d6")),
-        new Move(Color.BLACK, new Position("d4"), new Position("d7")),
-        new Move(Color.BLACK, new Position("d4"), new Position("d8"))
+        new Move(PieceType.ROOK, Color.BLACK, new Position("d4"), new Position("d1")),
+        new Move(PieceType.ROOK, Color.BLACK, new Position("d4"), new Position("d2")),
+        new Move(PieceType.ROOK, Color.BLACK, new Position("d4"), new Position("d3")),
+        new Move(PieceType.ROOK, Color.BLACK, new Position("d4"), new Position("d5")),
+        new Move(PieceType.ROOK, Color.BLACK, new Position("d4"), new Position("d6")),
+        new Move(PieceType.ROOK, Color.BLACK, new Position("d4"), new Position("d7")),
+        new Move(PieceType.ROOK, Color.BLACK, new Position("d4"), new Position("d8"))
     );
 
     assertEquals(expectedValidMoves, rook.getSuggestedPlays());
@@ -65,8 +65,8 @@ public class RookMoveTest {
     this.board.placePiece("d1", this.pieceFactory.createPawns(Color.WHITE).get(1));
 
     var expectedValidMoves = Set.of(
-        new Move(Color.WHITE, new Position("b1"), new Position("a1")),
-        new Move(Color.WHITE, new Position("b1"), new Position("c1"))
+        new Move(PieceType.ROOK, Color.WHITE, new Position("b1"), new Position("a1")),
+        new Move(PieceType.ROOK, Color.WHITE, new Position("b1"), new Position("c1"))
     );
 
     assertEquals(expectedValidMoves, rook.getSuggestedPlays());

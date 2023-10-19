@@ -1,5 +1,6 @@
 package chess.domain.plays;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -23,10 +24,10 @@ public class EnPassantRulesTest {
   @Test
   void shouldCaptureBlackPieceThatRecentlyJumpedTwoSquares() throws PlayValidationError {
     // Given
-    board.makePlay(new Move(Color.WHITE, new Position("a2"), new Position("a4")));
-    board.makePlay(new Move(Color.BLACK, new Position("h7"), new Position("h5")));
-    board.makePlay(new Move(Color.WHITE, new Position("a4"), new Position("a5")));
-    board.makePlay(new Move(Color.BLACK, new Position("b7"), new Position("b5")));
+    board.makePlay(new Move(PieceType.PAWN, Color.WHITE, new Position("a2"), new Position("a4")));
+    board.makePlay(new Move(PieceType.PAWN, Color.BLACK, new Position("h7"), new Position("h5")));
+    board.makePlay(new Move(PieceType.PAWN, Color.WHITE, new Position("a4"), new Position("a5")));
+    board.makePlay(new Move(PieceType.PAWN, Color.BLACK, new Position("b7"), new Position("b5")));
 
     // When
     board.makePlay(new EnPassant(Color.WHITE, new Position("a5"), new Position("b6")));
@@ -39,13 +40,20 @@ public class EnPassantRulesTest {
   @Test
   void shouldFailIfBlackPieceHadNotRecentlyMoved() throws PlayValidationError {
     // Given
-    board.makePlay(new Move(Color.WHITE, new Position("a2"), new Position("a4")));
-    board.makePlay(new Move(Color.BLACK, new Position("b7"), new Position("b5")));
-    board.makePlay(new Move(Color.WHITE, new Position("a4"), new Position("a5")));
-    board.makePlay(new Move(Color.BLACK, new Position("h7"), new Position("h5")));
+    board.makePlay(new Move(PieceType.PAWN, Color.WHITE, new Position("a2"), new Position("a4")));
+    board.makePlay(new Move(PieceType.PAWN, Color.BLACK, new Position("b7"), new Position("b5")));
+    board.makePlay(new Move(PieceType.PAWN, Color.WHITE, new Position("a4"), new Position("a5")));
+    board.makePlay(new Move(PieceType.PAWN, Color.BLACK, new Position("h7"), new Position("h5")));
 
     // Then
     assertThrows(PlayValidationError.class,
         () -> board.makePlay(new EnPassant(Color.WHITE, new Position("a5"), new Position("b6"))));
+  }
+
+
+  @Test
+  void shouldReturnAlgebraicNotation() {
+    var enPassant = new EnPassant(Color.WHITE, new Position("a5"), new Position("b6"));
+    assertEquals("a5xb6 e.p.", enPassant.toDto().algebraicNotation());
   }
 }

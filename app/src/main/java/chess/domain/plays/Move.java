@@ -5,6 +5,7 @@ import chess.domain.board.Board;
 import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Position;
 import chess.domain.pieces.Color;
+import chess.domain.pieces.PieceType;
 
 /**
  * Represents a Displacement play.
@@ -14,12 +15,14 @@ import chess.domain.pieces.Color;
  * - Attacks are only valid when moving to a position occupied by the enemy.
  */
 public class Move extends Play {
+  private final PieceType type;
   private final Color color;
   private final Position from;
   private final Position to;
 
-  public Move(Color color, Position from, Position to) {
+  public Move(PieceType type, Color color, Position from, Position to) {
     super(color);
+    this.type = type;
     this.color = color;
     this.from = from;
     this.to = to;
@@ -35,7 +38,9 @@ public class Move extends Play {
   }
 
   public PlayDto toDto() {
-    return new PlayDto(PlayName.MOVE, this.from, this.to);
+    return new PlayDto(this.color,
+        this.type.toStringAlgebraicNotation() + this.from + this.to,
+        this.to);
   }
 
   public Position toPosition() {

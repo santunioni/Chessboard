@@ -65,4 +65,8 @@ public abstract class Piece {
   public Color color() {
     return this.specification.color();
   }
+
+  public PieceType type() {
+    return this.specification.pieceType();
+  }
 }

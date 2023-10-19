@@ -24,14 +24,16 @@ public class GameControllerTest {
   }
 
   private void forwardToBlackTurn() throws PlayValidationError {
-    var move = new Move(Color.WHITE, new Position("b2"), new Position("b3")).toDto();
+    var move =
+        new Move(PieceType.PAWN, Color.WHITE, new Position("b2"), new Position("b3")).toDto();
     this.controller.makePlay(boardId, move);
   }
 
   @Test
   void shouldAllowWhiteToMoveOnItsTurn() throws PlayValidationError {
     // When
-    var move = new Move(Color.WHITE, new Position("b2"), new Position("b3")).toDto();
+    var move =
+        new Move(PieceType.PAWN, Color.WHITE, new Position("b2"), new Position("b3")).toDto();
     this.controller.makePlay(boardId, move);
 
     // Then
@@ -41,12 +43,13 @@ public class GameControllerTest {
 
 
   @Test
-  void shouldAllowBlackToCaptureWhiteOnItsTurn() throws PlayValidationError {
+  void shouldAllowBlackToMoveOnItsTurn() throws PlayValidationError {
     // Given
     forwardToBlackTurn();
 
     // When
-    var move = new Move(Color.WHITE, new Position("b7"), new Position("b6")).toDto();
+    var move =
+        new Move(PieceType.PAWN, Color.BLACK, new Position("b7"), new Position("b6")).toDto();
     this.controller.makePlay(boardId, move);
 
     // Then
@@ -61,8 +64,8 @@ public class GameControllerTest {
 
     // Then
     assertEquals(Set.of(
-            new Move(Color.WHITE, new Position("b2"), new Position("b3")).toDto(),
-            new Move(Color.WHITE, new Position("b2"), new Position("b4")).toDto()),
+            new Move(PieceType.PAWN, Color.WHITE, new Position("b2"), new Position("b3")).toDto(),
+            new Move(PieceType.PAWN, Color.WHITE, new Position("b2"), new Position("b4")).toDto()),
         plays);
   }
 }

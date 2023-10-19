@@ -8,6 +8,7 @@ import chess.domain.board.Board;
 import chess.domain.grid.Position;
 import chess.domain.pieces.Color;
 import chess.domain.pieces.PieceFactory;
+import chess.domain.pieces.PieceType;
 import chess.domain.plays.validation.PlayValidationError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,7 @@ public class CaptureTest {
     board.placePiece("e2", pawn);
     board.placePiece("d3", this.pieceFactory.createPawns(Color.BLACK).get(0));
 
-    var capture = new Capture(Color.WHITE, new Position("e2"), new Position("d3"));
+    var capture = new Capture(PieceType.PAWN, Color.WHITE, new Position("e2"), new Position("d3"));
     board.makePlay(capture);
 
     assertTrue(board.getPieceAt(new Position("e2")).isEmpty());
@@ -40,7 +41,7 @@ public class CaptureTest {
     board.placePiece("e2", pawn);
     board.placePiece("e3", this.pieceFactory.createPawns(Color.BLACK).get(0));
 
-    var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e3"));
+    var capture = new Capture(PieceType.PAWN, Color.WHITE, new Position("e2"), new Position("e3"));
 
     assertFalse(capture.isLegalOn(board));
   }
@@ -51,7 +52,7 @@ public class CaptureTest {
     board.placePiece("e2", pawn);
     board.placePiece("d1", this.pieceFactory.createPawns(Color.BLACK).get(0));
 
-    var capture = new Capture(Color.WHITE, new Position("e2"), new Position("d1"));
+    var capture = new Capture(PieceType.PAWN, Color.WHITE, new Position("e2"), new Position("d1"));
 
     assertFalse(capture.isLegalOn(board));
   }
@@ -62,7 +63,7 @@ public class CaptureTest {
     board.placePiece("e2", queen);
     board.placePiece("e7", this.pieceFactory.createPawns(Color.BLACK).get(0));
 
-    var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
+    var capture = new Capture(PieceType.QUEEN, Color.WHITE, new Position("e2"), new Position("e7"));
     board.makePlay(capture);
 
     assertTrue(board.getPieceAt(new Position("e2")).isEmpty());
@@ -75,7 +76,7 @@ public class CaptureTest {
     board.placePiece("e2", queen);
     board.placePiece("e7", this.pieceFactory.createPawns(Color.WHITE).get(0));
 
-    var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
+    var capture = new Capture(PieceType.QUEEN, Color.WHITE, new Position("e2"), new Position("e7"));
 
     assertFalse(capture.isLegalOn(board));
   }
@@ -84,8 +85,14 @@ public class CaptureTest {
   void shouldNotAttackEmptyPositions() {
     var queen = this.pieceFactory.createQueen(Color.WHITE);
     board.placePiece("e2", queen);
-    var capture = new Capture(Color.WHITE, new Position("e2"), new Position("e7"));
+    var capture = new Capture(PieceType.QUEEN, Color.WHITE, new Position("e2"), new Position("e7"));
 
     assertFalse(capture.isLegalOn(board));
+  }
+
+  @Test
+  void shouldReturnAlgebraicNotation() {
+    var capture = new Capture(PieceType.QUEEN, Color.BLACK, new Position("e2"), new Position("e4"));
+    assertEquals("Qe2xe4", capture.toDto().algebraicNotation());
   }
 }

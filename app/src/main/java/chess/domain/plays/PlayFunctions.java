@@ -24,9 +24,9 @@ public class PlayFunctions {
     for (var direction : directions) {
       for (var position : new Path(piece.currentPosition(), direction, maxSteps)) {
         callback.call(
-            new Move(piece.color(), piece.currentPosition(), position));
+            new Move(piece.type(), piece.color(), piece.currentPosition(), position));
         callback.call(
-            new Capture(piece.color(), piece.currentPosition(), position));
+            new Capture(piece.type(), piece.color(), piece.currentPosition(), position));
         if (board.getPieceAt(position).isPresent()) {
           break;
         }

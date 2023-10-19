@@ -6,6 +6,7 @@ import chess.domain.board.Board;
 import chess.domain.grid.Position;
 import chess.domain.pieces.Color;
 import chess.domain.pieces.PieceFactory;
+import chess.domain.pieces.PieceType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +28,7 @@ public class PlayLeavesBoardInLegalStateTest {
     this.board.placePiece("a1", this.pieceFactory.createRooks(Color.WHITE).get(0));
 
     // When
-    var capture = new Capture(Color.BLACK, new Position("a2"), new Position("a1"));
+    var capture = new Capture(PieceType.ROOK, Color.BLACK, new Position("a2"), new Position("a1"));
 
     // Then
     assertFalse(capture.isLegalOn(board));
@@ -41,7 +42,7 @@ public class PlayLeavesBoardInLegalStateTest {
     this.board.placePiece("h1", this.pieceFactory.createRooks(Color.BLACK).get(0));
 
     // When
-    var move = new Move(Color.WHITE, new Position("f1"), new Position("e2"));
+    var move = new Move(PieceType.BISHOP, Color.WHITE, new Position("f1"), new Position("e2"));
 
     // Then
     assertFalse(move.isLegalOn(board));
@@ -53,7 +54,7 @@ public class PlayLeavesBoardInLegalStateTest {
     this.board.placePiece("a7", this.pieceFactory.createPawns(Color.WHITE).get(0));
 
     // When
-    var move = new Move(Color.WHITE, new Position("a7"), new Position("a8"));
+    var move = new Move(PieceType.PAWN, Color.WHITE, new Position("a7"), new Position("a8"));
 
     // Then
     assertFalse(move.isLegalOn(board));

@@ -1,5 +1,6 @@
 package chess.domain.plays;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -26,7 +27,7 @@ public class PromotionTest {
     this.board.placePiece("a6", this.pieceFactory.createPawns(Color.WHITE).get(0));
 
     var promotion = new Promotion(
-        new Move(Color.WHITE, new Position("a6"), new Position("a7")),
+        new Move(PieceType.PAWN, Color.WHITE, new Position("a6"), new Position("a7")),
         PieceType.QUEEN
     );
 
@@ -38,7 +39,7 @@ public class PromotionTest {
     this.board.placePiece("a7", this.pieceFactory.createBishops(Color.WHITE).get(0));
 
     var promotion = new Promotion(
-        new Move(Color.WHITE, new Position("a7"), new Position("b8")),
+        new Move(PieceType.PAWN, Color.WHITE, new Position("a7"), new Position("b8")),
         PieceType.QUEEN
     );
 
@@ -50,7 +51,7 @@ public class PromotionTest {
     this.board.placePiece("a7", this.pieceFactory.createPawns(Color.WHITE).get(0));
 
     var promotion = new Promotion(
-        new Move(Color.WHITE, new Position("a7"), new Position("b8")),
+        new Move(PieceType.PAWN, Color.WHITE, new Position("a7"), new Position("b8")),
         PieceType.QUEEN
     );
 
@@ -62,11 +63,20 @@ public class PromotionTest {
     this.board.placePiece("a7", this.pieceFactory.createPawns(Color.WHITE).get(0));
 
     var promotion = new Promotion(
-        new Move(Color.WHITE, new Position("a7"), new Position("a8")),
+        new Move(PieceType.PAWN, Color.WHITE, new Position("a7"), new Position("a8")),
         PieceType.QUEEN
     );
     this.board.makePlay(promotion);
 
     assertTrue(board.getPieceAt(new Position("a8"), Color.WHITE, PieceType.QUEEN).isPresent());
+  }
+
+  @Test
+  void shouldReturnAlgebraicNotation() {
+    var promotion = new Promotion(
+        new Move(PieceType.PAWN, Color.WHITE, new Position("a7"), new Position("a8")),
+        PieceType.QUEEN
+    );
+    assertEquals("a7a8=Q", promotion.toDto().algebraicNotation());
   }
 }

@@ -4,59 +4,72 @@ import chess.domain.grid.Position;
 import chess.domain.pieces.Color;
 import chess.domain.pieces.PieceType;
 import chess.domain.plays.validation.PlayValidationError;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PlayFactory {
 
-  public static Play createPlayFromLongAlgebraicNotation(Color color, String algebraic)
+  private static final Pattern algebraicNotationPattern =
+      Pattern.compile("^([KQRBN]?)([a-h][1-8])(x?)([a-h][1-8])(=[QRBN])?( e\\.p\\.)?$");
+
+  public Play createPlayFromLongAlgebraicNotation(Color color, String algebraic)
       throws PlayValidationError {
-    final char pieceTypeChar = algebraic.charAt(0);
-    final PieceType pieceType = switch (pieceTypeChar) {
-      case 'K', 'k' -> PieceType.KING;
-      case 'Q', 'q' -> PieceType.QUEEN;
-      case 'R', 'r' -> PieceType.ROOK;
-      case 'B', 'b' -> PieceType.BISHOP;
-      case 'N', 'n' -> PieceType.KNIGHT;
-      case 'P', 'p' -> PieceType.PAWN;
-      default -> throw new PlayValidationError("Unexpected value: " + algebraic);
-    };
+    return this.createCastle(color, algebraic)
+        .or(() -> this.createMoveBasedOnPattern(color, algebraic))
+        .orElseThrow(() -> new PlayValidationError("Invalid play: " + algebraic));
+  }
 
-    final Position from = new Position(algebraic.substring(1, 3));
-    final char move = algebraic.charAt(3);
-    if (move != '-' && move != 'x') {
-      throw new PlayValidationError("Expecting - or x");
+  private Optional<Play> createCastle(Color color, String algebraic) {
+    Optional<Play> play = Optional.empty();
+    if (algebraic.equals("0-0")) {
+      play = Optional.of(new Castle(color, CastleSide.KING_SIDE));
+    } else if (algebraic.equals("0-0-0")) {
+      play = Optional.of(new Castle(color, CastleSide.QUEEN_SIDE));
     }
-    final Position to = new Position(algebraic.substring(4, 6));
+    return play;
+  }
 
-    if (move == 'x') {
-      if (pieceType == PieceType.PAWN && algebraic.endsWith("e.p.")) {
-        return new EnPassant(color, from, to);
-      }
-      return new Capture(color, from, to);
-    }
+  private Optional<Play> createMoveBasedOnPattern(Color color, String algebraic) {
+    Optional<Play> play = Optional.empty();
 
-    if (pieceType == PieceType.KING) {
-      if (color == Color.WHITE) {
-        if (from.equals(new Position("e1"))) {
-          if (to.equals(new Position("g1"))) {
-            return new Castle(color, new Position("h1"));
-          }
-          if (to.equals(new Position("c1"))) {
-            return new Castle(color, new Position("a1"));
-          }
-        }
+    final Matcher matcher = algebraicNotationPattern.matcher(algebraic);
+
+    if (matcher.matches()) {
+      final PieceType type = selectPieceTypeFromString(matcher.group(1));
+      final Position from = new Position(matcher.group(2));
+      final boolean isCapture = matcher.group(3).equals("x");
+      final Position to = new Position(matcher.group(4));
+      final Optional<PieceType> promotedToType =
+          Optional.ofNullable(matcher.group(5)).map(PlayFactory::selectPieceTypeFromString);
+      final boolean isEnPassant = Optional.ofNullable(matcher.group(6)).isPresent();
+
+      if (isEnPassant && type.equals(PieceType.PAWN)) {
+        play = Optional.of(new EnPassant(color, from, to));
+      } else if (isCapture) {
+        final Capture capture = new Capture(type, color, from, to);
+        return Optional.of(
+            promotedToType.isPresent() ? new Promotion(capture, promotedToType.get()) : capture
+        );
       } else {
-        if (from.equals(new Position("e8"))) {
-          if (to.equals(new Position("g8"))) {
-            return new Castle(color, new Position("h8"));
-          }
-          if (to.equals(new Position("c8"))) {
-            return new Castle(color, new Position("a8"));
-          }
-        }
+        final Move move = new Move(type, color, from, to);
+        return Optional.of(
+            promotedToType.isPresent() ? new Promotion(move, promotedToType.get()) : move
+        );
       }
     }
 
-    return new Move(color, from, to);
+    return play;
+  }
 
+  private static PieceType selectPieceTypeFromString(String charLetter) {
+    return switch (charLetter) {
+      case "K" -> PieceType.KING;
+      case "Q" -> PieceType.QUEEN;
+      case "R" -> PieceType.ROOK;
+      case "B" -> PieceType.BISHOP;
+      case "N" -> PieceType.KNIGHT;
+      default -> PieceType.PAWN;
+    };
   }
 }

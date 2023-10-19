@@ -10,9 +10,12 @@ import chess.domain.pieces.Pawn;
 import chess.domain.pieces.PieceType;
 import chess.domain.pieces.Queen;
 import chess.domain.pieces.Rook;
+import java.util.Set;
 
 public class Promotion extends Play {
 
+  public static final Set<PieceType>
+      possibleTypes = Set.of(PieceType.ROOK, PieceType.KNIGHT, PieceType.BISHOP, PieceType.QUEEN);
   private final Play playBeforePromotion;
   private final Color color;
   private final Position from;
@@ -68,6 +71,8 @@ public class Promotion extends Play {
   }
 
   public PlayDto toDto() {
-    return new PlayDto(PlayName.PROMOTION, this.from, this.to);
+    return new PlayDto(this.color,
+        this.playBeforePromotion.toDto().algebraicNotation()
+            + "=" + this.toPieceType.toStringAlgebraicNotation(), this.to);
   }
 }

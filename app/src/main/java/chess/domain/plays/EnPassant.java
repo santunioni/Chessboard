@@ -36,6 +36,7 @@ public class EnPassant extends Play {
 
   private boolean hasVictimJumpedTwoSquaresLastRound(ReadonlyBoard board) {
     var victimJumpingTwoSquares = new Move(
+        PieceType.PAWN,
         this.color.opposite(),
         this.victimInitialPosition(),
         this.victimPositionAfterJumpingTwoSquares()
@@ -54,6 +55,6 @@ public class EnPassant extends Play {
   }
 
   public PlayDto toDto() {
-    return new PlayDto(PlayName.EN_PASSANT, this.from, this.to);
+    return new PlayDto(this.color, this.from + "x" + this.to + " e.p.", this.to);
   }
 }
