@@ -29,7 +29,7 @@ public class Move extends Play {
   }
 
   protected boolean canActOnCurrentState(ReadonlyBoard board) {
-    return board.getPieceAt(from, color).filter(p -> p.couldMoveToIfEmpty(to)).isPresent()
+    return board.getPieceAt(from, color, type).filter(p -> p.couldMoveToIfEmpty(to)).isPresent()
         && board.getPieceAt(to).isEmpty();
   }
 

@@ -32,7 +32,7 @@ public class Capture extends Play {
   }
 
   protected boolean canActOnCurrentState(ReadonlyBoard board) {
-    return board.getPieceAt(from, color).filter(p -> p.threatens(to)).isPresent()
+    return board.getPieceAt(from, color, type).filter(p -> p.threatens(to)).isPresent()
         && board.getPieceAt(to, color.opposite()).isPresent();
   }
 

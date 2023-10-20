@@ -22,21 +22,21 @@ public class Promotion extends Play {
   private final Position to;
   private final PieceType toPieceType;
 
-  public Promotion(Move playBeforePromotion, PieceType toPieceType) {
-    super(playBeforePromotion.getPlayerColor());
-    this.playBeforePromotion = playBeforePromotion;
-    this.color = playBeforePromotion.getPlayerColor();
-    this.from = playBeforePromotion.fromPosition();
-    this.to = playBeforePromotion.toPosition();
+  public Promotion(Move move, PieceType toPieceType) {
+    super(move.getPlayerColor());
+    this.playBeforePromotion = move;
+    this.color = move.getPlayerColor();
+    this.from = move.fromPosition();
+    this.to = move.toPosition();
     this.toPieceType = toPieceType;
   }
 
-  public Promotion(Capture playBeforePromotion, PieceType toPieceType) {
-    super(playBeforePromotion.getPlayerColor());
-    this.playBeforePromotion = playBeforePromotion;
-    this.color = playBeforePromotion.getPlayerColor();
-    this.from = playBeforePromotion.fromPosition();
-    this.to = playBeforePromotion.toPosition();
+  public Promotion(Capture capture, PieceType toPieceType) {
+    super(capture.getPlayerColor());
+    this.playBeforePromotion = capture;
+    this.color = capture.getPlayerColor();
+    this.from = capture.fromPosition();
+    this.to = capture.toPosition();
     this.toPieceType = toPieceType;
   }
 
