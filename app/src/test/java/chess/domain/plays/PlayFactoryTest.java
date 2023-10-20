@@ -6,7 +6,13 @@ import chess.domain.grid.Position;
 import chess.domain.pieces.Color;
 import chess.domain.pieces.PieceType;
 import chess.domain.plays.validation.PlayValidationError;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsProvider;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 
 public class PlayFactoryTest {
 
@@ -40,5 +46,30 @@ public class PlayFactoryTest {
   void shouldReturnWhiteKingCastleOnLeft() throws PlayValidationError {
     assertEquals(new Castle(Color.WHITE, CastleSide.QUEEN_SIDE),
         playFactory.createPlayFromLongAlgebraicNotation(Color.WHITE, "0-0-0"));
+  }
+
+  @ParameterizedTest
+  @ArgumentsSource(AlgebraicExpressionCases.class)
+  void shouldCreatePlayThatIsRepresentedAsSameAlgebraicExpression(String algebraic)
+      throws PlayValidationError {
+    assertEquals(algebraic, playFactory.createPlayFromLongAlgebraicNotation(Color.WHITE, algebraic)
+        .toDto().algebraicNotation());
+  }
+
+  static class AlgebraicExpressionCases implements ArgumentsProvider {
+
+    @Override
+    public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
+      return Stream.of(
+          Arguments.of("Bd4xe5"),
+          Arguments.of("Rd3xd7"),
+          Arguments.of("Nb1c3"),
+          Arguments.of("0-0"),
+          Arguments.of("0-0-0"),
+          Arguments.of("e4e5"),
+          Arguments.of("Qd1h5"),
+          Arguments.of("Kd1c1")
+      );
+    }
   }
 }

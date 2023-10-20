@@ -48,12 +48,12 @@ public class PlayFactory {
         play = Optional.of(new EnPassant(color, from, to));
       } else if (isCapture) {
         final Capture capture = new Capture(type, color, from, to);
-        return Optional.of(
+        play = Optional.of(
             promotedToType.isPresent() ? new Promotion(capture, promotedToType.get()) : capture
         );
       } else {
         final Move move = new Move(type, color, from, to);
-        return Optional.of(
+        play = Optional.of(
             promotedToType.isPresent() ? new Promotion(move, promotedToType.get()) : move
         );
       }
