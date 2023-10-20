@@ -68,7 +68,10 @@ public class PlayFactoryTest {
           Arguments.of("0-0-0"),
           Arguments.of("e4e5"),
           Arguments.of("Qd1h5"),
-          Arguments.of("Kd1c1")
+          Arguments.of("Kd1c1"),
+          Arguments.of("e5xd6 e.p."),
+          Arguments.of("b2xa1=Q"),
+          Arguments.of("b2a2=N")
       );
     }
   }

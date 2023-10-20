@@ -41,7 +41,8 @@ public class PlayFactory {
       final boolean isCapture = matcher.group(3).equals("x");
       final Position to = new Position(matcher.group(4));
       final Optional<PieceType> promotedToType =
-          Optional.ofNullable(matcher.group(5)).map(PlayFactory::selectPieceTypeFromString);
+          Optional.ofNullable(matcher.group(5))
+              .map(st -> selectPieceTypeFromString(st.replace("=", "")));
       final boolean isEnPassant = Optional.ofNullable(matcher.group(6)).isPresent();
 
       if (isEnPassant && type.equals(PieceType.PAWN)) {
