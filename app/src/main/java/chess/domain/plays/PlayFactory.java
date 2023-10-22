@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class PlayFactory {
 
   private static final Pattern algebraicNotationPattern =
-      Pattern.compile("^([KQRBN]?)([a-h][1-8])(x?)([a-h][1-8])(=[QRBN])?( e\\.p\\.)?$");
+      Pattern.compile("^([KQRBN]?)([a-h][1-8])(x?)([a-h][1-8])(?:=([QRBN]))?( e\\.p\\.)?$");
 
   public Play createPlayFromLongAlgebraicNotation(Color color, String algebraic)
       throws PlayValidationError {
@@ -42,7 +42,7 @@ public class PlayFactory {
       final Position to = new Position(matcher.group(4));
       final Optional<PieceType> promotedToType =
           Optional.ofNullable(matcher.group(5))
-              .map(st -> selectPieceTypeFromString(st.replace("=", "")));
+              .map(PlayFactory::selectPieceTypeFromString);
       final boolean isEnPassant = Optional.ofNullable(matcher.group(6)).isPresent();
 
       if (isEnPassant && type.equals(PieceType.PAWN)) {
