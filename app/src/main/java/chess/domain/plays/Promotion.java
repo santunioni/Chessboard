@@ -42,18 +42,15 @@ public record Promotion(Play playBeforePromotion, Color color, Position from, Po
 
   public void actOn(Board board) {
     this.playBeforePromotion.actOn(board);
-    var pawnOptional = board.getPieceAt(this.to);
-    if (pawnOptional.isPresent()) {
-      var pawn = pawnOptional.get();
-      var newPiece = switch (this.toPieceType) {
-        case ROOK -> new Rook(pawn.idInBoard(), this.color);
-        case KNIGHT -> new Knight(pawn.idInBoard(), this.color);
-        case BISHOP -> new Bishop(pawn.idInBoard(), this.color);
-        case QUEEN -> new Queen(pawn.idInBoard(), this.color);
-        default -> throw new RuntimeException("Invalid Type at Promotion");
-      };
-      board.placePiece(this.to, newPiece);
-    }
+    var pawn = board.getPieceAt(this.to, this.color, PieceType.PAWN).orElseThrow();
+    var newPiece = switch (this.toPieceType) {
+      case ROOK -> new Rook(pawn.idInBoard(), this.color);
+      case KNIGHT -> new Knight(pawn.idInBoard(), this.color);
+      case BISHOP -> new Bishop(pawn.idInBoard(), this.color);
+      case QUEEN -> new Queen(pawn.idInBoard(), this.color);
+      default -> throw new RuntimeException("Invalid Type at Promotion");
+    };
+    board.placePiece(this.to, newPiece);
   }
 
   public PlayDto toDto() {
