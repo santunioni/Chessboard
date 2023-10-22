@@ -27,7 +27,7 @@ public record Promotion(Play playBeforePromotion, Color color, Position from, Po
   }
 
   private boolean isOnPromotionRank() {
-    return this.from.rank().equals(color == Color.WHITE ? Rank.SEVEN : Rank.TWO);
+    return this.to.rank().equals(color == Color.WHITE ? Rank.EIGHT : Rank.ONE);
   }
 
   private boolean isPawn(ReadonlyBoard board) {
