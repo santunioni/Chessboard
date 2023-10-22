@@ -27,7 +27,7 @@ public class EnPassantValidationTest {
     var enPassant = new EnPassant(Color.WHITE, new Position("a2"), new Position("b3"));
 
     // Then
-    assertFalse(enPassant.isLegalOn(board));
+    assertFalse(enPassant.canActOnCurrentState(board));
   }
 
   @Test
@@ -39,7 +39,7 @@ public class EnPassantValidationTest {
     var enPassant = new EnPassant(Color.WHITE, new Position("a5"), new Position("b6"));
 
     // Then
-    assertFalse(enPassant.isLegalOn(board));
+    assertFalse(enPassant.canActOnCurrentState(board));
   }
 
   @Test
@@ -51,7 +51,7 @@ public class EnPassantValidationTest {
     var enPassant = new EnPassant(Color.BLACK, new Position("a5"), new Position("b6"));
 
     // Then
-    assertFalse(enPassant.isLegalOn(board));
+    assertFalse(enPassant.canActOnCurrentState(board));
   }
 
   @Test
@@ -63,6 +63,6 @@ public class EnPassantValidationTest {
     var enPassant = new EnPassant(Color.WHITE, new Position("a5"), new Position("b7"));
 
     // Then
-    assertFalse(enPassant.isLegalOn(board));
+    assertFalse(enPassant.canActOnCurrentState(board));
   }
 }

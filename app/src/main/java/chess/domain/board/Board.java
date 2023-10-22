@@ -1,5 +1,6 @@
 package chess.domain.board;
 
+import chess.domain.assertions.PlayLegalityAssertion;
 import chess.domain.grid.Position;
 import chess.domain.pieces.Piece;
 import chess.domain.plays.Play;
@@ -86,7 +87,7 @@ public class Board implements ReadonlyBoard {
   }
 
   public void makePlay(Play play) throws PlayValidationError {
-    if (play.isLegalOn(this)) {
+    if (new PlayLegalityAssertion(play).test(this)) {
       play.actOn(this);
       this.stack.add(play);
     } else {

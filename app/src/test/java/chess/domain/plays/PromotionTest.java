@@ -31,7 +31,7 @@ public class PromotionTest {
         PieceType.QUEEN
     );
 
-    assertFalse(promotion.isLegalOn(board));
+    assertFalse(promotion.canActOnCurrentState(board));
   }
 
   @Test
@@ -43,7 +43,7 @@ public class PromotionTest {
         PieceType.QUEEN
     );
 
-    assertFalse(promotion.isLegalOn(board));
+    assertFalse(promotion.canActOnCurrentState(board));
   }
 
   @Test
@@ -55,7 +55,7 @@ public class PromotionTest {
         PieceType.QUEEN
     );
 
-    assertFalse(promotion.isLegalOn(board));
+    assertFalse(promotion.canActOnCurrentState(board));
   }
 
   @Test

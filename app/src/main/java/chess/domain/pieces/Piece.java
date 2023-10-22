@@ -1,5 +1,6 @@
 package chess.domain.pieces;
 
+import chess.domain.assertions.PlayLegalityAssertion;
 import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Position;
 import chess.domain.plays.Play;
@@ -57,8 +58,9 @@ public abstract class Piece {
   protected abstract Set<Play> getSuggestedPlaysIncludingPossiblyInvalid();
 
   public Set<Play> getSuggestedPlays() {
+
     return this.getSuggestedPlaysIncludingPossiblyInvalid().stream()
-        .filter(play -> play.isLegalOn(this.board))
+        .filter(play -> new PlayLegalityAssertion(play).test(this.board))
         .collect(Collectors.toUnmodifiableSet());
   }
 

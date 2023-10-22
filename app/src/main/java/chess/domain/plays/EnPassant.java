@@ -20,7 +20,7 @@ public class EnPassant extends Play {
     this.to = to;
   }
 
-  protected boolean canActOnCurrentState(ReadonlyBoard board) {
+  public boolean canActOnCurrentState(ReadonlyBoard board) {
     return from.rank() == Pawn.getEnPassantRankFor(color)
         && board.getPieceAt(from, color, PieceType.PAWN)
         .map(p -> p.threatens(to)).orElse(false)

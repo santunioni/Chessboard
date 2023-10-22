@@ -27,7 +27,7 @@ public class CastleValidationTest {
     var castle = new Castle(Color.WHITE, CastleSide.KING_SIDE);
 
     // Then
-    assertFalse(castle.isLegalOn(board));
+    assertFalse(castle.canActOnCurrentState(board));
   }
 
   @Test
@@ -40,7 +40,7 @@ public class CastleValidationTest {
     var castle = new Castle(Color.WHITE, CastleSide.KING_SIDE);
 
     // Then
-    assertFalse(castle.isLegalOn(board));
+    assertFalse(castle.canActOnCurrentState(board));
   }
 
   @Test
@@ -53,6 +53,6 @@ public class CastleValidationTest {
     var castle = new Castle(Color.WHITE, CastleSide.QUEEN_SIDE);
 
     // Then
-    assertFalse(castle.isLegalOn(board));
+    assertFalse(castle.canActOnCurrentState(board));
   }
 }

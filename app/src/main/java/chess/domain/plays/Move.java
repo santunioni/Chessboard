@@ -28,7 +28,7 @@ public class Move extends Play {
     this.to = to;
   }
 
-  protected boolean canActOnCurrentState(ReadonlyBoard board) {
+  public boolean canActOnCurrentState(ReadonlyBoard board) {
     return board.getPieceAt(from, color, type).filter(p -> p.couldMoveToIfEmpty(to)).isPresent()
         && board.getPieceAt(to).isEmpty();
   }

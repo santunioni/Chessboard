@@ -43,7 +43,7 @@ public class CaptureTest {
 
     var capture = new Capture(PieceType.PAWN, Color.WHITE, new Position("e2"), new Position("e3"));
 
-    assertFalse(capture.isLegalOn(board));
+    assertFalse(capture.canActOnCurrentState(board));
   }
 
   @Test
@@ -54,7 +54,7 @@ public class CaptureTest {
 
     var capture = new Capture(PieceType.PAWN, Color.WHITE, new Position("e2"), new Position("d1"));
 
-    assertFalse(capture.isLegalOn(board));
+    assertFalse(capture.canActOnCurrentState(board));
   }
 
   @Test
@@ -78,7 +78,7 @@ public class CaptureTest {
 
     var capture = new Capture(PieceType.QUEEN, Color.WHITE, new Position("e2"), new Position("e7"));
 
-    assertFalse(capture.isLegalOn(board));
+    assertFalse(capture.canActOnCurrentState(board));
   }
 
   @Test
@@ -87,7 +87,7 @@ public class CaptureTest {
     board.placePiece("e2", queen);
     var capture = new Capture(PieceType.QUEEN, Color.WHITE, new Position("e2"), new Position("e7"));
 
-    assertFalse(capture.isLegalOn(board));
+    assertFalse(capture.canActOnCurrentState(board));
   }
 
   @Test

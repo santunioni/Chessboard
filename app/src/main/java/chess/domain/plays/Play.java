@@ -13,22 +13,9 @@ public abstract class Play {
     this.color = color;
   }
 
-  public boolean isLegalOn(ReadonlyBoard board) {
-    return this.isMyTurnToPlayNow(board)
-        && this.canActOnCurrentState(board)
-        && this.leavesBoardInLegalState(board);
-  }
 
-  protected abstract boolean canActOnCurrentState(ReadonlyBoard board);
+  public abstract boolean canActOnCurrentState(ReadonlyBoard board);
 
-  private boolean isMyTurnToPlayNow(ReadonlyBoard board) {
-    return this.color == board.nextTurnPlayerColor();
-  }
-
-  private boolean leavesBoardInLegalState(ReadonlyBoard board) {
-    var newState = board.simulate(this);
-    return new BoardStateIsValidAssertion().test(newState);
-  }
 
   public abstract void actOn(Board board);
 

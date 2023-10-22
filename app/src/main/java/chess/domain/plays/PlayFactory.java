@@ -13,6 +13,17 @@ public class PlayFactory {
   private static final Pattern algebraicNotationPattern =
       Pattern.compile("^([KQRBN]?)([a-h][1-8])(x?)([a-h][1-8])(?:=([QRBN]))?( e\\.p\\.)?$");
 
+  private static PieceType selectPieceTypeFromString(String charLetter) {
+    return switch (charLetter) {
+      case "K" -> PieceType.KING;
+      case "Q" -> PieceType.QUEEN;
+      case "R" -> PieceType.ROOK;
+      case "B" -> PieceType.BISHOP;
+      case "N" -> PieceType.KNIGHT;
+      default -> PieceType.PAWN;
+    };
+  }
+
   public Play createPlayFromLongAlgebraicNotation(Color color, String algebraic)
       throws PlayValidationError {
     return this.createCastle(color, algebraic)
@@ -61,16 +72,5 @@ public class PlayFactory {
     }
 
     return play;
-  }
-
-  private static PieceType selectPieceTypeFromString(String charLetter) {
-    return switch (charLetter) {
-      case "K" -> PieceType.KING;
-      case "Q" -> PieceType.QUEEN;
-      case "R" -> PieceType.ROOK;
-      case "B" -> PieceType.BISHOP;
-      case "N" -> PieceType.KNIGHT;
-      default -> PieceType.PAWN;
-    };
   }
 }

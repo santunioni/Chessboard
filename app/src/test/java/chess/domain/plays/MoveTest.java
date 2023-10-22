@@ -38,7 +38,7 @@ public class MoveTest {
   void shouldThrownIfEmptyOriginPosition() {
     var move = new Move(PieceType.PAWN, Color.WHITE, new Position("e2"), new Position("e4"));
 
-    assertFalse(move.isLegalOn(board));
+    assertFalse(move.canActOnCurrentState(board));
   }
 
   @Test
@@ -48,7 +48,7 @@ public class MoveTest {
 
     var move = new Move(PieceType.QUEEN, Color.BLACK, new Position("e2"), new Position("e4"));
 
-    assertFalse(move.isLegalOn(board));
+    assertFalse(move.canActOnCurrentState(board));
   }
 
   @Test
@@ -58,7 +58,7 @@ public class MoveTest {
 
     var move = new Move(PieceType.QUEEN, Color.BLACK, new Position("e2"), new Position("e4"));
 
-    assertFalse(move.isLegalOn(board));
+    assertFalse(move.canActOnCurrentState(board));
   }
 
   @Test

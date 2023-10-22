@@ -21,7 +21,7 @@ public class Castle extends Play {
     this.castleSide = castleSide;
   }
 
-  protected boolean canActOnCurrentState(ReadonlyBoard board) {
+  public boolean canActOnCurrentState(ReadonlyBoard board) {
     return this.kingAndRookNeverMoved(board) && this.kingIsNotChecked(board)
         && this.kingPath().isClearOn(board)
         && !this.kingPath().isThreatenedBy(this.color.opposite(), board);

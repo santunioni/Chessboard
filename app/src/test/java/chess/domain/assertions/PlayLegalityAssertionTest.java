@@ -1,4 +1,4 @@
-package chess.domain.plays;
+package chess.domain.assertions;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -7,10 +7,12 @@ import chess.domain.grid.Position;
 import chess.domain.pieces.Color;
 import chess.domain.pieces.PieceFactory;
 import chess.domain.pieces.PieceType;
+import chess.domain.plays.Capture;
+import chess.domain.plays.Move;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PlayLeavesBoardInLegalStateTest {
+public class PlayLegalityAssertionTest {
 
   private final PieceFactory pieceFactory = new PieceFactory();
   private Board board;
@@ -31,7 +33,7 @@ public class PlayLeavesBoardInLegalStateTest {
     var capture = new Capture(PieceType.ROOK, Color.BLACK, new Position("a2"), new Position("a1"));
 
     // Then
-    assertFalse(capture.isLegalOn(board));
+    assertFalse(new PlayLegalityAssertion(capture).test(board));
   }
 
   @Test
@@ -45,7 +47,7 @@ public class PlayLeavesBoardInLegalStateTest {
     var move = new Move(PieceType.BISHOP, Color.WHITE, new Position("f1"), new Position("e2"));
 
     // Then
-    assertFalse(move.isLegalOn(board));
+    assertFalse(new PlayLegalityAssertion(move).test(board));
   }
 
   @Test
@@ -57,6 +59,6 @@ public class PlayLeavesBoardInLegalStateTest {
     var move = new Move(PieceType.PAWN, Color.WHITE, new Position("a7"), new Position("a8"));
 
     // Then
-    assertFalse(move.isLegalOn(board));
+    assertFalse(new PlayLegalityAssertion(move).test(board));
   }
 }

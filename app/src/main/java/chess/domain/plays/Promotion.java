@@ -48,7 +48,7 @@ public class Promotion extends Play {
     return board.getPieceAt(this.from, this.color, PieceType.PAWN).isPresent();
   }
 
-  protected boolean canActOnCurrentState(ReadonlyBoard board) {
+  public boolean canActOnCurrentState(ReadonlyBoard board) {
     return this.playBeforePromotion.canActOnCurrentState(board)
         && this.isOnPromotionRank()
         && this.isPawn(board);
