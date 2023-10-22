@@ -10,7 +10,7 @@ public class LastPlayerKingIsNotCheckedAssertion implements BoardAssertion {
     var lastPlayer = nextPlayer.opposite();
     var lastPlayersKing = board.getPieces(lastPlayer, PieceType.KING).findFirst();
 
-    return lastPlayersKing.map(piece -> !new IsPositionThreatenedByColorAssertion(nextPlayer,
-        piece.currentPosition()).test(board)).orElse(true);
+    return lastPlayersKing.map(king -> !new ColorThreatensPositionAssertion(nextPlayer,
+        king.currentPosition()).test(board)).orElse(true);
   }
 }

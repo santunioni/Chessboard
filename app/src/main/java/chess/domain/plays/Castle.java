@@ -1,6 +1,6 @@
 package chess.domain.plays;
 
-import chess.domain.assertions.IsPositionThreatenedByColorAssertion;
+import chess.domain.assertions.ColorThreatensPositionAssertion;
 import chess.domain.board.Board;
 import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Path;
@@ -24,7 +24,7 @@ public record Castle(Color color, CastleSide castleSide) implements Play {
   }
 
   private boolean kingIsNotChecked(ReadonlyBoard board) {
-    return !new IsPositionThreatenedByColorAssertion(this.color.opposite(),
+    return !new ColorThreatensPositionAssertion(this.color.opposite(),
         this.kingPosition()).test(board);
   }
 

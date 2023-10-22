@@ -6,11 +6,11 @@ import chess.domain.pieces.Color;
 import chess.domain.pieces.Piece;
 import java.util.Iterator;
 
-public class IsPositionThreatenedByColorAssertion implements BoardAssertion {
+public class ColorThreatensPositionAssertion implements BoardAssertion {
   private final Position position;
   private final Color color;
 
-  public IsPositionThreatenedByColorAssertion(Color color, Position position) {
+  public ColorThreatensPositionAssertion(Color color, Position position) {
     this.color = color;
     this.position = position;
   }

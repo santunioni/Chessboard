@@ -5,6 +5,7 @@ import chess.domain.plays.Play;
 
 public class PlayLegalityAssertion implements BoardAssertion {
   private final Play play;
+  private final BoardAssertion boardStateIsValidAssertion = new BoardStateIsValidAssertion();
 
   public PlayLegalityAssertion(Play play) {
     this.play = play;
@@ -21,7 +22,7 @@ public class PlayLegalityAssertion implements BoardAssertion {
   }
 
   private boolean leavesBoardInLegalState(ReadonlyBoard board) {
-    var newState = board.simulate(this.play);
-    return new BoardStateIsValidAssertion().test(newState);
+    ReadonlyBoard simulatedState = board.simulate(this.play);
+    return this.boardStateIsValidAssertion.test(simulatedState);
   }
 }
