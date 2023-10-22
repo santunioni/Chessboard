@@ -3,45 +3,31 @@ package chess.domain.plays;
 import chess.domain.board.Board;
 import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Position;
+import chess.domain.grid.Rank;
 import chess.domain.pieces.Bishop;
 import chess.domain.pieces.Color;
 import chess.domain.pieces.Knight;
-import chess.domain.pieces.Pawn;
 import chess.domain.pieces.PieceType;
 import chess.domain.pieces.Queen;
 import chess.domain.pieces.Rook;
 import java.util.Set;
 
-public class Promotion extends Play {
-
+public record Promotion(Play playBeforePromotion, Color color, Position from, Position to,
+                        PieceType toPieceType) implements Play {
   public static final Set<PieceType>
       possibleTypes = Set.of(PieceType.ROOK, PieceType.KNIGHT, PieceType.BISHOP, PieceType.QUEEN);
-  private final Play playBeforePromotion;
-  private final Color color;
-  private final Position from;
-  private final Position to;
-  private final PieceType toPieceType;
+
 
   public Promotion(Move move, PieceType toPieceType) {
-    super(move.getPlayerColor());
-    this.playBeforePromotion = move;
-    this.color = move.getPlayerColor();
-    this.from = move.fromPosition();
-    this.to = move.toPosition();
-    this.toPieceType = toPieceType;
+    this(move, move.getPlayerColor(), move.from(), move.to(), toPieceType);
   }
 
   public Promotion(Capture capture, PieceType toPieceType) {
-    super(capture.getPlayerColor());
-    this.playBeforePromotion = capture;
-    this.color = capture.getPlayerColor();
-    this.from = capture.fromPosition();
-    this.to = capture.toPosition();
-    this.toPieceType = toPieceType;
+    this(capture, capture.getPlayerColor(), capture.from(), capture.to(), toPieceType);
   }
 
   private boolean isOnPromotionRank() {
-    return this.from.rank().equals(Pawn.getPromotionRankFor(this.color));
+    return this.from.rank().equals(color == Color.WHITE ? Rank.SEVEN : Rank.TWO);
   }
 
   private boolean isPawn(ReadonlyBoard board) {

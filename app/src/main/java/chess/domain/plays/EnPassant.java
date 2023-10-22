@@ -7,19 +7,7 @@ import chess.domain.pieces.Color;
 import chess.domain.pieces.Pawn;
 import chess.domain.pieces.PieceType;
 
-public class EnPassant extends Play {
-
-  private final Color color;
-  private final Position from;
-  private final Position to;
-
-  public EnPassant(Color color, Position from, Position to) {
-    super(color);
-    this.color = color;
-    this.from = from;
-    this.to = to;
-  }
-
+public record EnPassant(Color color, Position from, Position to) implements Play {
   public boolean canActOnCurrentState(ReadonlyBoard board) {
     return from.rank() == Pawn.getEnPassantRankFor(color)
         && board.getPieceAt(from, color, PieceType.PAWN)

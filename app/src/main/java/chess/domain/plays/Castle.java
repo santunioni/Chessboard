@@ -10,16 +10,7 @@ import chess.domain.pieces.Color;
 import chess.domain.pieces.King;
 import chess.domain.pieces.PieceType;
 
-public class Castle extends Play {
-
-  private final Color color;
-  private final CastleSide castleSide;
-
-  public Castle(Color color, CastleSide castleSide) {
-    super(color);
-    this.color = color;
-    this.castleSide = castleSide;
-  }
+public record Castle(Color color, CastleSide castleSide) implements Play {
 
   public boolean canActOnCurrentState(ReadonlyBoard board) {
     return this.kingAndRookNeverMoved(board) && this.kingIsNotChecked(board)

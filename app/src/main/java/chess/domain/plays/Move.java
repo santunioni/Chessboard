@@ -14,19 +14,7 @@ import chess.domain.pieces.PieceType;
  * - Displacements are only valid to an empty position.
  * - Attacks are only valid when moving to a position occupied by the enemy.
  */
-public class Move extends Play {
-  private final PieceType type;
-  private final Color color;
-  private final Position from;
-  private final Position to;
-
-  public Move(PieceType type, Color color, Position from, Position to) {
-    super(color);
-    this.type = type;
-    this.color = color;
-    this.from = from;
-    this.to = to;
-  }
+public record Move(PieceType type, Color color, Position from, Position to) implements Play {
 
   public boolean canActOnCurrentState(ReadonlyBoard board) {
     return board.getPieceAt(from, color, type).filter(p -> p.couldMoveToIfEmpty(to)).isPresent()
@@ -41,13 +29,5 @@ public class Move extends Play {
     return new PlayDto(this.color,
         this.type.toStringAlgebraicNotation() + this.from + this.to,
         this.to);
-  }
-
-  public Position toPosition() {
-    return this.to;
-  }
-
-  public Position fromPosition() {
-    return this.from;
   }
 }
