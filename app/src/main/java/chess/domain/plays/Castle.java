@@ -1,5 +1,6 @@
 package chess.domain.plays;
 
+import chess.domain.assertions.BoardAssertion;
 import chess.domain.assertions.ColorThreatensPositionAssertion;
 import chess.domain.board.Board;
 import chess.domain.board.ReadonlyBoard;
@@ -24,8 +25,9 @@ public record Castle(Color color, CastleSide castleSide) implements Play {
   }
 
   private boolean kingIsNotChecked(ReadonlyBoard board) {
-    return !new ColorThreatensPositionAssertion(this.color.opposite(),
-        this.kingPosition()).test(board);
+    BoardAssertion kingChecked = new ColorThreatensPositionAssertion(this.color.opposite(),
+        this.kingPosition());
+    return kingChecked.not().test(board);
   }
 
   private boolean kingAndRookNeverMoved(ReadonlyBoard board) {

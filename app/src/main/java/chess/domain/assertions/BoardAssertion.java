@@ -8,4 +8,8 @@ public interface BoardAssertion {
   default BoardAssertion and(BoardAssertion that) {
     return board -> this.test(board) && that.test(board);
   }
+
+  default BoardAssertion not() {
+    return board -> !this.test(board);
+  }
 }
