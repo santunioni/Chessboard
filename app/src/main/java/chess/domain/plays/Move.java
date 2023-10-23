@@ -26,8 +26,10 @@ public record Move(PieceType type, Color color, Position from, Position to) impl
   }
 
   public PlayDto toDto() {
-    return new PlayDto(this.color,
-        this.type.toStringAlgebraicNotation() + this.from + this.to,
-        this.to);
+    return new PlayDto(this.color, this.toLongAlgebraicNotation(), this.to);
+  }
+
+  public String toLongAlgebraicNotation() {
+    return this.type.toStringAlgebraicNotation() + this.from + this.to;
   }
 }

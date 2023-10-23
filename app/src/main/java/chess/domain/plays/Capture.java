@@ -26,7 +26,10 @@ public record Capture(PieceType type, Color color, Position from, Position to) i
   }
 
   public PlayDto toDto() {
-    return new PlayDto(this.color,
-        this.type.toStringAlgebraicNotation() + this.from + "x" + this.to, this.to);
+    return new PlayDto(this.color, this.toLongAlgebraicNotation(), this.to);
+  }
+
+  public String toLongAlgebraicNotation() {
+    return this.type.toStringAlgebraicNotation() + this.from + "x" + this.to;
   }
 }

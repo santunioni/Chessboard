@@ -16,4 +16,6 @@ public interface Play {
 
   PlayDto toDto();
 
+  String toLongAlgebraicNotation();
+
 }

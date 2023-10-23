@@ -14,7 +14,8 @@ import chess.domain.pieces.PieceType;
 public record Castle(Color color, CastleSide castleSide) implements Play {
 
   public boolean canActOnCurrentState(ReadonlyBoard board) {
-    return this.kingAndRookNeverMoved(board) && this.kingIsNotChecked(board)
+    return this.kingAndRookNeverMoved(board)
+        && this.kingIsNotChecked(board)
         && this.kingPath().isClearOn(board)
         && !this.kingPath().isThreatenedBy(this.color.opposite(), board);
   }
@@ -25,8 +26,8 @@ public record Castle(Color color, CastleSide castleSide) implements Play {
   }
 
   private boolean kingIsNotChecked(ReadonlyBoard board) {
-    BoardAssertion kingChecked = new ColorThreatensPositionAssertion(this.color.opposite(),
-        this.kingPosition());
+    BoardAssertion kingChecked =
+        new ColorThreatensPositionAssertion(this.color.opposite(), this.kingPosition());
     return kingChecked.not().test(board);
   }
 
@@ -81,7 +82,10 @@ public record Castle(Color color, CastleSide castleSide) implements Play {
   }
 
   public PlayDto toDto() {
-    return new PlayDto(this.color, this.castleSide.equals(CastleSide.KING_SIDE) ? "0-0" : "0-0-0",
-        this.rookPosition());
+    return new PlayDto(this.color, this.toLongAlgebraicNotation(), this.rookPosition());
+  }
+
+  public String toLongAlgebraicNotation() {
+    return this.castleSide.equals(CastleSide.KING_SIDE) ? "0-0" : "0-0-0";
   }
 }

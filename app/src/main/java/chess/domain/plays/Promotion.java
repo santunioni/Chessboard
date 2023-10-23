@@ -14,8 +14,8 @@ import java.util.Set;
 
 public record Promotion(Play playBeforePromotion, Color color, Position from, Position to,
                         PieceType toPieceType) implements Play {
-  public static final Set<PieceType>
-      possibleTypes = Set.of(PieceType.ROOK, PieceType.KNIGHT, PieceType.BISHOP, PieceType.QUEEN);
+  public static final Set<PieceType> possibleTypes =
+      Set.of(PieceType.ROOK, PieceType.KNIGHT, PieceType.BISHOP, PieceType.QUEEN);
 
 
   public Promotion(Move move, PieceType toPieceType) {
@@ -35,8 +35,7 @@ public record Promotion(Play playBeforePromotion, Color color, Position from, Po
   }
 
   public boolean canActOnCurrentState(ReadonlyBoard board) {
-    return this.playBeforePromotion.canActOnCurrentState(board)
-        && this.isOnPromotionRank()
+    return this.playBeforePromotion.canActOnCurrentState(board) && this.isOnPromotionRank()
         && this.isPawn(board);
   }
 
@@ -54,8 +53,11 @@ public record Promotion(Play playBeforePromotion, Color color, Position from, Po
   }
 
   public PlayDto toDto() {
-    return new PlayDto(this.color,
-        this.playBeforePromotion.toDto().algebraicNotation()
-            + "=" + this.toPieceType.toStringAlgebraicNotation(), this.to);
+    return new PlayDto(this.color, this.toLongAlgebraicNotation(), this.to);
+  }
+
+  public String toLongAlgebraicNotation() {
+    return this.playBeforePromotion.toDto().algebraicNotation() + "="
+        + this.toPieceType.toStringAlgebraicNotation();
   }
 }

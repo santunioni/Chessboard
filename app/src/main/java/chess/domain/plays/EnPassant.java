@@ -43,6 +43,10 @@ public record EnPassant(Color color, Position from, Position to) implements Play
   }
 
   public PlayDto toDto() {
-    return new PlayDto(this.color, this.from + "x" + this.to + " e.p.", this.to);
+    return new PlayDto(this.color, this.toLongAlgebraicNotation(), this.to);
+  }
+
+  public String toLongAlgebraicNotation() {
+    return this.from + "x" + this.to + " e.p.";
   }
 }
