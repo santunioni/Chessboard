@@ -42,7 +42,7 @@ public class KingThreatensTest {
   }
 
   @Test
-  public void shouldNotDistantPiece() {
+  public void shouldNotThreatDistantPiece() {
     var king = this.pieceFactory.createKing(Color.BLACK);
     board.placePiece("d4", king);
 

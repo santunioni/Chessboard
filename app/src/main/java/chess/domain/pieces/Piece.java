@@ -2,6 +2,7 @@ package chess.domain.pieces;
 
 import chess.domain.assertions.PlayLegalityAssertion;
 import chess.domain.board.ReadonlyBoard;
+import chess.domain.grid.Direction;
 import chess.domain.grid.Position;
 import chess.domain.plays.Play;
 import java.util.Set;
@@ -49,17 +50,16 @@ public abstract class Piece {
   public abstract Piece copy();
 
 
-  public abstract boolean couldMoveToIfEmpty(Position position);
-
-  public boolean threatens(Position position) {
-    return this.couldMoveToIfEmpty(position);
+  public boolean couldMoveToIfEmpty(Position position) {
+    return this.movePattern().couldMoveToIfEmpty(position);
   }
 
-  protected abstract Set<Play> getSuggestedPlaysIncludingPossiblyInvalid();
+  public boolean threatens(Position position) {
+    return this.movePattern().threatens(position);
+  }
 
   public Set<Play> getSuggestedPlays() {
-
-    return this.getSuggestedPlaysIncludingPossiblyInvalid().stream()
+    return this.movePattern().getSuggestedPlays().stream()
         .filter(play -> new PlayLegalityAssertion(play).test(this.board))
         .collect(Collectors.toUnmodifiableSet());
   }
@@ -70,5 +70,18 @@ public abstract class Piece {
 
   public PieceType type() {
     return this.specification.pieceType();
+  }
+
+  private MovePattern movePattern() {
+    return switch (this.type()) {
+      case PAWN -> new PawnMovePattern(this);
+      case ROOK -> new DirectionalMovePattern(
+          Set.of(Direction.VERTICAL_UP, Direction.VERTICAL_DOWN, Direction.HORIZONTAL_LEFT,
+              Direction.HORIZONTAL_RIGHT), this);
+      case KNIGHT -> new KnightMovePattern(this);
+      case BISHOP -> new DirectionalMovePattern(Direction.diagonals(), this);
+      case QUEEN -> new DirectionalMovePattern(Direction.allDirections(), this);
+      case KING -> new KingMovePattern(this);
+    };
   }
 }
