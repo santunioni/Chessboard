@@ -20,27 +20,15 @@ class PawnMovePattern implements MovePattern {
 
   public PawnMovePattern(Piece piece) {
     this.piece = piece;
-    this.walkDirection = walkDirectionFor(this.piece.color());
-  }
-
-  public static Direction walkDirectionFor(Color color) {
-    return color == Color.WHITE ? Direction.VERTICAL_UP : Direction.VERTICAL_DOWN;
-  }
-
-  public static Rank getEnPassantRankFor(Color color) {
-    return color == Color.WHITE ? Rank.FIVE : Rank.FOUR;
-  }
-
-  public static Rank getStartRankFor(Color color) {
-    return color == Color.WHITE ? Rank.TWO : Rank.SEVEN;
+    this.walkDirection = this.piece.color().pawnWalkDirection();
   }
 
   public static Rank getPromotionRankFor(Color color) {
-    return getStartRankFor(color.opposite());
+    return color.opposite().pawnStartRank();
   }
 
   private boolean hasAlreadyMoved() {
-    return this.piece.currentPosition().rank() != getStartRankFor(this.piece.color());
+    return this.piece.currentPosition().rank() != this.piece.color().pawnStartRank();
   }
 
   public boolean couldMoveToIfEmpty(Position target) {
@@ -99,7 +87,7 @@ class PawnMovePattern implements MovePattern {
           } else {
             plays.add(new Capture(PieceType.PAWN, this.piece.color(), from, target));
           }
-          if (from.rank() == getEnPassantRankFor(this.piece.color())) {
+          if (from.rank() == EnPassant.getEnPassantRankFor(this.piece.color())) {
             plays.add(new EnPassant(this.piece.color(), from, target));
           }
         }
