@@ -8,7 +8,6 @@ import chess.domain.board.Board;
 import chess.domain.board.BoardInitializer;
 import chess.domain.grid.Position;
 import chess.domain.pieces.Color;
-import chess.domain.pieces.King;
 import chess.domain.pieces.PieceFactory;
 import chess.domain.pieces.PieceType;
 import chess.domain.plays.validation.PlayValidationError;
@@ -34,7 +33,7 @@ public class CastleRulesTest {
     board.makePlay(castle);
 
     // Then
-    assertTrue(board.getPieceAt(King.initialPositionFor(Color.WHITE)).isEmpty());
+    assertTrue(board.getPieceAt(Color.WHITE.kingInitialPosition()).isEmpty());
     assertTrue(board.getPieceAt(new Position("h1")).isEmpty());
     assertTrue(board.getPieceAt(new Position("g1"), Color.WHITE, PieceType.KING).isPresent());
     assertTrue(board.getPieceAt(new Position("f1"), Color.WHITE, PieceType.ROOK).isPresent());

@@ -4,12 +4,9 @@ import chess.domain.board.Board;
 import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Position;
 import chess.domain.grid.Rank;
-import chess.domain.pieces.Bishop;
 import chess.domain.pieces.Color;
-import chess.domain.pieces.Knight;
+import chess.domain.pieces.Piece;
 import chess.domain.pieces.PieceType;
-import chess.domain.pieces.Queen;
-import chess.domain.pieces.Rook;
 import java.util.Set;
 
 public record Promotion(Play playBeforePromotion, Color color, Position from, Position to,
@@ -43,10 +40,10 @@ public record Promotion(Play playBeforePromotion, Color color, Position from, Po
     this.playBeforePromotion.actOn(board);
     var pawn = board.getPieceAt(this.to, this.color, PieceType.PAWN).orElseThrow();
     var newPiece = switch (this.toPieceType) {
-      case ROOK -> new Rook(pawn.idInBoard(), this.color);
-      case KNIGHT -> new Knight(pawn.idInBoard(), this.color);
-      case BISHOP -> new Bishop(pawn.idInBoard(), this.color);
-      case QUEEN -> new Queen(pawn.idInBoard(), this.color);
+      case ROOK -> new Piece(pawn.idInBoard(), this.color, PieceType.ROOK);
+      case KNIGHT -> new Piece(pawn.idInBoard(), this.color, PieceType.KNIGHT);
+      case BISHOP -> new Piece(pawn.idInBoard(), this.color, PieceType.BISHOP);
+      case QUEEN -> new Piece(pawn.idInBoard(), this.color, PieceType.QUEEN);
       default -> throw new RuntimeException("Invalid Type at Promotion");
     };
     board.placePiece(this.to, newPiece);

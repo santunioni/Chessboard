@@ -3,13 +3,18 @@ package chess.domain.plays;
 import chess.domain.board.Board;
 import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Position;
+import chess.domain.grid.Rank;
 import chess.domain.pieces.Color;
-import chess.domain.pieces.Pawn;
 import chess.domain.pieces.PieceType;
 
 public record EnPassant(Color color, Position from, Position to) implements Play {
+  public static Rank getEnPassantRankFor(Color color) {
+    return color == Color.WHITE ? Rank.FIVE : Rank.FOUR;
+  }
+
+
   public boolean canActOnCurrentState(ReadonlyBoard board) {
-    return from.rank() == Pawn.getEnPassantRankFor(color)
+    return from.rank() == EnPassant.getEnPassantRankFor(color)
         && board.getPieceAt(from, color, PieceType.PAWN)
         .map(p -> p.threatens(to)).orElse(false)
         && board.getPieceAt(to).isEmpty()
@@ -19,7 +24,7 @@ public record EnPassant(Color color, Position from, Position to) implements Play
   public void actOn(Board board) {
     board.changePosition(this.from, this.to);
     board.removePieceFromSquare(
-        this.to.previousOn(Pawn.walkDirectionFor(this.color)).orElseThrow());
+        this.to.previousOn(this.color.pawnWalkDirection()).orElseThrow());
   }
 
   private boolean hasVictimJumpedTwoSquaresLastRound(ReadonlyBoard board) {
@@ -33,13 +38,13 @@ public record EnPassant(Color color, Position from, Position to) implements Play
   }
 
   private Position victimInitialPosition() {
-    return new Position(this.to.file(), Pawn.getStartRankFor(this.color.opposite()));
+    return new Position(this.to.file(), this.color.opposite().pawnStartRank());
   }
 
   private Position victimPositionAfterJumpingTwoSquares() {
     return this.victimInitialPosition()
-        .nextOn(Pawn.walkDirectionFor(this.color.opposite())).orElseThrow()
-        .nextOn(Pawn.walkDirectionFor(this.color.opposite())).orElseThrow();
+        .nextOn(this.color.opposite().pawnWalkDirection()).orElseThrow()
+        .nextOn(this.color.opposite().pawnWalkDirection()).orElseThrow();
   }
 
   public PlayDto toDto() {

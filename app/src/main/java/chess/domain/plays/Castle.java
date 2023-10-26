@@ -8,7 +8,6 @@ import chess.domain.grid.Path;
 import chess.domain.grid.Position;
 import chess.domain.grid.Rank;
 import chess.domain.pieces.Color;
-import chess.domain.pieces.King;
 import chess.domain.pieces.PieceType;
 
 public record Castle(Color color, CastleSide castleSide) implements Play {
@@ -74,7 +73,7 @@ public record Castle(Color color, CastleSide castleSide) implements Play {
   }
 
   private Position kingPosition() {
-    return King.initialPositionFor(color);
+    return color.kingInitialPosition();
   }
 
   private Rank rank() {

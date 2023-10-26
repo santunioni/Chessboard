@@ -8,7 +8,7 @@ import chess.domain.plays.Play;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class Piece {
+public class Piece {
 
   /**
    * The initial position of the piece. Serves at the piece's identifier in the board.
@@ -16,10 +16,12 @@ public abstract class Piece {
   private final Position initialPosition;
   private final PieceSpecification specification;
   protected ReadonlyBoard board;
+  private final MovePattern movePattern;
 
   public Piece(Position initialPosition, Color color, PieceType pieceType) {
     this.initialPosition = initialPosition;
     this.specification = new PieceSpecification(color, pieceType);
+    this.movePattern = selectMovePattern(this);
   }
 
   public Position getInitialPosition() {
@@ -47,19 +49,20 @@ public abstract class Piece {
     return specification;
   }
 
-  public abstract Piece copy();
-
+  public Piece copy() {
+    return new Piece(this.idInBoard(), this.color(), this.type());
+  }
 
   public boolean couldMoveToIfEmpty(Position position) {
-    return this.movePattern().couldMoveToIfEmpty(position);
+    return this.movePattern.couldMoveToIfEmpty(position);
   }
 
   public boolean threatens(Position position) {
-    return this.movePattern().threatens(position);
+    return this.movePattern.threatens(position);
   }
 
   public Set<Play> getSuggestedPlays() {
-    return this.movePattern().getSuggestedPlays().stream()
+    return this.movePattern.getSuggestedPlays().stream()
         .filter(play -> new PlayLegalityAssertion(play).test(this.board))
         .collect(Collectors.toUnmodifiableSet());
   }
@@ -72,16 +75,16 @@ public abstract class Piece {
     return this.specification.pieceType();
   }
 
-  private MovePattern movePattern() {
-    return switch (this.type()) {
-      case PAWN -> new PawnMovePattern(this);
+  private static MovePattern selectMovePattern(Piece piece) {
+    return switch (piece.type()) {
+      case PAWN -> new PawnMovePattern(piece);
       case ROOK -> new DirectionalMovePattern(
           Set.of(Direction.VERTICAL_UP, Direction.VERTICAL_DOWN, Direction.HORIZONTAL_LEFT,
-              Direction.HORIZONTAL_RIGHT), this);
-      case KNIGHT -> new KnightMovePattern(this);
-      case BISHOP -> new DirectionalMovePattern(Direction.diagonals(), this);
-      case QUEEN -> new DirectionalMovePattern(Direction.allDirections(), this);
-      case KING -> new KingMovePattern(this);
+              Direction.HORIZONTAL_RIGHT), piece);
+      case KNIGHT -> new KnightMovePattern(piece);
+      case BISHOP -> new DirectionalMovePattern(Direction.diagonals(), piece);
+      case QUEEN -> new DirectionalMovePattern(Direction.allDirections(), piece);
+      case KING -> new KingMovePattern(piece);
     };
   }
 }
