@@ -30,7 +30,7 @@ public interface ReadonlyBoard {
   }
 
   default Stream<Piece> getPieces(Color color, PieceType type) {
-    return this.getPieces(color).filter(p -> p.getSpecification().pieceType().equals(type));
+    return this.getPieces(color).filter(p -> p.type().equals(type));
   }
 
   Position getPositionOf(Piece piece);
@@ -40,7 +40,12 @@ public interface ReadonlyBoard {
   Iterable<Play> history();
 
   default Color nextTurnPlayerColor() {
-    return this.getLastPlay().map(play -> play.getPlayerColor().opposite()).orElse(Color.WHITE);
+    Optional<Play> lastPlayOptional = this.getLastPlay();
+    if (lastPlayOptional.isPresent()) {
+      return lastPlayOptional.get().getPlayerColor().opposite();
+    } else {
+      return Color.WHITE;
+    }
   }
 
   ReadonlyBoard simulate(Play play);
