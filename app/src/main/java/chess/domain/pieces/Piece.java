@@ -1,8 +1,9 @@
 package chess.domain.pieces;
 
+import static chess.domain.move.MovePatternSelector.selectMovePattern;
+
 import chess.domain.assertions.PlayLegalityAssertion;
 import chess.domain.board.ReadonlyBoard;
-import chess.domain.grid.Direction;
 import chess.domain.grid.Position;
 import chess.domain.plays.Play;
 import java.util.Set;
@@ -15,26 +16,11 @@ public class Piece {
    */
   private final Position initialPosition;
   private final PieceSpecification specification;
-  private final MovePattern movePattern;
   protected ReadonlyBoard board;
 
   public Piece(Position initialPosition, Color color, PieceType pieceType) {
     this.initialPosition = initialPosition;
     this.specification = new PieceSpecification(color, pieceType);
-    this.movePattern = selectMovePattern(this);
-  }
-
-  private static MovePattern selectMovePattern(Piece piece) {
-    return switch (piece.type()) {
-      case PAWN -> new PawnMovePattern(piece);
-      case ROOK -> new DirectionalMovePattern(
-          Set.of(Direction.VERTICAL_UP, Direction.VERTICAL_DOWN, Direction.HORIZONTAL_LEFT,
-              Direction.HORIZONTAL_RIGHT), piece);
-      case KNIGHT -> new KnightMovePattern(piece);
-      case BISHOP -> new DirectionalMovePattern(Direction.diagonals(), piece);
-      case QUEEN -> new DirectionalMovePattern(Direction.allDirections(), piece);
-      case KING -> new KingMovePattern(piece);
-    };
   }
 
   public Position getInitialPosition() {
@@ -67,15 +53,15 @@ public class Piece {
   }
 
   public boolean couldMoveToIfEmpty(Position position) {
-    return this.movePattern.couldMoveToIfEmpty(position);
+    return selectMovePattern(this, this.board).couldMoveToIfEmpty(position);
   }
 
   public boolean threatens(Position position) {
-    return this.movePattern.threatens(position);
+    return selectMovePattern(this, this.board).threatens(position);
   }
 
   public Set<Play> getSuggestedPlays() {
-    return this.movePattern.getSuggestedPlays().stream()
+    return selectMovePattern(this, this.board).getSuggestedPlays().stream()
         .filter(play -> new PlayLegalityAssertion(play).test(this.board))
         .collect(Collectors.toUnmodifiableSet());
   }

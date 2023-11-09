@@ -1,6 +1,9 @@
-package chess.domain.pieces;
+package chess.domain.move;
 
 import chess.domain.grid.Position;
+import chess.domain.pieces.Color;
+import chess.domain.pieces.Piece;
+import chess.domain.pieces.PieceType;
 import chess.domain.plays.Capture;
 import chess.domain.plays.Move;
 import chess.domain.plays.Play;
@@ -8,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class KnightMovePattern implements MovePattern {
+class KnightMovePattern implements MovePattern {
   private final Piece piece;
   private final Color color;
 

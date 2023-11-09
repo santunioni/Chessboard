@@ -1,10 +1,14 @@
-package chess.domain.pieces;
+package chess.domain.move;
 
+import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Direction;
 import chess.domain.grid.File;
 import chess.domain.grid.Path;
 import chess.domain.grid.Position;
 import chess.domain.grid.Rank;
+import chess.domain.pieces.Color;
+import chess.domain.pieces.Piece;
+import chess.domain.pieces.PieceType;
 import chess.domain.plays.Capture;
 import chess.domain.plays.EnPassant;
 import chess.domain.plays.Move;
@@ -17,12 +21,14 @@ import java.util.Set;
 class PawnMovePattern implements MovePattern {
   private final Color color;
   private final Piece piece;
+  private final ReadonlyBoard board;
   private final Direction walkDirection;
 
-  public PawnMovePattern(Piece piece) {
+  public PawnMovePattern(Piece piece, ReadonlyBoard board) {
     this.piece = piece;
     this.color = piece.color();
     this.walkDirection = this.color.pawnWalkDirection();
+    this.board = board;
   }
 
   public static Rank getPromotionRankFor(Color color) {
@@ -43,7 +49,7 @@ class PawnMovePattern implements MovePattern {
     }
 
     return new Path(myPosition, this.walkDirection, stepsToTarget - 1)
-        .isClearedOn(this.piece.board);
+        .isClearedOn(this.board);
   }
 
   public boolean threatens(Position enemyPosition) {

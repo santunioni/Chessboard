@@ -1,8 +1,12 @@
-package chess.domain.pieces;
+package chess.domain.move;
 
+import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Direction;
 import chess.domain.grid.Path;
 import chess.domain.grid.Position;
+import chess.domain.pieces.Color;
+import chess.domain.pieces.Piece;
+import chess.domain.pieces.PieceType;
 import chess.domain.plays.Capture;
 import chess.domain.plays.Move;
 import chess.domain.plays.Play;
@@ -16,17 +20,20 @@ class DirectionalMovePattern implements MovePattern {
   private final PieceType type;
   private final Color color;
   private final Integer maxSteps;
+  private final ReadonlyBoard board;
 
-  DirectionalMovePattern(Set<Direction> directions, Piece piece, Integer maxSteps) {
+  DirectionalMovePattern(Set<Direction> directions, Piece piece, ReadonlyBoard board,
+                         Integer maxSteps) {
     this.directions = directions;
     this.piece = piece;
     this.type = piece.type();
     this.color = piece.color();
     this.maxSteps = maxSteps;
+    this.board = board;
   }
 
-  DirectionalMovePattern(Set<Direction> directions, Piece piece) {
-    this(directions, piece, 8);
+  DirectionalMovePattern(Set<Direction> directions, Piece piece, ReadonlyBoard board) {
+    this(directions, piece, board, 8);
   }
 
   public boolean couldMoveToIfEmpty(Position target) {
@@ -36,7 +43,7 @@ class DirectionalMovePattern implements MovePattern {
       return false;
     }
     final Path pathToTarget = new Path(myPosition, direction.get(), myPosition.stepsTo(target) - 1);
-    return pathToTarget.isClearedOn(this.piece.board);
+    return pathToTarget.isClearedOn(this.board);
   }
 
   public boolean threatens(Position target) {
@@ -49,7 +56,7 @@ class DirectionalMovePattern implements MovePattern {
       for (var position : new Path(this.piece.currentPosition(), direction, this.maxSteps)) {
         plays.add(new Move(this.type, this.color, this.piece.currentPosition(), position));
         plays.add(new Capture(this.type, this.color, this.piece.currentPosition(), position));
-        if (this.piece.board.getPieceAt(position).isPresent()) {
+        if (this.board.getPieceAt(position).isPresent()) {
           break;
         }
       }

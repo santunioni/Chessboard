@@ -1,7 +1,10 @@
-package chess.domain.pieces;
+package chess.domain.move;
 
+import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Direction;
 import chess.domain.grid.Position;
+import chess.domain.pieces.Color;
+import chess.domain.pieces.Piece;
 import chess.domain.plays.Castle;
 import chess.domain.plays.CastleSide;
 import chess.domain.plays.Play;
@@ -11,8 +14,8 @@ class KingMovePattern extends DirectionalMovePattern {
   private final Piece piece;
   private final Color color;
 
-  public KingMovePattern(Piece piece) {
-    super(Direction.allDirections(), piece, 1);
+  public KingMovePattern(Piece piece, ReadonlyBoard board) {
+    super(Direction.allDirections(), piece, board, 1);
     this.piece = piece;
     this.color = piece.color();
   }
