@@ -64,7 +64,7 @@ public class Piece {
   }
 
   public Set<Play> getSuggestedPlays() {
-    return this.movePattern().getSuggestedPlays(this.currentPosition(),
+    return this.movePattern().suggestPlays(this.currentPosition(),
             this.board)
         .stream()
         .filter(play -> new PlayLegalityAssertion(play).test(this.board))
@@ -72,7 +72,7 @@ public class Piece {
   }
 
   private MovePattern movePattern() {
-    return MovePatternSelector.selectForPieceType(this.color(), this.type());
+    return MovePatternSelector.selectForPieceType(this.specification);
   }
 
   public Color color() {

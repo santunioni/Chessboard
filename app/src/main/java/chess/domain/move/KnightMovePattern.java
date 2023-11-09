@@ -29,7 +29,7 @@ class KnightMovePattern implements MovePattern {
         || (horizontalDistance == 2 && verticalDistance == 1);
   }
 
-  public Set<Play> getSuggestedPlays(Position from, ReadonlyBoard board) {
+  public Set<Play> suggestPlays(Position from, ReadonlyBoard board) {
     var plays = new HashSet<Play>();
 
     for (var horizontalJump : List.of(-2, -1, 1, 2)) {

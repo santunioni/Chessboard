@@ -22,8 +22,8 @@ class KingMovePattern extends DirectionalMovePattern {
     return super.couldMoveToIfEmpty(from, to, board) && from.stepsTo(to) == 1;
   }
 
-  public Set<Play> getSuggestedPlays(Position from, ReadonlyBoard board) {
-    final Set<Play> plays = super.getSuggestedPlays(from, board);
+  public Set<Play> suggestPlays(Position from, ReadonlyBoard board) {
+    final Set<Play> plays = super.suggestPlays(from, board);
     plays.add(new Castle(this.color, CastleSide.KING_SIDE));
     plays.add(new Castle(this.color, CastleSide.QUEEN_SIDE));
     return plays;

@@ -44,7 +44,7 @@ class DirectionalMovePattern implements MovePattern {
     return this.couldMoveToIfEmpty(from, to, board);
   }
 
-  public Set<Play> getSuggestedPlays(Position from, ReadonlyBoard board) {
+  public Set<Play> suggestPlays(Position from, ReadonlyBoard board) {
     final Set<Play> plays = new HashSet<>();
     for (var direction : this.directions) {
       for (var position : new Path(from, direction, this.maxSteps)) {

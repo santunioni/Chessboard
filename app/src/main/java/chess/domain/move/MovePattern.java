@@ -10,5 +10,5 @@ public interface MovePattern {
 
   boolean threatens(Position from, Position to, ReadonlyBoard board);
 
-  Set<Play> getSuggestedPlays(Position from, ReadonlyBoard board);
+  Set<Play> suggestPlays(Position from, ReadonlyBoard board);
 }

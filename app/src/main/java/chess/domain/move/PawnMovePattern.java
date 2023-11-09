@@ -56,7 +56,7 @@ class PawnMovePattern implements MovePattern {
         == (this.walkDirection == Direction.VERTICAL_UP ? 1 : -1);
   }
 
-  public Set<Play> getSuggestedPlays(Position from, ReadonlyBoard board) {
+  public Set<Play> suggestPlays(Position from, ReadonlyBoard board) {
     var plays = new HashSet<Play>();
 
     for (var verticalDisplacedPosition : new Path(from, this.walkDirection, 2)) {
