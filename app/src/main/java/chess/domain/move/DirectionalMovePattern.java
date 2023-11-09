@@ -5,7 +5,6 @@ import chess.domain.grid.Direction;
 import chess.domain.grid.Path;
 import chess.domain.grid.Position;
 import chess.domain.pieces.Color;
-import chess.domain.pieces.Piece;
 import chess.domain.pieces.PieceType;
 import chess.domain.plays.Capture;
 import chess.domain.plays.Move;
@@ -16,47 +15,42 @@ import java.util.Set;
 
 class DirectionalMovePattern implements MovePattern {
   private final Set<Direction> directions;
-  private final Piece piece;
   private final PieceType type;
   private final Color color;
   private final Integer maxSteps;
-  private final ReadonlyBoard board;
 
-  DirectionalMovePattern(Set<Direction> directions, Piece piece, ReadonlyBoard board,
+  DirectionalMovePattern(Set<Direction> directions, Color color, PieceType type,
                          Integer maxSteps) {
     this.directions = directions;
-    this.piece = piece;
-    this.type = piece.type();
-    this.color = piece.color();
+    this.type = type;
+    this.color = color;
     this.maxSteps = maxSteps;
-    this.board = board;
   }
 
-  DirectionalMovePattern(Set<Direction> directions, Piece piece, ReadonlyBoard board) {
-    this(directions, piece, board, 8);
+  DirectionalMovePattern(Set<Direction> directions, Color color, PieceType type) {
+    this(directions, color, type, 8);
   }
 
-  public boolean couldMoveToIfEmpty(Position target) {
-    Position myPosition = this.piece.currentPosition();
-    Optional<Direction> direction = myPosition.directionTo(target);
+  public boolean couldMoveToIfEmpty(Position from, Position to, ReadonlyBoard board) {
+    Optional<Direction> direction = from.directionTo(to);
     if (direction.isEmpty() || !this.directions.contains(direction.get())) {
       return false;
     }
-    final Path pathToTarget = new Path(myPosition, direction.get(), myPosition.stepsTo(target) - 1);
-    return pathToTarget.isClearedOn(this.board);
+    final Path pathToTarget = new Path(from, direction.get(), from.stepsTo(to) - 1);
+    return pathToTarget.isClearedOn(board);
   }
 
-  public boolean threatens(Position target) {
-    return this.couldMoveToIfEmpty(target);
+  public boolean threatens(Position from, Position to, ReadonlyBoard board) {
+    return this.couldMoveToIfEmpty(from, to, board);
   }
 
-  public Set<Play> getSuggestedPlays() {
+  public Set<Play> getSuggestedPlays(Position from, ReadonlyBoard board) {
     final Set<Play> plays = new HashSet<>();
     for (var direction : this.directions) {
-      for (var position : new Path(this.piece.currentPosition(), direction, this.maxSteps)) {
-        plays.add(new Move(this.type, this.color, this.piece.currentPosition(), position));
-        plays.add(new Capture(this.type, this.color, this.piece.currentPosition(), position));
-        if (this.board.getPieceAt(position).isPresent()) {
+      for (var position : new Path(from, direction, this.maxSteps)) {
+        plays.add(new Move(this.type, this.color, from, position));
+        plays.add(new Capture(this.type, this.color, from, position));
+        if (board.getPieceAt(position).isPresent()) {
           break;
         }
       }

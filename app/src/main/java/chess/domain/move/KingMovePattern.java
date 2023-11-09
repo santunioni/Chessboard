@@ -4,28 +4,26 @@ import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Direction;
 import chess.domain.grid.Position;
 import chess.domain.pieces.Color;
-import chess.domain.pieces.Piece;
+import chess.domain.pieces.PieceType;
 import chess.domain.plays.Castle;
 import chess.domain.plays.CastleSide;
 import chess.domain.plays.Play;
 import java.util.Set;
 
 class KingMovePattern extends DirectionalMovePattern {
-  private final Piece piece;
   private final Color color;
 
-  public KingMovePattern(Piece piece, ReadonlyBoard board) {
-    super(Direction.allDirections(), piece, board, 1);
-    this.piece = piece;
-    this.color = piece.color();
+  public KingMovePattern(Color color) {
+    super(Direction.allDirections(), color, PieceType.KING, 1);
+    this.color = color;
   }
 
-  public boolean couldMoveToIfEmpty(Position target) {
-    return super.couldMoveToIfEmpty(target) && this.piece.currentPosition().stepsTo(target) == 1;
+  public boolean couldMoveToIfEmpty(Position from, Position to, ReadonlyBoard board) {
+    return super.couldMoveToIfEmpty(from, to, board) && from.stepsTo(to) == 1;
   }
 
-  public Set<Play> getSuggestedPlays() {
-    final Set<Play> plays = super.getSuggestedPlays();
+  public Set<Play> getSuggestedPlays(Position from, ReadonlyBoard board) {
+    final Set<Play> plays = super.getSuggestedPlays(from, board);
     plays.add(new Castle(this.color, CastleSide.KING_SIDE));
     plays.add(new Castle(this.color, CastleSide.QUEEN_SIDE));
     return plays;

@@ -1,10 +1,10 @@
 package chess.domain.pieces;
 
-import static chess.domain.move.MovePatternSelector.selectMovePattern;
-
 import chess.domain.assertions.PlayLegalityAssertion;
 import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Position;
+import chess.domain.move.MovePattern;
+import chess.domain.move.MovePatternSelector;
 import chess.domain.plays.Play;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -53,17 +53,26 @@ public class Piece {
   }
 
   public boolean couldMoveToIfEmpty(Position position) {
-    return selectMovePattern(this, this.board).couldMoveToIfEmpty(position);
+    return this.movePattern().couldMoveToIfEmpty(this.currentPosition(),
+        position,
+        this.board);
   }
 
   public boolean threatens(Position position) {
-    return selectMovePattern(this, this.board).threatens(position);
+    return this.movePattern().threatens(this.currentPosition(), position,
+        this.board);
   }
 
   public Set<Play> getSuggestedPlays() {
-    return selectMovePattern(this, this.board).getSuggestedPlays().stream()
+    return this.movePattern().getSuggestedPlays(this.currentPosition(),
+            this.board)
+        .stream()
         .filter(play -> new PlayLegalityAssertion(play).test(this.board))
         .collect(Collectors.toUnmodifiableSet());
+  }
+
+  private MovePattern movePattern() {
+    return MovePatternSelector.selectForPieceType(this.color(), this.type());
   }
 
   public Color color() {

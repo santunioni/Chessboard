@@ -7,7 +7,6 @@ import chess.domain.grid.Path;
 import chess.domain.grid.Position;
 import chess.domain.grid.Rank;
 import chess.domain.pieces.Color;
-import chess.domain.pieces.Piece;
 import chess.domain.pieces.PieceType;
 import chess.domain.plays.Capture;
 import chess.domain.plays.EnPassant;
@@ -20,54 +19,46 @@ import java.util.Set;
 
 class PawnMovePattern implements MovePattern {
   private final Color color;
-  private final Piece piece;
-  private final ReadonlyBoard board;
   private final Direction walkDirection;
 
-  public PawnMovePattern(Piece piece, ReadonlyBoard board) {
-    this.piece = piece;
-    this.color = piece.color();
+  public PawnMovePattern(Color color) {
+    this.color = color;
     this.walkDirection = this.color.pawnWalkDirection();
-    this.board = board;
   }
 
   public static Rank getPromotionRankFor(Color color) {
     return color.opposite().pawnStartRank();
   }
 
-  private boolean hasAlreadyMoved() {
-    return this.piece.currentPosition().rank() != this.color.pawnStartRank();
+  private boolean isInitialPosition(Position from) {
+    return from.rank() == this.color.pawnStartRank();
   }
 
-  public boolean couldMoveToIfEmpty(Position target) {
-    var myPosition = this.piece.currentPosition();
-    var stepsToTarget = myPosition.stepsTo(target);
+  public boolean couldMoveToIfEmpty(Position from, Position to, ReadonlyBoard board) {
+    var stepsToTarget = from.stepsTo(to);
 
-    if (myPosition.directionTo(target).filter(d -> d.equals(this.walkDirection)).isEmpty()
-        || (this.hasAlreadyMoved() && stepsToTarget > 1)) {
+    if (from.directionTo(to).filter(d -> d.equals(this.walkDirection)).isEmpty()
+        || (!this.isInitialPosition(from) && stepsToTarget > 1)) {
       return false;
     }
 
-    return new Path(myPosition, this.walkDirection, stepsToTarget - 1)
-        .isClearedOn(this.board);
+    return new Path(from, this.walkDirection, stepsToTarget - 1)
+        .isClearedOn(board);
   }
 
-  public boolean threatens(Position enemyPosition) {
-    var myPosition = this.piece.currentPosition();
-
-    if (Math.abs(myPosition.rank().distanceTo(enemyPosition.rank())) != 1
-        || Math.abs(myPosition.file().distanceTo(enemyPosition.file())) != 1) {
+  public boolean threatens(Position from, Position to, ReadonlyBoard board) {
+    if (Math.abs(from.rank().distanceTo(to.rank())) != 1
+        || Math.abs(from.file().distanceTo(to.file())) != 1) {
       return false;
     }
 
-    return myPosition.rank().distanceTo(enemyPosition.rank())
+    return from.rank().distanceTo(to.rank())
         == (this.walkDirection == Direction.VERTICAL_UP ? 1 : -1);
   }
 
-  public Set<Play> getSuggestedPlays() {
+  public Set<Play> getSuggestedPlays(Position from, ReadonlyBoard board) {
     var plays = new HashSet<Play>();
 
-    var from = this.piece.currentPosition();
     for (var verticalDisplacedPosition : new Path(from, this.walkDirection, 2)) {
       for (var horizontalDiff : List.of(-1, 0, 1)) {
         var fileOptional =
@@ -79,7 +70,7 @@ class PawnMovePattern implements MovePattern {
         }
         var target = targetOptional.get();
 
-        if (this.couldMoveToIfEmpty(target)) {
+        if (this.couldMoveToIfEmpty(from, target, board)) {
           if (target.rank() == getPromotionRankFor(this.color)) {
             Promotion.possibleTypes.forEach(type -> plays.add(
                 new Promotion(new Move(PieceType.PAWN, this.color, from, target), type)));
@@ -88,7 +79,7 @@ class PawnMovePattern implements MovePattern {
           }
         }
 
-        if (this.threatens(target)) {
+        if (this.threatens(from, target, board)) {
           if (target.rank() == getPromotionRankFor(this.color)) {
             Promotion.possibleTypes.forEach(type -> plays.add(
                 new Promotion(new Capture(PieceType.PAWN, this.color, from, target),
