@@ -10,9 +10,11 @@ import java.util.Set;
 
 public class KnightMovePattern implements MovePattern {
   private final Piece piece;
+  private final Color color;
 
   KnightMovePattern(Piece piece) {
     this.piece = piece;
+    this.color = piece.color();
   }
 
   public boolean threatens(Position position) {
@@ -37,10 +39,10 @@ public class KnightMovePattern implements MovePattern {
         if (0 <= targetPositionIndex && targetPositionIndex <= 63) {
           var targetPosition = Position.fromIndex(targetPositionIndex);
           if (this.couldMoveToIfEmpty(targetPosition)) {
-            plays.add(new Move(this.piece.type(), this.piece.color(), this.piece.currentPosition(),
+            plays.add(new Move(PieceType.KNIGHT, this.color, this.piece.currentPosition(),
                 targetPosition));
             plays.add(
-                new Capture(this.piece.type(), this.piece.color(), this.piece.currentPosition(),
+                new Capture(PieceType.KNIGHT, this.color, this.piece.currentPosition(),
                     targetPosition));
           }
         }

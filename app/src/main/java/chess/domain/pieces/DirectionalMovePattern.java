@@ -13,11 +13,15 @@ import java.util.Set;
 class DirectionalMovePattern implements MovePattern {
   private final Set<Direction> directions;
   private final Piece piece;
+  private final PieceType type;
+  private final Color color;
   private final Integer maxSteps;
 
   DirectionalMovePattern(Set<Direction> directions, Piece piece, Integer maxSteps) {
     this.directions = directions;
     this.piece = piece;
+    this.type = piece.type();
+    this.color = piece.color();
     this.maxSteps = maxSteps;
   }
 
@@ -43,8 +47,8 @@ class DirectionalMovePattern implements MovePattern {
     final Set<Play> plays = new HashSet<>();
     for (var direction : this.directions) {
       for (var position : new Path(this.piece.currentPosition(), direction, this.maxSteps)) {
-        plays.add(new Move(piece.type(), piece.color(), this.piece.currentPosition(), position));
-        plays.add(new Capture(piece.type(), piece.color(), this.piece.currentPosition(), position));
+        plays.add(new Move(this.type, this.color, this.piece.currentPosition(), position));
+        plays.add(new Capture(this.type, this.color, this.piece.currentPosition(), position));
         if (this.piece.board.getPieceAt(position).isPresent()) {
           break;
         }

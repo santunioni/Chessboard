@@ -15,13 +15,26 @@ public class Piece {
    */
   private final Position initialPosition;
   private final PieceSpecification specification;
-  protected ReadonlyBoard board;
   private final MovePattern movePattern;
+  protected ReadonlyBoard board;
 
   public Piece(Position initialPosition, Color color, PieceType pieceType) {
     this.initialPosition = initialPosition;
     this.specification = new PieceSpecification(color, pieceType);
     this.movePattern = selectMovePattern(this);
+  }
+
+  private static MovePattern selectMovePattern(Piece piece) {
+    return switch (piece.type()) {
+      case PAWN -> new PawnMovePattern(piece);
+      case ROOK -> new DirectionalMovePattern(
+          Set.of(Direction.VERTICAL_UP, Direction.VERTICAL_DOWN, Direction.HORIZONTAL_LEFT,
+              Direction.HORIZONTAL_RIGHT), piece);
+      case KNIGHT -> new KnightMovePattern(piece);
+      case BISHOP -> new DirectionalMovePattern(Direction.diagonals(), piece);
+      case QUEEN -> new DirectionalMovePattern(Direction.allDirections(), piece);
+      case KING -> new KingMovePattern(piece);
+    };
   }
 
   public Position getInitialPosition() {
@@ -73,18 +86,5 @@ public class Piece {
 
   public PieceType type() {
     return this.specification.pieceType();
-  }
-
-  private static MovePattern selectMovePattern(Piece piece) {
-    return switch (piece.type()) {
-      case PAWN -> new PawnMovePattern(piece);
-      case ROOK -> new DirectionalMovePattern(
-          Set.of(Direction.VERTICAL_UP, Direction.VERTICAL_DOWN, Direction.HORIZONTAL_LEFT,
-              Direction.HORIZONTAL_RIGHT), piece);
-      case KNIGHT -> new KnightMovePattern(piece);
-      case BISHOP -> new DirectionalMovePattern(Direction.diagonals(), piece);
-      case QUEEN -> new DirectionalMovePattern(Direction.allDirections(), piece);
-      case KING -> new KingMovePattern(piece);
-    };
   }
 }

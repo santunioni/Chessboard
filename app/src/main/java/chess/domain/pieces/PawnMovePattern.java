@@ -15,12 +15,14 @@ import java.util.List;
 import java.util.Set;
 
 class PawnMovePattern implements MovePattern {
+  private final Color color;
   private final Piece piece;
   private final Direction walkDirection;
 
   public PawnMovePattern(Piece piece) {
     this.piece = piece;
-    this.walkDirection = this.piece.color().pawnWalkDirection();
+    this.color = piece.color();
+    this.walkDirection = this.color.pawnWalkDirection();
   }
 
   public static Rank getPromotionRankFor(Color color) {
@@ -28,7 +30,7 @@ class PawnMovePattern implements MovePattern {
   }
 
   private boolean hasAlreadyMoved() {
-    return this.piece.currentPosition().rank() != this.piece.color().pawnStartRank();
+    return this.piece.currentPosition().rank() != this.color.pawnStartRank();
   }
 
   public boolean couldMoveToIfEmpty(Position target) {
@@ -72,24 +74,24 @@ class PawnMovePattern implements MovePattern {
         var target = targetOptional.get();
 
         if (this.couldMoveToIfEmpty(target)) {
-          if (target.rank() == getPromotionRankFor(this.piece.color())) {
+          if (target.rank() == getPromotionRankFor(this.color)) {
             Promotion.possibleTypes.forEach(type -> plays.add(
-                new Promotion(new Move(PieceType.PAWN, this.piece.color(), from, target), type)));
+                new Promotion(new Move(PieceType.PAWN, this.color, from, target), type)));
           } else {
-            plays.add(new Move(PieceType.PAWN, this.piece.color(), from, target));
+            plays.add(new Move(PieceType.PAWN, this.color, from, target));
           }
         }
 
         if (this.threatens(target)) {
-          if (target.rank() == getPromotionRankFor(this.piece.color())) {
+          if (target.rank() == getPromotionRankFor(this.color)) {
             Promotion.possibleTypes.forEach(type -> plays.add(
-                new Promotion(new Capture(PieceType.PAWN, this.piece.color(), from, target),
+                new Promotion(new Capture(PieceType.PAWN, this.color, from, target),
                     type)));
           } else {
-            plays.add(new Capture(PieceType.PAWN, this.piece.color(), from, target));
+            plays.add(new Capture(PieceType.PAWN, this.color, from, target));
           }
-          if (from.rank() == EnPassant.getEnPassantRankFor(this.piece.color())) {
-            plays.add(new EnPassant(this.piece.color(), from, target));
+          if (from.rank() == EnPassant.getEnPassantRankFor(this.color)) {
+            plays.add(new EnPassant(this.color, from, target));
           }
         }
       }

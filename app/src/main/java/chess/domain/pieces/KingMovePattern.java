@@ -9,10 +9,12 @@ import java.util.Set;
 
 class KingMovePattern extends DirectionalMovePattern {
   private final Piece piece;
+  private final Color color;
 
   public KingMovePattern(Piece piece) {
     super(Direction.allDirections(), piece, 1);
     this.piece = piece;
+    this.color = piece.color();
   }
 
   public boolean couldMoveToIfEmpty(Position target) {
@@ -21,8 +23,8 @@ class KingMovePattern extends DirectionalMovePattern {
 
   public Set<Play> getSuggestedPlays() {
     final Set<Play> plays = super.getSuggestedPlays();
-    plays.add(new Castle(this.piece.color(), CastleSide.KING_SIDE));
-    plays.add(new Castle(this.piece.color(), CastleSide.QUEEN_SIDE));
+    plays.add(new Castle(this.color, CastleSide.KING_SIDE));
+    plays.add(new Castle(this.color, CastleSide.QUEEN_SIDE));
     return plays;
   }
 }
