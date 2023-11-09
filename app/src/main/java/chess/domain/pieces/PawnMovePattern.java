@@ -40,7 +40,8 @@ class PawnMovePattern implements MovePattern {
       return false;
     }
 
-    return new Path(myPosition, this.walkDirection, stepsToTarget - 1).isClearOn(this.piece.board);
+    return new Path(myPosition, this.walkDirection, stepsToTarget - 1)
+        .isClearedOn(this.piece.board);
   }
 
   public boolean threatens(Position enemyPosition) {

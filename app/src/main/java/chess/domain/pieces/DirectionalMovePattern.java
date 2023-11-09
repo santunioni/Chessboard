@@ -32,7 +32,7 @@ class DirectionalMovePattern implements MovePattern {
       return false;
     }
     final Path pathToTarget = new Path(myPosition, direction.get(), myPosition.stepsTo(target) - 1);
-    return pathToTarget.isClearOn(this.piece.board);
+    return pathToTarget.isClearedOn(this.piece.board);
   }
 
   public boolean threatens(Position target) {

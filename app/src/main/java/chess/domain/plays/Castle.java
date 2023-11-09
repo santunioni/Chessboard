@@ -15,7 +15,7 @@ public record Castle(Color color, CastleSide castleSide) implements Play {
   public boolean canActOnCurrentState(ReadonlyBoard board) {
     return this.kingAndRookNeverMoved(board)
         && this.kingIsNotChecked(board)
-        && this.kingPath().isClearOn(board)
+        && this.kingPath().isClearedOn(board)
         && !this.kingPath().isThreatenedBy(this.color.opposite(), board);
   }
 

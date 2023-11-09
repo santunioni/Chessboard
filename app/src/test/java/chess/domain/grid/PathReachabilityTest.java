@@ -41,7 +41,7 @@ public class PathReachabilityTest {
   @Test
   void shouldAlwaysBeClearIfZeroSteps() {
     var path = new Path(new Position("a1"), Direction.DIAGONAL_UP_RIGHT, 0);
-    assertTrue(path.isClearOn(this.board));
+    assertTrue(path.isClearedOn(this.board));
   }
 
   @ParameterizedTest
@@ -50,7 +50,7 @@ public class PathReachabilityTest {
                                             Direction expectedDirection) {
     var path = from.pathTo(target).orElseThrow();
     assertEquals(expectedDirection, path.getDirection());
-    assertTrue(path.isClearOn(this.board));
+    assertTrue(path.isClearedOn(this.board));
   }
 
   @Test

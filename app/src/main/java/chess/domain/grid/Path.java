@@ -55,7 +55,7 @@ public class Path implements Iterable<Position> {
     return false;
   }
 
-  public Boolean isClearOn(ReadonlyBoard board) {
+  public Boolean isClearedOn(ReadonlyBoard board) {
     return !this.isBlockedOn(board);
   }
 
