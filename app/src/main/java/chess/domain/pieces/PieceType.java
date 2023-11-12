@@ -18,4 +18,15 @@ public enum PieceType {
       case KING -> "K";
     };
   }
+
+  public static PieceType fromAlgebraicNotationChar(String charLetter) {
+    return switch (charLetter) {
+      case "K" -> PieceType.KING;
+      case "Q" -> PieceType.QUEEN;
+      case "R" -> PieceType.ROOK;
+      case "B" -> PieceType.BISHOP;
+      case "N" -> PieceType.KNIGHT;
+      default -> PieceType.PAWN;
+    };
+  }
 }

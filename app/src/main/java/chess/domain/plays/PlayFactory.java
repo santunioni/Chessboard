@@ -13,16 +13,6 @@ public class PlayFactory {
   private static final Pattern algebraicNotationPattern =
       Pattern.compile("^([KQRBN]?)([a-h][1-8])(x?)([a-h][1-8])(?:=([QRBN]))?( e\\.p\\.)?$");
 
-  private static PieceType selectPieceTypeFromString(String charLetter) {
-    return switch (charLetter) {
-      case "K" -> PieceType.KING;
-      case "Q" -> PieceType.QUEEN;
-      case "R" -> PieceType.ROOK;
-      case "B" -> PieceType.BISHOP;
-      case "N" -> PieceType.KNIGHT;
-      default -> PieceType.PAWN;
-    };
-  }
 
   public Play createPlayFromLongAlgebraicNotation(Color color, String algebraic)
       throws PlayValidationError {
@@ -47,13 +37,13 @@ public class PlayFactory {
     final Matcher matcher = algebraicNotationPattern.matcher(algebraic);
 
     if (matcher.matches()) {
-      final PieceType type = selectPieceTypeFromString(matcher.group(1));
+      final PieceType type = PieceType.fromAlgebraicNotationChar(matcher.group(1));
       final Position from = new Position(matcher.group(2));
       final boolean isCapture = matcher.group(3).equals("x");
       final Position to = new Position(matcher.group(4));
       final Optional<PieceType> promotedToType =
           Optional.ofNullable(matcher.group(5))
-              .map(PlayFactory::selectPieceTypeFromString);
+              .map(PieceType::fromAlgebraicNotationChar);
       final boolean isEnPassant = Optional.ofNullable(matcher.group(6)).isPresent();
 
       if (isEnPassant && type.equals(PieceType.PAWN)) {
