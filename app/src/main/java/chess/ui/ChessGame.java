@@ -2,9 +2,12 @@ package chess.ui;
 
 
 import chess.application.GameController;
-import chess.ui.grid.SquaresUi;
-import chess.ui.pieces.PiecesUi;
-import chess.ui.plays.PlaysUi;
+import chess.ui.grid.GridUiLayer;
+import chess.ui.pieces.PieceUiFactory;
+import chess.ui.pieces.PiecesUiLayer;
+import chess.ui.plays.DisplayPlaysOnClickedPiecePolicy;
+import chess.ui.plays.PlayUiFactory;
+import chess.ui.plays.PlaysUiLayer;
 import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.JFrame;
@@ -18,14 +21,21 @@ public class ChessGame extends JFrame {
   public ChessGame(int boardSize, GameController controller, String boardId) {
     this.boardSize = boardSize;
 
-    var squares = new SquaresUi();
-    var moves = new PlaysUi(squares, controller, boardId);
-    var pieces = new PiecesUi(squares, controller, moves, boardId);
-    moves.onMovedPiece(pieces::repaint);
+    var grid = new GridUiLayer();
+    var playUiFactory = new PlayUiFactory(grid);
+    var piecesUiFactory = new PieceUiFactory(grid);
 
-    this.addLayer(squares);
-    this.addLayer(pieces);
-    this.addLayer(moves);
+    var playsUiLayer = new PlaysUiLayer(controller, boardId, playUiFactory);
+    var piecesUiLayer = new PiecesUiLayer(controller, boardId, piecesUiFactory);
+
+    var displayPlaysForPiecePolicy = new DisplayPlaysOnClickedPiecePolicy(playsUiLayer);
+
+    playsUiLayer.onMovedPiece(piecesUiLayer::repaint);
+    piecesUiFactory.onClickedPiece(displayPlaysForPiecePolicy);
+
+    this.addLayer(grid);
+    this.addLayer(piecesUiLayer);
+    this.addLayer(playsUiLayer);
 
     this.configureWindow();
   }

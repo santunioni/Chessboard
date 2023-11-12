@@ -7,9 +7,9 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import javax.swing.JPanel;
 
-public class SquaresUi extends JPanel {
+public class GridUiLayer extends JPanel {
 
-  public SquaresUi() {
+  public GridUiLayer() {
     super(new GridLayout(8, 8));
     for (var position : Position.values()) {
       var square = new SquareUi(position);
@@ -27,7 +27,7 @@ public class SquaresUi extends JPanel {
     return this.getBoardSize() / 8;
   }
 
-  public Rectangle getRectangleForPosition(Position position, Double ratio) {
+  public Rectangle getPositionRectangle(Position position, Double ratio) {
     Point middlePoint = this.getMiddlePointForPosition(position);
     var size = this.getSquareSize() * ratio;
     return new Rectangle(

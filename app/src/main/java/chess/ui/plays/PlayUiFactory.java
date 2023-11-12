@@ -7,16 +7,16 @@ import chess.domain.pieces.PieceType;
 import chess.domain.plays.CastleSide;
 import chess.domain.plays.GenericPlayFactory;
 import chess.domain.plays.PlayFactoryFromAlgebraicNotation;
-import chess.ui.grid.SquaresUi;
+import chess.ui.grid.GridUiLayer;
 import javax.swing.JLabel;
 
 public class PlayUiFactory extends PlayFactoryFromAlgebraicNotation<JLabel> {
 
-  public PlayUiFactory(SquaresUi grid) {
+  public PlayUiFactory(GridUiLayer grid) {
     super(new GenericPlayFactory<>() {
       private JLabel createJlabelForPlay(Position highlightPosition) {
         var moveUi = new JLabel();
-        moveUi.setBounds(grid.getRectangleForPosition(highlightPosition, 0.8));
+        moveUi.setBounds(grid.getPositionRectangle(highlightPosition, 0.8));
         moveUi.setOpaque(true);
         return moveUi;
       }

@@ -54,7 +54,7 @@ public class PlayFactoryFromAlgebraicNotation<R> {
             promotedToType.get());
       }
     }
-    
+
     if (isCapture) {
       return this.innerFactory.createCapture(type, color, from, to);
     } else {

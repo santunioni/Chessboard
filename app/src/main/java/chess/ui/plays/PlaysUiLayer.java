@@ -3,24 +3,24 @@ package chess.ui.plays;
 import chess.application.GameController;
 import chess.domain.grid.Position;
 import chess.domain.plays.validation.PlayValidationError;
-import chess.ui.grid.SquaresUi;
+import chess.ui.grid.GridUiLayer;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class PlaysUi extends JPanel {
+public class PlaysUiLayer extends JPanel {
   private final GameController controller;
-  private Runnable onMovedPieceCallback = () -> {
-  };
   private final PlayUiFactory playUiFactory;
   private final String boardId;
+  private Runnable onMovedPieceCallback = () -> {
+  };
   private Position highlighted;
 
-  public PlaysUi(SquaresUi grid, GameController controller, String boardId) {
+  public PlaysUiLayer(GameController controller, String boardId, PlayUiFactory playUiFactory) {
     super(null); // Null layout for absolute positioning
     this.controller = controller;
-    this.playUiFactory = new PlayUiFactory(grid);
+    this.playUiFactory = playUiFactory;
     this.boardId = boardId;
     this.setOpaque(false);
   }
@@ -54,7 +54,7 @@ public class PlaysUi extends JPanel {
         playUi.addMouseListener(new MouseAdapter() {
           public void mouseClicked(MouseEvent event) {
             try {
-              controller.makePlay(PlaysUi.this.boardId, play);
+              controller.makePlay(PlaysUiLayer.this.boardId, play);
               unhighlight();
               onMovedPieceCallback.run();
             } catch (PlayValidationError e) {
