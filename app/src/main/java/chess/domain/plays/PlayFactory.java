@@ -3,64 +3,32 @@ package chess.domain.plays;
 import chess.domain.grid.Position;
 import chess.domain.pieces.Color;
 import chess.domain.pieces.PieceType;
-import chess.domain.plays.validation.PlayValidationError;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class PlayFactory {
+public class PlayFactory implements GenericPlayFactory<Play> {
 
-  private static final Pattern algebraicNotationPattern =
-      Pattern.compile("^([KQRBN]?)([a-h][1-8])(x?)([a-h][1-8])(?:=([QRBN]))?( e\\.p\\.)?$");
-
-
-  public Play createPlayFromLongAlgebraicNotation(Color color, String algebraic)
-      throws PlayValidationError {
-    return this.createCastle(color, algebraic)
-        .or(() -> this.createMoveBasedOnPattern(color, algebraic))
-        .orElseThrow(() -> new PlayValidationError("Invalid play: " + algebraic));
+  public Move createMove(PieceType type, Color color, Position from, Position to) {
+    return new Move(type, color, from, to);
   }
 
-  private Optional<Play> createCastle(Color color, String algebraic) {
-    Optional<Play> play = Optional.empty();
-    if (algebraic.equals("0-0")) {
-      play = Optional.of(new Castle(color, CastleSide.KING_SIDE));
-    } else if (algebraic.equals("0-0-0")) {
-      play = Optional.of(new Castle(color, CastleSide.QUEEN_SIDE));
-    }
-    return play;
+  public Capture createCapture(PieceType type, Color color, Position from, Position to) {
+    return new Capture(type, color, from, to);
   }
 
-  private Optional<Play> createMoveBasedOnPattern(Color color, String algebraic) {
-    Optional<Play> play = Optional.empty();
+  public Promotion createPromotionAfterMove(Color color, Position from, Position to,
+                                            PieceType promotedToType) {
+    return new Promotion(new Move(PieceType.PAWN, color, from, to), promotedToType);
+  }
 
-    final Matcher matcher = algebraicNotationPattern.matcher(algebraic);
+  public Promotion createPromotionAfterCapture(Color color, Position from, Position to,
+                                               PieceType promotedToType) {
+    return new Promotion(new Capture(PieceType.PAWN, color, from, to), promotedToType);
+  }
 
-    if (matcher.matches()) {
-      final PieceType type = PieceType.fromAlgebraicNotationChar(matcher.group(1));
-      final Position from = new Position(matcher.group(2));
-      final boolean isCapture = matcher.group(3).equals("x");
-      final Position to = new Position(matcher.group(4));
-      final Optional<PieceType> promotedToType =
-          Optional.ofNullable(matcher.group(5))
-              .map(PieceType::fromAlgebraicNotationChar);
-      final boolean isEnPassant = Optional.ofNullable(matcher.group(6)).isPresent();
+  public Castle createCastle(Color color, CastleSide castleSide) {
+    return new Castle(color, castleSide);
+  }
 
-      if (isEnPassant && type.equals(PieceType.PAWN)) {
-        play = Optional.of(new EnPassant(color, from, to));
-      } else if (isCapture) {
-        final Capture capture = new Capture(type, color, from, to);
-        play = Optional.of(
-            promotedToType.isPresent() ? new Promotion(capture, promotedToType.get()) : capture
-        );
-      } else {
-        final Move move = new Move(type, color, from, to);
-        play = Optional.of(
-            promotedToType.isPresent() ? new Promotion(move, promotedToType.get()) : move
-        );
-      }
-    }
-
-    return play;
+  public EnPassant createEnPassant(Color color, Position from, Position to) {
+    return new EnPassant(color, from, to);
   }
 }

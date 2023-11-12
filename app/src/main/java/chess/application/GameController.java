@@ -7,6 +7,7 @@ import chess.domain.pieces.PieceSpecification;
 import chess.domain.plays.Play;
 import chess.domain.plays.PlayDto;
 import chess.domain.plays.PlayFactory;
+import chess.domain.plays.PlayFactoryFromAlgebraicNotation;
 import chess.domain.plays.validation.PlayValidationError;
 import java.util.HashSet;
 import java.util.Optional;
@@ -43,8 +44,10 @@ public class GameController {
 
   public void makePlay(String boardId, PlayDto playDto) throws PlayValidationError {
     var board = this.boardRepository.getBoard(boardId);
-    var play = new PlayFactory().createPlayFromLongAlgebraicNotation(playDto.color(),
-        playDto.algebraicNotation());
+    var play =
+        new PlayFactoryFromAlgebraicNotation<>(
+            new PlayFactory()).createPlayFromLongAlgebraicNotation(playDto.color(),
+            playDto.algebraicNotation());
     board.makePlay(play);
   }
 }

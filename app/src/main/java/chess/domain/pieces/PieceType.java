@@ -8,17 +8,6 @@ public enum PieceType {
   QUEEN,
   KING;
 
-  public String toStringAlgebraicNotation() {
-    return switch (this) {
-      case PAWN -> "";
-      case ROOK -> "R";
-      case KNIGHT -> "N";
-      case BISHOP -> "B";
-      case QUEEN -> "Q";
-      case KING -> "K";
-    };
-  }
-
   public static PieceType fromAlgebraicNotationChar(String charLetter) {
     return switch (charLetter) {
       case "K" -> PieceType.KING;
@@ -27,6 +16,17 @@ public enum PieceType {
       case "B" -> PieceType.BISHOP;
       case "N" -> PieceType.KNIGHT;
       default -> PieceType.PAWN;
+    };
+  }
+
+  public String toStringAlgebraicNotation() {
+    return switch (this) {
+      case PAWN -> "";
+      case ROOK -> "R";
+      case KNIGHT -> "N";
+      case BISHOP -> "B";
+      case QUEEN -> "Q";
+      case KING -> "K";
     };
   }
 }

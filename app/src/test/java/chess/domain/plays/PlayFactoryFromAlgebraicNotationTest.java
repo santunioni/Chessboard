@@ -14,46 +14,50 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-public class PlayFactoryTest {
+public class PlayFactoryFromAlgebraicNotationTest {
 
-  private final PlayFactory playFactory = new PlayFactory();
+  private final PlayFactoryFromAlgebraicNotation<Play>
+      playFactoryFromAlgebraicNotation = new PlayFactoryFromAlgebraicNotation<>(new PlayFactory());
 
   @Test
   void shouldReturnBishopCapturesPieceOnE5() throws PlayValidationError {
     assertEquals(new Capture(PieceType.BISHOP, Color.WHITE, new Position("d4"), new Position("e5")),
-        playFactory.createPlayFromLongAlgebraicNotation(Color.WHITE, "Bd4xe5"));
+        playFactoryFromAlgebraicNotation.createPlayFromLongAlgebraicNotation(Color.WHITE,
+            "Bd4xe5"));
   }
 
   @Test
   void shouldReturnRookCapturesD7() throws PlayValidationError {
     assertEquals(new Capture(PieceType.ROOK, Color.WHITE, new Position("d3"), new Position("d7")),
-        playFactory.createPlayFromLongAlgebraicNotation(Color.WHITE, "Rd3xd7"));
+        playFactoryFromAlgebraicNotation.createPlayFromLongAlgebraicNotation(Color.WHITE,
+            "Rd3xd7"));
   }
 
   @Test
   void shouldReturnKnightMovesToC3() throws PlayValidationError {
     assertEquals(new Move(PieceType.KNIGHT, Color.WHITE, new Position("b1"), new Position("c3")),
-        playFactory.createPlayFromLongAlgebraicNotation(Color.WHITE, "Nb1c3"));
+        playFactoryFromAlgebraicNotation.createPlayFromLongAlgebraicNotation(Color.WHITE, "Nb1c3"));
   }
 
   @Test
   void shouldReturnWhiteKingCastleOnRight() throws PlayValidationError {
     assertEquals(new Castle(Color.WHITE, CastleSide.KING_SIDE),
-        playFactory.createPlayFromLongAlgebraicNotation(Color.WHITE, "0-0"));
+        playFactoryFromAlgebraicNotation.createPlayFromLongAlgebraicNotation(Color.WHITE, "0-0"));
   }
 
   @Test
   void shouldReturnWhiteKingCastleOnLeft() throws PlayValidationError {
     assertEquals(new Castle(Color.WHITE, CastleSide.QUEEN_SIDE),
-        playFactory.createPlayFromLongAlgebraicNotation(Color.WHITE, "0-0-0"));
+        playFactoryFromAlgebraicNotation.createPlayFromLongAlgebraicNotation(Color.WHITE, "0-0-0"));
   }
 
   @ParameterizedTest
   @ArgumentsSource(AlgebraicExpressionCases.class)
   void shouldCreatePlayThatIsRepresentedAsSameAlgebraicExpression(String algebraic)
       throws PlayValidationError {
-    assertEquals(algebraic, playFactory.createPlayFromLongAlgebraicNotation(Color.WHITE, algebraic)
-        .toDto().algebraicNotation());
+    assertEquals(algebraic,
+        playFactoryFromAlgebraicNotation.createPlayFromLongAlgebraicNotation(Color.WHITE, algebraic)
+            .toDto().algebraicNotation());
   }
 
   static class AlgebraicExpressionCases implements ArgumentsProvider {
