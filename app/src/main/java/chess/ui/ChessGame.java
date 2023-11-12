@@ -21,7 +21,7 @@ public class ChessGame extends JFrame {
     var squares = new SquaresUi();
     var moves = new PlaysUi(squares, controller, boardId);
     var pieces = new PiecesUi(squares, controller, moves, boardId);
-    moves.addCallbackForMovedPiece(pieces::repaint);
+    moves.onMovedPiece(pieces::repaint);
 
     this.addLayer(squares);
     this.addLayer(pieces);

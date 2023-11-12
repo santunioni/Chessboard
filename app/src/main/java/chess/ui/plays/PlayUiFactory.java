@@ -1,29 +1,52 @@
 package chess.ui.plays;
 
-import chess.domain.plays.PlayDto;
+import chess.domain.grid.Position;
+import chess.domain.grid.Rank;
+import chess.domain.pieces.Color;
+import chess.domain.pieces.PieceType;
+import chess.domain.plays.CastleSide;
+import chess.domain.plays.GenericPlayFactory;
+import chess.domain.plays.PlayFactoryFromAlgebraicNotation;
 import chess.ui.grid.SquaresUi;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
 
-public class PlayUiFactory {
-
-  private final SquaresUi grid;
+public class PlayUiFactory extends PlayFactoryFromAlgebraicNotation<JLabel> {
 
   public PlayUiFactory(SquaresUi grid) {
-    this.grid = grid;
-  }
+    super(new GenericPlayFactory<>() {
+      private JLabel createJlabelForPlay(Position highlightPosition) {
+        var moveUi = new JLabel();
+        moveUi.setBounds(grid.getRectangleForPosition(highlightPosition, 0.8));
+        moveUi.setOpaque(true);
+        return moveUi;
+      }
 
-  public JLabel createJlabelForPlay(PlayDto play, Runnable onPlayedCallback) {
-    var target = play.uiHighlightPosition();
-    var moveUi = new JLabel();
-    moveUi.setBounds(grid.getRectangleForPosition(target, 0.8));
-    moveUi.setOpaque(true);
-    moveUi.addMouseListener(new MouseAdapter() {
-      public void mouseClicked(MouseEvent event) {
-        onPlayedCallback.run();
+      public JLabel createMove(PieceType type, Color color, Position from, Position to) {
+        return this.createJlabelForPlay(to);
+      }
+
+      public JLabel createCapture(PieceType type, Color color, Position from, Position to) {
+        return this.createJlabelForPlay(to);
+      }
+
+      public JLabel createPromotionAfterMove(Color color, Position from, Position to,
+                                             PieceType promotedToType) {
+        return null;
+      }
+
+      public JLabel createPromotionAfterCapture(Color color, Position from, Position to,
+                                                PieceType promotedToType) {
+        return this.createPromotionAfterMove(color, from, to, promotedToType);
+      }
+
+      public JLabel createCastle(Color color, CastleSide castleSide) {
+        final Rank rank = color == Color.WHITE ? Rank.ONE : Rank.EIGHT;
+        return this.createJlabelForPlay(new Position(castleSide.toRookFile(), rank));
+      }
+
+      public JLabel createEnPassant(Color color, Position from, Position to) {
+        return this.createJlabelForPlay(to);
       }
     });
-    return moveUi;
   }
 }

@@ -50,7 +50,7 @@ public record Promotion(Play playBeforePromotion, Color color, Position from, Po
   }
 
   public PlayDto toDto() {
-    return new PlayDto(this.color, this.toLongAlgebraicNotation(), this.to);
+    return new PlayDto(this.color, this.toLongAlgebraicNotation());
   }
 
   public String toLongAlgebraicNotation() {

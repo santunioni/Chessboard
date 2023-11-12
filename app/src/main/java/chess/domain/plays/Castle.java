@@ -81,7 +81,7 @@ public record Castle(Color color, CastleSide castleSide) implements Play {
   }
 
   public PlayDto toDto() {
-    return new PlayDto(this.color, this.toLongAlgebraicNotation(), this.rookPosition());
+    return new PlayDto(this.color, this.toLongAlgebraicNotation());
   }
 
   public String toLongAlgebraicNotation() {

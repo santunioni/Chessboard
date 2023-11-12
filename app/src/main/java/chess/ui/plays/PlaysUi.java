@@ -4,14 +4,15 @@ import chess.application.GameController;
 import chess.domain.grid.Position;
 import chess.domain.plays.validation.PlayValidationError;
 import chess.ui.grid.SquaresUi;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class PlaysUi extends JPanel {
   private final GameController controller;
-  private final List<Runnable> onMovedPieceCallbacks = new ArrayList<>();
+  private Runnable onMovedPieceCallback = () -> {
+  };
   private final PlayUiFactory playUiFactory;
   private final String boardId;
   private Position highlighted;
@@ -24,8 +25,8 @@ public class PlaysUi extends JPanel {
     this.setOpaque(false);
   }
 
-  public void addCallbackForMovedPiece(Runnable onMovedPieceCallback) {
-    this.onMovedPieceCallbacks.add(onMovedPieceCallback);
+  public void onMovedPiece(Runnable onMovedPieceCallback) {
+    this.onMovedPieceCallback = onMovedPieceCallback;
   }
 
   public boolean isHighlighted(Position position) {
@@ -47,18 +48,24 @@ public class PlaysUi extends JPanel {
     var plays = this.controller.getPlaysFor(this.boardId, position);
 
     for (var play : plays) {
-      JLabel playUi = this.playUiFactory.createJlabelForPlay(play, () -> {
-        try {
-          controller.makePlay(this.boardId, play);
-          unhighlight();
-          for (var callback : onMovedPieceCallbacks) {
-            callback.run();
+      try {
+        JLabel playUi = this.playUiFactory.createPlayFromLongAlgebraicNotation(play.color(),
+            play.algebraicNotation());
+        playUi.addMouseListener(new MouseAdapter() {
+          public void mouseClicked(MouseEvent event) {
+            try {
+              controller.makePlay(PlaysUi.this.boardId, play);
+              unhighlight();
+              onMovedPieceCallback.run();
+            } catch (PlayValidationError e) {
+              System.out.println(e.getMessage());
+            }
           }
-        } catch (PlayValidationError e) {
-          System.out.println(e.getMessage());
-        }
-      });
-      this.add(playUi);
+        });
+        this.add(playUi);
+      } catch (PlayValidationError e) {
+        System.out.println(e.getMessage());
+      }
     }
   }
 

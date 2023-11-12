@@ -13,7 +13,7 @@ public enum CastleSide {
     };
   }
 
-  File toRookFile() {
+  public File toRookFile() {
     return switch (this) {
       case KING_SIDE -> File.H;
       case QUEEN_SIDE -> File.A;

@@ -45,15 +45,20 @@ public class PlayFactoryFromAlgebraicNotation<R> {
       return this.innerFactory.createEnPassant(color, from, to);
     }
 
+    if (promotedToType.isPresent()) {
+      if (isCapture) {
+        return this.innerFactory.createPromotionAfterCapture(color, from, to,
+            promotedToType.get());
+      } else {
+        return this.innerFactory.createPromotionAfterMove(color, from, to,
+            promotedToType.get());
+      }
+    }
+    
     if (isCapture) {
-      return promotedToType.isPresent()
-          ? this.innerFactory.createPromotionAfterCapture(color, from, to,
-          promotedToType.get())
-          : this.innerFactory.createCapture(type, color, from, to);
+      return this.innerFactory.createCapture(type, color, from, to);
     } else {
-      return promotedToType.isPresent()
-          ? this.innerFactory.createPromotionAfterMove(color, from, to, promotedToType.get())
-          : this.innerFactory.createMove(type, color, from, to);
+      return this.innerFactory.createMove(type, color, from, to);
     }
   }
 }
