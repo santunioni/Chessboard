@@ -1,15 +1,15 @@
-package chess.domain.plays;
+package chess.domain.play;
 
 import chess.domain.board.Board;
+import chess.domain.board.PieceColor;
+import chess.domain.board.PieceType;
 import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Position;
 import chess.domain.grid.Rank;
-import chess.domain.pieces.Color;
-import chess.domain.pieces.PieceType;
 
-public record EnPassant(Color color, Position from, Position to) implements Play {
-  public static Rank getEnPassantRankFor(Color color) {
-    return color == Color.WHITE ? Rank.FIVE : Rank.FOUR;
+public record EnPassant(PieceColor color, Position from, Position to) implements Play {
+  public static Rank getEnPassantRankFor(PieceColor color) {
+    return color == PieceColor.WHITE ? Rank.FIVE : Rank.FOUR;
   }
 
 

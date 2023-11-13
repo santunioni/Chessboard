@@ -1,4 +1,4 @@
-package chess.domain.plays;
+package chess.domain.play;
 
 import chess.domain.grid.Direction;
 import chess.domain.grid.File;

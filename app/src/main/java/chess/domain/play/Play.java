@@ -1,8 +1,8 @@
-package chess.domain.plays;
+package chess.domain.play;
 
 import chess.domain.board.Board;
+import chess.domain.board.PieceColor;
 import chess.domain.board.ReadonlyBoard;
-import chess.domain.pieces.Color;
 
 public interface Play {
 
@@ -10,8 +10,8 @@ public interface Play {
 
   void actOn(Board board);
 
-  default Color getPlayerColor() {
-    return this.toDto().color();
+  default PieceColor getPlayerColor() {
+    return this.toDto().pieceColor();
   }
 
   PlayDto toDto();

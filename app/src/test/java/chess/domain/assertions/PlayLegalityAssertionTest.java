@@ -3,12 +3,12 @@ package chess.domain.assertions;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import chess.domain.board.Board;
+import chess.domain.board.PieceColor;
+import chess.domain.board.PieceFactory;
+import chess.domain.board.PieceType;
 import chess.domain.grid.Position;
-import chess.domain.pieces.Color;
-import chess.domain.pieces.PieceFactory;
-import chess.domain.pieces.PieceType;
-import chess.domain.plays.Capture;
-import chess.domain.plays.Move;
+import chess.domain.play.Capture;
+import chess.domain.play.Move;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,11 +26,12 @@ public class PlayLegalityAssertionTest {
   @Test
   void shouldNotAllowBlackToCaptureWhiteIfItIsNotItsTurn() {
     // Given
-    this.board.placePiece("a2", this.pieceFactory.createRooks(Color.BLACK).get(0));
-    this.board.placePiece("a1", this.pieceFactory.createRooks(Color.WHITE).get(0));
+    this.board.placePiece("a2", this.pieceFactory.createRooks(PieceColor.BLACK).get(0));
+    this.board.placePiece("a1", this.pieceFactory.createRooks(PieceColor.WHITE).get(0));
 
     // When
-    var capture = new Capture(PieceType.ROOK, Color.BLACK, new Position("a2"), new Position("a1"));
+    var capture =
+        new Capture(PieceType.ROOK, PieceColor.BLACK, new Position("a2"), new Position("a1"));
 
     // Then
     assertFalse(new PlayLegalityAssertion(capture).test(board));
@@ -39,12 +40,12 @@ public class PlayLegalityAssertionTest {
   @Test
   void shouldNotAllowPlayerToPutItsOwnKingInCheck() {
     // Given
-    this.board.placePiece("e1", this.pieceFactory.createKing(Color.WHITE));
-    this.board.placePiece("f1", this.pieceFactory.createBishops(Color.WHITE).get(0));
-    this.board.placePiece("h1", this.pieceFactory.createRooks(Color.BLACK).get(0));
+    this.board.placePiece("e1", this.pieceFactory.createKing(PieceColor.WHITE));
+    this.board.placePiece("f1", this.pieceFactory.createBishops(PieceColor.WHITE).get(0));
+    this.board.placePiece("h1", this.pieceFactory.createRooks(PieceColor.BLACK).get(0));
 
     // When
-    var move = new Move(PieceType.BISHOP, Color.WHITE, new Position("f1"), new Position("e2"));
+    var move = new Move(PieceType.BISHOP, PieceColor.WHITE, new Position("f1"), new Position("e2"));
 
     // Then
     assertFalse(new PlayLegalityAssertion(move).test(board));
@@ -53,10 +54,10 @@ public class PlayLegalityAssertionTest {
   @Test
   void shouldRequirePawnPromotion() {
     // Given
-    this.board.placePiece("a7", this.pieceFactory.createPawns(Color.WHITE).get(0));
+    this.board.placePiece("a7", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
 
     // When
-    var move = new Move(PieceType.PAWN, Color.WHITE, new Position("a7"), new Position("a8"));
+    var move = new Move(PieceType.PAWN, PieceColor.WHITE, new Position("a7"), new Position("a8"));
 
     // Then
     assertFalse(new PlayLegalityAssertion(move).test(board));

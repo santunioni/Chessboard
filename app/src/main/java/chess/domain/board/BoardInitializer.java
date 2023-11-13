@@ -1,9 +1,5 @@
 package chess.domain.board;
 
-import chess.domain.pieces.Color;
-import chess.domain.pieces.PieceFactory;
-import chess.domain.pieces.PieceType;
-
 public class BoardInitializer {
 
   private final Board board = new Board();
@@ -12,14 +8,14 @@ public class BoardInitializer {
 
   public BoardInitializer placeAll() {
     for (var type : PieceType.values()) {
-      for (var color : Color.values()) {
+      for (var color : PieceColor.values()) {
         this.placePiecesOf(color, type);
       }
     }
     return this;
   }
 
-  public void placePiecesOf(Color color, PieceType type) {
+  public void placePiecesOf(PieceColor color, PieceType type) {
     this.pieceFactory.createPiecesOf(color, type)
         .forEach(piece -> this.board.placePiece(piece.getInitialPosition(), piece));
   }

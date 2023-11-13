@@ -1,11 +1,10 @@
-package chess.domain.pieces;
+package chess.domain.board;
 
 import chess.domain.assertions.PlayLegalityAssertion;
-import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Position;
 import chess.domain.move.MovePattern;
 import chess.domain.move.MovePatternSelector;
-import chess.domain.plays.Play;
+import chess.domain.play.Play;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,7 +17,7 @@ public class Piece {
   private final PieceSpecification specification;
   protected ReadonlyBoard board;
 
-  public Piece(Position initialPosition, Color color, PieceType pieceType) {
+  public Piece(Position initialPosition, PieceColor color, PieceType pieceType) {
     this.initialPosition = initialPosition;
     this.specification = new PieceSpecification(color, pieceType);
   }
@@ -75,7 +74,7 @@ public class Piece {
     return MovePatternSelector.selectForPieceType(this.specification);
   }
 
-  public Color color() {
+  public PieceColor color() {
     return this.specification.color();
   }
 

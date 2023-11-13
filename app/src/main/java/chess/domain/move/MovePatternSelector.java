@@ -1,7 +1,7 @@
 package chess.domain.move;
 
+import chess.domain.board.PieceSpecification;
 import chess.domain.grid.Direction;
-import chess.domain.pieces.PieceSpecification;
 import collections.DefaultHashMap;
 import java.util.Map;
 import java.util.Set;

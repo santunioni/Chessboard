@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import chess.domain.board.Board;
-import chess.domain.pieces.Color;
-import chess.domain.pieces.PieceFactory;
+import chess.domain.board.PieceColor;
+import chess.domain.board.PieceFactory;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,14 +26,14 @@ public class PathReachabilityTest {
 
   @Test
   void shouldNotReachA5FromA1IfPieceInA5() {
-    this.board.placePiece("a5", this.pieceFactory.createPawns(Color.WHITE).get(0));
+    this.board.placePiece("a5", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
     var path = new Position("a1").pathTo(new Position("a5")).orElseThrow();
     assertTrue(path.isBlockedOn(this.board));
   }
 
   @Test
   void shouldNotReachA5FromA1IfPieceInA4() {
-    this.board.placePiece("a4", this.pieceFactory.createPawns(Color.WHITE).get(0));
+    this.board.placePiece("a4", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
     var path = new Position("a1").pathTo(new Position("a5")).orElseThrow();
     assertTrue(path.isBlockedOn(this.board));
   }

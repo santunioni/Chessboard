@@ -1,7 +1,7 @@
 package chess.domain.grid;
 
+import chess.domain.board.PieceColor;
 import chess.domain.board.ReadonlyBoard;
-import chess.domain.pieces.Color;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -59,7 +59,7 @@ public class Path implements Iterable<Position> {
     return !this.isBlockedOn(board);
   }
 
-  public Boolean isThreatenedBy(Color enemyColor, ReadonlyBoard board) {
+  public Boolean isThreatenedBy(PieceColor enemyColor, ReadonlyBoard board) {
     for (var it = board.getPieces(enemyColor).iterator(); it.hasNext(); ) {
       var enemy = it.next();
       for (var step : this) {

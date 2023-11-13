@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import chess.domain.board.Board;
+import chess.domain.board.PieceColor;
+import chess.domain.board.PieceFactory;
 import chess.domain.grid.Position;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +28,7 @@ public class KnightThreatensTest {
   @ParameterizedTest
   @ArgumentsSource(KnightThreatensInLcases.class)
   void shouldThreatenPositionDisplacedInLpattern(String knightPosition, String threatenedPosition) {
-    var knight = this.pieceFactory.createKnights(Color.WHITE).get(0);
+    var knight = this.pieceFactory.createKnights(PieceColor.WHITE).get(0);
     this.board.placePiece(knightPosition, knight);
     assertTrue(knight.threatens(new Position(threatenedPosition)));
   }
@@ -35,7 +37,7 @@ public class KnightThreatensTest {
   @ArgumentsSource(KnightNotThreatensNotInLcases.class)
   void shouldNotThreatenPositionNotDisplacedInLpattern(String knightPosition,
                                                        String notThreatenedPosition) {
-    var knight = this.pieceFactory.createKnights(Color.WHITE).get(0);
+    var knight = this.pieceFactory.createKnights(PieceColor.WHITE).get(0);
     this.board.placePiece(knightPosition, knight);
     assertFalse(knight.threatens(new Position(notThreatenedPosition)));
   }

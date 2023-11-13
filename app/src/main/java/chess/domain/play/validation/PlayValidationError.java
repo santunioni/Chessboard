@@ -1,4 +1,4 @@
-package chess.domain.plays.validation;
+package chess.domain.play.validation;
 
 public class PlayValidationError extends Throwable {
   public PlayValidationError(String message) {

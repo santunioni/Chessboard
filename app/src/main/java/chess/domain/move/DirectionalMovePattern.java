@@ -1,14 +1,14 @@
 package chess.domain.move;
 
+import chess.domain.board.PieceColor;
+import chess.domain.board.PieceType;
 import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Direction;
 import chess.domain.grid.Path;
 import chess.domain.grid.Position;
-import chess.domain.pieces.Color;
-import chess.domain.pieces.PieceType;
-import chess.domain.plays.Capture;
-import chess.domain.plays.Move;
-import chess.domain.plays.Play;
+import chess.domain.play.Capture;
+import chess.domain.play.Move;
+import chess.domain.play.Play;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -16,10 +16,10 @@ import java.util.Set;
 class DirectionalMovePattern implements MovePattern {
   private final Set<Direction> directions;
   private final PieceType type;
-  private final Color color;
+  private final PieceColor color;
   private final Integer maxSteps;
 
-  DirectionalMovePattern(Set<Direction> directions, Color color, PieceType type,
+  DirectionalMovePattern(Set<Direction> directions, PieceColor color, PieceType type,
                          Integer maxSteps) {
     this.directions = directions;
     this.type = type;
@@ -27,7 +27,7 @@ class DirectionalMovePattern implements MovePattern {
     this.maxSteps = maxSteps;
   }
 
-  DirectionalMovePattern(Set<Direction> directions, Color color, PieceType type) {
+  DirectionalMovePattern(Set<Direction> directions, PieceColor color, PieceType type) {
     this(directions, color, type, 8);
   }
 

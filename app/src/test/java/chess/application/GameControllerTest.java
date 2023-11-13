@@ -3,12 +3,12 @@ package chess.application;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import chess.domain.board.BoardRepository;
+import chess.domain.board.PieceColor;
+import chess.domain.board.PieceSpecification;
+import chess.domain.board.PieceType;
 import chess.domain.grid.Position;
-import chess.domain.pieces.Color;
-import chess.domain.pieces.PieceSpecification;
-import chess.domain.pieces.PieceType;
-import chess.domain.plays.Move;
-import chess.domain.plays.validation.PlayValidationError;
+import chess.domain.play.Move;
+import chess.domain.play.validation.PlayValidationError;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ public class GameControllerTest {
 
   private void forwardToBlackTurn() throws PlayValidationError {
     var move =
-        new Move(PieceType.PAWN, Color.WHITE, new Position("b2"), new Position("b3")).toDto();
+        new Move(PieceType.PAWN, PieceColor.WHITE, new Position("b2"), new Position("b3")).toDto();
     this.controller.makePlay(boardId, move);
   }
 
@@ -33,12 +33,12 @@ public class GameControllerTest {
   void shouldAllowWhiteToMoveOnItsTurn() throws PlayValidationError {
     // When
     var move =
-        new Move(PieceType.PAWN, Color.WHITE, new Position("b2"), new Position("b3")).toDto();
+        new Move(PieceType.PAWN, PieceColor.WHITE, new Position("b2"), new Position("b3")).toDto();
     this.controller.makePlay(boardId, move);
 
     // Then
     var pieceAtB3 = this.controller.getPieceAt(boardId, new Position("b3")).orElseThrow();
-    assertEquals(pieceAtB3, new PieceSpecification(Color.WHITE, PieceType.PAWN));
+    assertEquals(pieceAtB3, new PieceSpecification(PieceColor.WHITE, PieceType.PAWN));
   }
 
 
@@ -49,12 +49,12 @@ public class GameControllerTest {
 
     // When
     var move =
-        new Move(PieceType.PAWN, Color.BLACK, new Position("b7"), new Position("b6")).toDto();
+        new Move(PieceType.PAWN, PieceColor.BLACK, new Position("b7"), new Position("b6")).toDto();
     this.controller.makePlay(boardId, move);
 
     // Then
     var pieceAtB6 = this.controller.getPieceAt(boardId, new Position("b6")).orElseThrow();
-    assertEquals(pieceAtB6, new PieceSpecification(Color.BLACK, PieceType.PAWN));
+    assertEquals(pieceAtB6, new PieceSpecification(PieceColor.BLACK, PieceType.PAWN));
   }
 
   @Test
@@ -64,8 +64,10 @@ public class GameControllerTest {
 
     // Then
     assertEquals(Set.of(
-            new Move(PieceType.PAWN, Color.WHITE, new Position("b2"), new Position("b3")).toDto(),
-            new Move(PieceType.PAWN, Color.WHITE, new Position("b2"), new Position("b4")).toDto()),
+            new Move(PieceType.PAWN, PieceColor.WHITE,
+                new Position("b2"), new Position("b3")).toDto(),
+            new Move(PieceType.PAWN, PieceColor.WHITE,
+                new Position("b2"), new Position("b4")).toDto()),
         plays);
   }
 }

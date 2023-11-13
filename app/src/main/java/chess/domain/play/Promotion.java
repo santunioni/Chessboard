@@ -1,15 +1,15 @@
-package chess.domain.plays;
+package chess.domain.play;
 
 import chess.domain.board.Board;
+import chess.domain.board.Piece;
+import chess.domain.board.PieceColor;
+import chess.domain.board.PieceType;
 import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Position;
 import chess.domain.grid.Rank;
-import chess.domain.pieces.Color;
-import chess.domain.pieces.Piece;
-import chess.domain.pieces.PieceType;
 import java.util.Set;
 
-public record Promotion(Play playBeforePromotion, Color color, Position from, Position to,
+public record Promotion(Play playBeforePromotion, PieceColor color, Position from, Position to,
                         PieceType toPieceType) implements Play {
   public static final Set<PieceType> possibleTypes =
       Set.of(PieceType.ROOK, PieceType.KNIGHT, PieceType.BISHOP, PieceType.QUEEN);
@@ -24,7 +24,7 @@ public record Promotion(Play playBeforePromotion, Color color, Position from, Po
   }
 
   private boolean isOnPromotionRank() {
-    return this.to.rank().equals(color == Color.WHITE ? Rank.EIGHT : Rank.ONE);
+    return this.to.rank().equals(color == PieceColor.WHITE ? Rank.EIGHT : Rank.ONE);
   }
 
   private boolean isPawn(ReadonlyBoard board) {

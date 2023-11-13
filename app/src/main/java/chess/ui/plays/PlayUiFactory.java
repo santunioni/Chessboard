@@ -1,14 +1,14 @@
 package chess.ui.plays;
 
+import chess.domain.board.PieceColor;
+import chess.domain.board.PieceType;
 import chess.domain.grid.Position;
 import chess.domain.grid.Rank;
-import chess.domain.pieces.Color;
-import chess.domain.pieces.PieceType;
-import chess.domain.plays.CastleSide;
-import chess.domain.plays.GenericPlayFactory;
-import chess.domain.plays.PlayDto;
-import chess.domain.plays.PlayFactoryFromAlgebraicNotation;
-import chess.domain.plays.validation.PlayValidationError;
+import chess.domain.play.CastleSide;
+import chess.domain.play.GenericPlayFactory;
+import chess.domain.play.PlayDto;
+import chess.domain.play.PlayFactoryFromAlgebraicNotation;
+import chess.domain.play.validation.PlayValidationError;
 import chess.ui.grid.GridUiLayer;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -29,30 +29,30 @@ public class PlayUiFactory {
           return playUi;
         }
 
-        public PlayUi createMove(PieceType type, Color color, Position from, Position to) {
+        public PlayUi createMove(PieceType type, PieceColor color, Position from, Position to) {
           return this.createSimplePlayUi(to);
         }
 
-        public PlayUi createCapture(PieceType type, Color color, Position from, Position to) {
+        public PlayUi createCapture(PieceType type, PieceColor color, Position from, Position to) {
           return this.createSimplePlayUi(to);
         }
 
-        public PlayUi createPromotionAfterMove(Color color, Position from, Position to,
+        public PlayUi createPromotionAfterMove(PieceColor color, Position from, Position to,
                                                PieceType promotedToType) {
           return null;
         }
 
-        public PlayUi createPromotionAfterCapture(Color color, Position from, Position to,
+        public PlayUi createPromotionAfterCapture(PieceColor color, Position from, Position to,
                                                   PieceType promotedToType) {
           return this.createPromotionAfterMove(color, from, to, promotedToType);
         }
 
-        public PlayUi createCastle(Color color, CastleSide castleSide) {
-          final Rank rank = color == Color.WHITE ? Rank.ONE : Rank.EIGHT;
+        public PlayUi createCastle(PieceColor color, CastleSide castleSide) {
+          final Rank rank = color == PieceColor.WHITE ? Rank.ONE : Rank.EIGHT;
           return this.createSimplePlayUi(new Position(castleSide.toRookFile(), rank));
         }
 
-        public PlayUi createEnPassant(Color color, Position from, Position to) {
+        public PlayUi createEnPassant(PieceColor color, Position from, Position to) {
           return this.createSimplePlayUi(to);
         }
       });
@@ -70,7 +70,8 @@ public class PlayUiFactory {
   public Optional<JLabel> createPlayUiFromDto(PlayDto play) {
     try {
       PlayUi playUi =
-          this.playFactoryFromAlgebraicNotation.createPlayFromLongAlgebraicNotation(play.color(),
+          this.playFactoryFromAlgebraicNotation.createPlayFromLongAlgebraicNotation(
+              play.pieceColor(),
               play.algebraicNotation());
       playUi.onSelectedPlay(() -> this.selectedPlaySubscriber.notifySelectedPlay(play));
       return Optional.of(playUi);

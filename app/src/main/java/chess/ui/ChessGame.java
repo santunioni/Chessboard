@@ -2,7 +2,7 @@ package chess.ui;
 
 
 import chess.application.GameController;
-import chess.domain.plays.validation.PlayValidationError;
+import chess.domain.play.validation.PlayValidationError;
 import chess.ui.grid.GridUiLayer;
 import chess.ui.pieces.PieceUiFactory;
 import chess.ui.pieces.PiecesUiLayer;

@@ -1,16 +1,16 @@
 package chess.domain.assertions;
 
+import chess.domain.board.Piece;
+import chess.domain.board.PieceColor;
 import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Position;
-import chess.domain.pieces.Color;
-import chess.domain.pieces.Piece;
 import java.util.Iterator;
 
 public class ColorThreatensPositionAssertion implements BoardAssertion {
   private final Position position;
-  private final Color color;
+  private final PieceColor color;
 
-  public ColorThreatensPositionAssertion(Color color, Position position) {
+  public ColorThreatensPositionAssertion(PieceColor color, Position position) {
     this.color = color;
     this.position = position;
   }

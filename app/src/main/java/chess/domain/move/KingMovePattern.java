@@ -1,19 +1,19 @@
 package chess.domain.move;
 
+import chess.domain.board.PieceColor;
+import chess.domain.board.PieceType;
 import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Direction;
 import chess.domain.grid.Position;
-import chess.domain.pieces.Color;
-import chess.domain.pieces.PieceType;
-import chess.domain.plays.Castle;
-import chess.domain.plays.CastleSide;
-import chess.domain.plays.Play;
+import chess.domain.play.Castle;
+import chess.domain.play.CastleSide;
+import chess.domain.play.Play;
 import java.util.Set;
 
 class KingMovePattern extends DirectionalMovePattern {
-  private final Color color;
+  private final PieceColor color;
 
-  public KingMovePattern(Color color) {
+  public KingMovePattern(PieceColor color) {
     super(Direction.allDirections(), color, PieceType.KING, 1);
     this.color = color;
   }

@@ -1,14 +1,14 @@
 package chess.application;
 
 import chess.domain.board.BoardRepository;
+import chess.domain.board.Piece;
+import chess.domain.board.PieceSpecification;
 import chess.domain.grid.Position;
-import chess.domain.pieces.Piece;
-import chess.domain.pieces.PieceSpecification;
-import chess.domain.plays.Play;
-import chess.domain.plays.PlayDto;
-import chess.domain.plays.PlayFactory;
-import chess.domain.plays.PlayFactoryFromAlgebraicNotation;
-import chess.domain.plays.validation.PlayValidationError;
+import chess.domain.play.Play;
+import chess.domain.play.PlayDto;
+import chess.domain.play.PlayFactory;
+import chess.domain.play.PlayFactoryFromAlgebraicNotation;
+import chess.domain.play.validation.PlayValidationError;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -45,7 +45,7 @@ public class GameController {
 
   public void makePlay(String boardId, PlayDto playDto) throws PlayValidationError {
     var board = this.boardRepository.getBoard(boardId);
-    var play = this.playFactory.createPlayFromLongAlgebraicNotation(playDto.color(),
+    var play = this.playFactory.createPlayFromLongAlgebraicNotation(playDto.pieceColor(),
         playDto.algebraicNotation());
     board.makePlay(play);
   }

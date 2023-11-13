@@ -1,11 +1,11 @@
-package chess.domain.plays;
+package chess.domain.play;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import chess.domain.board.PieceColor;
+import chess.domain.board.PieceType;
 import chess.domain.grid.Position;
-import chess.domain.pieces.Color;
-import chess.domain.pieces.PieceType;
-import chess.domain.plays.validation.PlayValidationError;
+import chess.domain.play.validation.PlayValidationError;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -21,34 +21,40 @@ public class PlayFactoryFromAlgebraicNotationTest {
 
   @Test
   void shouldReturnBishopCapturesPieceOnE5() throws PlayValidationError {
-    assertEquals(new Capture(PieceType.BISHOP, Color.WHITE, new Position("d4"), new Position("e5")),
-        playFactoryFromAlgebraicNotation.createPlayFromLongAlgebraicNotation(Color.WHITE,
+    assertEquals(
+        new Capture(PieceType.BISHOP, PieceColor.WHITE, new Position("d4"), new Position("e5")),
+        playFactoryFromAlgebraicNotation.createPlayFromLongAlgebraicNotation(PieceColor.WHITE,
             "Bd4xe5"));
   }
 
   @Test
   void shouldReturnRookCapturesD7() throws PlayValidationError {
-    assertEquals(new Capture(PieceType.ROOK, Color.WHITE, new Position("d3"), new Position("d7")),
-        playFactoryFromAlgebraicNotation.createPlayFromLongAlgebraicNotation(Color.WHITE,
+    assertEquals(
+        new Capture(PieceType.ROOK, PieceColor.WHITE, new Position("d3"), new Position("d7")),
+        playFactoryFromAlgebraicNotation.createPlayFromLongAlgebraicNotation(PieceColor.WHITE,
             "Rd3xd7"));
   }
 
   @Test
   void shouldReturnKnightMovesToC3() throws PlayValidationError {
-    assertEquals(new Move(PieceType.KNIGHT, Color.WHITE, new Position("b1"), new Position("c3")),
-        playFactoryFromAlgebraicNotation.createPlayFromLongAlgebraicNotation(Color.WHITE, "Nb1c3"));
+    assertEquals(
+        new Move(PieceType.KNIGHT, PieceColor.WHITE, new Position("b1"), new Position("c3")),
+        playFactoryFromAlgebraicNotation.createPlayFromLongAlgebraicNotation(PieceColor.WHITE,
+            "Nb1c3"));
   }
 
   @Test
   void shouldReturnWhiteKingCastleOnRight() throws PlayValidationError {
-    assertEquals(new Castle(Color.WHITE, CastleSide.KING_SIDE),
-        playFactoryFromAlgebraicNotation.createPlayFromLongAlgebraicNotation(Color.WHITE, "0-0"));
+    assertEquals(new Castle(PieceColor.WHITE, CastleSide.KING_SIDE),
+        playFactoryFromAlgebraicNotation.createPlayFromLongAlgebraicNotation(PieceColor.WHITE,
+            "0-0"));
   }
 
   @Test
   void shouldReturnWhiteKingCastleOnLeft() throws PlayValidationError {
-    assertEquals(new Castle(Color.WHITE, CastleSide.QUEEN_SIDE),
-        playFactoryFromAlgebraicNotation.createPlayFromLongAlgebraicNotation(Color.WHITE, "0-0-0"));
+    assertEquals(new Castle(PieceColor.WHITE, CastleSide.QUEEN_SIDE),
+        playFactoryFromAlgebraicNotation.createPlayFromLongAlgebraicNotation(PieceColor.WHITE,
+            "0-0-0"));
   }
 
   @ParameterizedTest
@@ -56,7 +62,8 @@ public class PlayFactoryFromAlgebraicNotationTest {
   void shouldCreatePlayThatIsRepresentedAsSameAlgebraicExpression(String algebraic)
       throws PlayValidationError {
     assertEquals(algebraic,
-        playFactoryFromAlgebraicNotation.createPlayFromLongAlgebraicNotation(Color.WHITE, algebraic)
+        playFactoryFromAlgebraicNotation.createPlayFromLongAlgebraicNotation(PieceColor.WHITE,
+                algebraic)
             .toDto().algebraicNotation());
   }
 

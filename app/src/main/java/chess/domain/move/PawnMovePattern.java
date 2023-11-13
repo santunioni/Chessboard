@@ -1,32 +1,32 @@
 package chess.domain.move;
 
+import chess.domain.board.PieceColor;
+import chess.domain.board.PieceType;
 import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Direction;
 import chess.domain.grid.File;
 import chess.domain.grid.Path;
 import chess.domain.grid.Position;
 import chess.domain.grid.Rank;
-import chess.domain.pieces.Color;
-import chess.domain.pieces.PieceType;
-import chess.domain.plays.Capture;
-import chess.domain.plays.EnPassant;
-import chess.domain.plays.Move;
-import chess.domain.plays.Play;
-import chess.domain.plays.Promotion;
+import chess.domain.play.Capture;
+import chess.domain.play.EnPassant;
+import chess.domain.play.Move;
+import chess.domain.play.Play;
+import chess.domain.play.Promotion;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 class PawnMovePattern implements MovePattern {
-  private final Color color;
+  private final PieceColor color;
   private final Direction walkDirection;
 
-  public PawnMovePattern(Color color) {
+  public PawnMovePattern(PieceColor color) {
     this.color = color;
     this.walkDirection = this.color.pawnWalkDirection();
   }
 
-  public static Rank getPromotionRankFor(Color color) {
+  public static Rank getPromotionRankFor(PieceColor color) {
     return color.opposite().pawnStartRank();
   }
 

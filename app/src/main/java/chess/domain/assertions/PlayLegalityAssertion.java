@@ -1,7 +1,7 @@
 package chess.domain.assertions;
 
 import chess.domain.board.ReadonlyBoard;
-import chess.domain.plays.Play;
+import chess.domain.play.Play;
 
 public class PlayLegalityAssertion implements BoardAssertion {
   private final Play play;

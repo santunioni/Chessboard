@@ -2,7 +2,7 @@ package chess.domain.move;
 
 import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Position;
-import chess.domain.plays.Play;
+import chess.domain.play.Play;
 import java.util.Set;
 
 public interface MovePattern {

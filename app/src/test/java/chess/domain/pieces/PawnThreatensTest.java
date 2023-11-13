@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import chess.domain.board.Board;
+import chess.domain.board.PieceColor;
+import chess.domain.board.PieceFactory;
 import chess.domain.grid.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +21,7 @@ public class PawnThreatensTest {
 
   @Test
   void shouldThreatenDiagonallyUpWhenWhitePawn() {
-    var pawn = this.pieceFactory.createPawns(Color.WHITE).get(0);
+    var pawn = this.pieceFactory.createPawns(PieceColor.WHITE).get(0);
     this.board.placePiece("c2", pawn);
 
     assertTrue(pawn.threatens(new Position("d3")));
@@ -28,7 +30,7 @@ public class PawnThreatensTest {
 
   @Test
   void shouldThreatenDiagonallyDownWhenBlackPawn() {
-    var pawn = this.pieceFactory.createPawns(Color.BLACK).get(0);
+    var pawn = this.pieceFactory.createPawns(PieceColor.BLACK).get(0);
     this.board.placePiece("c7", pawn);
 
     assertTrue(pawn.threatens(new Position("d6")));
@@ -37,7 +39,7 @@ public class PawnThreatensTest {
 
   @Test
   void shouldNotThreatenDiagonallyUpWhenBlackPawn() {
-    var pawn = this.pieceFactory.createPawns(Color.BLACK).get(0);
+    var pawn = this.pieceFactory.createPawns(PieceColor.BLACK).get(0);
     this.board.placePiece("c2", pawn);
 
     assertFalse(pawn.threatens(new Position("d3")));
@@ -46,7 +48,7 @@ public class PawnThreatensTest {
 
   @Test
   void shouldNotThreatenDiagonallyDownWheWhitePawn() {
-    var pawn = this.pieceFactory.createPawns(Color.WHITE).get(0);
+    var pawn = this.pieceFactory.createPawns(PieceColor.WHITE).get(0);
     this.board.placePiece("c7", pawn);
 
     assertFalse(pawn.threatens(new Position("d6")));
@@ -55,7 +57,7 @@ public class PawnThreatensTest {
 
   @Test
   void shouldNotThreatenHorizontally() {
-    var pawn = this.pieceFactory.createPawns(Color.WHITE).get(0);
+    var pawn = this.pieceFactory.createPawns(PieceColor.WHITE).get(0);
     this.board.placePiece("a2", pawn);
 
     assertFalse(pawn.threatens(new Position("b2")));
@@ -63,7 +65,7 @@ public class PawnThreatensTest {
 
   @Test
   void shouldNotThreatenNonDiagonalPosition() {
-    var pawn = this.pieceFactory.createPawns(Color.WHITE).get(0);
+    var pawn = this.pieceFactory.createPawns(PieceColor.WHITE).get(0);
     this.board.placePiece("a1", pawn);
 
     assertFalse(pawn.threatens(new Position("b3")));
@@ -71,7 +73,7 @@ public class PawnThreatensTest {
 
   @Test
   void shouldNotThreatenNotNeighbor() {
-    var pawn = this.pieceFactory.createPawns(Color.WHITE).get(0);
+    var pawn = this.pieceFactory.createPawns(PieceColor.WHITE).get(0);
     this.board.placePiece("a1", pawn);
 
     assertFalse(pawn.threatens(new Position("c3")));

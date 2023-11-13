@@ -1,9 +1,9 @@
-package chess.domain.plays;
+package chess.domain.play;
 
+import chess.domain.board.PieceColor;
+import chess.domain.board.PieceType;
 import chess.domain.grid.Position;
-import chess.domain.pieces.Color;
-import chess.domain.pieces.PieceType;
-import chess.domain.plays.validation.PlayValidationError;
+import chess.domain.play.validation.PlayValidationError;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,7 +18,7 @@ public class PlayFactoryFromAlgebraicNotation<R> {
     this.innerFactory = innerFactory;
   }
 
-  public R createPlayFromLongAlgebraicNotation(Color color, String algebraic)
+  public R createPlayFromLongAlgebraicNotation(PieceColor color, String algebraic)
       throws PlayValidationError {
     if (algebraic.equals("0-0")) {
       return this.innerFactory.createCastle(color, CastleSide.KING_SIDE);

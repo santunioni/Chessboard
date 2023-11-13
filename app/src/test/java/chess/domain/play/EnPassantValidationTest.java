@@ -1,11 +1,11 @@
-package chess.domain.plays;
+package chess.domain.play;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import chess.domain.board.Board;
+import chess.domain.board.PieceColor;
+import chess.domain.board.PieceFactory;
 import chess.domain.grid.Position;
-import chess.domain.pieces.Color;
-import chess.domain.pieces.PieceFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,10 +21,10 @@ public class EnPassantValidationTest {
   @Test
   void shouldFailValidationWhenWhitePawnIsNotOnRankFive() {
     // Given
-    board.placePiece("a2", this.pieceFactory.createPawns(Color.WHITE).get(0));
+    board.placePiece("a2", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
 
     // When
-    var enPassant = new EnPassant(Color.WHITE, new Position("a2"), new Position("b3"));
+    var enPassant = new EnPassant(PieceColor.WHITE, new Position("a2"), new Position("b3"));
 
     // Then
     assertFalse(enPassant.canActOnCurrentState(board));
@@ -33,10 +33,10 @@ public class EnPassantValidationTest {
   @Test
   void shouldFailValidationWhenEnPassantIsCalledOnOtherThanPawns() {
     // Given
-    board.placePiece("a5", this.pieceFactory.createRooks(Color.WHITE).get(0));
+    board.placePiece("a5", this.pieceFactory.createRooks(PieceColor.WHITE).get(0));
 
     // When
-    var enPassant = new EnPassant(Color.WHITE, new Position("a5"), new Position("b6"));
+    var enPassant = new EnPassant(PieceColor.WHITE, new Position("a5"), new Position("b6"));
 
     // Then
     assertFalse(enPassant.canActOnCurrentState(board));
@@ -45,10 +45,10 @@ public class EnPassantValidationTest {
   @Test
   void shouldFailvalidationWhenBlackPawnIsAtWhitePawnEnPassantRank() {
     // Given
-    board.placePiece("a5", this.pieceFactory.createPawns(Color.BLACK).get(0));
+    board.placePiece("a5", this.pieceFactory.createPawns(PieceColor.BLACK).get(0));
 
     // When
-    var enPassant = new EnPassant(Color.BLACK, new Position("a5"), new Position("b6"));
+    var enPassant = new EnPassant(PieceColor.BLACK, new Position("a5"), new Position("b6"));
 
     // Then
     assertFalse(enPassant.canActOnCurrentState(board));
@@ -57,10 +57,10 @@ public class EnPassantValidationTest {
   @Test
   void shouldFailValidationOnInconsistentEnPassantPositions() {
     // Given
-    board.placePiece("a5", this.pieceFactory.createPawns(Color.WHITE).get(0));
+    board.placePiece("a5", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
 
     // When
-    var enPassant = new EnPassant(Color.WHITE, new Position("a5"), new Position("b7"));
+    var enPassant = new EnPassant(PieceColor.WHITE, new Position("a5"), new Position("b7"));
 
     // Then
     assertFalse(enPassant.canActOnCurrentState(board));

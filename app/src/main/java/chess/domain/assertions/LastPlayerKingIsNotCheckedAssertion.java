@@ -1,7 +1,7 @@
 package chess.domain.assertions;
 
+import chess.domain.board.PieceType;
 import chess.domain.board.ReadonlyBoard;
-import chess.domain.pieces.PieceType;
 
 public class LastPlayerKingIsNotCheckedAssertion implements BoardAssertion {
 

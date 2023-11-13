@@ -1,24 +1,25 @@
-package chess.domain.plays;
-
+package chess.domain.play;
 
 import chess.domain.board.Board;
+import chess.domain.board.PieceColor;
+import chess.domain.board.PieceType;
 import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Position;
-import chess.domain.pieces.Color;
-import chess.domain.pieces.PieceType;
 
 /**
- * Represents a Displacement play.
- * Displacements are differentiated from attacks because Pawns attack differently than they move.
+ * Represents a Capture play.
+ * Attacks are differentiated from displacements because Pawns captures differently than they move.
  * The implementation is:
  * - Displacements are only valid to an empty position.
  * - Attacks are only valid when moving to a position occupied by the enemy.
  */
-public record Move(PieceType type, Color color, Position from, Position to) implements Play {
+public record Capture(PieceType type, PieceColor color, Position from, Position to)
+    implements Play {
+
 
   public boolean canActOnCurrentState(ReadonlyBoard board) {
-    return board.getPieceAt(from, color, type).filter(p -> p.couldMoveToIfEmpty(to)).isPresent()
-        && board.getPieceAt(to).isEmpty();
+    return board.getPieceAt(from, color, type).filter(p -> p.threatens(to)).isPresent()
+        && board.getPieceAt(to, color.opposite()).isPresent();
   }
 
   public void actOn(Board board) {
@@ -30,6 +31,6 @@ public record Move(PieceType type, Color color, Position from, Position to) impl
   }
 
   public String toLongAlgebraicNotation() {
-    return this.type.toStringAlgebraicNotation() + this.from + this.to;
+    return this.type.toStringAlgebraicNotation() + this.from + "x" + this.to;
   }
 }

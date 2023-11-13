@@ -1,16 +1,16 @@
-package chess.domain.plays;
+package chess.domain.play;
 
 import chess.domain.assertions.BoardAssertion;
 import chess.domain.assertions.ColorThreatensPositionAssertion;
 import chess.domain.board.Board;
+import chess.domain.board.PieceColor;
+import chess.domain.board.PieceType;
 import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Path;
 import chess.domain.grid.Position;
 import chess.domain.grid.Rank;
-import chess.domain.pieces.Color;
-import chess.domain.pieces.PieceType;
 
-public record Castle(Color color, CastleSide castleSide) implements Play {
+public record Castle(PieceColor color, CastleSide castleSide) implements Play {
 
   public boolean canActOnCurrentState(ReadonlyBoard board) {
     return this.kingAndRookNeverMoved(board)
@@ -36,9 +36,9 @@ public record Castle(Color color, CastleSide castleSide) implements Play {
     }
 
     for (Play oldPlay : board.history()) {
-      Color oldPlayColor = oldPlay.getPlayerColor();
+      PieceColor oldPlayPieceColor = oldPlay.getPlayerColor();
       String oldPlayAlgebraicNotation = oldPlay.toDto().algebraicNotation();
-      if (oldPlayColor.equals(this.color) && (oldPlayAlgebraicNotation.contains("K")
+      if (oldPlayPieceColor.equals(this.color) && (oldPlayAlgebraicNotation.contains("K")
           || oldPlayAlgebraicNotation.contains("R" + this.castleSide.toRookFile()))) {
         return false;
       }

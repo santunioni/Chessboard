@@ -1,15 +1,15 @@
-package chess.domain.plays;
+package chess.domain.play;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import chess.domain.board.Board;
+import chess.domain.board.PieceColor;
+import chess.domain.board.PieceFactory;
+import chess.domain.board.PieceType;
 import chess.domain.grid.Position;
-import chess.domain.pieces.Color;
-import chess.domain.pieces.PieceFactory;
-import chess.domain.pieces.PieceType;
-import chess.domain.plays.validation.PlayValidationError;
+import chess.domain.play.validation.PlayValidationError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,10 +24,10 @@ public class PromotionTest {
 
   @Test
   void shouldNotPromoteFromInvalidRank() {
-    this.board.placePiece("a6", this.pieceFactory.createPawns(Color.WHITE).get(0));
+    this.board.placePiece("a6", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
 
     var promotion = new Promotion(
-        new Move(PieceType.PAWN, Color.WHITE, new Position("a6"), new Position("a7")),
+        new Move(PieceType.PAWN, PieceColor.WHITE, new Position("a6"), new Position("a7")),
         PieceType.QUEEN
     );
 
@@ -36,10 +36,10 @@ public class PromotionTest {
 
   @Test
   void shouldNotPromoteOtherThanPawn() {
-    this.board.placePiece("a7", this.pieceFactory.createBishops(Color.WHITE).get(0));
+    this.board.placePiece("a7", this.pieceFactory.createBishops(PieceColor.WHITE).get(0));
 
     var promotion = new Promotion(
-        new Move(PieceType.PAWN, Color.WHITE, new Position("a7"), new Position("b8")),
+        new Move(PieceType.PAWN, PieceColor.WHITE, new Position("a7"), new Position("b8")),
         PieceType.QUEEN
     );
 
@@ -48,10 +48,10 @@ public class PromotionTest {
 
   @Test
   void shouldNotPromoteToInvalidPiece() {
-    this.board.placePiece("a7", this.pieceFactory.createPawns(Color.WHITE).get(0));
+    this.board.placePiece("a7", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
 
     var promotion = new Promotion(
-        new Move(PieceType.PAWN, Color.WHITE, new Position("a7"), new Position("b8")),
+        new Move(PieceType.PAWN, PieceColor.WHITE, new Position("a7"), new Position("b8")),
         PieceType.QUEEN
     );
 
@@ -60,21 +60,21 @@ public class PromotionTest {
 
   @Test
   void shouldPromoteWhitePawnAtA7ToQueen() throws PlayValidationError {
-    this.board.placePiece("a7", this.pieceFactory.createPawns(Color.WHITE).get(0));
+    this.board.placePiece("a7", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
 
     var promotion = new Promotion(
-        new Move(PieceType.PAWN, Color.WHITE, new Position("a7"), new Position("a8")),
+        new Move(PieceType.PAWN, PieceColor.WHITE, new Position("a7"), new Position("a8")),
         PieceType.QUEEN
     );
     this.board.makePlay(promotion);
 
-    assertTrue(board.getPieceAt(new Position("a8"), Color.WHITE, PieceType.QUEEN).isPresent());
+    assertTrue(board.getPieceAt(new Position("a8"), PieceColor.WHITE, PieceType.QUEEN).isPresent());
   }
 
   @Test
   void shouldReturnAlgebraicNotation() {
     var promotion = new Promotion(
-        new Move(PieceType.PAWN, Color.WHITE, new Position("a7"), new Position("a8")),
+        new Move(PieceType.PAWN, PieceColor.WHITE, new Position("a7"), new Position("a8")),
         PieceType.QUEEN
     );
     assertEquals("a7a8=Q", promotion.toDto().algebraicNotation());

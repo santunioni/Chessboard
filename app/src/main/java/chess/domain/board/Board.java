@@ -2,9 +2,8 @@ package chess.domain.board;
 
 import chess.domain.assertions.PlayLegalityAssertion;
 import chess.domain.grid.Position;
-import chess.domain.pieces.Piece;
-import chess.domain.plays.Play;
-import chess.domain.plays.validation.PlayValidationError;
+import chess.domain.play.Play;
+import chess.domain.play.validation.PlayValidationError;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import java.util.ArrayList;

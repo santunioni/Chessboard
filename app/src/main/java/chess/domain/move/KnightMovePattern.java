@@ -1,20 +1,20 @@
 package chess.domain.move;
 
+import chess.domain.board.PieceColor;
+import chess.domain.board.PieceType;
 import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Position;
-import chess.domain.pieces.Color;
-import chess.domain.pieces.PieceType;
-import chess.domain.plays.Capture;
-import chess.domain.plays.Move;
-import chess.domain.plays.Play;
+import chess.domain.play.Capture;
+import chess.domain.play.Move;
+import chess.domain.play.Play;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 class KnightMovePattern implements MovePattern {
-  private final Color color;
+  private final PieceColor color;
 
-  KnightMovePattern(Color color) {
+  KnightMovePattern(PieceColor color) {
     this.color = color;
   }
 

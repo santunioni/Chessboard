@@ -1,8 +1,8 @@
 package chess.ui.pieces;
 
+import chess.domain.board.PieceColor;
+import chess.domain.board.PieceType;
 import chess.domain.grid.Position;
-import chess.domain.pieces.Color;
-import chess.domain.pieces.PieceType;
 import chess.ui.grid.GridUiLayer;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -28,7 +28,7 @@ public class PieceUiFactory {
     this.selectedPieceSubscriber = selectedPieceSubscriber;
   }
 
-  private ImageIcon getIcon(Integer iconSize, Color color, PieceType pieceType) {
+  private ImageIcon getIcon(Integer iconSize, PieceColor color, PieceType pieceType) {
     var path = String.format("chess/ui/pieces/%s-%s.png", color.name().toLowerCase(),
         pieceType.name().toLowerCase());
     var cacheKey = iconSize + path;
@@ -46,7 +46,7 @@ public class PieceUiFactory {
     return iconOptional.get();
   }
 
-  public JLabel createPieceUiAtPosition(Position position, Color color, PieceType pieceType) {
+  public JLabel createPieceUiAtPosition(Position position, PieceColor color, PieceType pieceType) {
     var rectangle = this.grid.getPositionRectangle(position, 0.8);
     var pieceUi = new JLabel();
 
