@@ -17,15 +17,15 @@ import javax.swing.JLabel;
 public class PieceUiFactory {
   private static final HashMap<String, ImageIcon> iconCache = new HashMap<>();
   private final GridUiLayer grid;
-  private ClickedPieceSubscriber clickedPieceSubscriber = (position) -> {
+  private SelectedPieceSubscriber selectedPieceSubscriber = (position) -> {
   };
 
   public PieceUiFactory(GridUiLayer grid) {
     this.grid = grid;
   }
 
-  public void subscribeToClickedPiece(ClickedPieceSubscriber clickedPieceSubscriber) {
-    this.clickedPieceSubscriber = clickedPieceSubscriber;
+  public void subscribeToSelectedPiece(SelectedPieceSubscriber selectedPieceSubscriber) {
+    this.selectedPieceSubscriber = selectedPieceSubscriber;
   }
 
   private ImageIcon getIcon(Integer iconSize, Color color, PieceType pieceType) {
@@ -54,7 +54,7 @@ public class PieceUiFactory {
     pieceUi.setBounds(rectangle);
     pieceUi.addMouseListener(new MouseAdapter() {
       public void mouseClicked(MouseEvent event) {
-        clickedPieceSubscriber.notifyClickedPieceAt(position);
+        selectedPieceSubscriber.notifySelectedPieceAt(position);
       }
     });
 

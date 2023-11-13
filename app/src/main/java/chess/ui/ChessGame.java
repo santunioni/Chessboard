@@ -28,7 +28,7 @@ public class ChessGame extends JFrame {
     var playsUiLayer = new PlaysUiLayer(controller, boardId, playUiFactory);
     var piecesUiLayer = new PiecesUiLayer(controller, boardId, piecesUiFactory);
 
-    piecesUiFactory.subscribeToClickedPiece(playsUiLayer::toggleHighlightedPosition);
+    piecesUiFactory.subscribeToSelectedPiece(playsUiLayer::toggleHighlightedPosition);
     playUiFactory.subscribeToSelectedPlay(play -> {
       try {
         controller.makePlay(boardId, play);
