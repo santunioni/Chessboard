@@ -7,12 +7,12 @@ import chess.domain.board.PieceType;
 import chess.domain.board.ReadonlyBoard;
 import chess.domain.grid.Position;
 import chess.domain.grid.Rank;
-import java.util.Set;
+import com.google.common.collect.ImmutableSet;
 
 public record Promotion(Play playBeforePromotion, PieceColor color, Position from, Position to,
                         PieceType toPieceType) implements Play {
-  public static final Set<PieceType> possibleTypes =
-      Set.of(PieceType.ROOK, PieceType.KNIGHT, PieceType.BISHOP, PieceType.QUEEN);
+  public static final ImmutableSet<PieceType> possibleTypes =
+      ImmutableSet.of(PieceType.ROOK, PieceType.KNIGHT, PieceType.BISHOP, PieceType.QUEEN);
 
 
   public Promotion(Move move, PieceType toPieceType) {
@@ -32,21 +32,16 @@ public record Promotion(Play playBeforePromotion, PieceColor color, Position fro
   }
 
   public boolean canActOnCurrentState(ReadonlyBoard board) {
-    return this.playBeforePromotion.canActOnCurrentState(board) && this.isOnPromotionRank()
-        && this.isPawn(board);
+    return this.playBeforePromotion.canActOnCurrentState(board)
+        && this.isOnPromotionRank()
+        && this.isPawn(board)
+        && possibleTypes.contains(this.toPieceType);
   }
 
   public void actOn(Board board) {
     this.playBeforePromotion.actOn(board);
     var pawn = board.getPieceAt(this.to, this.color, PieceType.PAWN).orElseThrow();
-    var newPiece = switch (this.toPieceType) {
-      case ROOK -> new Piece(pawn.idInBoard(), this.color, PieceType.ROOK);
-      case KNIGHT -> new Piece(pawn.idInBoard(), this.color, PieceType.KNIGHT);
-      case BISHOP -> new Piece(pawn.idInBoard(), this.color, PieceType.BISHOP);
-      case QUEEN -> new Piece(pawn.idInBoard(), this.color, PieceType.QUEEN);
-      default -> throw new RuntimeException("Invalid Type at Promotion");
-    };
-    board.placePiece(this.to, newPiece);
+    board.placePiece(this.to, new Piece(pawn.idInBoard(), this.color, this.toPieceType));
   }
 
   public PlayDto toDto() {
@@ -54,7 +49,7 @@ public record Promotion(Play playBeforePromotion, PieceColor color, Position fro
   }
 
   public String toLongAlgebraicNotation() {
-    return this.playBeforePromotion.toDto().algebraicNotation() + "="
+    return this.playBeforePromotion.toLongAlgebraicNotation() + "="
         + this.toPieceType.toStringAlgebraicNotation();
   }
 }
