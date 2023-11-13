@@ -2,10 +2,10 @@ package chess.ui;
 
 
 import chess.application.GameController;
+import chess.domain.plays.validation.PlayValidationError;
 import chess.ui.grid.GridUiLayer;
 import chess.ui.pieces.PieceUiFactory;
 import chess.ui.pieces.PiecesUiLayer;
-import chess.ui.plays.DisplayPlaysOnClickedPiecePolicy;
 import chess.ui.plays.PlayUiFactory;
 import chess.ui.plays.PlaysUiLayer;
 import java.awt.Component;
@@ -28,10 +28,16 @@ public class ChessGame extends JFrame {
     var playsUiLayer = new PlaysUiLayer(controller, boardId, playUiFactory);
     var piecesUiLayer = new PiecesUiLayer(controller, boardId, piecesUiFactory);
 
-    var displayPlaysForPiecePolicy = new DisplayPlaysOnClickedPiecePolicy(playsUiLayer);
-
-    playsUiLayer.onMovedPiece(piecesUiLayer::repaint);
-    piecesUiFactory.onClickedPiece(displayPlaysForPiecePolicy);
+    piecesUiFactory.subscribeToClickedPiece(playsUiLayer::toggleHighlightedPosition);
+    playUiFactory.subscribeToSelectedPlay(play -> {
+      try {
+        controller.makePlay(boardId, play);
+      } catch (PlayValidationError e) {
+        System.out.println(e.getMessage());
+      }
+      playsUiLayer.unhighlight();
+      piecesUiLayer.repaint();
+    });
 
     this.addLayer(grid);
     this.addLayer(piecesUiLayer);

@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
  */
 public class GameController {
   private final BoardRepository boardRepository;
+  private final PlayFactoryFromAlgebraicNotation<Play> playFactory =
+      new PlayFactoryFromAlgebraicNotation<>(new PlayFactory());
 
   public GameController(BoardRepository boardRepository) {
     this.boardRepository = boardRepository;
@@ -37,17 +39,14 @@ public class GameController {
 
   public Set<PlayDto> getPlaysFor(String boardId, Position position) {
     var board = this.boardRepository.getBoard(boardId);
-    return board.getPieceAt(position)
-        .map(Piece::getSuggestedPlays)
-        .orElse(new HashSet<>()).stream().map(Play::toDto).collect(Collectors.toUnmodifiableSet());
+    return board.getPieceAt(position).map(Piece::getSuggestedPlays).orElse(new HashSet<>()).stream()
+        .map(Play::toDto).collect(Collectors.toUnmodifiableSet());
   }
 
   public void makePlay(String boardId, PlayDto playDto) throws PlayValidationError {
     var board = this.boardRepository.getBoard(boardId);
-    var play =
-        new PlayFactoryFromAlgebraicNotation<>(
-            new PlayFactory()).createPlayFromLongAlgebraicNotation(playDto.color(),
-            playDto.algebraicNotation());
+    var play = this.playFactory.createPlayFromLongAlgebraicNotation(playDto.color(),
+        playDto.algebraicNotation());
     board.makePlay(play);
   }
 }
