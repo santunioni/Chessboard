@@ -4,17 +4,17 @@ import chess.application.GameController;
 import chess.domain.grid.Position;
 import javax.swing.JPanel;
 
-public class PiecesUiLayer extends JPanel {
+public class PiecesLayer extends JPanel {
   private final GameController controller;
   private final String boardId;
-  private final PieceUiFactory pieceUiFactory;
+  private final PieceComponentFactory pieceComponentFactory;
 
-  public PiecesUiLayer(GameController gameController, String boardId,
-                       PieceUiFactory pieceUiFactory) {
+  public PiecesLayer(GameController gameController, String boardId,
+                     PieceComponentFactory pieceComponentFactory) {
     super(null); // Null layout for absolute positioning
     this.controller = gameController;
     this.boardId = boardId;
-    this.pieceUiFactory = pieceUiFactory;
+    this.pieceComponentFactory = pieceComponentFactory;
     this.setOpaque(false);
   }
 
@@ -34,7 +34,8 @@ public class PiecesUiLayer extends JPanel {
       }
       var piece = pieceOptional.get();
       var pieceUi =
-          this.pieceUiFactory.createPieceUiAtPosition(position, piece.color(), piece.pieceType());
+          this.pieceComponentFactory.createPieceUiAtPosition(position, piece.color(),
+              piece.pieceType());
       this.add(pieceUi);
     }
   }

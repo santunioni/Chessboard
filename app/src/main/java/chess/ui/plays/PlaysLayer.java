@@ -4,18 +4,19 @@ import chess.application.GameController;
 import chess.domain.grid.Position;
 import javax.swing.JPanel;
 
-public class PlaysUiLayer extends JPanel {
+public class PlaysLayer extends JPanel {
   private final GameController controller;
-  private final PlayUiFactory playUiFactory;
+  private final PlayComponentFactory playComponentFactory;
   private final String boardId;
   private Position highlighted;
 
-  public PlaysUiLayer(GameController controller, String boardId, PlayUiFactory playUiFactory) {
+  public PlaysLayer(GameController controller, String boardId,
+                    PlayComponentFactory playComponentFactory) {
     super(null); // Null layout for absolute positioning
     this.controller = controller;
     this.boardId = boardId;
     this.setOpaque(false);
-    this.playUiFactory = playUiFactory;
+    this.playComponentFactory = playComponentFactory;
   }
 
   private boolean isHighlighted(Position position) {
@@ -36,7 +37,7 @@ public class PlaysUiLayer extends JPanel {
     var plays = this.controller.getPlaysFor(this.boardId, position);
 
     for (var play : plays) {
-      this.playUiFactory.createPlayUiFromDto(play).ifPresent(this::add);
+      this.playComponentFactory.createPlayUiFromDto(play).ifPresent(this::add);
     }
   }
 

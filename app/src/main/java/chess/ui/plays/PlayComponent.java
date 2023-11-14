@@ -3,12 +3,12 @@ package chess.ui.plays;
 import java.awt.Rectangle;
 import javax.swing.JLabel;
 
-public class PlayUi extends JLabel {
+public class PlayComponent extends JLabel {
 
   private Runnable onSelectedPlay = () -> {
   };
 
-  PlayUi(Rectangle bounds) {
+  PlayComponent(Rectangle bounds) {
     super();
     this.setBounds(bounds);
     this.setOpaque(true);

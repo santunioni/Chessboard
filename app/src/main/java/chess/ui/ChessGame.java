@@ -3,11 +3,11 @@ package chess.ui;
 
 import chess.application.GameController;
 import chess.domain.play.validation.PlayValidationError;
-import chess.ui.grid.GridUiLayer;
-import chess.ui.pieces.PieceUiFactory;
-import chess.ui.pieces.PiecesUiLayer;
-import chess.ui.plays.PlayUiFactory;
-import chess.ui.plays.PlaysUiLayer;
+import chess.ui.grid.GridLayer;
+import chess.ui.pieces.PieceComponentFactory;
+import chess.ui.pieces.PiecesLayer;
+import chess.ui.plays.PlayComponentFactory;
+import chess.ui.plays.PlaysLayer;
 import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.JFrame;
@@ -21,27 +21,27 @@ public class ChessGame extends JFrame {
   public ChessGame(int boardSize, GameController controller, String boardId) {
     this.boardSize = boardSize;
 
-    var grid = new GridUiLayer();
-    var playUiFactory = new PlayUiFactory(grid);
-    var piecesUiFactory = new PieceUiFactory(grid);
+    var gridLayer = new GridLayer();
+    var playComponentFactory = new PlayComponentFactory(gridLayer);
+    var piecesComponentFactory = new PieceComponentFactory(gridLayer);
 
-    var playsUiLayer = new PlaysUiLayer(controller, boardId, playUiFactory);
-    var piecesUiLayer = new PiecesUiLayer(controller, boardId, piecesUiFactory);
+    var playsLayer = new PlaysLayer(controller, boardId, playComponentFactory);
+    var piecesLayer = new PiecesLayer(controller, boardId, piecesComponentFactory);
 
-    piecesUiFactory.subscribeToSelectedPiece(playsUiLayer::toggleHighlightedPosition);
-    playUiFactory.subscribeToSelectedPlay(play -> {
+    piecesComponentFactory.addSelectedPieceListener(playsLayer::toggleHighlightedPosition);
+    playComponentFactory.addSelectedPlayListener(play -> {
       try {
         controller.makePlay(boardId, play);
       } catch (PlayValidationError e) {
         System.out.println(e.getMessage());
       }
-      playsUiLayer.unhighlight();
-      piecesUiLayer.repaint();
+      playsLayer.unhighlight();
+      piecesLayer.repaint();
     });
 
-    this.addLayer(grid);
-    this.addLayer(piecesUiLayer);
-    this.addLayer(playsUiLayer);
+    this.addLayer(gridLayer);
+    this.addLayer(piecesLayer);
+    this.addLayer(playsLayer);
 
     this.configureWindow();
   }

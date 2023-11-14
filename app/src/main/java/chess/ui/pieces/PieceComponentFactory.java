@@ -3,7 +3,7 @@ package chess.ui.pieces;
 import chess.domain.board.PieceColor;
 import chess.domain.board.PieceType;
 import chess.domain.grid.Position;
-import chess.ui.grid.GridUiLayer;
+import chess.ui.grid.GridLayer;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -14,17 +14,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 
-public class PieceUiFactory {
+public class PieceComponentFactory {
   private static final HashMap<String, ImageIcon> iconCache = new HashMap<>();
-  private final GridUiLayer grid;
+  private final GridLayer grid;
   private SelectedPieceSubscriber selectedPieceSubscriber = (position) -> {
   };
 
-  public PieceUiFactory(GridUiLayer grid) {
+  public PieceComponentFactory(GridLayer grid) {
     this.grid = grid;
   }
 
-  public void subscribeToSelectedPiece(SelectedPieceSubscriber selectedPieceSubscriber) {
+  public void addSelectedPieceListener(SelectedPieceSubscriber selectedPieceSubscriber) {
     this.selectedPieceSubscriber = selectedPieceSubscriber;
   }
 
@@ -36,7 +36,7 @@ public class PieceUiFactory {
     var iconOptional = Optional.ofNullable(iconCache.get(cacheKey));
     if (iconOptional.isEmpty()) {
       var icon = new ImageIcon(
-          Objects.requireNonNull(PieceUiFactory.class.getClassLoader().getResource(path)));
+          Objects.requireNonNull(PieceComponentFactory.class.getClassLoader().getResource(path)));
       icon = new ImageIcon(
           icon.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
       iconCache.put(cacheKey, icon);
