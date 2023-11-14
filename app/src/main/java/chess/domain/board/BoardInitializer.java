@@ -17,12 +17,12 @@ public class BoardInitializer {
 
   public void placePiecesOf(PieceColor color, PieceType type) {
     this.pieceFactory.createPiecesOf(color, type)
-        .forEach(piece -> this.board.placePiece(piece.getInitialPosition(), piece));
+        .forEach(piece -> this.board.placePieceAt(piece.getInitialPosition(), piece));
   }
 
   public BoardInitializer placePiecesOf(PieceType type) {
     this.pieceFactory.createPiecesOf(type)
-        .forEach(piece -> this.board.placePiece(piece.getInitialPosition(), piece));
+        .forEach(piece -> this.board.placePieceAt(piece.getInitialPosition(), piece));
     return this;
   }
 

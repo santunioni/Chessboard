@@ -22,8 +22,8 @@ public record EnPassant(PieceColor color, Position from, Position to) implements
   }
 
   public void actOn(Board board) {
-    board.changePosition(this.from, this.to);
-    board.removePieceFromSquare(
+    board.relocatePiece(this.from, this.to);
+    board.removePieceAt(
         this.to.previousOn(this.color.pawnWalkDirection()).orElseThrow());
   }
 

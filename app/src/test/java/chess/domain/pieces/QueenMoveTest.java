@@ -39,7 +39,7 @@ public class QueenMoveTest {
   public void shouldBeAbleToMoveHorizontalyVerticallyAndDiagonaly() {
     forwardToBlackTurn();
     var queen = this.pieceFactory.createQueen(PieceColor.BLACK);
-    this.board.placePiece("d4", queen);
+    this.board.placePieceAt("d4", queen);
 
     var expectedValidMoves = Set.of(
         new Move(PieceType.QUEEN, PieceColor.BLACK, new Position("d4"), new Position("a1")),
@@ -80,10 +80,10 @@ public class QueenMoveTest {
   @Test
   void shouldBeBlockedByItsTeamMates() {
     var queen = this.pieceFactory.createQueen(PieceColor.WHITE);
-    this.board.placePiece("a1", queen);
-    this.board.placePiece("e1", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
-    this.board.placePiece("a2", this.pieceFactory.createPawns(PieceColor.WHITE).get(1));
-    this.board.placePiece("b2", this.pieceFactory.createPawns(PieceColor.WHITE).get(2));
+    this.board.placePieceAt("a1", queen);
+    this.board.placePieceAt("e1", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
+    this.board.placePieceAt("a2", this.pieceFactory.createPawns(PieceColor.WHITE).get(1));
+    this.board.placePieceAt("b2", this.pieceFactory.createPawns(PieceColor.WHITE).get(2));
 
     var expectedValidMoves = Set.of(
         new Move(PieceType.QUEEN, PieceColor.WHITE, new Position("a1"), new Position("b1")),

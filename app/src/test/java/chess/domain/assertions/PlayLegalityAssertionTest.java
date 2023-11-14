@@ -26,8 +26,8 @@ public class PlayLegalityAssertionTest {
   @Test
   void shouldNotAllowBlackToCaptureWhiteIfItIsNotItsTurn() {
     // Given
-    this.board.placePiece("a2", this.pieceFactory.createRooks(PieceColor.BLACK).get(0));
-    this.board.placePiece("a1", this.pieceFactory.createRooks(PieceColor.WHITE).get(0));
+    this.board.placePieceAt("a2", this.pieceFactory.createRooks(PieceColor.BLACK).get(0));
+    this.board.placePieceAt("a1", this.pieceFactory.createRooks(PieceColor.WHITE).get(0));
 
     // When
     var capture =
@@ -40,9 +40,9 @@ public class PlayLegalityAssertionTest {
   @Test
   void shouldNotAllowPlayerToPutItsOwnKingInCheck() {
     // Given
-    this.board.placePiece("e1", this.pieceFactory.createKing(PieceColor.WHITE));
-    this.board.placePiece("f1", this.pieceFactory.createBishops(PieceColor.WHITE).get(0));
-    this.board.placePiece("h1", this.pieceFactory.createRooks(PieceColor.BLACK).get(0));
+    this.board.placePieceAt("e1", this.pieceFactory.createKing(PieceColor.WHITE));
+    this.board.placePieceAt("f1", this.pieceFactory.createBishops(PieceColor.WHITE).get(0));
+    this.board.placePieceAt("h1", this.pieceFactory.createRooks(PieceColor.BLACK).get(0));
 
     // When
     var move = new Move(PieceType.BISHOP, PieceColor.WHITE, new Position("f1"), new Position("e2"));
@@ -54,7 +54,7 @@ public class PlayLegalityAssertionTest {
   @Test
   void shouldRequirePawnPromotion() {
     // Given
-    this.board.placePiece("a7", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
+    this.board.placePieceAt("a7", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
 
     // When
     var move = new Move(PieceType.PAWN, PieceColor.WHITE, new Position("a7"), new Position("a8"));

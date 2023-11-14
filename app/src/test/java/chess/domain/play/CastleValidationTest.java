@@ -20,8 +20,8 @@ public class CastleValidationTest {
   @Test
   void shouldFailValidationWhenKingNotInPosition() {
     // Given
-    board.placePiece("e2", this.pieceFactory.createKing(PieceColor.WHITE));
-    board.placePiece("h1", this.pieceFactory.createRooks(PieceColor.WHITE).get(0));
+    board.placePieceAt("e2", this.pieceFactory.createKing(PieceColor.WHITE));
+    board.placePieceAt("h1", this.pieceFactory.createRooks(PieceColor.WHITE).get(0));
 
     // When
     var castle = new Castle(PieceColor.WHITE, CastleSide.KING_SIDE);
@@ -33,8 +33,8 @@ public class CastleValidationTest {
   @Test
   void shouldFailValidationWhenRookNotInPosition() {
     // Given
-    board.placePiece("e1", this.pieceFactory.createKing(PieceColor.WHITE));
-    board.placePiece("h2", this.pieceFactory.createRooks(PieceColor.WHITE).get(0));
+    board.placePieceAt("e1", this.pieceFactory.createKing(PieceColor.WHITE));
+    board.placePieceAt("h2", this.pieceFactory.createRooks(PieceColor.WHITE).get(0));
 
     // When
     var castle = new Castle(PieceColor.WHITE, CastleSide.KING_SIDE);
@@ -46,8 +46,8 @@ public class CastleValidationTest {
   @Test
   void shouldFailValidationWhenCastlingToPositionOtherThanRooks() {
     // Given
-    board.placePiece("e1", this.pieceFactory.createKing(PieceColor.WHITE));
-    board.placePiece("h2", this.pieceFactory.createRooks(PieceColor.WHITE).get(0));
+    board.placePieceAt("e1", this.pieceFactory.createKing(PieceColor.WHITE));
+    board.placePieceAt("h2", this.pieceFactory.createRooks(PieceColor.WHITE).get(0));
 
     // When
     var castle = new Castle(PieceColor.WHITE, CastleSide.QUEEN_SIDE);

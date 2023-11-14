@@ -41,7 +41,7 @@ public record Promotion(Play playBeforePromotion, PieceColor color, Position fro
   public void actOn(Board board) {
     this.playBeforePromotion.actOn(board);
     var pawn = board.getPieceAt(this.to, this.color, PieceType.PAWN).orElseThrow();
-    board.placePiece(this.to, new Piece(pawn.idInBoard(), this.color, this.toPieceType));
+    board.placePieceAt(this.to, new Piece(pawn.idInBoard(), this.color, this.toPieceType));
   }
 
   public PlayDto toDto() {

@@ -80,7 +80,7 @@ public class CastleRulesTest {
   @Test
   void shouldFailIfKingIsInCheck() {
     // Given
-    board.placePiece("e2", this.pieceFactory.createRooks(PieceColor.BLACK).get(0));
+    board.placePieceAt("e2", this.pieceFactory.createRooks(PieceColor.BLACK).get(0));
 
     // When
     var castle = new Castle(PieceColor.WHITE, CastleSide.KING_SIDE);
@@ -92,7 +92,7 @@ public class CastleRulesTest {
   @Test
   void shouldFailIfPathBetweenKingAndRookIsBlocked() {
     // Given
-    board.placePiece("f1", this.pieceFactory.createBishops(PieceColor.WHITE).get(0));
+    board.placePieceAt("f1", this.pieceFactory.createBishops(PieceColor.WHITE).get(0));
 
     // When
     var castle = new Castle(PieceColor.WHITE, CastleSide.KING_SIDE);
@@ -104,7 +104,7 @@ public class CastleRulesTest {
   @Test
   void shouldFailIfKingsPathIsThreatened() {
     // Given
-    board.placePiece("f2", this.pieceFactory.createRooks(PieceColor.BLACK).get(0));
+    board.placePieceAt("f2", this.pieceFactory.createRooks(PieceColor.BLACK).get(0));
 
     // When
     var castle = new Castle(PieceColor.WHITE, CastleSide.KING_SIDE);

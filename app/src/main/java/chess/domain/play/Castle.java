@@ -20,8 +20,8 @@ public record Castle(PieceColor color, CastleSide castleSide) implements Play {
   }
 
   public void actOn(Board board) {
-    board.changePosition(this.rookPosition(), this.kingFirstStep());
-    board.changePosition(this.kingPosition(), this.kingSecondStep());
+    board.relocatePiece(this.rookPosition(), this.kingFirstStep());
+    board.relocatePiece(this.kingPosition(), this.kingSecondStep());
   }
 
   private boolean kingIsNotChecked(ReadonlyBoard board) {

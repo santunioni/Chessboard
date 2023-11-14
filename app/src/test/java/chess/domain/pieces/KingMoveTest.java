@@ -39,7 +39,7 @@ public class KingMoveTest {
   void shouldBeAbleToMoveExactlyOneSquareInAnyDirection() {
     forwardToBlackTurn();
     var king = this.pieceFactory.createKing(PieceColor.BLACK);
-    this.board.placePiece("d4", king);
+    this.board.placePieceAt("d4", king);
 
     var expectedValidMoves = Set.of(
         new Move(PieceType.KING, PieceColor.BLACK, new Position("d4"), new Position("c3")),
@@ -60,7 +60,7 @@ public class KingMoveTest {
   @Test
   void shouldBeBlockedByWalls() {
     var king = this.pieceFactory.createKing(PieceColor.WHITE);
-    this.board.placePiece("e1", king);
+    this.board.placePieceAt("e1", king);
 
     var expectedValidMoves = Set.of(
         new Move(PieceType.KING, PieceColor.WHITE, new Position("e1"), new Position("d1")),
@@ -77,7 +77,7 @@ public class KingMoveTest {
   @Test
   void shouldBeBlockedByCorner() {
     var king = this.pieceFactory.createKing(PieceColor.WHITE);
-    this.board.placePiece("a1", king);
+    this.board.placePieceAt("a1", king);
 
     var expectedValidMoves = Set.of(
         new Move(PieceType.KING, PieceColor.WHITE, new Position("a1"), new Position("b1")),
@@ -91,9 +91,9 @@ public class KingMoveTest {
   @Test
   void shouldBeBlockedByItsTeamMates() {
     var king = this.pieceFactory.createKing(PieceColor.WHITE);
-    this.board.placePiece("a1", king);
-    this.board.placePiece("a2", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
-    this.board.placePiece("b2", this.pieceFactory.createPawns(PieceColor.WHITE).get(1));
+    this.board.placePieceAt("a1", king);
+    this.board.placePieceAt("a2", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
+    this.board.placePieceAt("b2", this.pieceFactory.createPawns(PieceColor.WHITE).get(1));
 
     var expectedValidMoves = Set.of(
         new Move(PieceType.KING, PieceColor.WHITE, new Position("a1"), new Position("b1"))

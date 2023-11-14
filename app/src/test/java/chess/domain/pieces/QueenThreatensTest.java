@@ -24,7 +24,7 @@ public class QueenThreatensTest {
   @Test
   public void shouldThreatenDiagonally() {
     var queen = this.pieceFactory.createQueen(PieceColor.BLACK);
-    this.board.placePiece("d4", queen);
+    this.board.placePieceAt("d4", queen);
 
     assertTrue(queen.threatens(new Position("f6")));
   }
@@ -32,7 +32,7 @@ public class QueenThreatensTest {
   @Test
   public void shouldThreatenVertically() {
     var queen = this.pieceFactory.createQueen(PieceColor.BLACK);
-    this.board.placePiece("d4", queen);
+    this.board.placePieceAt("d4", queen);
 
     assertTrue(queen.threatens(new Position("d5")));
   }
@@ -40,7 +40,7 @@ public class QueenThreatensTest {
   @Test
   public void shouldThreatenHorizontally() {
     var queen = this.pieceFactory.createQueen(PieceColor.BLACK);
-    this.board.placePiece("d4", queen);
+    this.board.placePieceAt("d4", queen);
 
     assertTrue(queen.threatens(new Position("e4")));
   }
@@ -48,8 +48,8 @@ public class QueenThreatensTest {
   @Test
   public void shouldNotThreatenIfEnemyIsBetween() {
     var queen = this.pieceFactory.createQueen(PieceColor.BLACK);
-    this.board.placePiece("d4", queen);
-    this.board.placePiece("f6", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
+    this.board.placePieceAt("d4", queen);
+    this.board.placePieceAt("f6", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
 
     assertFalse(queen.threatens(new Position("g7")));
   }
@@ -57,8 +57,8 @@ public class QueenThreatensTest {
   @Test
   public void shouldNotThreatenIfAllyIsBetween() {
     var queen = this.pieceFactory.createQueen(PieceColor.BLACK);
-    this.board.placePiece("d4", queen);
-    this.board.placePiece("f6", this.pieceFactory.createPawns(PieceColor.BLACK).get(0));
+    this.board.placePieceAt("d4", queen);
+    this.board.placePieceAt("f6", this.pieceFactory.createPawns(PieceColor.BLACK).get(0));
 
     assertFalse(queen.threatens(new Position("g7")));
   }

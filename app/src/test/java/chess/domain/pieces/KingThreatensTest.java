@@ -22,7 +22,7 @@ public class KingThreatensTest {
   @Test
   public void shouldThreatenVertically() {
     var king = this.pieceFactory.createKing(PieceColor.BLACK);
-    board.placePiece("d4", king);
+    board.placePieceAt("d4", king);
 
     assertTrue(king.threatens(new Position("d5")));
   }
@@ -30,7 +30,7 @@ public class KingThreatensTest {
   @Test
   public void shouldThreatenHorizontally() {
     var king = this.pieceFactory.createKing(PieceColor.BLACK);
-    board.placePiece("d4", king);
+    board.placePieceAt("d4", king);
 
     assertTrue(king.threatens(new Position("e4")));
   }
@@ -38,7 +38,7 @@ public class KingThreatensTest {
   @Test
   public void shouldThreatenDiagonally() {
     var king = this.pieceFactory.createKing(PieceColor.BLACK);
-    board.placePiece("d4", king);
+    board.placePieceAt("d4", king);
 
     assertTrue(king.threatens(new Position("e5")));
   }
@@ -46,7 +46,7 @@ public class KingThreatensTest {
   @Test
   public void shouldNotThreatDistantPiece() {
     var king = this.pieceFactory.createKing(PieceColor.BLACK);
-    board.placePiece("d4", king);
+    board.placePieceAt("d4", king);
 
     assertFalse(king.threatens(new Position("d6")));
   }

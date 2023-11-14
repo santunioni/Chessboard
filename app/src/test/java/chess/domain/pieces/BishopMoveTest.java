@@ -38,7 +38,7 @@ public class BishopMoveTest {
   void shouldBeAbleToMoveDiagonally() {
     forwardToBlackTurn();
     var bishop = this.pieceFactory.createBishops(PieceColor.BLACK).get(0);
-    this.board.placePiece("d4", bishop);
+    this.board.placePieceAt("d4", bishop);
 
     var expectedValidMoves = Set.of(
         new Move(PieceType.BISHOP, PieceColor.BLACK, new Position("d4"), new Position("c3")),
@@ -62,8 +62,8 @@ public class BishopMoveTest {
   @Test
   void shouldBeBlockedByItsTeamMates() {
     var bishop = this.pieceFactory.createBishops(PieceColor.WHITE).get(0);
-    this.board.placePiece("b1", bishop);
-    this.board.placePiece("d3", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
+    this.board.placePieceAt("b1", bishop);
+    this.board.placePieceAt("d3", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
 
     var expectedValidMoves = Set.of(
         new Move(PieceType.BISHOP, PieceColor.WHITE, new Position("b1"), new Position("a2")),

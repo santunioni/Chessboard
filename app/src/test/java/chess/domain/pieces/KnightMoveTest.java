@@ -26,7 +26,7 @@ public class KnightMoveTest {
   @Test
   void shouldMoveInL() {
     var knight = this.pieceFactory.createKnights(PieceColor.WHITE).get(0);
-    this.board.placePiece("d4", knight);
+    this.board.placePieceAt("d4", knight);
 
     var expectedValidMoves = Set.of(
         new Move(PieceType.KNIGHT, PieceColor.WHITE, new Position("d4"), new Position("e6")),
@@ -48,8 +48,8 @@ public class KnightMoveTest {
   @Test
   void shouldBeBlockedByItsTeamMates() {
     var knight = this.pieceFactory.createKnights(PieceColor.WHITE).get(0);
-    this.board.placePiece("b1", knight);
-    this.board.placePiece("c3", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
+    this.board.placePieceAt("b1", knight);
+    this.board.placePieceAt("c3", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
 
     var expectedValidMoves = Set.of(
         new Move(PieceType.KNIGHT, PieceColor.WHITE, new Position("b1"), new Position("a3")),

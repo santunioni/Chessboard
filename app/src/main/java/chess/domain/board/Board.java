@@ -41,24 +41,24 @@ public class Board implements ReadonlyBoard {
     return this.currentPositionToPiece.values().stream();
   }
 
-  public void placePiece(Position position, Piece piece) {
-    this.removePieceFromSquare(position);
+  public void placePieceAt(Position position, Piece piece) {
+    this.removePieceAt(position);
     this.currentPositionToPiece.put(position, piece);
     piece.placeInBoard(this);
   }
 
-  public void placePiece(String position, Piece piece) {
-    this.placePiece(new Position(position), piece);
+  public void placePieceAt(String position, Piece piece) {
+    this.placePieceAt(new Position(position), piece);
   }
 
-  public void removePieceFromSquare(Position position) {
+  public void removePieceAt(Position position) {
     Optional.ofNullable(this.currentPositionToPiece.remove(position))
         .ifPresent(piece -> piece.placeInBoard(null));
   }
 
-  public void changePosition(Position from, Position to) {
+  public void relocatePiece(Position from, Position to) {
     Optional.ofNullable(this.currentPositionToPiece.remove(from))
-        .ifPresent(piece -> this.placePiece(to, piece));
+        .ifPresent(piece -> this.placePieceAt(to, piece));
   }
 
   public Position getPositionOf(Piece piece) {

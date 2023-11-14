@@ -25,7 +25,7 @@ public class MoveTest {
   @Test
   void shouldMovePieceInBoard() throws PlayValidationError {
     var pawn = this.pieceFactory.createPawns(PieceColor.WHITE).get(0);
-    board.placePiece("e2", pawn);
+    board.placePieceAt("e2", pawn);
 
     var move = new Move(PieceType.PAWN, PieceColor.WHITE, new Position("e2"), new Position("e4"));
     board.makePlay(move);
@@ -43,8 +43,8 @@ public class MoveTest {
 
   @Test
   void shouldNotDisplaceToPositionOccupiedByAlly() {
-    board.placePiece("e2", this.pieceFactory.createQueen(PieceColor.BLACK));
-    board.placePiece("e4", this.pieceFactory.createPawns(PieceColor.BLACK).get(0));
+    board.placePieceAt("e2", this.pieceFactory.createQueen(PieceColor.BLACK));
+    board.placePieceAt("e4", this.pieceFactory.createPawns(PieceColor.BLACK).get(0));
 
     var move = new Move(PieceType.QUEEN, PieceColor.BLACK, new Position("e2"), new Position("e4"));
 
@@ -53,8 +53,8 @@ public class MoveTest {
 
   @Test
   void shouldNotDisplaceToPositionOccupiedByEnemy() {
-    board.placePiece("e2", this.pieceFactory.createQueen(PieceColor.BLACK));
-    board.placePiece("e4", this.pieceFactory.createQueen(PieceColor.WHITE));
+    board.placePieceAt("e2", this.pieceFactory.createQueen(PieceColor.BLACK));
+    board.placePieceAt("e4", this.pieceFactory.createQueen(PieceColor.WHITE));
 
     var move = new Move(PieceType.QUEEN, PieceColor.BLACK, new Position("e2"), new Position("e4"));
 

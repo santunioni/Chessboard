@@ -26,14 +26,14 @@ public class PathReachabilityTest {
 
   @Test
   void shouldNotReachA5FromA1IfPieceInA5() {
-    this.board.placePiece("a5", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
+    this.board.placePieceAt("a5", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
     var path = new Position("a1").pathTo(new Position("a5")).orElseThrow();
     assertTrue(path.isBlockedOn(this.board));
   }
 
   @Test
   void shouldNotReachA5FromA1IfPieceInA4() {
-    this.board.placePiece("a4", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
+    this.board.placePieceAt("a4", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
     var path = new Position("a1").pathTo(new Position("a5")).orElseThrow();
     assertTrue(path.isBlockedOn(this.board));
   }

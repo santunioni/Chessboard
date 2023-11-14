@@ -37,7 +37,7 @@ public class PawnMoveTest {
   @Test
   void shouldBeAbleToMoveExactlyOneSquareUp() {
     var pawn = this.pieceFactory.createPawns(PieceColor.WHITE).get(0);
-    this.board.placePiece("a4", pawn);
+    this.board.placePieceAt("a4", pawn);
 
     assertEquals(Set.of(
         new Move(PieceType.PAWN, PieceColor.WHITE, new Position("a4"), new Position("a5"))
@@ -48,7 +48,7 @@ public class PawnMoveTest {
   void shouldBeAbleToMoveExactlyOneSquareDown() {
     forwardToBlackTurn();
     var pawn = this.pieceFactory.createPawns(PieceColor.BLACK).get(0);
-    this.board.placePiece("b4", pawn);
+    this.board.placePieceAt("b4", pawn);
 
     assertEquals(Set.of(
         new Move(PieceType.PAWN, PieceColor.BLACK, new Position("b4"), new Position("b3"))
@@ -58,7 +58,7 @@ public class PawnMoveTest {
   @Test
   void shouldBeAbleToMoveExactlyTwoSquaresUpIfHasNotMovedYet() {
     var pawn = this.pieceFactory.createPawns(PieceColor.WHITE).get(0);
-    this.board.placePiece("c2", pawn);
+    this.board.placePieceAt("c2", pawn);
 
     assertEquals(Set.of(
         new Move(PieceType.PAWN, PieceColor.WHITE, new Position("c2"), new Position("c3")),
@@ -70,7 +70,7 @@ public class PawnMoveTest {
   void shouldBeAbleToMoveExactlyTwoSquaresDownIfHasNotMovedYet() {
     forwardToBlackTurn();
     var pawn = this.pieceFactory.createPawns(PieceColor.BLACK).get(0);
-    this.board.placePiece("d7", pawn);
+    this.board.placePieceAt("d7", pawn);
 
     assertEquals(Set.of(
         new Move(PieceType.PAWN, PieceColor.BLACK, new Position("d7"), new Position("d6")),
@@ -81,8 +81,8 @@ public class PawnMoveTest {
   @Test
   void shouldBeBlockedByOtherPieces() {
     var pawn = this.pieceFactory.createPawns(PieceColor.WHITE).get(0);
-    this.board.placePiece("e2", pawn);
-    this.board.placePiece("e3", this.pieceFactory.createPawns(PieceColor.BLACK).get(0));
+    this.board.placePieceAt("e2", pawn);
+    this.board.placePieceAt("e3", this.pieceFactory.createPawns(PieceColor.BLACK).get(0));
 
     assertEquals(0, pawn.getSuggestedPlays().size());
   }

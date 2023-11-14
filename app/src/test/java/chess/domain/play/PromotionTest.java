@@ -24,7 +24,7 @@ public class PromotionTest {
 
   @Test
   void shouldNotPromoteFromInvalidRank() {
-    this.board.placePiece("a6", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
+    this.board.placePieceAt("a6", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
 
     var promotion = new Promotion(
         new Move(PieceType.PAWN, PieceColor.WHITE, new Position("a6"), new Position("a7")),
@@ -36,7 +36,7 @@ public class PromotionTest {
 
   @Test
   void shouldNotPromoteOtherThanPawn() {
-    this.board.placePiece("a7", this.pieceFactory.createBishops(PieceColor.WHITE).get(0));
+    this.board.placePieceAt("a7", this.pieceFactory.createBishops(PieceColor.WHITE).get(0));
 
     var promotion = new Promotion(
         new Move(PieceType.PAWN, PieceColor.WHITE, new Position("a7"), new Position("b8")),
@@ -48,7 +48,7 @@ public class PromotionTest {
 
   @Test
   void shouldNotPromoteToInvalidPiece() {
-    this.board.placePiece("a7", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
+    this.board.placePieceAt("a7", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
 
     var promotion = new Promotion(
         new Move(PieceType.PAWN, PieceColor.WHITE, new Position("a7"), new Position("b8")),
@@ -60,7 +60,7 @@ public class PromotionTest {
 
   @Test
   void shouldPromoteWhitePawnAtA7ToQueen() throws PlayValidationError {
-    this.board.placePiece("a7", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
+    this.board.placePieceAt("a7", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
 
     var promotion = new Promotion(
         new Move(PieceType.PAWN, PieceColor.WHITE, new Position("a7"), new Position("a8")),

@@ -29,7 +29,7 @@ public class KnightThreatensTest {
   @ArgumentsSource(KnightThreatensInLcases.class)
   void shouldThreatenPositionDisplacedInLpattern(String knightPosition, String threatenedPosition) {
     var knight = this.pieceFactory.createKnights(PieceColor.WHITE).get(0);
-    this.board.placePiece(knightPosition, knight);
+    this.board.placePieceAt(knightPosition, knight);
     assertTrue(knight.threatens(new Position(threatenedPosition)));
   }
 
@@ -38,7 +38,7 @@ public class KnightThreatensTest {
   void shouldNotThreatenPositionNotDisplacedInLpattern(String knightPosition,
                                                        String notThreatenedPosition) {
     var knight = this.pieceFactory.createKnights(PieceColor.WHITE).get(0);
-    this.board.placePiece(knightPosition, knight);
+    this.board.placePieceAt(knightPosition, knight);
     assertFalse(knight.threatens(new Position(notThreatenedPosition)));
   }
 

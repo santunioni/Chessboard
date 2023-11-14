@@ -38,7 +38,7 @@ public class RookMoveTest {
   void shouldBeAbleToMoveVerticallyAndHorizontally() {
     forwardToBlackTurn();
     var rook = this.pieceFactory.createRooks(PieceColor.BLACK).get(0);
-    this.board.placePiece("d4", rook);
+    this.board.placePieceAt("d4", rook);
 
     var expectedValidMoves = Set.of(
         new Move(PieceType.ROOK, PieceColor.BLACK, new Position("d4"), new Position("a4")),
@@ -64,9 +64,9 @@ public class RookMoveTest {
   @Test
   void shouldBeBlockedByItsTeamMates() {
     var rook = this.pieceFactory.createRooks(PieceColor.WHITE).get(0);
-    this.board.placePiece("b1", rook);
-    this.board.placePiece("b2", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
-    this.board.placePiece("d1", this.pieceFactory.createPawns(PieceColor.WHITE).get(1));
+    this.board.placePieceAt("b1", rook);
+    this.board.placePieceAt("b2", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
+    this.board.placePieceAt("d1", this.pieceFactory.createPawns(PieceColor.WHITE).get(1));
 
     var expectedValidMoves = Set.of(
         new Move(PieceType.ROOK, PieceColor.WHITE, new Position("b1"), new Position("a1")),

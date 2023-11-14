@@ -23,7 +23,7 @@ public record Capture(PieceType type, PieceColor color, Position from, Position 
   }
 
   public void actOn(Board board) {
-    board.changePosition(from, to);
+    board.relocatePiece(from, to);
   }
 
   public PlayDto toDto() {

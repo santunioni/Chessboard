@@ -25,8 +25,8 @@ public class CaptureTest {
   @Test
   void shouldAllowWhitePawnDiagonalUpLeftAttack() throws PlayValidationError {
     var pawn = this.pieceFactory.createPawns(PieceColor.WHITE).get(0);
-    board.placePiece("e2", pawn);
-    board.placePiece("d3", this.pieceFactory.createPawns(PieceColor.BLACK).get(0));
+    board.placePieceAt("e2", pawn);
+    board.placePieceAt("d3", this.pieceFactory.createPawns(PieceColor.BLACK).get(0));
 
     var capture =
         new Capture(PieceType.PAWN, PieceColor.WHITE, new Position("e2"), new Position("d3"));
@@ -39,8 +39,8 @@ public class CaptureTest {
   @Test
   void shouldNotAllowWhitePawnVerticalAttack() {
     var pawn = this.pieceFactory.createPawns(PieceColor.WHITE).get(0);
-    board.placePiece("e2", pawn);
-    board.placePiece("e3", this.pieceFactory.createPawns(PieceColor.BLACK).get(0));
+    board.placePieceAt("e2", pawn);
+    board.placePieceAt("e3", this.pieceFactory.createPawns(PieceColor.BLACK).get(0));
 
     var capture =
         new Capture(PieceType.PAWN, PieceColor.WHITE, new Position("e2"), new Position("e3"));
@@ -51,8 +51,8 @@ public class CaptureTest {
   @Test
   void shouldNotAllowWhitePawnDiagonalDownLeftAttack() {
     var pawn = this.pieceFactory.createPawns(PieceColor.WHITE).get(0);
-    board.placePiece("e2", pawn);
-    board.placePiece("d1", this.pieceFactory.createPawns(PieceColor.BLACK).get(0));
+    board.placePieceAt("e2", pawn);
+    board.placePieceAt("d1", this.pieceFactory.createPawns(PieceColor.BLACK).get(0));
 
     var capture =
         new Capture(PieceType.PAWN, PieceColor.WHITE, new Position("e2"), new Position("d1"));
@@ -63,8 +63,8 @@ public class CaptureTest {
   @Test
   void shouldAllowQueenVerticalAttack() throws PlayValidationError {
     var queen = this.pieceFactory.createQueen(PieceColor.WHITE);
-    board.placePiece("e2", queen);
-    board.placePiece("e7", this.pieceFactory.createPawns(PieceColor.BLACK).get(0));
+    board.placePieceAt("e2", queen);
+    board.placePieceAt("e7", this.pieceFactory.createPawns(PieceColor.BLACK).get(0));
 
     var capture =
         new Capture(PieceType.QUEEN, PieceColor.WHITE, new Position("e2"), new Position("e7"));
@@ -77,8 +77,8 @@ public class CaptureTest {
   @Test
   void shouldNotAttackAlly() {
     var queen = this.pieceFactory.createQueen(PieceColor.WHITE);
-    board.placePiece("e2", queen);
-    board.placePiece("e7", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
+    board.placePieceAt("e2", queen);
+    board.placePieceAt("e7", this.pieceFactory.createPawns(PieceColor.WHITE).get(0));
 
     var capture =
         new Capture(PieceType.QUEEN, PieceColor.WHITE, new Position("e2"), new Position("e7"));
@@ -89,7 +89,7 @@ public class CaptureTest {
   @Test
   void shouldNotAttackEmptyPositions() {
     var queen = this.pieceFactory.createQueen(PieceColor.WHITE);
-    board.placePiece("e2", queen);
+    board.placePieceAt("e2", queen);
     var capture =
         new Capture(PieceType.QUEEN, PieceColor.WHITE, new Position("e2"), new Position("e7"));
 
