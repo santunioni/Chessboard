@@ -24,7 +24,7 @@ public class PieceComponentFactory {
     this.grid = grid;
   }
 
-  public void setSelectedPieceListener(SelectedPieceSubscriber selectedPieceSubscriber) {
+  public void setSelectedPieceSubscriber(SelectedPieceSubscriber selectedPieceSubscriber) {
     this.selectedPieceSubscriber = selectedPieceSubscriber;
   }
 
