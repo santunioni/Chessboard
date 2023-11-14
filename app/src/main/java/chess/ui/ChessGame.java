@@ -28,8 +28,8 @@ public class ChessGame extends JFrame {
     var playsLayer = new PlaysLayer(controller, boardId, playComponentFactory);
     var piecesLayer = new PiecesLayer(controller, boardId, piecesComponentFactory);
 
-    piecesComponentFactory.addSelectedPieceListener(playsLayer::toggleHighlightedPosition);
-    playComponentFactory.addSelectedPlayListener(play -> {
+    piecesComponentFactory.setSelectedPieceListener(playsLayer::toggleHighlightedPosition);
+    playComponentFactory.setSelectedPlayListener(play -> {
       try {
         controller.makePlay(boardId, play);
       } catch (PlayValidationError e) {

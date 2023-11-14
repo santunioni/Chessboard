@@ -67,7 +67,7 @@ public class PlayComponentFactory {
     this.grid = grid;
   }
 
-  public void addSelectedPlayListener(SelectedPlaySubscriber selectedPlaySubscriber) {
+  public void setSelectedPlayListener(SelectedPlaySubscriber selectedPlaySubscriber) {
     this.selectedPlaySubscriber = selectedPlaySubscriber;
   }
 
