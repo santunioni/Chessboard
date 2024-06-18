@@ -37,10 +37,10 @@ java {
 tasks.jar {
     manifest {
         attributes(
-                "Implementation-Title" to "Gradle",
-                "Implementation-Version" to archiveVersion,
-                "Main-Module" to "chess.ui",
-                "Main-Class" to "chess.ui.Application",
+            "Implementation-Title" to "Gradle",
+            "Implementation-Version" to archiveVersion,
+            "Main-Module" to "chess.ui",
+            "Main-Class" to "chess.ui.Application",
         )
     }
 }
@@ -49,7 +49,6 @@ application {
     // Define the main class for the application.
     mainClass.set("chess.ui.Application")
 }
-
 
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.

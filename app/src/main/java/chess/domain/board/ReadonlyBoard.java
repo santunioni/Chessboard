@@ -9,6 +9,10 @@ public interface ReadonlyBoard {
 
   Optional<Piece> getPieceAt(Position position);
 
+   default Optional<Piece> getPieceAt(String position) {
+    return this.getPieceAt(new Position(position));
+  }
+
   default Optional<Piece> getPieceAt(Position at, PieceColor expectedColor) {
     return this.getPieceAt(at)
         .filter(piece -> piece.color().equals(expectedColor));
